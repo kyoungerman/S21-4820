@@ -1,5 +1,5 @@
 
-# Data base Spring
+# Database Spring 2021
 
 
 Syllabus of Class
