@@ -1,0 +1,31 @@
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Create Device Account For {{app_name}}</h2></div>
+				<div class="card-body">
+					<form id="form08" action="/api/v2/create-dev-un-pw" method="POST" class="bind-submit-funcs auto-submit">
+						<input type="hidden" name="_ran_" id="_ran_">
+						<input type="hidden" name="__method__" value="POST">
+						<div class="form-group">
+							<label for="real_name">Device Name (Or Device Identifier)</label>
+							<input type="text" class="form-control" id="app_name" name="app_name"/>
+						</div>
+						<div class="form-group">
+							<label for="username">Device Username</label>
+							<input type="text" class="form-control" id="loginname" name="loginname"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click"
+							data-click="submitDevUnPwCreate"
+							data-formid="#fomr08"
+							data-succTitle="Device Account Created"
+							data-succMsg="You have successfully created an account for a device to login with."
+							data-errTitle="Failed to Create Device Account"
+							data-errMsg="Unable to Create Account: {%msg%} {%id%}"
+						>Create Account</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,34 +1,993 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+	<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
+	<script src="/js/signature_pad-2.3.2.js"></script>
+
+	<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+
+    <title>Lessons</title>
+<style>
+.some-style {
+	
+}
+.fixed-width-200 {
+	width: 200px;
+	margin-top: 5px;
+}
+.colorGray {
+	color: #bbb;
+}
+.form-inline-checkbox {
+	width: 30px;
+	display: inline-block;
+	margin-top: -5px;
+}
+.form-inline-checkbox:disabled {
+	background-color: green;
+}
+.form-inline-chebox-label {
+	position: relative;
+	top: -13px;
+}
+.button-table td {
+	padding: 10px;
+	
+}
+</style>
 </head>
-
 <body>
-  <video
-    id="my-video"
-    class="video-js"
-    controls
-    preload="auto"
-    width="640"
-    height="264"
-    poster="IMG_1557.JPG"
-    data-setup="{}"
-  >
-    <source src="http://uw-s20-2015.s3.amazonaws.com/1015-L-25-GAN.mp4" type="video/mp4" />
-    <!-- <source src="MY_VIDEO.webm" type="video/webm" /> -->
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank"
-        >supports HTML5 video</a
-      >
-    </p>
-  </video>
 
-  <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item dropdown show-logged-in">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Lesson Items</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Main Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+				</div>
+			</li>
+			<li class="nav-item dropdown show-logged-in">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account/Admin</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Admin Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item auto-bind" href="#" id="auth-change-password" data-click="renderChangePassword" > Change Password</a>			
+					<a class="dropdown-item auto-bind" href="#" id="authNewDevAccount" data-click="renderCreateDevUnPwAcct" > New Device Account</a>	
+					<a class="dropdown-item auto-bind" href="#" id="sampleUpload" data-click="renderSampleUpload" > Sample Upload </a>	
+					<a class="dropdown-item" href="#" id="auth-update-info" > Update Info </a>	
+					<a class="dropdown-item" href="#" id="auth-new-account" > New Account</a>	
+					<a class="dropdown-item" href="#" id="auth-new-token-account" > New Token Account</a>	
+					<a class="dropdown-item" href="#" id="admin-change-password" > Change Others Password</a>			
+					<a class="dropdown-item" href="#" id="admin-list-accounts" > List Accounts </a>			
+					<a class="dropdown-item" href="#" id="admin-account-expire" > Set/Update Account Expiration </a>			
+					<a class="dropdown-item" href="#" id="admin-delete-account" > Delete Account </a>			
+					<a class="dropdown-item" href="#" id="admin-invite-registration" > Invite Registration (Create Key) </a>			
+					<a class="dropdown-item" href="#" id="admin-grant-revoke" > Grant / Revoke Privileges </a>			
+				</div>
+			</li>
+            <li class="nav-item show-logged-in">
+                <a class="nav-link" href="#" id="form50-render">List Your Stuff</a>
+            </li>
+            <li class="nav-item show-anon">
+                <a class="nav-link" href="#" id="getStatus">Status</a>	
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Lessons</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item show-anon">
+				<a class="nav-link bind-click" href="#" id="register" name="register" data-click="renderRegister">Register</a>
+            </li>
+            <li class="nav-item show-anon">
+				<a class="nav-link bind-click" href="#" id="login" name="login" data-click="renderLoginPage">Login</a>
+            </li>
+            <li class="nav-item show-logged-in">
+				<a class="nav-link bind-click" href="#" id="logout" name="logout" data-click="renderLogout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="top-of-page">
+
+		<h1 id="speical-title">&nbsp;</h1>
+
+		<div class="content container" id="msg"></div>
+		<div class="content container" id="body"></div>
+
+	</div>
+
+<!-- Found at line 121 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:180 -->
+
+<script type="text/html" id="dom-template-Register">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Register for {{app_name}}</h2></div>
+				<div class="card-body">
+					<form id="form01" action="/api/v2/register" method="POST" class="bind-submit-funcs">
+						<div class="form-group">
+							<label for="real_name">Your Name</label>
+							<input type="text" class="form-control" id="real_name" name="real_name"/>
+						</div>
+						<div class="form-group">
+							<label for="real_name">Registration key</label>
+							<input type="text" class="form-control" id="registration_token" name="registration_token"/>
+						</div>
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" class="form-control" id="username" name="username"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password"/>
+						</div>
+						<div class="form-group">
+							<label for="again">Password Again</label>
+							<input type="password" class="form-control" id="again" name="again"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitRegister">Register Now</button>
+						<a class="btn btn-primary bind-click" data-click="forgottenPassword">Forgotton Password</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-Pin2fa">
+	<div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card bg-default">
+					<div class="card-header"><h2>Two Factor PIN</h2></div>
+					<div class="card-body">
+						<form id="form01" data-global='{ "username" : g_username, "user_id" : g_user_id }' action="/api/v2/2fa-validate-pin" method="POST">
+							<div class="form-group">
+								<label for="pin2fa">Pin From Your Device</label>
+								<input type="text" class="form-control" id="pin2fa" name="pin2fa"/>
+							</div>
+							<button type="button" class="btn btn-primary bind-click" data-click="submitPin2fa">Log In</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="dom-template-RecoverForgottenPassword">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Recover Forgotton Password</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" class="form-control" id="email" name="email"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitRecoverPasswordPt1">Recover/Reset Forgotton Password</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-LearnList">
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Lesson List</h2></div>
+				<div class="card-body">
+					<div id="table-paint">
+						<form id="form01" action="/api/v1/lesson-list" method="POST" class="bind-submit-table">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-DisplayRegistrationQR">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Register for {{app_name}}</span></h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<img class="qr-code" src="{{qr_url}}">
+						<button type="button" class="btn btn-primary bind-click" data-click="submit2faSetupComplete">Two Facor Authenticator : Setup Complete</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-SampleUpload">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Document Upload Sample</h2></div>
+				<div class="card-body">
+					<form id="form01" action="/api/upload-document" method="POST" class="bind-submit-funcs">
+						<div class="form-group">
+							<label for="username">Title / Description</label>
+							<input type="text" class="form-control" id="note" name="note"/>
+						</div>
+						<div class="form-group">
+							<div class="custom-file">
+								<label id="file-label" for="file-id" class="custom-file-label">Upload Test Document</label>
+								<input type="file" class="custom-file-input" id="file-id" name="file">
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitSampleUpload">Add Document</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p id="upload-status"></p>
+	<p id="progress"></p>
+	<pre id="result"></pre>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-X2faPin">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Enter 6-Digit Authenticator Pin For {{app_name}}</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="pin2fa">Two Factor Authentication PIN</label>
+							<input type="text" class="form-control" id="pin2fa" name="pin2fa"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitValidate2faPin">Finish Login Now</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-CreateDevUnPwAcct">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Create Device Account For {{app_name}}</h2></div>
+				<div class="card-body">
+					<form id="form08" action="/api/v2/create-dev-un-pw" method="POST" class="bind-submit-funcs auto-submit">
+						<input type="hidden" name="_ran_" id="_ran_">
+						<input type="hidden" name="__method__" value="POST">
+						<div class="form-group">
+							<label for="real_name">Device Name (Or Device Identifier)</label>
+							<input type="text" class="form-control" id="app_name" name="app_name"/>
+						</div>
+						<div class="form-group">
+							<label for="username">Device Username</label>
+							<input type="text" class="form-control" id="loginname" name="loginname"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click"
+							data-click="submitDevUnPwCreate"
+							data-formid="#fomr08"
+							data-succTitle="Device Account Created"
+							data-succMsg="You have successfully created an account for a device to login with."
+							data-errTitle="Failed to Create Device Account"
+							data-errMsg="Unable to Create Account: {%msg%} {%id%}"
+						>Create Account</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-TitleMainPage">
+<div>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-8">
+		  <div class="card mb-8 box-shadow bg-primary" style="height:200px;">
+				<div class="card-body">
+				  <p class="card-text"><h1> {{class_name}} Lessons </h1></p>
+				  <div class="d-flex justify-content-between align-items-center">
+					A set of lessons for {{class_note}} for the {{class_no}} class. <br>
+				  </div>
+				</div>
+		  </div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-ChangePassword">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Chagne your Password</h2></div>
+				<div class="card-body">
+					<form id="form07" action="/api/v2/change-password" method="POST" class="bind-submit-funcs">
+						<input type="hidden" name="_ran_" id="_ran_">
+						<input type="hidden" name="__method__" value="POST">
+						<div class="form-group">
+							<label for="password">Old Password</label>
+							<input type="password" class="form-control" id="old_pw" name="old_pw"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="new_password" name="new_password"/>
+						</div>
+						<div class="form-group">
+							<label for="again">Password Again</label>
+							<input type="password" class="form-control" id="confirm" name="confirm"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitChangePassword">Chagne Password Now</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-Logout">
+<span></span>
+</script>
+
+<script type="text/html" id="dom-template-Lesson">
+<style>
+.video-js {
+	width: 100%;
+	height: 678px;
+}
+</style>
+
+
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Lesson: {{lesson_title}}</h2></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<video id="my-video" class="video-js" controls preload="auto" width="1640" height="1264" poster="/img/{{img_url}}" data-setup="{}">
+	<source src="/vid/{{url}}" type="video/mp4" />
+	<p class="vjs-no-js">
+	  To view this video please enable JavaScript, and consider upgrading to a web browser that
+	  <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+	</p>
+</video>
+
+
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-body">
+					<div id="table-paint">
+						<form id="form01" action="/api/v1/lesson" method="POST" class="bind-submit-table">
+							<h3> Desc </h3>
+								<div id="lesson_text"> xxxxxxxxxxxxxxxxx {{lesson_text}} </div>
+								<input type="hidden" name="lesson_id" id="lesson_id" value="{{lesson_id}}">
+							<h3> Input </h3>
+								<div class="form-group">
+									<label for="input_box">SQL Input</label>
+									<textarea class="form-control" id="stmt" style="width:100%;" rows="25" name="stmt" ></textarea>
+								</div>
+								<button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
+							<h3> Output </h3>
+								<div id="output_box" style="width:100%;height:400px;border:1px solid #ced4da;margin-bottom:10px;"></div>
+								<button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
+								<button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-LoginPage">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Login</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" class="form-control" id="username" name="username"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitLogin">Log In</button>
+						<a class="btn btn-primary bind-click" data-click="forgottenPassword">Forgotton Password</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script>
+
+function URLStrToHash(query) {
+	var rv = {};
+	var decode = function (s) { return decodeURIComponent(s.replace(/^\?/,"").replace(/\+/g, " ")); };
+
+	var p1 = query.replace(/([^&=]+)=?([^&]*)/g,function(j,n,v){
+		n = decode(n);
+		v = decode(v);
+		if ( typeof(rv[n]) === "undefined" ) {
+			rv[n] = ( typeof v === "undefined" ) ? "" : v;
+		} else if ( typeof(rv[n]) === "string" ) {
+			var x = rv[n];
+			rv[n] = [];
+			rv[n].push ( x );
+			rv[n].push ( v );
+		} else {
+			rv[n].push ( v );
+		}
+		return "";
+	});
+	return rv;
+}
+
+var g_origin = window.location.origin;
+if ( ! g_origin ) {			// Probablyl running on Opera
+	g_origin = window.location.protocol + "//" + window.location.host;
+}
+
+var g_param = URLStrToHash ( window.location.search );
+
+console.log ( window.location.search );
+console.log ( g_param );
+
+window.g_app_data = {};
+
+function setAppData() {
+	//		use URl /index.html - give dropdown for class		
+	//				/4280.html - use URL 
+	//				/4010.html - use URL 
+	switch ( window.location.pathname ) {
+	default:
+	case "/":
+	case "/index.html":
+		window.g_app_data["class_name"] = "UW Class";
+		window.g_app_data["class_note"] = "UW class";
+		window.g_app_data["class_no"] = "a";
+		window.g_app_data["show_dropdown"] = "yes";
+		window.g_app_data["lang_to_use"] = "";
+	break;
+	case "/4280.html":
+		window.g_app_data["class_name"] = "4280";
+		window.g_app_data["class_note"] = "using SQL";
+		window.g_app_data["class_no"] = "4280";
+		window.g_app_data["show_dropdown"] = "no";
+		window.g_app_data["lang_to_use"] = "PostgreSQL";
+	break;
+	case "/4010.html":
+		window.g_app_data["class_name"] = "4010 BlockChain";
+		window.g_app_data["class_note"] = "learning Go";
+		window.g_app_data["class_no"] = "4010 BockChain";
+		window.g_app_data["show_dropdown"] = "no";
+		window.g_app_data["lang_to_use"] = "Go";
+	break;
+	}
+}
+
+setAppData();
+
+</script>
+<script src="/js/cfg.js?_ran_=0516"></script>
+<script>
+	// $(".show-logged-in").hide();
+	var theOddOnes = document.getElementsByClassName("show-logged-in");
+	for(var i=0; i<theOddOnes.length; i++)
+	{
+		// console.log(theOddOnes[i].innerHTML);
+		theOddOnes[i].style.display = 'none';
+	}
+	// document.getElementsByClassName("show-logged-in").style.display = 'none';
+	// document.getElementById('myElement').style.display = 'block'; // show
+	// document.getElementById('myElement').style.display = 'none'; // hide
+</script>
+
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/popper-1.14.7.js"></script>
+<script src="/js/mustache.js" type="text/javascript"></script>
+<script src="/js/jquery.mustache.js" type="text/javascript"></script>
+<script>
+
+	// generate the function for rendering the named template.
+	function genRenderFuncs( fn ) {
+		window["render"+fn] = function( data ) {
+			console.log ( "in render"+fn );
+			renderClearMessage();
+			var yt = {};
+			var xt = ( data ) ? data : {};
+			if ( window.g_data ) {
+				// $.extend ( xt, window.g_data )
+				$.extend ( yt, window.g_data );
+			}
+			if ( window.g_app_data ) {
+				// $.extend ( xt, window.g_data )
+				$.extend ( yt, window.g_app_data );
+			}
+			$.extend ( yt, xt );
+			if ( window["preRender"+fn] ) {
+				console.log ( "preRender"+fn );
+				callFunc ( "preRender"+fn, yt );
+			}
+			$("#body").html("").mustache("dom-template-"+fn, yt )
+			if ( window["postRender"+fn] ) {
+				console.log ( "postRender"+fn );
+				callFunc ( "postRender"+fn, yt );
+			}
+		}
+	}
+
+	// Call a function if it exists, else error
+	function callFunc ( name, param ) {
+		console.log ( "Looking For Function", name);
+		if ( name ) {
+			if ( typeof window[name] === "function" ) {
+				console.log ( "Will Call Function", name, param );
+				var fx = window[name];
+				fx( param );
+			} else {
+				console.log ( "Error - missing function:", name );
+				throw "Missing function";
+			}
+		} else {
+			console.log ( "Called callFunc with undefined, probabl missing data-click in HTML template" );
+		}
+	}
+
+		genRenderFuncs ( "Register" );
+		genRenderFuncs ( "Pin2fa" );
+		genRenderFuncs ( "RecoverForgottenPassword" );
+		genRenderFuncs ( "LearnList" );
+		genRenderFuncs ( "DisplayRegistrationQR" );
+		genRenderFuncs ( "SampleUpload" );
+		genRenderFuncs ( "X2faPin" );
+		genRenderFuncs ( "CreateDevUnPwAcct" );
+		genRenderFuncs ( "TitleMainPage" );
+		genRenderFuncs ( "ChangePassword" );
+		genRenderFuncs ( "Logout" );
+		genRenderFuncs ( "Lesson" );
+		genRenderFuncs ( "LoginPage" );
+
+(function ($) {
+	$(function () { 
+		$.Mustache.options.warnOnMissingTemplates = true; // Configure jquery-Mustache to warn on missing templates (to aid debugging)
+		$.Mustache.addFromDom();
+		if ( g_param["register_key"] && g_param.register_key.length > 0 ) {
+			console.log ( "Put up the registration page with this filled out", g_param.register_key );
+			renderRegister();
+			$("#registration_token").val( g_param.register_key );
+		} else {
+			renderTitleMainPage(   );
+		}
+		$("#body").on('click','.bind-click',function(){
+			var fx = $(this).data("click");
+			var fd = $(this).data("param");
+			fd = ( fd ) ? { "param": fd } : {};
+			console.log ( "fd=", fd );	
+//				var frmid = $(this).data("formid");
+//				if ( !window[fx] ) {
+//					console.log ( "Missing Function - will create default", fx )
+//					window[fx] = function(event) {
+//						if ( event ) { event.preventDefault(); }
+//						console.log ( "call to: "+fx+"() -- auto generated version" );
+//						$("#_ran_").val( ( Math.random() * 10000000 ) % 10000000 );
+//console.log ( "frmid=", frmid );
+//						var frm = $( frmid );
+//						var data = frm.serialize();
+//						var url = frm.attr('action');
+//						console.log ( "data=", data, 'url=', url );
+//						submitItData ( event, data, url, function(data){
+//							console.log( "data=", data );
+//						}, function(data) {
+//							console.log( "ERROR: ", data );
+//							renderError( "Failed to Login - Network communication failed.", "Failed to communicate with the server." );
+//						});
+//					};
+//				}
+			callFunc ( fx, fd );
+		});
+/*
+					<button type="button" class="btn btn-primary bind-click"
+						data-formid="#fomr08"
+						data-click="submitDevUnPwCreate"
+						data-succTitle="Device Account Created"
+						data-succMsg="You have successfully created an account for a device to login with."
+						data-errTitle="Failed to Create Device Account"
+						data-errMsg="Unable to Create Account: {%msg%} {%id%}"
+*/
+	});
+})(jQuery);
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLoginPage () {
+	console.log ( "pre" );
+}
+function postRenderLoginPage () {
+	window.g_data = {};
+	console.log ( "post" );
+}
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLearnList () {
+	console.log ( "pre - LearnList" );
+}
+function postRenderLearnList () {
+	window.g_data = {};
+	console.log ( "post - LearnList" );
+
+	// var url = "/api/v1/ct_video_per_user"; -- old non-user_id view -- depricated
+	// var url = "/api/v1/ct_lesson_per_user"; --old-- v1 
+	var url = "/api/v2/ct_lesson_per_user";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{lesson_name%}" name="%{lesson_name%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Complete?"}, 		{ Name:"Lessons" }, 		{ Name:"Done Wnen" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#\" onclick='renderLessonParam(event,\"%{lesson_name%}\",\"%{lesson_id%}\")'>%{video_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+}
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLesson () {
+	console.log ( "pre - Lesson" );
+}
+function postRenderLesson ( fd ) {
+	console.log ( "post - Lesson", fd, window.g_data );
+
+	//	$.get ( "/lesson/l01.html", function ( data ) {
+	//		$("#lesson_text").html ( data );
+	//		console.log ( "pre - Lesson - fetch of partial" );
+	//		} );
+
+	$("#lesson_text").html ( window.g_data.lesson_text );			// line 745
+	window.g_data = {};
+}
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+function renderLessonParam_old(event,tag){
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("renderLessonPram:",tag);
+
+	// Pull data for this user
+	// render page
+
+	window.g_data["lesson_name_2"] = tag;
+	renderLesson( {
+		  "lesson_title":" a Lesson Title : "+tag
+		, "lesson_text": "body of the lesson"
+		, "tag": tag
+	} );
+}
+
+function renderLessonParam(event,tag,lesson_id){
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("renderLessonPram_2:",tag,lesson_id);
+
+	var getdata = {
+		  "lesson_id": lesson_id
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_lesson",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			var parsedJSON = JSON.parse ( data.data[0].lesson );
+			// xyzzy - check for errors  - handle
+			window.g_data = parsedJSON;
+			renderLesson( {
+				  "lesson_title": data.data[0].video_title
+				, "lesson_text": "...placeholder..." 
+				, "lesson_id": lesson_id
+				, "url": data.data[0].url
+				, "img_url": data.data[0].img_url
+				, "tag": tag
+			} );
+			// xyzzy - do we have a race condition?
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+}
+
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
+
+function submitRunItCode( event, erro ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitRunItCode");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/run-sql-in-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			$("#output_box").text( JSON.stringify(data) );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+
+}
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
+
+function submitAutoAnswer( event, erro ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("rsubmitAutoAnswer");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "output_box"		: $("#output_box").val()
+		, "hash_box"		: $("#hash_box").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/validate-sql-in-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+
+}
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
+
+function submitSubmitAnswer( event, erro ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitSubmitAnswer");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/submit-answer-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+function postRegistrationSetup( data ) {
+	console.log ( "postRegistrationSetup", data, window.location.pathname );
+	/*
+		curl -H 'Accept: application/json' "http://localhost:7001/api/v1/ct_login?user_id=${user_id}&__method__=POST&pg_acct=acct$2&class_no=$3&lang_to_use=$4" 
+	
+		window.location.pathname == / 				== index.html - display dropdown.
+		window.location.pathname == /4280.html 		== 4280.html
+		window.location.pathname == /4010.html 		== 4010.html
+
+	*/
+}
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+	$(".auto-bind").click(function(){
+		callFunc ( $(this).data("click") );
+	});
+});
+
+</script>
+
+<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+
+<script src="/pdf/build/pdf.js"></script>
+<script src="/pdf/build/pdf.worker.js"></script>
+
+<script src="/js/doc-index.js?_ran_=00516"></script>
+<script src="/js/table.js?_ran_=00516"></script>
+
+<script src="/js/doc-form25.js?_ran_=0516"></script> <!-- login form / registration form -->
+<script src="/js/doc-form50.js?_ran_=0516"></script> <!-- render welcome page -->
+
+<script src="/js/doc-form30.js?_ran_=0516"></script> <!-- QR: Create QR Assoc.  -->
+<script src="/js/doc-form31.js?_ran_=0516"></script> <!-- QR: Config User  -->
+<script src="/js/doc-form32.js?_ran_=0516"></script> <!-- TODO New: QR: Bulk Load    -->
+<script src="/js/doc-form33.js?_ran_=0516"></script> <!-- SampleUplaod -->
+
+<script src="/js/doc-form00.js?_ran_=0516"></script> <!-- document upload sign -->
+<script src="/js/doc-form01.js?_ran_=0516"></script> <!-- list documents -->
+<script src="/js/doc-form02.js?_ran_=0516"></script> <!-- render documents -->
+<script src="/js/doc-form09.js?_ran_=0516"></script> <!-- render welcome page -->
+
+<script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+
+<script>
+console.log ( "Version 0516 - 2019-12-18T00:00:00");
+</script>
+
 </body>
 </html>
-

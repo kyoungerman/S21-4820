@@ -1,0 +1,1521 @@
+<style>
+@font-face {
+	font-family: octicons-link;
+	src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	line-height: 1.5;
+	color: #24292e;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 16px;
+	line-height: 1.5;
+	word-wrap: break-word;
+}
+
+.markdown-body .pl-c {
+	color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+	color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+	color: #6f42c1;
+}
+
+.markdown-body .pl-smi,
+.markdown-body .pl-s .pl-s1 {
+	color: #24292e;
+}
+
+.markdown-body .pl-ent {
+	color: #22863a;
+}
+
+.markdown-body .pl-k {
+	color: #d73a49;
+}
+
+.markdown-body .pl-s,
+.markdown-body .pl-pds,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sre,
+.markdown-body .pl-sr .pl-sra {
+	color: #032f62;
+}
+
+.markdown-body .pl-v,
+.markdown-body .pl-smw {
+	color: #e36209;
+}
+
+.markdown-body .pl-bu {
+	color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+	color: #fafbfc;
+	background-color: #b31d28;
+}
+
+.markdown-body .pl-c2 {
+	color: #fafbfc;
+	background-color: #d73a49;
+}
+
+.markdown-body .pl-c2::before {
+	content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+	font-weight: bold;
+	color: #22863a;
+}
+
+.markdown-body .pl-ml {
+	color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+	font-weight: bold;
+	color: #005cc5;
+}
+
+.markdown-body .pl-mi {
+	font-style: italic;
+	color: #24292e;
+}
+
+.markdown-body .pl-mb {
+	font-weight: bold;
+	color: #24292e;
+}
+
+.markdown-body .pl-md {
+	color: #b31d28;
+	background-color: #ffeef0;
+}
+
+.markdown-body .pl-mi1 {
+	color: #22863a;
+	background-color: #f0fff4;
+}
+
+.markdown-body .pl-mc {
+	color: #e36209;
+	background-color: #ffebda;
+}
+
+.markdown-body .pl-mi2 {
+	color: #f6f8fa;
+	background-color: #005cc5;
+}
+
+.markdown-body .pl-mdr {
+	font-weight: bold;
+	color: #6f42c1;
+}
+
+.markdown-body .pl-ba {
+	color: #586069;
+}
+
+.markdown-body .pl-sg {
+	color: #959da5;
+}
+
+.markdown-body .pl-corl {
+	text-decoration: underline;
+	color: #032f62;
+}
+
+.markdown-body .octicon {
+	display: inline-block;
+	vertical-align: text-top;
+	fill: currentColor;
+}
+
+.markdown-body a {
+	background-color: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+	outline-width: 0;
+}
+
+.markdown-body strong {
+	font-weight: inherit;
+}
+
+.markdown-body strong {
+	font-weight: bolder;
+}
+
+.markdown-body h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+
+.markdown-body img {
+	border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}
+
+.markdown-body hr {
+	box-sizing: content-box;
+	height: 0;
+	overflow: visible;
+}
+
+.markdown-body input {
+	font: inherit;
+	margin: 0;
+}
+
+.markdown-body input {
+	overflow: visible;
+}
+
+.markdown-body [type="checkbox"] {
+	box-sizing: border-box;
+	padding: 0;
+}
+
+.markdown-body * {
+	box-sizing: border-box;
+}
+
+.markdown-body input {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.markdown-body a {
+	color: #0366d6;
+	text-decoration: none;
+}
+
+.markdown-body a:hover {
+	text-decoration: underline;
+}
+
+.markdown-body strong {
+	font-weight: 600;
+}
+
+.markdown-body hr {
+	height: 0;
+	margin: 15px 0;
+	overflow: hidden;
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr::before {
+	display: table;
+	content: "";
+}
+
+.markdown-body hr::after {
+	display: table;
+	clear: both;
+	content: "";
+}
+
+.markdown-body table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+	padding: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body h1 {
+	font-size: 32px;
+	font-weight: 600;
+}
+
+.markdown-body h2 {
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.markdown-body h3 {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.markdown-body h4 {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.markdown-body h5 {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.markdown-body h6 {
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.markdown-body p {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+	margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+	x-list-style-type: lower-roman;
+	  list-style-type: decimal;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+	list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+	margin-left: 0;
+}
+
+.markdown-body code {
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	font-size: 12px;
+}
+
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	font-size: 12px;
+}
+
+.markdown-body .octicon {
+	vertical-align: text-bottom;
+}
+
+.markdown-body .pl-0 {
+	padding-left: 0 !important;
+}
+
+.markdown-body .pl-1 {
+	padding-left: 4px !important;
+}
+
+.markdown-body .pl-2 {
+	padding-left: 8px !important;
+}
+
+.markdown-body .pl-3 {
+	padding-left: 16px !important;
+}
+
+.markdown-body .pl-4 {
+	padding-left: 24px !important;
+}
+
+.markdown-body .pl-5 {
+	padding-left: 32px !important;
+}
+
+.markdown-body .pl-6 {
+	padding-left: 40px !important;
+}
+
+.markdown-body::before {
+	display: table;
+	content: "";
+}
+
+.markdown-body::after {
+	display: table;
+	clear: both;
+	content: "";
+}
+
+.markdown-body>*:first-child {
+	margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+	margin-bottom: 0 !important;
+}
+
+.markdown-body a:not([href]) {
+	color: inherit;
+	text-decoration: none;
+}
+
+.markdown-body .anchor {
+	float: left;
+	padding-right: 4px;
+	margin-left: -20px;
+	line-height: 1;
+}
+
+.markdown-body .anchor:focus {
+	outline: none;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 16px;
+}
+
+.markdown-body hr {
+	height: 0.25em;
+	padding: 0;
+	margin: 24px 0;
+	background-color: #e1e4e8;
+	border: 0;
+}
+
+.markdown-body blockquote {
+	padding: 0 1em;
+	color: #6a737d;
+	border-left: 0.25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+	margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+	margin-bottom: 0;
+}
+
+.markdown-body kbd {
+	display: inline-block;
+	padding: 3px 5px;
+	font-size: 11px;
+	line-height: 10px;
+	color: #444d56;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: solid 1px #c6cbd1;
+	border-bottom-color: #959da5;
+	border-radius: 3px;
+	box-shadow: inset 0 -1px 0 #959da5;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	margin-top: 24px;
+	margin-bottom: 16px;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+	color: #1b1f23;
+	vertical-align: middle;
+	visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+	text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+	visibility: visible;
+}
+
+.markdown-body h1 {
+	padding-bottom: 0.3em;
+	font-size: 2em;
+	border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+	padding-bottom: 0.3em;
+	font-size: 1.5em;
+	border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h3 {
+	font-size: 1.25em;
+}
+
+.markdown-body h4 {
+	font-size: 1em;
+}
+
+.markdown-body h5 {
+	font-size: 0.875em;
+}
+
+.markdown-body h6 {
+	font-size: 0.85em;
+	color: #6a737d;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body li {
+	word-wrap: break-all;
+}
+
+.markdown-body li>p {
+	margin-top: 16px;
+}
+
+.markdown-body li+li {
+	margin-top: 0.25em;
+}
+
+.markdown-body dl {
+	padding: 0;
+}
+
+.markdown-body dl dt {
+	padding: 0;
+	margin-top: 16px;
+	font-size: 1em;
+	font-style: italic;
+	font-weight: 600;
+}
+
+.markdown-body dl dd {
+	padding: 0 16px;
+	margin-bottom: 16px;
+}
+
+.markdown-body table {
+	display: block;
+	width: 100%;
+	overflow: auto;
+}
+
+.markdown-body table th {
+	font-weight: 600;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+	padding: 6px 13px;
+	border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+	background-color: #fff;
+	border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+	background-color: #f6f8fa;
+}
+
+.markdown-body img {
+	max-width: 100%;
+	box-sizing: content-box;
+	background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+	padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+	padding-right: 20px;
+}
+
+.markdown-body code {
+	padding: 0.2em 0.4em;
+	margin: 0;
+	font-size: 85%;
+	background-color: rgba(27,31,35,0.05);
+	border-radius: 3px;
+}
+
+.markdown-body pre {
+	word-wrap: normal;
+}
+
+.markdown-body pre>code {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	word-break: normal;
+	white-space: pre;
+	background: transparent;
+	border: 0;
+}
+
+.markdown-body .highlight {
+	margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+	margin-bottom: 0;
+	word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+	padding: 16px;
+	overflow: auto;
+	font-size: 85%;
+	line-height: 1.45;
+	background-color: #f6f8fa;
+	border-radius: 3px;
+}
+
+.markdown-body pre code {
+	display: inline;
+	max-width: auto;
+	padding: 0;
+	margin: 0;
+	overflow: visible;
+	line-height: inherit;
+	word-wrap: normal;
+	background-color: transparent;
+	border: 0;
+}
+
+.markdown-body .full-commit .btn-outline:not(:disabled):hover {
+	color: #005cc5;
+	border-color: #005cc5;
+}
+
+.markdown-body kbd {
+	display: inline-block;
+	padding: 3px 5px;
+	font: 11px "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	line-height: 10px;
+	color: #444d56;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: solid 1px #d1d5da;
+	border-bottom-color: #c6cbd1;
+	border-radius: 3px;
+	box-shadow: inset 0 -1px 0 #c6cbd1;
+}
+
+.markdown-body :checked+.radio-label {
+	position: relative;
+	z-index: 1;
+	border-color: #0366d6;
+}
+
+.markdown-body .task-list-item {
+	list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+	margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+	margin: 0 0.2em 0.25em -1.6em;
+	vertical-align: middle;
+}
+
+.markdown-body hr {
+	border-bottom-color: #eee;
+}
+
+</style>
+<style>
+ol {
+    display: block;
+    list-style-type: decimal;
+}
+</style>
+
+<div class="markdown-body">
+
+<h2>/api/v1/status</h2>
+
+<h3>Methods: Any</h3>
+
+<h3>Description</h3>
+
+<p>Report the status of the service.</p>
+
+<p>The status includes the process id for the currently running process. If you are
+killing and restarting a process this is a very useful. When you kill it lists
+the current process. Then you can click status to verify that the new process is
+running.</p>
+
+<p>This is also useful to verify that the service is up and running.</p>
+
+<h3>See /status</h3>
+
+<h3>Example Output</h3>
+
+<pre><code>{
+	&quot;pid&quot;: 57351,
+	&quot;status&quot;: &quot;success&quot;,
+	&quot;version&quot;: &quot;be972fefdd5500aeaaf6848b03b0344f66f132ee-Sun-May-12-16:01:27-MDT-2019&quot;
+}
+</code></pre>
+
+<p>If <code>LastGen</code> is empty then this run of q8s-server has never created any new QR codes.</p>
+
+<h2>/status</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Report the status of the service.</p>
+
+<p>The status includes the process id for the currently running process. If you are
+killing and restarting a process this is a very useful. When you kill it lists
+the current process. Then you can click status to verify that the new process is
+running.</p>
+
+<p>This is also useful to verify that the service is up and running.</p>
+
+<h3>See /api/v1/status</h3>
+
+<h3>Example Output</h3>
+
+<pre><code>{
+	&quot;pid&quot;: 57351,
+	&quot;status&quot;: &quot;success&quot;,
+	&quot;version&quot;: &quot;be972fefdd5500aeaaf6848b03b0344f66f132ee-Sun-May-12-16:01:27-MDT-2019&quot;
+}
+</code></pre>
+
+<p>If <code>LastGen</code> is empty then this run of q8s-service has never created any new QR codes.</p>
+
+<h2>/api/v1/config</h2>
+
+<h3>Methods: GET</h3>
+
+<p>Return the current config for this micro service.</p>
+
+<p>A valid JWT token is required to make this call.</p>
+
+<h2>/api/v1/kick</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Kick the service into checking that a sufficient number of QR codes are available.
+The default is to keep 100 pre-generated and it checks once a minute.  If you are
+using more than this then a periodic kick may be necessary.</p>
+
+<p>A valid JWT token is required to make this call.</p>
+
+<h2>/api/v1/exit-server</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Exit the currently running server.   The server is normally run in a recovery
+loop so a new one will start.  The server is designed to  be gracefully
+exited so as to not leave any open sockets or other resources.   This is the
+normal method for an upgrade.   Copy the new executable up to the system then
+call this.  The Process ID will be printed out.  Then click on status to verify
+that a new process has been stared.</p>
+
+<p>A valid JWT token is required to make this call.</p>
+
+<h2>/api/v1/conv-60-to-10</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Convert from a base 60 id (used in URL shortening) to a base 10 id.</p>
+
+<h2>/api/v1/conv-10-to-60</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Convert from a base 10 id to a base 60 id.</p>
+
+<h2>/api/v1/gen-qr-url</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Use the current configuration to go from a ID base10 or base36 to a URL
+for the QR Image.</p>
+
+<h2>/api/v1/parse-qr-url</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Given the URL of a QR Image - decode it into its components.</p>
+
+<h2>/api/v2/get-qr</h2>
+
+<h3>Methods: GET</h3>
+
+<p>Return a newly allocated QR code from the available supply.  Sets the redirection
+for this to url_to if supplied - or an empty page if not supplied.</p>
+
+<h2>/api/v2/user-get-qr</h2>
+
+<h3>Methods: GET</h3>
+
+<p>Return a newly allocated QR code from the available supply.  Sets the redirection
+for this to url_to if supplied - or an empty page if not supplied.</p>
+
+<h2>/api/v2/dec</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Decode a QR code ID (base60 or base10) and return the associated destination
+and data.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>base60</td>
+<td>Base 60 QR ID - input either base60 or base10.</td>
+</tr>
+
+<tr>
+<td>base10</td>
+<td>Base 10 QR ID - input either base60 or base10.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>/api/v2/set</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Set the destination URL for a particular QR ID
+and data.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>base60</td>
+<td>Base 60 QR ID - input either base60 or base10.</td>
+</tr>
+
+<tr>
+<td>base10</td>
+<td>Base 10 QR ID - input either base60 or base10.</td>
+</tr>
+
+<tr>
+<td>url_to</td>
+<td>Destination to redirect this to.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>/api/v2/set-data</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Set the data for a particular QR ID</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>base60</td>
+<td>Base 60 QR ID - input either base60 or base10.</td>
+</tr>
+
+<tr>
+<td>base10</td>
+<td>Base 10 QR ID - input either base60 or base10.</td>
+</tr>
+
+<tr>
+<td>data</td>
+<td>data from 1 byte to 1024 bytes for this.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>/api/v2/token</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Example Output</h3>
+
+<pre><code>{
+	&quot;expire&quot;: &quot;never&quot;,
+	&quot;jwt_token&quot;: &quot;eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoL...more.data...&quot;,
+	&quot;status&quot;: &quot;success&quot;
+}
+</code></pre>
+
+<h2>/api/v2/assign-qr</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Get a set of QR codes and associated them with a user.</p>
+
+<p>Login required.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>nqr</td>
+<td>Integer number of QR codes to assign.</td>
+</tr>
+
+<tr>
+<td>user_id</td>
+<td>User that is logged in.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Example Output</h3>
+
+<pre><code>	{
+		&quot;status&quot;:&quot;success&quot;,
+		&quot;nqr&quot;:1,
+		&quot;data&quot;:[
+			{ &quot;qr10&quot;:10, &quot;qr60&quot;:&quot;AAAAh&quot;, &quot;raw&quot;:&quot;http://www.q8s.co/qr/qr_00000/q00000h.png&quot;,
+					&quot;logo&quot;:&quot;http://www.q8s.co/qr/qr_00000/q00000h.4.png&quot;,
+					&quot;user&quot;:&quot;http://www.q8s.co/qr/qr_00000/q00000h.2.png&quot;,
+					&quot;tag&quot;:&quot;http://www.q8s.co/qr/qr_00000/q00000h.1.png&quot;
+			}
+		]
+	} 
+</code></pre>
+
+<h2>/api/v2/logout</h2>
+
+<h3>Methods: GET POST</h3>
+
+<p>Perform server side portion of logout.  This request always returns success.
+If you are not logged in or your login has expired it will still return
+success.</p>
+
+<p>If you are logged in then the jwt_token is invalidated.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>jwt_token</td>
+<td>Can come from a JWT token.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>/api/v2/status_login</h2>
+
+<h3>Methods: Any</h3>
+
+<h3>Description</h3>
+
+<p>Report the status of the service.  This is the same as /status but requires
+login.</p>
+
+<p>The status includes the process id for the currently running process. If you are
+killing and restarting a process this is a very useful. When you kill it lists
+the current process. Then you can click status to verify that the new process is
+running.</p>
+
+<p>This is also useful to verify that the service is up and running.</p>
+
+<h3>See /status</h3>
+
+<h2>/api/v2/login</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Validate a username/password in a relm and return a JWT token if successful.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>username</td>
+<td>User&rsquo;s email for login</td>
+</tr>
+
+<tr>
+<td>password</td>
+<td>Password</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Output Sample</h3>
+
+<pre><code>{
+	&quot;jwt_token&quot;: &quot;eyJhbGciOiJFUzI1...&quot;,
+	&quot;status&quot;: &quot;success&quot;
+}
+</code></pre>
+
+<h2>/api/v2/register</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Register for an account.  This will send an email to the specified address to
+confirm the registration.   The account will require a confirmed email before
+the next login.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>email</td>
+<td>User&rsquo;s email for will be used as the username.</td>
+</tr>
+
+<tr>
+<td>username</td>
+<td>User&rsquo;s email.</td>
+</tr>
+
+<tr>
+<td>password</td>
+<td>Password</td>
+</tr>
+
+<tr>
+<td>again</td>
+<td>Password repeated - must match password</td>
+</tr>
+
+<tr>
+<td>real_name</td>
+<td>Name of the person registering</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Output Sample</h3>
+
+<p>Status of 200 and</p>
+
+<pre><code>{
+	&quot;jwt_token&quot;: &quot;eyJhbGciOiJFUzI1...&quot;,
+	&quot;status&quot;: &quot;success&quot;
+}
+</code></pre>
+
+<h2>/api/v2/confirm-email</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Confirm that the email that is specified for an account is real.</p>
+
+<p>At the end of confirmation this will perform a 307 redirect to the application
+and the user will be logged in.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>token</td>
+<td>The one-time token generated at registration that is used to lookup the user.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Output Sample</h3>
+
+<p>Status of 200 and</p>
+
+<pre><code>{
+	&quot;jwt_token&quot;: &quot;eyJhbGciOiJFUzI1...&quot;,
+	&quot;status&quot;: &quot;success&quot;
+}
+</code></pre>
+
+<h2>/api/v2/change-password</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>This is to change the users password when they are logged in.   They have to know
+the current password.</p>
+
+<p>Note that on success this generates a new JWT authentication token that must replace the
+existing token.</p>
+
+<h3>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Desc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>old_pw</td>
+<td>The current password - it will be verified before the change is implemented.</td>
+</tr>
+
+<tr>
+<td>password</td>
+<td>Password</td>
+</tr>
+
+<tr>
+<td>confirm</td>
+<td>Password repeated - must match password</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Output Sample</h3>
+
+<p>Status of 200 and</p>
+
+<pre><code>{
+	&quot;jwt_token&quot;: &quot;eyJhbGciOiJFUzI1...&quot;,
+	&quot;status&quot;: &quot;success&quot;
+}
+</code></pre>
+
+<h2>/api/v2/recover-password-pt1</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>First of 3 parts of password recovery.</p>
+
+<p>This part requests that an email be sent to re-set the password on the account.
+The user has a recovery token set in &ldquo;t_ymux_user&rdquo; also.</p>
+
+<h2>/api/v2/recover-password-pt2</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Second of 3 parts of password recovery.</p>
+
+<p>This uses a template to convert from a token to a URL for a password update page.
+The token is verified to be real.</p>
+
+<h2>/api/v2/recover-password-pt3</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Third of 3 parts of password recovery.</p>
+
+<p>Take the token and the new password and set these.  Clear the recovery token
+from the user.  The user now has a reset password.  A new JWT token is returned
+to the user.   A new jwt_token is created.  The user is logged in.</p>
+
+<h2>/api/contract/ItemToken/BuyItem</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>First part of setup of ERC-721 contract that creates a sellable item with an
+ID in the 721 contract.</p>
+
+<h2>/api/contract/ItemToken/BreedItems</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>TBD</p>
+
+<h2>/api/contract/ItemToken/OwnenedItems</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>List the set of items that have ERC-721 contrqct IDs.</p>
+
+<h2>/api/contract/ItemToken/BalanceOf</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Get the number of items that have been listed in the ERC-721 contract.</p>
+
+<h2>/api/contract/ItemToken/SetPriceOfItem</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Set the price of the item so that it can be sold in ETH.</p>
+
+<h2>/api/contract/ItemToken/BuySpecificItem</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Request the purcase of a item in ETH.</p>
+
+<h2>/api/contract/ItemToken/PriceAndCommision</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Get the price of a item and the amount that is being payed in commission to the contract.</p>
+
+<h2>/api/contract/ItemToken/Commision</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Get the rate of the commision on a sale.</p>
+
+<h2>/api/contract/ItemToken/Init</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Initialize the contract for use with a proxy contract.  Only callable by the contract owner.</p>
+
+<h2>/api/contract/ItemToken/Approve</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Approve of sales that are requested by BuySpecificItem.  This will result in trasfer of
+ownership to the new owner.</p>
+
+<h2>/api/key/PrivateKey</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Create a private key pair that is encrypted in the key store.</p>
+
+<h2>/api/key/KeyFile</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Upload an encrypted key pair file to the key store.</p>
+
+<h2>/api/key/DeleteKey</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Delete a private key or a key file.</p>
+
+<h2>/api/key/ValidateKey</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Validate that you have a correct keyfile with the correct encryption information to use it.
+Note that this is an intentionally slow request.</p>
+
+<h2>/api/v2/2fa-validate-pin</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Validate a 2fa pin for a login to an account.</p>
+
+<p>This is the second part of the login process.</p>
+
+<h2>/api/v2/2fa-setup</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Return the 2FA information to the client for a non-device 2fa validation.  This will include
+the set of one-time keys that the user can print out and use.</p>
+
+<h2>/api/v2/2fa-dev-setup</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Return the set of device specific one time keys and other information for the setup of a
+device for 2fa authentication.</p>
+
+<h2>/api/v2/2fa-get-more-dev-otk</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>TBD - not implemented yet - but required.</p>
+
+<h2>/api/v2/complete-2fa-setup</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Tell the system on registration that the device is now setup and that an immediate login
+can proceeded.  Usually <code>/api/v2/is-2fa-setup</code> is being polled waiting for the device to
+be setup.</p>
+
+<h2>/api/v2/is-2fa-setup</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Polling interface to see if the 2fa auth has been completed.</p>
+
+<h2>/api/v2/is-email-used</h2>
+
+<p>Input <code>email</code></p>
+
+<p>Output:</p>
+
+<pre><code>	{&quot;status&quot;:&quot;success&quot;,&quot;used&quot;:&quot;y&quot;}
+</code></pre>
+
+<p>Used will be <code>y</code> or <code>n</code>.</p>
+
+<h2>/api/v2/is-username-used</h2>
+
+<p>Input <code>username</code></p>
+
+<p>Output:</p>
+
+<pre><code>	{&quot;status&quot;:&quot;success&quot;,&quot;used&quot;:&quot;y&quot;}
+</code></pre>
+
+<p>Used will be <code>y</code> or <code>n</code>.</p>
+
+<h2>/api/v2/is-password-valid</h2>
+
+<p>Input <code>password</code></p>
+
+<p>Output when the password is at least 10 characters long and is not pwned.</p>
+
+<pre><code>	{&quot;status&quot;:&quot;success&quot;,&quot;password_ok&quot;:&quot;y&quot;}
+</code></pre>
+
+<p>If the password is too short:</p>
+
+<pre><code>	{&quot;status&quot;:&quot;error&quot;,&quot;password_ok&quot;:&quot;n&quot;,&quot;msg&quot;:&quot;Password is too short.  Use atlest 10 characters.\n&quot;}
+</code></pre>
+
+<p>If a lookup indicates that the password has been pwned:</p>
+
+<pre><code>	{&quot;status&quot;:&quot;error&quot;,&quot;password_ok&quot;:&quot;n&quot;,&quot;msg&quot;:&quot;Password is a known to be leaked (pwned) password - you will need to use a different password.\n&quot;}
+</code></pre>
+
+<h2>/api/v2/create-dev-un-pw</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/delete-dev-un-pw</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/list-sub-acct</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/create-token-user</h2>
+
+<h3>Methods: GET POST</h3>
+
+<h3>Description</h3>
+
+<p>Creates a user that authenticates with a single strong token.   This is for direct API usage.
+Token users do not use 2FA, can not login via the web, can not recover passwords etc&hellip;</p>
+
+<p>Roles and privileges are granted and controlled by the creating account.</p>
+
+<p>TODO</p>
+
+<h2>/api/v2/getState</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/getAllState</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/resetToDefaultState</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/delState</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/setState</h2>
+
+<p>TODO</p>
+
+<h2>/api/v2/pstateStatus</h2>
+
+<p>TODO</p>
+
+<h2>The End&hellip;</h2>
+
+</div>
+

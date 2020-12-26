@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+	<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
+	<script src="/js/signature_pad-2.3.2.js"></script>
+
+	<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+
+    <title>Lessons</title>
+<style>
+.some-style {
+	
+}
+.fixed-width-200 {
+	width: 200px;
+	margin-top: 5px;
+}
+.colorGray {
+	color: #bbb;
+}
+.form-inline-checkbox {
+	width: 30px;
+	display: inline-block;
+	margin-top: -5px;
+}
+.form-inline-checkbox:disabled {
+	background-color: green;
+}
+.form-inline-chebox-label {
+	position: relative;
+	top: -13px;
+}
+.button-table td {
+	padding: 10px;
+	
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item dropdown show-logged-in">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Lesson Items</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Main Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+				</div>
+			</li>
+			<li class="nav-item dropdown show-logged-in">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account/Admin</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Admin Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item auto-bind" href="#" id="auth-change-password" data-click="renderChangePassword" > Change Password</a>			
+					<a class="dropdown-item auto-bind" href="#" id="authNewDevAccount" data-click="renderCreateDevUnPwAcct" > New Device Account</a>	
+					<a class="dropdown-item auto-bind" href="#" id="sampleUpload" data-click="renderSampleUpload" > Sample Upload </a>	
+					<a class="dropdown-item" href="#" id="auth-update-info" > Update Info </a>	
+					<a class="dropdown-item" href="#" id="auth-new-account" > New Account</a>	
+					<a class="dropdown-item" href="#" id="auth-new-token-account" > New Token Account</a>	
+					<a class="dropdown-item" href="#" id="admin-change-password" > Change Others Password</a>			
+					<a class="dropdown-item" href="#" id="admin-list-accounts" > List Accounts </a>			
+					<a class="dropdown-item" href="#" id="admin-account-expire" > Set/Update Account Expiration </a>			
+					<a class="dropdown-item" href="#" id="admin-delete-account" > Delete Account </a>			
+					<a class="dropdown-item" href="#" id="admin-invite-registration" > Invite Registration (Create Key) </a>			
+					<a class="dropdown-item" href="#" id="admin-grant-revoke" > Grant / Revoke Privileges </a>			
+				</div>
+			</li>
+            <li class="nav-item show-logged-in">
+                <a class="nav-link" href="#" id="form50-render">List Your Stuff</a>
+            </li>
+            <li class="nav-item show-anon">
+                <a class="nav-link" href="#" id="getStatus">Status</a>	
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Lessons</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item show-anon">
+				<a class="nav-link bind-click" href="#" id="register" name="register" data-click="renderRegister">Register</a>
+            </li>
+            <li class="nav-item show-anon">
+				<a class="nav-link bind-click" href="#" id="login" name="login" data-click="renderLoginPage">Login</a>
+            </li>
+            <li class="nav-item show-logged-in">
+				<a class="nav-link bind-click" href="#" id="logout" name="logout" data-click="renderLogout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="top-of-page">
+
+		<h1 id="speical-title">&nbsp;</h1>
+
+		<div class="content container" id="msg"></div>
+		<div class="content container" id="body"></div>
+
+	</div>
+
+$templates$
+
+<script>
+
+function URLStrToHash(query) {
+	var rv = {};
+	var decode = function (s) { return decodeURIComponent(s.replace(/^\?/,"").replace(/\+/g, " ")); };
+
+	var p1 = query.replace(/([^&=]+)=?([^&]*)/g,function(j,n,v){
+		n = decode(n);
+		v = decode(v);
+		if ( typeof(rv[n]) === "undefined" ) {
+			rv[n] = ( typeof v === "undefined" ) ? "" : v;
+		} else if ( typeof(rv[n]) === "string" ) {
+			var x = rv[n];
+			rv[n] = [];
+			rv[n].push ( x );
+			rv[n].push ( v );
+		} else {
+			rv[n].push ( v );
+		}
+		return "";
+	});
+	return rv;
+}
+
+var g_origin = window.location.origin;
+if ( ! g_origin ) {			// Probablyl running on Opera
+	g_origin = window.location.protocol + "//" + window.location.host;
+}
+
+var g_param = URLStrToHash ( window.location.search );
+
+console.log ( window.location.search );
+console.log ( g_param );
+
+window.g_app_data = {};
+
+function setAppData() {
+	//		use URl /index.html - give dropdown for class		
+	//				/4280.html - use URL 
+	//				/4010.html - use URL 
+	switch ( window.location.pathname ) {
+	default:
+	case "/":
+	case "/index.html":
+		window.g_app_data["class_name"] = "UW Class";
+		window.g_app_data["class_note"] = "UW class";
+		window.g_app_data["class_no"] = "a";
+		window.g_app_data["show_dropdown"] = "yes";
+		window.g_app_data["lang_to_use"] = "";
+	break;
+	case "/4280.html":
+		window.g_app_data["class_name"] = "4280";
+		window.g_app_data["class_note"] = "using SQL";
+		window.g_app_data["class_no"] = "4280";
+		window.g_app_data["show_dropdown"] = "no";
+		window.g_app_data["lang_to_use"] = "PostgreSQL";
+	break;
+	case "/4010.html":
+		window.g_app_data["class_name"] = "4010 BlockChain";
+		window.g_app_data["class_note"] = "learning Go";
+		window.g_app_data["class_no"] = "4010 BockChain";
+		window.g_app_data["show_dropdown"] = "no";
+		window.g_app_data["lang_to_use"] = "Go";
+	break;
+	}
+}
+
+setAppData();
+
+</script>
+<script src="/js/cfg.js?_ran_=$$$cache-burst$$$"></script>
+<script>
+	// $(".show-logged-in").hide();
+	var theOddOnes = document.getElementsByClassName("show-logged-in");
+	for(var i=0; i<theOddOnes.length; i++)
+	{
+		// console.log(theOddOnes[i].innerHTML);
+		theOddOnes[i].style.display = 'none';
+	}
+	// document.getElementsByClassName("show-logged-in").style.display = 'none';
+	// document.getElementById('myElement').style.display = 'block'; // show
+	// document.getElementById('myElement').style.display = 'none'; // hide
+</script>
+
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/popper-1.14.7.js"></script>
+<script src="/js/mustache.js" type="text/javascript"></script>
+<script src="/js/jquery.mustache.js" type="text/javascript"></script>
+<script>
+
+	// generate the function for rendering the named template.
+	function genRenderFuncs( fn ) {
+		window["render"+fn] = function( data ) {
+			console.log ( "in render"+fn );
+			renderClearMessage();
+			var yt = {};
+			var xt = ( data ) ? data : {};
+			if ( window.g_data ) {
+				// $.extend ( xt, window.g_data )
+				$.extend ( yt, window.g_data );
+			}
+			if ( window.g_app_data ) {
+				// $.extend ( xt, window.g_data )
+				$.extend ( yt, window.g_app_data );
+			}
+			$.extend ( yt, xt );
+			if ( window["preRender"+fn] ) {
+				console.log ( "preRender"+fn );
+				callFunc ( "preRender"+fn, yt );
+			}
+			$("#body").html("").mustache("dom-template-"+fn, yt )
+			if ( window["postRender"+fn] ) {
+				console.log ( "postRender"+fn );
+				callFunc ( "postRender"+fn, yt );
+			}
+		}
+	}
+
+	// Call a function if it exists, else error
+	function callFunc ( name, param ) {
+		console.log ( "Looking For Function", name);
+		if ( name ) {
+			if ( typeof window[name] === "function" ) {
+				console.log ( "Will Call Function", name, param );
+				var fx = window[name];
+				fx( param );
+			} else {
+				console.log ( "Error - missing function:", name );
+				throw "Missing function";
+			}
+		} else {
+			console.log ( "Called callFunc with undefined, probabl missing data-click in HTML template" );
+		}
+	}
+
+$setup-templates$
+
+(function ($) {
+	$(function () { 
+		$.Mustache.options.warnOnMissingTemplates = true; // Configure jquery-Mustache to warn on missing templates (to aid debugging)
+		$.Mustache.addFromDom();
+		if ( g_param["register_key"] && g_param.register_key.length > 0 ) {
+			console.log ( "Put up the registration page with this filled out", g_param.register_key );
+			renderRegister();
+			$("#registration_token").val( g_param.register_key );
+		} else {
+			renderTitleMainPage(   );
+		}
+		$("#body").on('click','.bind-click',function(){
+			var fx = $(this).data("click");
+			var fd = $(this).data("param");
+			fd = ( fd ) ? { "param": fd } : {};
+			console.log ( "fd=", fd );	
+//				var frmid = $(this).data("formid");
+//				if ( !window[fx] ) {
+//					console.log ( "Missing Function - will create default", fx )
+//					window[fx] = function(event) {
+//						if ( event ) { event.preventDefault(); }
+//						console.log ( "call to: "+fx+"() -- auto generated version" );
+//						$("#_ran_").val( ( Math.random() * 10000000 ) % 10000000 );
+//console.log ( "frmid=", frmid );
+//						var frm = $( frmid );
+//						var data = frm.serialize();
+//						var url = frm.attr('action');
+//						console.log ( "data=", data, 'url=', url );
+//						submitItData ( event, data, url, function(data){
+//							console.log( "data=", data );
+//						}, function(data) {
+//							console.log( "ERROR: ", data );
+//							renderError( "Failed to Login - Network communication failed.", "Failed to communicate with the server." );
+//						});
+//					};
+//				}
+			callFunc ( fx, fd );
+		});
+/*
+					<button type="button" class="btn btn-primary bind-click"
+						data-formid="#fomr08"
+						data-click="submitDevUnPwCreate"
+						data-succTitle="Device Account Created"
+						data-succMsg="You have successfully created an account for a device to login with."
+						data-errTitle="Failed to Create Device Account"
+						data-errMsg="Unable to Create Account: {%msg%} {%id%}"
+*/
+	});
+})(jQuery);
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLoginPage () {
+	console.log ( "pre" );
+}
+function postRenderLoginPage () {
+	window.g_data = {};
+	console.log ( "post" );
+}
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLearnList () {
+	console.log ( "pre - LearnList" );
+}
+function postRenderLearnList () {
+	window.g_data = {};
+	console.log ( "post - LearnList" );
+
+	// var url = "/api/v1/ct_video_per_user"; -- old non-user_id view -- depricated
+	// var url = "/api/v1/ct_lesson_per_user"; --old-- v1 
+	var url = "/api/v2/ct_lesson_per_user";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{lesson_name%}" name="%{lesson_name%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Complete?"}, 		{ Name:"Lessons" }, 		{ Name:"Done Wnen" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#\" onclick='renderLessonParam(event,\"%{lesson_name%}\",\"%{lesson_id%}\")'>%{video_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+}
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLesson () {
+	console.log ( "pre - Lesson" );
+}
+function postRenderLesson ( fd ) {
+	console.log ( "post - Lesson", fd, window.g_data );
+
+	//	$.get ( "/lesson/l01.html", function ( data ) {
+	//		$("#lesson_text").html ( data );
+	//		console.log ( "pre - Lesson - fetch of partial" );
+	//		} );
+
+	$("#lesson_text").html ( window.g_data.lesson_text );			// line 745
+	window.g_data = {};
+}
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+function renderLessonParam_old(event,tag){
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("renderLessonPram:",tag);
+
+	// Pull data for this user
+	// render page
+
+	window.g_data["lesson_name_2"] = tag;
+	renderLesson( {
+		  "lesson_title":" a Lesson Title : "+tag
+		, "lesson_text": "body of the lesson"
+		, "tag": tag
+	} );
+}
+
+function renderLessonParam(event,tag,lesson_id){
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("renderLessonPram_2:",tag,lesson_id);
+
+	var getdata = {
+		  "lesson_id": lesson_id
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_lesson",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			var parsedJSON = JSON.parse ( data.data[0].lesson );
+			// xyzzy - check for errors  - handle
+			window.g_data = parsedJSON;
+			renderLesson( {
+				  "lesson_title": data.data[0].video_title
+				, "lesson_text": "...placeholder..." 
+				, "lesson_id": lesson_id
+				, "url": data.data[0].url
+				, "img_url": data.data[0].img_url
+				, "tag": tag
+			} );
+			// xyzzy - do we have a race condition?
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+}
+
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
+
+function submitRunItCode( event, erro ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitRunItCode");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/run-sql-in-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			$("#output_box").text( JSON.stringify(data) );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+
+}
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
+
+function submitAutoAnswer( event, erro ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("rsubmitAutoAnswer");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "output_box"		: $("#output_box").val()
+		, "hash_box"		: $("#hash_box").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/validate-sql-in-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+
+}
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
+
+function submitSubmitAnswer( event, erro ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitSubmitAnswer");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/submit-answer-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+function postRegistrationSetup( data ) {
+	console.log ( "postRegistrationSetup", data, window.location.pathname );
+	/*
+		curl -H 'Accept: application/json' "http://localhost:7001/api/v1/ct_login?user_id=${user_id}&__method__=POST&pg_acct=acct$2&class_no=$3&lang_to_use=$4" 
+	
+		window.location.pathname == / 				== index.html - display dropdown.
+		window.location.pathname == /4280.html 		== 4280.html
+		window.location.pathname == /4010.html 		== 4010.html
+
+	*/
+}
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+	$(".auto-bind").click(function(){
+		callFunc ( $(this).data("click") );
+	});
+});
+
+</script>
+
+<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+
+<script src="/pdf/build/pdf.js"></script>
+<script src="/pdf/build/pdf.worker.js"></script>
+
+<script src="/js/doc-index.js?_ran_=0$$$cache-burst$$$"></script>
+<script src="/js/table.js?_ran_=0$$$cache-burst$$$"></script>
+
+<script src="/js/doc-form25.js?_ran_=$$$cache-burst$$$"></script> <!-- login form / registration form -->
+<script src="/js/doc-form50.js?_ran_=$$$cache-burst$$$"></script> <!-- render welcome page -->
+
+<script src="/js/doc-form30.js?_ran_=$$$cache-burst$$$"></script> <!-- QR: Create QR Assoc.  -->
+<script src="/js/doc-form31.js?_ran_=$$$cache-burst$$$"></script> <!-- QR: Config User  -->
+<script src="/js/doc-form32.js?_ran_=$$$cache-burst$$$"></script> <!-- TODO New: QR: Bulk Load    -->
+<script src="/js/doc-form33.js?_ran_=$$$cache-burst$$$"></script> <!-- SampleUplaod -->
+
+<script src="/js/doc-form00.js?_ran_=$$$cache-burst$$$"></script> <!-- document upload sign -->
+<script src="/js/doc-form01.js?_ran_=$$$cache-burst$$$"></script> <!-- list documents -->
+<script src="/js/doc-form02.js?_ran_=$$$cache-burst$$$"></script> <!-- render documents -->
+<script src="/js/doc-form09.js?_ran_=$$$cache-burst$$$"></script> <!-- render welcome page -->
+
+<script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+
+<script>
+console.log ( "Version $$$cache-burst$$$ - $$$gen-date$$$");
+</script>
+
+</body>
+</html>
