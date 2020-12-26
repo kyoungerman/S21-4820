@@ -1,4 +1,11 @@
 
+# Videos
+
+	1. Watch in lessons
+	2. Link to YouTube
+	3. Download from S3
+
+
 # Database Spring 2021
 
 

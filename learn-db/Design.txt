@@ -1,0 +1,47 @@
+# Authentication
+
+```
+
+Start
+    |
+    +=+============================================+
+      |                                            |
+      v                                            v
+    /-------------------------\                 /-------------------------\
+    | Registration            |                 | Login                   |
+    | Form: mt/Register.html  |                 | Form: mt/LoginPage.html |
+    | Fx: subjmitRegistration |                 | Fx: submitLogin         |
+    |                         +-->(A)       +---+                         +-->(A)
+    |                         |             |   |                         |
+    \-------------------------/             |   \-------------------------/
+       |                                    |        |
+       |                                    v        |
+       |                                    |        v
+       |                                    |   /--------------------------\
+       |                                    |   | 2fa PIN (TOTP)           |
+       |                                    |   | Form: mt/X2faPin.html    |
+       |                                    |   | Fx: submitValidate2faPin |
+       |                                    |   \--------------------------/
+       |                                    |        |
+       |                                    v        |
+       |                                    |        v
+       |                                    |     **************
+       |                                    +->-->* Logged In  *
+       |                                          **************
+       |
+       |
+       |
+       |
+       |
+       |
+       |
+       v
+
+
+(A)---Forgotten Password--->
+
+```
+
+about
+status
+
