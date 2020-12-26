@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+	<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
+	<script src="/js/signature_pad-2.3.2.js"></script>
+
+    <title>Demo Auth</title>
+<style>
+.some-style {
+	
+}
+.fixed-width-200 {
+	width: 200px;
+	margin-top: 5px;
+}
+.colorGray {
+	color: #bbb;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item dropdown show-logged-in">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menu Items</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Main Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item" href="#" id="evMenu1" >Menu1</a>	
+					<a class="dropdown-item" href="#" id="evMenu2" >Menu2</a>
+					<a class="dropdown-item" href="#" id="evMenu3" >Menu3</a>			
+					<a class="dropdown-item" href="#" id="evMenu4" >Menu4</a>	
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item" href="#" id="auth-new-account" > New Account</a>	
+					<a class="dropdown-item" href="#" id="auth-list-accounts" > List Accounts</a>
+					<a class="dropdown-item" href="#" id="auth-change-passwords" > Change Password</a>			
+					<a class="dropdown-item" href="#" id="auth-update-security" > Update Info </a>	
+				</div>
+			</li>
+            <li class="nav-item show-logged-in">
+                <a class="nav-link" href="#" id="form50-render">List Your Stuff</a>
+            </li>
+            <li class="nav-item show-anon">
+                <a class="nav-link" href="#" id="getStatus">Status</a>	
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Demo Auth</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item show-anon">
+				<a class="nav-link" href="#" id="register">Register</a>
+            </li>
+            <li class="nav-item show-anon">
+				<a class="nav-link" href="#" id="login">Login</a>
+            </li>
+            <li class="nav-item show-logged-in">
+				<a class="nav-link" href="#" id="logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="top-of-page">
+
+		<h1 id="speical-title">&nbsp;</h1>
+
+		<div class="content container" id="msg"></div>
+		<div class="content container" id="body"></div>
+
+	</div>
+
+
+
+$templates$
+
+	<script>
+		// $(".show-logged-in").hide();
+		var theOddOnes = document.getElementsByClassName("show-logged-in");
+		for(var i=0; i<theOddOnes.length; i++)
+		{
+			// console.log(theOddOnes[i].innerHTML);
+			theOddOnes[i].style.display = 'none';
+		}
+		// document.getElementsByClassName("show-logged-in").style.display = 'none';
+		// document.getElementById('myElement').style.display = 'block'; // show
+		// document.getElementById('myElement').style.display = 'none'; // hide
+	</script>
+
+	<script src="/js/jquery-3.3.1.js"></script>
+	<script src="/js/popper-1.14.7.js"></script>
+	<script src="/js/mustache.js" type="text/javascript"></script>
+	<script src="/js/jquery.mustache.js" type="text/javascript"></script>
+	<script>
+		function genRenderFuncs( fn ) {
+			window["render"+fn] = function( data ) {
+				console.log ( "in render"+fn );
+				renderClearMessage();
+				if ( window["preRender"+fn] ) {
+					callFunc ( "preRender"+fn );
+				}
+				$("#body").html("").mustache("dom-template-"+fn, ( data ) ? data : {} );
+				if ( window["postRender"+fn] ) {
+					callFunc ( "postRender"+fn );
+				}
+			}
+		}
+		function callFunc ( name ) {
+			console.log ( "Looking For Function", name);
+			if ( name ) {
+				if ( typeof window[name] === "function" ) {
+					console.log ( "Is Function", name);
+					var fx = window[name];
+					fx();
+				} else {
+					console.log ( "Error - missing function:", name );
+					throw "Missing function";
+				}
+			}
+		}
+		genRenderFuncs ( "TitleMainPage" );
+		genRenderFuncs ( "Login" );
+		genRenderFuncs ( "Pin2fa" );
+		genRenderFuncs ( "ForgotPassword" );
+		genRenderFuncs ( "Register" );
+		genRenderFuncs ( "CreateAnimal" );
+		(function ($) {
+			$(function () { 
+				$.Mustache.options.warnOnMissingTemplates = true; // Configure jquery-Mustache to warn on missing templates (to aid debugging)
+				$.Mustache.addFromDom();
+				renderTitleMainPage();
+				$("#body").on('click','.bind-click',function(){
+					callFunc ( $(this).data("click") );
+				});
+			});
+		})(jQuery);
+	</script>
+	<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+	<script src="/js/bootstrap-datepicker.min.js"></script>
+	<script src="/pdf/build/pdf.js"></script>
+	<script src="/pdf/build/pdf.worker.js"></script>
+
+	<script src="/js/cfg.js?_ran_=10501"></script>
+
+	<script src="/js/doc-index.js?_ran_=0$$$cache-burst$$$"></script>
+	<script src="/js/doc-form25.js?_ran_=$$$cache-burst$$$"></script> <!-- login form / registration form -->
+	<script src="/js/doc-form50.js?_ran_=$$$cache-burst$$$"></script> <!-- render welcome page -->
+
+	<script src="/js/doc-form30.js?_ran_=$$$cache-burst$$$"></script> <!-- QR: Create QR Assoc.  -->
+	<script src="/js/doc-form31.js?_ran_=$$$cache-burst$$$"></script> <!-- QR: Config User  -->
+	<script src="/js/doc-form32.js?_ran_=$$$cache-burst$$$"></script> <!-- TODO New: QR: Bulk Load    -->
+	<script src="/js/doc-form33.js?_ran_=$$$cache-burst$$$"></script> <!-- TODO New: QR: Create Group -->
+
+	<script src="/js/doc-form00.js?_ran_=$$$cache-burst$$$"></script> <!-- document upload sign -->
+	<script src="/js/doc-form01.js?_ran_=$$$cache-burst$$$"></script> <!-- list documents -->
+	<script src="/js/doc-form02.js?_ran_=$$$cache-burst$$$"></script> <!-- render documents -->
+	<script src="/js/doc-form09.js?_ran_=$$$cache-burst$$$"></script> <!-- render welcome page -->
+
+<script>
+console.log ( "Version $$$cache-burst$$$ - $$$gen-date$$$");
+renderForm09(null);
+$("#form00-render").click(renderForm00); 
+$("#form01-render").click(renderForm50); 	
+</script>
+
+</body>
+</html>
