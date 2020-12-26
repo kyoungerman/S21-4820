@@ -1,0 +1,234 @@
+\pset pager off
+Pager usage is off.
+\c bobo0001
+You are now connected to database "bobo0001" as user "pschlump".
+\i hw01_0.setup.sql
+drop table if exists name_list;
+DROP TABLE
+\i hw01_1.sql
+create table name_list (
+	real_name text,	
+	age int,	
+	state char varying (2)
+);
+CREATE TABLE
+\i hw02_1.sql
+insert into name_list values
+	( 'bob true',            22, 'WY' ),
+	( 'Jane True',           20, 'WY' ),
+	( 'Tom Ace',             31, 'NJ' ),
+	( 'Steve Pen',           33, 'NJ' ),
+	( 'Laura Jean Alkinoos', 34, 'PA' )
+;
+INSERT 0 5
+\i hw02_2.sql
+insert into name_list ( real_name, state, age )
+	values	( 'Philip Schlump', 'WY', 62 );
+INSERT 0 1
+\i hw03_1.sql
+select * from name_list;
+      real_name      | age | state 
+---------------------+-----+-------
+ bob true            |  22 | WY
+ Jane True           |  20 | WY
+ Tom Ace             |  31 | NJ
+ Steve Pen           |  33 | NJ
+ Laura Jean Alkinoos |  34 | PA
+ Philip Schlump      |  62 | WY
+(6 rows)
+
+\i hw03_1.test01.sql
+select 'PASS' as "test" 
+from (
+	select count(1) as x
+	from name_list
+) as t1
+where t1.x = 6
+;
+ test 
+------
+ PASS
+(1 row)
+
+\i hw03_2.sql
+select real_name, state from name_list;
+      real_name      | state 
+---------------------+-------
+ bob true            | WY
+ Jane True           | WY
+ Tom Ace             | NJ
+ Steve Pen           | NJ
+ Laura Jean Alkinoos | PA
+ Philip Schlump      | WY
+(6 rows)
+
+\i hw03_3.sql
+select lower(real_name) as "real_name_lower", real_name
+from name_list;
+   real_name_lower   |      real_name      
+---------------------+---------------------
+ bob true            | bob true
+ jane true           | Jane True
+ tom ace             | Tom Ace
+ steve pen           | Steve Pen
+ laura jean alkinoos | Laura Jean Alkinoos
+ philip schlump      | Philip Schlump
+(6 rows)
+
+\i hw03_4.sql
+select lower(real_name) as "real_name_lower", real_name
+from name_list
+order by 1 desc;
+   real_name_lower   |      real_name      
+---------------------+---------------------
+ tom ace             | Tom Ace
+ steve pen           | Steve Pen
+ philip schlump      | Philip Schlump
+ laura jean alkinoos | Laura Jean Alkinoos
+ jane true           | Jane True
+ bob true            | bob true
+(6 rows)
+
+\i hw03_5.sql
+select real_name
+from name_list
+where state = 'WY'
+;
+   real_name    
+----------------
+ bob true
+ Jane True
+ Philip Schlump
+(3 rows)
+
+\i hw04_1.sql
+select * from name_list;
+      real_name      | age | state 
+---------------------+-----+-------
+ bob true            |  22 | WY
+ Jane True           |  20 | WY
+ Tom Ace             |  31 | NJ
+ Steve Pen           |  33 | NJ
+ Laura Jean Alkinoos |  34 | PA
+ Philip Schlump      |  62 | WY
+(6 rows)
+
+\i hw04_2.sql
+update name_list
+	set real_name = 'Bob True'
+	where real_name = 'bob true'
+;
+UPDATE 1
+\i hw04_2.test01.sql
+select 'PASS' as "test" 
+from (
+	select count(1) as x
+	from name_list
+	where lower(real_name) = real_name
+) as t1
+where t1.x = 0
+;
+ test 
+------
+ PASS
+(1 row)
+
+\i hw04_3.sql
+select * from name_list;
+      real_name      | age | state 
+---------------------+-----+-------
+ Jane True           |  20 | WY
+ Tom Ace             |  31 | NJ
+ Steve Pen           |  33 | NJ
+ Laura Jean Alkinoos |  34 | PA
+ Philip Schlump      |  62 | WY
+ Bob True            |  22 | WY
+(6 rows)
+
+\i hw05_0.sql
+insert into name_list values
+	( 'Liz Trubune',         30, 'WY' ),
+	( 'Jane True',           44, 'WY' ),
+	( 'Lary Smith',          58, 'NJ' ),
+	( 'Dave Dave',           21, 'NJ' ),
+	( 'Laura Ann Alkinoos',  34, 'PA' )
+;
+INSERT 0 5
+\i hw05_0.test01.sql
+select 'PASS' as "test" 
+from (
+	select count(1) as x
+	from name_list
+) as t1
+where t1.x = 10
+;
+ test 
+------
+(0 rows)
+
+\i hw05_2.sql
+select distinct * from name_list;
+      real_name      | age | state 
+---------------------+-----+-------
+ Philip Schlump      |  62 | WY
+ Liz Trubune         |  30 | WY
+ Jane True           |  44 | WY
+ Lary Smith          |  58 | NJ
+ Tom Ace             |  31 | NJ
+ Dave Dave           |  21 | NJ
+ Laura Ann Alkinoos  |  34 | PA
+ Laura Jean Alkinoos |  34 | PA
+ Steve Pen           |  33 | NJ
+ Jane True           |  20 | WY
+ Bob True            |  22 | WY
+(11 rows)
+
+\i hw06_1.sql
+select count(*) from name_list;
+ count 
+-------
+    11
+(1 row)
+
+\i hw06_1.test01.sql
+select 'PASS' as "test" 
+from (
+	select count(1) as x, real_name
+	from name_list
+	group by real_name
+) as t1
+where t1.x = 9
+;
+ test 
+------
+(0 rows)
+
+\i hw06_2.sql
+select count(*) from name_list
+where state = 'NJ'
+;
+ count 
+-------
+     4
+(1 row)
+
+\i hw06_3.sql
+select count(*) as "count_of_names"
+from name_list
+where state = 'NJ'
+;
+ count_of_names 
+----------------
+              4
+(1 row)
+
+\i hw06_4.sql
+select count(distinct real_name) 
+from name_list
+where state = 'NJ'
+;
+ count 
+-------
+     4
+(1 row)
+

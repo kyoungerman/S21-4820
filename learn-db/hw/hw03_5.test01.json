@@ -1,0 +1,7 @@
+{
+	"select": {
+		"check-dimensions": { "rows": 1, "cols": 1 }
+		, "n_value": { "column": "?column?", "value": 1 }
+		, "msg": "An incorrect value was returned, expecting 1"
+	}
+}

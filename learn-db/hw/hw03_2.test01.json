@@ -1,0 +1,6 @@
+{
+	"select": {
+		"check-dimensions": { "rows": 6, "cols": 2 }
+		, "msg": "An incorrect amount of data was returned.  Exptinc 6 rows and 2 columns of data"
+	}
+}

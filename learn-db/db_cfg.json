@@ -1,0 +1,8 @@
+{
+	"app.example.com:testlogin@gmail.com": {
+		"DatabaseName" :"bobo0001"
+	}
+	, "nameJane": {
+		"DatabaseName" :"bobo0002"
+	}
+}

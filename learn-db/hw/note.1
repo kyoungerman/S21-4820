@@ -1,0 +1,26 @@
+https://carto.com/help/working-with-data/sql-stored-procedures/ -- really good intoro to stored procedures
+
+First let's add the column.
+
+```
+alter name_list add ( name_list_id UUID NOT NULL DEFAULT uuid_generate_v1() ); 
+```
+
+Now let's set all the current rows to have a UUID.
+
+
+```
+CREATE TABLE tbl 
+(
+  CONSTRAINT pkey_tbl PRIMARY KEY ( pkey )
+)
+```
+
+
+Need a JSON data loader that will take JSON or JSONb fieds
+	and load them from a file.
+
+Need a JSON converter that takes and includes data and escapes int into a JSON filed
+	- so can put HTML or .md into a JSON document
+
+

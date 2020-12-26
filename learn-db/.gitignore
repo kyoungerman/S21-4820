@@ -1,0 +1,16 @@
+www/old.1
+prod-key/
+gen-ec512-keys.sh
+gen-rsa-keys.sh
+Practical-SQL.pdf
+,*
+.DS_Store
+pure-demo-site
+log
+note
+www/files/
+learn-db
+acc.cfg.json
+a.sql
+b.sql
+c.sql

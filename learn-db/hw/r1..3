@@ -1,0 +1,63 @@
+psql
+Pager usage is off.
+psql (13.1 (Ubuntu 13.1-1.pgdg18.04+1), server 12.5 (Ubuntu 12.5-1.pgdg18.04+1))
+Type "help" for help.
+
+pschlump=# \l
+                                  List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   
+-----------+----------+----------+-------------+-------------+-----------------------
+ bobo0001  | pschlump | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ bobo0002  | pschlump | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ learndb   | pschlump | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+ pschlump  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =Tc/postgres         +
+           |          |          |             |             | postgres=CTc/postgres+
+           |          |          |             |             | pschlump=CTc/postgres
+ template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +
+           |          |          |             |             | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +
+           |          |          |             |             | postgres=CTc/postgres
+ toad      | pschlump | UTF8     | en_US.UTF-8 | en_US.UTF-8 | 
+(8 rows)
+
+pschlump=# \c bobo0001 
+psql (13.1 (Ubuntu 13.1-1.pgdg18.04+1), server 12.5 (Ubuntu 12.5-1.pgdg18.04+1))
+You are now connected to database "bobo0001" as user "pschlump".
+bobo0001=# \i hw01_1.sql 
+CREATE TABLE
+bobo0001=# \i hw02_1.sql 
+INSERT 0 5
+bobo0001=# \i hw02_2.sql 
+INSERT 0 1
+bobo0001=# select count(1) from 
+bob                  information_schema.  name_list            pg_catalog.          pg_temp_1.           pg_toast.            pg_toast_temp_1.     public.              tat                  
+bobo0001=# select count(1) from name_list;
+ count 
+-------
+     6
+(1 row)
+
+bobo0001=# \i hw03_1.sql 
+      real_name      | age | state 
+---------------------+-----+-------
+ Bob true            |  22 | WY
+ Jane True           |  20 | WY
+ Tom Ace             |  31 | NJ
+ Steve Pen           |  33 | NJ
+ Laura Jean Alkinoos |  34 | PA
+ Philip Schlump      |  62 | WY
+(6 rows)
+
+bobo0001=# \i hw03_2.sql 
+      real_name      | state 
+---------------------+-------
+ Bob true            | WY
+ Jane True           | WY
+ Tom Ace             | NJ
+ Steve Pen           | NJ
+ Laura Jean Alkinoos | PA
+ Philip Schlump      | WY
+(6 rows)
+
+

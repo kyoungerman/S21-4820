@@ -1,0 +1,5 @@
+/^PY/+1,/#endPY/-1d
+w
+/^PY/r ,a
+w
+q
