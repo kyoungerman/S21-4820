@@ -6,5 +6,5 @@ CREATE TABLE ct_tag (
 	tag_word text not null
 );
 
-CREATE INDEX ct_tag_p1 on ct_tag ( tag_word );
+CREATE UNIQUE INDEX ct_tag_p1 on ct_tag ( tag_word );
 

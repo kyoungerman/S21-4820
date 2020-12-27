@@ -71,23 +71,26 @@ AS $$
 DECLARE
 	pos int = 1;
 BEGIN
-	delete from "t_ymux_auth_token" where "user_id" = '7a955820-050a-405c-7e30-310da8152b6d';
-	delete from "t_ymux_user" where "id" = '7a955820-050a-405c-7e30-310da8152b6d';
+	delete from "t_ymux_auth_token" where "user_id" = '7a955820-050a-405c-7e30-310da8152b6d' cascade;
+	delete from "t_ymux_user" where "id" = '7a955820-050a-405c-7e30-310da8152b6d' cascade;
+	delete from ct_homework cascade;
+	delete from ct_tag_homework cascade;
+	delete from ct_tag cascade;
 
 	insert into "t_ymux_user" (
-		  "id"					
-		, "username" 		
-		, "password" 			
-		, "realm" 			
-		, "real_name" 	
-		, "salt" 	
-		, "email" 				
-		, "email_confirmed" 
-		, "setup_2fa_complete" 	
-		, "rfc_6238_secret"	
-		, "recovery_token" 
-		, "recovery_expire" 	
-		, "parent_user_id"		
+		  "id"
+		, "username"
+		, "password"
+		, "realm"
+		, "real_name"
+		, "salt"
+		, "email"
+		, "email_confirmed"
+		, "setup_2fa_complete"
+		, "rfc_6238_secret"
+		, "recovery_token"
+		, "recovery_expire"
+		, "parent_user_id"
 	) values
 		 ( '7a955820-050a-405c-7e30-310da8152b6d', 	-- id
 			'app.example.com:testlogin@gmail.com', 	-- username realm
@@ -105,10 +108,20 @@ BEGIN
 		);
 			-- 'login-user', 							-- acct_type
 
-	insert into "t_ymux_auth_token" ( "id", "user_id" ) values 
+	insert into "t_ymux_auth_token" ( "id", "user_id" ) values
 		 ('527b00e6-dd14-4096-5c57-d2d9563182d1', '7a955820-050a-405c-7e30-310da8152b6d'),
 		 ('cc5e15ad-92a3-4661-96c7-6004d58e523b', '7a955820-050a-405c-7e30-310da8152b6d'),
  		 ('e84fad29-7167-440f-a58b-ce97371f5009', '7a955820-050a-405c-7e30-310da8152b6d')
+	;
+
+	-- hw26_5
+	insert into ct_homework ( homework_id, homework_no, homework_title, points_avail, video_url, video_img, lesson_body ) values
+	;
+	-- hw26_9
+	insert into ct_tag_homework ( tag_id, homework_id ) values
+	;
+	-- hw26_10
+	insert into ct_tag ( tag_id, tag_word ) values
 	;
 
 	RETURN 'PASS';

@@ -713,24 +713,29 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Interactive - 19 - delete with exists based join</h1>
+<h1>Interactive - 19 - select using sub-query and exists</h1>
 
 <p>Let&rsquo;s use some of our joins to delete some data.</p>
 
 <p>Let&rsquo;s get rid of the people that are not in a department.</p>
 
-<pre><code>DELETE FROM employee as t0
-	WHERE exists (
-		SELECT t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year Pay&quot;
+<pre><code>SELECT t0.name as &quot;Employee Name&quot;, t0.dept_name as &quot;Department Name&quot;, t0.pay &quot;Year Pay&quot;
+FROM  (
+		SELECT t1.name, t2.dept_name, t1.pay, t1.employee_id
 		FROM employee as t1
 			LEFT OUTER join department as t2 on ( t1.department_id = t2.department_id )
 		WHERE t1.department_id is null
-          AND t0.employee_id = t1.employee_id
-	)
+		ORDER BY 1, 3 desc, 4
+	) as t0
 ;
+
 </code></pre>
 
-<p>It should delete 2 rows.</p>
+<p>You should get back 2 rows.</p>
+
+<p>These rows should be the offending rows with the department-less employees.</p>
+
+<h4>Tags: &ldquo;select exists&rdquo; &ldquo;sub-query&rdquo;</h4>
 
 </div>
 

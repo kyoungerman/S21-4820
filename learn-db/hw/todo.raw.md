@@ -45,8 +45,7 @@ Mostly Done
 
 # Interactive - 18 - More joins (full joins)
 
-
-
+# Interactive - 19 - select using sub-query and exists
 
 # Interactive - 20 - delete with in based sub-query
 
