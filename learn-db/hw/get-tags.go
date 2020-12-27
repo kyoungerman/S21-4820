@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"gitlab.com/pschlump/PureImaginationServer/ymux"
@@ -77,10 +78,14 @@ func readFile(fn string) {
 			fmt.Printf("-- title: %5d:%s\n", line_no, line)
 			title := line[1:]
 			no := fn[2:4]
-			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%s', '%s', '%s', '%s' );\n",
+			nno, err := strconv.ParseInt(no, 10, 32)
+			if err != nil {
+				nno = 0
+			}
+			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
 				u1,                          // UUID
 				sqlEncode(title),            // Title
-				no,                          // homework number
+				nno,                         // homework number
 				fmt.Sprintf("hw%s.mp4", no), // video_url
 				fmt.Sprintf("hw%s.jpg", no), // video_img
 				"{}",                        // TODO

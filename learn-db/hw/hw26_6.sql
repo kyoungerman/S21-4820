@@ -4,7 +4,7 @@ CREATE TABLE ct_homework_ans (
 	, homework_id				uuid not null
 	, user_id					uuid not null
 	, points					int not null default 0
-	, completd					char(1) default 'n' not null
+	, completed					char(1) default 'n' not null
 	, updated		 			timestamp
 	, created 					timestamp default current_timestamp not null
 );
