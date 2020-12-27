@@ -1,5 +1,5 @@
 
-DROP TABLE IF EXISTS ct_tag ;
+DROP TABLE IF EXISTS ct_tag_homework ;
 
 CREATE TABLE ct_tag_homework ( 
 	tag_id 		uuid not null,
