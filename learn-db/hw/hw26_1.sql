@@ -1,4 +1,4 @@
-DROP TABLE if exists "t_ymux_user" ;
+DROP TABLE if exists "t_ymux_user" cascade ;
 
 CREATE TABLE "t_ymux_user" (
 	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key

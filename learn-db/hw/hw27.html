@@ -728,6 +728,26 @@ with the foreign key constraint to <code>&quot;t_ymux_user&quot;</code>.</p>
 
 </code></pre>
 
+<p>You should get an error.   The error indicates that you violated a foreign key and will look similar to:</p>
+
+<pre><code>ERROR:  insert or update on table &quot;ct_homework_ans&quot; violates foreign key constraint &quot;user_id_fk&quot;
+DETAIL:  Key (user_id)=(ce1d8fdd-aa04-4bb4-9ef7-72655ff63b95) is not present in table &quot;ct_login&quot;.
+CONTEXT:  SQL statement &quot;insert into ct_homework_ans (
+		user_id,
+		homework_id
+	) select
+		NEW.user_id,
+		t1.homework_id
+	from ct_homework as t1
+	where not exists (
+			select 1 as &quot;found&quot;
+			from ct_homework_ans t2
+			where t2.user_id = NEW.user_id
+			  and t2.homework_id = t1.homework_id
+		)&quot;
+PL/pgSQL function ct_login_ins() line 3 at SQL statement
+</code></pre>
+
 <h4>Tags: &ldquo;1 to 0&rdquo;,&ldquo;1:0&rdquo;,&ldquo;1:0 relationship&rdquo;,&ldquo;1:1&rdquo;</h4>
 
 </div>

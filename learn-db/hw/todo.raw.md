@@ -207,6 +207,8 @@ User interface - determines set of things that are seen in database
 	11. Backup
 
 
+vacuum operation
+
 
 
 

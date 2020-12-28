@@ -718,7 +718,7 @@ ol {
 <p>The application uses a small set of user authorization tables from a wrapper application.
 We have to create the tables and the tables that match with in the application.</p>
 
-<p>Our 1 to 1 relationship is betwen <code>&quot;t_ymux_user&quot;</code> and our application table
+<p>Our 1 to 1 relationship is between <code>&quot;t_ymux_user&quot;</code> and our application table
 <code>ct_login</code>.    ct_login privies extra application specific columns that every user has
 to have.</p>
 
@@ -726,9 +726,11 @@ to have.</p>
 
 <h2>3 Tables From The Security Application</h2>
 
-<p>The Tables are &ldquo;t_ymux_user&rdquo; , &ldquo;ct_homework_ans&rdquo; , &ldquo;t_ymux_user_log&rdquo; .</p>
+<p>The Tables are &ldquo;t_ymux_user&rdquo; , &ldquo;ct_homework_ans&rdquo;  and  &ldquo;t_ymux_user_log&rdquo; .</p>
 
-<pre><code>DROP TABLE if exists &quot;t_ymux_user&quot; ;
+<p>Run the file hw26_1.sql</p>
+
+<pre><code>DROP TABLE if exists &quot;t_ymux_user&quot; cascade ;
 
 CREATE TABLE &quot;t_ymux_user&quot; (
 	  &quot;id&quot;					uuid DEFAULT uuid_generate_v4() not null primary key
@@ -779,6 +781,8 @@ EXECUTE PROCEDURE t_ymux_user_upd();
 
 </code></pre>
 
+<p>Run the file hw26_2.sql</p>
+
 <pre><code>
 -- -------------------------------------------------------- -- --------------------------------------------------------
 -- Note the &quot;auth_token&quot; is the &quot;ID&quot; for this row. (Primnary Key)
@@ -819,6 +823,8 @@ FOR EACH ROW
 EXECUTE PROCEDURE t_ymux_auth_token_upd();
 
 </code></pre>
+
+<p>Run the file hw26_3.sql</p>
 
 <pre><code>CREATE SEQUENCE t_log_seq
   INCREMENT 1
@@ -873,6 +879,8 @@ ct_homework_ans.</p>
 
 <h2>ct_login</h2>
 
+<p>Run the file hw26_4.sql</p>
+
 <pre><code>DROP TABLE if exists ct_login ;
 CREATE TABLE ct_login (
 	  user_id					uuid not null primary key -- 1 to 1 to &quot;t_ymux_user&quot;.&quot;id&quot;
@@ -895,6 +903,8 @@ ALTER TABLE ct_login
 
 <h2>ct_homeowrk</h2>
 
+<p>Run the file hw26_5.sql</p>
+
 <pre><code>DROP TABLE if exists ct_homework cascade;
 
 CREATE TABLE ct_homework (
@@ -912,6 +922,8 @@ CREATE INDEX ct_homework_p1 on ct_homework ( homework_no );
 </code></pre>
 
 <h2>ct_homeowrk_ans</h2>
+
+<p>Run the file hw26_6.sql</p>
 
 <pre><code>DROP TABLE if exists ct_homework_ans ;
 CREATE TABLE ct_homework_ans (
@@ -963,6 +975,8 @@ EXECUTE PROCEDURE ct_homework_ans_upd();
 
 <h2>Triggers that depend on multiple tables</h2>
 
+<p>Run the file hw26_7.sql</p>
+
 <pre><code>CREATE OR REPLACE function ct_homework_ins()
 RETURNS trigger AS $$
 BEGIN
@@ -984,6 +998,8 @@ BEGIN
 END
 $$ LANGUAGE 'plpgsql';
 
+
+DROP TRIGGER if exists ct_homework_trig_ins_upd on ct_homework;
 
 CREATE TRIGGER ct_homework_trig_ins_upd
 BEFORE insert or update ON ct_homework
@@ -1007,6 +1023,8 @@ BEGIN
 END
 $$ LANGUAGE 'plpgsql';
 
+
+DROP TRIGGER if exists ct_homework_trig_del on ct_homework;
 
 CREATE TRIGGER ct_homework_trig_del
 BEFORE delete ON ct_homework
@@ -1042,14 +1060,18 @@ END
 $$ LANGUAGE 'plpgsql';
 
 
+drop TRIGGER if exists ct_login_trig on ct_login;
+
 CREATE TRIGGER ct_login_trig
 BEFORE insert ON ct_login
 FOR EACH ROW
-EXECUTE PROCEDURE ct_homework_ins();
+EXECUTE PROCEDURE ct_login_ins();
 
 </code></pre>
 
 <h2>Homework tags</h2>
+
+<p>Run the file hw26_9.sql and hw26_10.sql</p>
 
 <pre><code>
 DROP TABLE IF EXISTS ct_tag ;
