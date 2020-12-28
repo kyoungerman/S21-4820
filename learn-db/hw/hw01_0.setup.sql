@@ -115,6 +115,14 @@ BEGIN
  		 ('e84fad29-7167-440f-a58b-ce97371f5009', '7a955820-050a-405c-7e30-310da8152b6d')
 	;
 
+	insert into "t_ymux_user_log" (
+		  "user_id"				
+		, "activity_name"	
+	) values 
+		( '7a955820-050a-405c-7e30-310da8152b6d', 'Login' ),
+		( '7a955820-050a-405c-7e30-310da8152b6d', 'Logout' )
+	;
+
 	-- hw26_5
 	-- insert into ct_homework ( homework_id, homework_no, homework_title, points_avail, video_url, video_img, lesson_body ) values
 	-- ;
@@ -376,6 +384,8 @@ BEGIN
 	insert into ct_tag_homework ( tag_id, homework_id ) values ( 'f883026e-62bf-4173-66ec-336d3a898d40', '7b25f3b4-3f50-4c72-4f2f-09aff73f2c7c' );
 	insert into ct_tag ( tag_id, tag_word ) values ( '281778fc-e8d2-4533-5eb9-fd3cde13eb34', 'm:n relationship' );
 	insert into ct_tag_homework ( tag_id, homework_id ) values ( '281778fc-e8d2-4533-5eb9-fd3cde13eb34', '7b25f3b4-3f50-4c72-4f2f-09aff73f2c7c' );
+
+
 
 
 	RETURN 'PASS';
