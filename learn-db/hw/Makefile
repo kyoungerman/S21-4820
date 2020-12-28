@@ -123,6 +123,7 @@ HTML= \
 	hw26.html \
 	hw27.html \
 	hw28.html \
+	hw29.html \
 	todo.html
 
 MD= \
@@ -154,6 +155,7 @@ MD= \
 	hw26.md \
 	hw27.md \
 	hw28.md \
+	hw29.md \
 	todo.md
 
 all: pre $(MD) $(HTML)

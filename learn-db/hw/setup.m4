@@ -8,3 +8,6 @@ m4_changequote(`[[[',`]]]')
 
 m4_define([[[m4_tags]]],[[[]]])
 
+m4_define([[[m4_comment]]],[[[]]])
+
+

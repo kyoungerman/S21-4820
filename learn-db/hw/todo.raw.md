@@ -110,6 +110,13 @@ Combine 15 and 16
 ---------------------------------------------------------------------------------------------------------------
 
 
+# Homework 33 - Install psql
+	- 100 pts
+
+# Homework 34 - Data Loading - generating SQL statements 
+	- 200 pts
+
+
 
 
 
