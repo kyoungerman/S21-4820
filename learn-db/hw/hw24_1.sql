@@ -1,2 +1,2 @@
-truncate table name_list;
-select count(1) from name_list;
+TRUNCATE TABLE name_list;
+SELECT count(1) from name_list;
