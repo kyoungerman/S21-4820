@@ -713,58 +713,202 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Interactive - 32 - only one a fixed set of rows.      (pre-papulae with key, pk, check-constraint on key)</h1>
+<h1>Interactive - 14 - data types</h1>
 
-<p>There is a different way to implement a set of configuration items.  In this case the items
-are stored one in each row in a set of fixed rows.</p>
+<p>This is really the stuff from chapter 3 in the book.</p>
 
-<pre><code>DROP  TABLE if exists ct_config_row ;
+<p>When we create a table,  ( Already created in the last homework when you ran the file )</p>
 
-CREATE TABLE ct_config_row (
-	  id				serial not null primary key
-	, name 				text not null check ( name in (
-							'security_method',
-							'encryption'
-						) )
-	, ty 				text not null default 'str'
-	, value 			text 
-	, i_value 			bigint
-	, b_value 			boolean
+<pre><code>CREATE TABLE us_state (
+	state_id UUID NOT NULL DEFAULT uuid_generate_v4() primary key,
+	state_name text NOT NULL,
+	state char varying (2) NOT NULL,
+	FIPS_code char varying (2) NOT NULL,
+	area_rank int not null default 9999,
+	area_sq_mi numeric not null default 0
 );
 
-CREATE UNIQUE INDEX ct_config_row_p1 on ct_config_row ( name );
+</code></pre>
+
+<p>we specify that the columns have a &ldquo;type&rdquo; and constraints on the data.</p>
+
+<p>The most common set of types are (ordered from my own code on how frequently I use each type):</p>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>text</td>
+<td>a string of 0 or more characters.</td>
+</tr>
+
+<tr>
+<td>varchar(n)</td>
+<td>a string of 0 to <code>n</code> characters.</td>
+</tr>
+
+<tr>
+<td>uuid</td>
+<td>a UUID.</td>
+</tr>
+
+<tr>
+<td>date</td>
+<td>a date - not a time.</td>
+</tr>
+
+<tr>
+<td>time</td>
+<td>a time value.</td>
+</tr>
+
+<tr>
+<td>bigint, int8</td>
+<td>8 byte integer</td>
+</tr>
+
+<tr>
+<td>timestamp</td>
+<td>a date and a time - usually with a time zone.</td>
+</tr>
+
+<tr>
+<td>numeric</td>
+<td>a large number with (think 130k digits, before/after decimal point)</td>
+</tr>
+
+<tr>
+<td>decimal</td>
+<td>a large number with (think 130k digits, before/after decimal point)</td>
+</tr>
+
+<tr>
+<td>float</td>
+<td>4 byte - a floating point number with an exponent</td>
+</tr>
+
+<tr>
+<td>real</td>
+<td>4 byte - a floating point number with an exponent</td>
+</tr>
+
+<tr>
+<td>json, jsonb</td>
+<td>JSON data</td>
+</tr>
+
+<tr>
+<td>double precision</td>
+<td>8 byte - a floating point number with an exponent</td>
+</tr>
+
+<tr>
+<td>bit, varbit</td>
+<td>variable length bit string values</td>
+</tr>
+
+<tr>
+<td>serial</td>
+<td>a 4 byte auto-generated integer that counts up</td>
+</tr>
+
+<tr>
+<td>interval</td>
+<td>a time interval can be +/- 178million years</td>
+</tr>
+
+<tr>
+<td>bytea</td>
+<td>byte array - binary data</td>
+</tr>
+
+<tr>
+<td>boolean</td>
+<td>true/false</td>
+</tr>
+
+<tr>
+<td>point, line</td>
+<td>geometric data</td>
+</tr>
+
+<tr>
+<td>box, path</td>
+<td>geometric data</td>
+</tr>
+
+<tr>
+<td>polygon, cirlce</td>
+<td>geometric data</td>
+</tr>
+
+<tr>
+<td>tvector, tsquery</td>
+<td>full text search type</td>
+</tr>
+
+<tr>
+<td>inet, cidr</td>
+<td>interget address tyeps, IPv4 122.4.3.22 or IPV6</td>
+</tr>
+
+<tr>
+<td>user defined tyeps</td>
+<td>The type system is extensible!</td>
+</tr>
+</tbody>
+</table>
+
+<p>Also there is a Geographic Information Package for PostgreSQL that is very good.
+It is built on top of the geometric data types and GIN indexes.</p>
+
+<p>We are not going to use all of these types.  Just a few of the most common ones like timestamp.</p>
+
+<p>Often we want a column to show when a new row is inserted or updated in a table.
+Let&rsquo;s add these to our name_list table.</p>
+
+<pre><code>alter table name_list add updated timestamp ;
+alter table name_list add created timestamp 
+	default current_timestamp not null  ;
 
 </code></pre>
 
-<p>With a table like this we can insert some values:</p>
+<p>To make the &lsquo;updated&rsquo; column work we need have PostgreSQL run some
+code when an update happens.  This kind of a thing is called a &ldquo;trigger&rdquo;.</p>
 
-<pre><code>insert into ct_config_row ( name, value ) values	
-	( 'security_method', 'jwt' ),
-	( 'encryption', 'es' )
-;
+<p>Let&rsquo;s add a trigger to the table.<br />
+Run the file <code>hw14_2.sql</code>.  The contents of the file is shown below.</p>
 
-</code></pre>
+<pre><code>
+CREATE OR REPLACE function name_list_upd()
+RETURNS trigger AS 
+$$
+BEGIN
+  NEW.updated := current_timestamp;
+  RETURN NEW;
+END
+$$
+LANGUAGE 'plpgsql';
 
-<p>The fixed set of configuration items is checked with the check constraint
-and the unique key on name.</p>
 
-<p>A trigger can be used to prevent deletion of items.</p>
+CREATE TRIGGER name_list_trig
+BEFORE update ON name_list
+FOR EACH ROW
+EXECUTE PROCEDURE name_list_upd();
 
-<pre><code>CREATE OR REPLACE FUNCTION ct_config_row_prevent_delete() 
-RETURNS trigger AS $$
-BEGIN            
-	IF OLD.config_id = 1 THEN
-		RAISE EXCEPTION 'cannot delete configuration row';
-	END IF;
-END;
-$$ 
-LANGUAGE plpgsql;
-
-CREATE TRIGGER ct_config_row_prevent_delete 
-BEFORE DELETE ON ct_config_row
-FOR EACH ROW EXECUTE PROCEDURE ct_config_row_prevent_delete();
 
 </code></pre>
+
+<p>Now when we do an update on this table it will set the updated field
+to the current time.</p>
+
+<h4>Tags: &ldquo;data types&rdquo;</h4>
 
 </div>
 

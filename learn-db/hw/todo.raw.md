@@ -70,7 +70,7 @@ Mostly Done
 
 # Interactive - 31 - only one row of data				(uk with no sequence)
 
-
+# Interactive - 32 - only one a fixed set of rows.		(pre-papulae with key, pk, check-constraint on key)
 
 
 
@@ -92,7 +92,6 @@ ToDo
 
 
 
-# Interactive - 32 - only one a fixed set of rows.		(pre-papulae with key, pk, check-constraint on key)
 
 ---------------------------------------------------------------------------------------------------------------
 

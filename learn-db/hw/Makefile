@@ -91,6 +91,7 @@ PY= \
 	hw32_1.sql \
 	hw32_2.sql \
 	hw32_3.sql \
+	hw32_5.sql \
 	old1.sql \
 	s1.sql \
 	s2.sql \
@@ -215,3 +216,10 @@ m3:
 	ls hw*.md | grep -v raw >,a
 	ed ,a <ed.make5.ed
 	ed Makefile <ed.make4.ed
+
+
+gitupdate:
+	git add -A .
+	git commit -m "New Lessons"
+	git push
+
