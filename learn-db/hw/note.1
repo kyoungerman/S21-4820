@@ -33,3 +33,33 @@ https://zenodo.org/record/3358045
 
 
 https://gitlab.com/eidheim/Simple-Web-Server
+
+
+Undeleteable code
+	delete trigger returning NEW.
+
+
+No-Update table?
+	update trigger returning NEW.
+
+
+
+CREATE OR REPLACE FUNCTION stop_change_on_auxId()
+  RETURNS trigger AS
+$BODY$
+BEGIN
+  -- always reset the auxId to the value already stored
+  NEW.auxId := OLD.auxId;
+  RETURN NEW;
+END;
+$BODY$
+
+
+CREATE TRIGGER avoid_auxid_changes
+  BEFORE UPDATE
+  ON product
+  FOR EACH ROW
+  EXECUTE PROCEDURE stop_change_on_auxId();
+
+semper paratus -- alsways ready
+

@@ -1,0 +1,5 @@
+/^HTML/+1,/#endHTML/-1d
+w
+/^HTML/r ,a
+w
+q

@@ -38,12 +38,6 @@ Done
 
 # Interactive - 11 - add a index on the name table that is case insensitive.
 
-
-
-Mostly Done
-==================
-
-
 # Interactive - 12 - fix our duplicate data
 
 # Interactive - 13 - drop both tables
@@ -72,30 +66,11 @@ Mostly Done
 
 # Interactive - 25 - drop cascade 
 
-ToDo
+
+
+
+Mostly Done
 ==================
-
-Combine 17 and 18
-Combine 15 and 16
-
-19 and 20 are duplicate
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Interactive - 26 - 1 to 1 relationship  				(pk to pk)
 
 # Interactive - 27 - 1 to 0 or 1 relationship 			(fk, unique)
@@ -103,59 +78,78 @@ Combine 15 and 16
 # Interactive - 28 - 1 to n relationship				(fk)
 
 # Interactive - 29 - m to n relationship				(fk to join table to fk)
-	tags
-
----------------------------------------------------------------------------------------------------------------
-
-
-
-
 
 # Interactive - 30 - 1 to ordered list relationship		(fk to uk with sequence)
-	t_ymux_user_log
 
 # Interactive - 31 - only one row of data				(uk with no sequence)
-	pk/uk w/ check constraint
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ToDo
+==================
+
+
+
 
 # Interactive - 32 - only one a fixed set of rows.		(pre-papulae with key, pk, check-constraint on key)
-	pk/uk w/ check constraint
 
 ---------------------------------------------------------------------------------------------------------------
 
 
-# Homework 33 - Install psql
+# Homework 33 - Install psql  (Assignment 1)
 	- 100 pts
 
-# Homework 34 - Data Loading - generating SQL statements 
-	- 200 pts
+# Homework 34 - Data Loading - generating SQL statements (Assignment 2)
+	- 300 pts
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Interactive - 33? - indexes
+# Interactive - 35 - indexes
 	- hash
 	- b-tree
 	- gin
 	- gist
+	- tsvector/tsearch
+
+# Interactive - 36 - views
+
+# Interactive - 37 - key word lookup
+	Keyword Search tsvecor/tsearch
+
+# Homework 38 - Create issue/issue_note tables (Assignment 3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Interactive - 33? - encrypted passwords and data
 
-# Interactive - 33 - views
 
 # Interactive - 34 - stored procedures
 	# Interactive - ?? - function returns as selects
@@ -222,14 +216,15 @@ User interface - determines set of things that are seen in database
 
 vacuum operation
 
+create domain - validation of data w/ r.e. in a table.
 
 
 
-40 hw * 10pts = 400
+50 interactive hw * 10pts = 500
+5 assignments = 500
 2 tests * 300 = 600
 5 discussions * 100 = 500  
-	+= 1500
-500 more
+	+= 2000
 50 more homeworks = 
 	0. Add columns to table
 	1. Install
@@ -290,7 +285,6 @@ Where/Expressions
 Select/Expressions
 
 
-Keyword Search tsvecor/tsearch
 
 
 Notify trigger

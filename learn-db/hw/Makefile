@@ -1,10 +1,10 @@
 
-FN=Lect-21
 DIR=../../../F20-1015
 PP=`pwd`
 
 PY= \
 	all.sql \
+	ans-hw29.sql \
 	city_copy.sql \
 	city.sql \
 	hw01_0.setup.sql \
@@ -62,6 +62,7 @@ PY= \
 	hw18_1.sql \
 	hw18_2.sql \
 	hw19_1.sql \
+	hw20_1.sql \
 	hw20_2.sql \
 	hw21_1.sql \
 	hw22_1.sql \
@@ -82,6 +83,14 @@ PY= \
 	hw26_8.sql \
 	hw26_9.sql \
 	hw28_1.sql \
+	hw29_1.sql \
+	hw29_2.sql \
+	hw31_1.sql \
+	hw31_2.sql \
+	hw31_4.sql \
+	hw32_1.sql \
+	hw32_2.sql \
+	hw32_3.sql \
 	old1.sql \
 	s1.sql \
 	s2.sql \
@@ -94,6 +103,7 @@ IMG= \
 	PostgreSQL-Full-Outer-Unique-Join.png \
 	PostgreSQL-Inner-Join.png \
 	PostgreSQL-Left-Outer-Join.png
+#endIMG
 
 HTML= \
 	hw01.html \
@@ -109,6 +119,7 @@ HTML= \
 	hw11.html \
 	hw12.html \
 	hw13.html \
+	hw14.html \
 	hw15.html \
 	hw16.html \
 	hw17.html \
@@ -124,7 +135,11 @@ HTML= \
 	hw27.html \
 	hw28.html \
 	hw29.html \
-	todo.html
+	hw30.html \
+	hw31.html \
+	hw32.html \
+	hw34.html
+#endHTML
 
 MD= \
 	hw01.md \
@@ -156,7 +171,11 @@ MD= \
 	hw27.md \
 	hw28.md \
 	hw29.md \
-	todo.md
+	hw30.md \
+	hw31.md \
+	hw32.md \
+	hw34.md
+#endMD
 
 all: pre $(MD) $(HTML)
 
@@ -178,9 +197,21 @@ pre:
 run_all:
 	psql -a <all.sql >all.out
 
-make:
+make: m1 m2 m3
+.PHONEY: make m1 m2 m3
+
+m1:
 	rm -f ,*.sql
 	ls *.sql >,a
 	ed ,a <ed.make1.ed
 	ed Makefile <ed.make2.ed
 
+m2:
+	ls hw*.md | grep -v raw >,a
+	ed ,a <ed.make1.ed
+	ed Makefile <ed.make3.ed
+
+m3:
+	ls hw*.md | grep -v raw >,a
+	ed ,a <ed.make5.ed
+	ed Makefile <ed.make4.ed

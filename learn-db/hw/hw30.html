@@ -713,265 +713,79 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Done</h1>
-
-<h1>Interactive - 01 - Create Table</h1>
-
-<h1>Interactive - 02 - Insert data into &ldquo;name_list&rdquo;</h1>
-
-<h1>Interactive - 03 - Select data back from the table</h1>
-
-<h1>Interactive - 04 - update the table</h1>
-
-<h1>Interactive - 05 - insert more data / select unique data</h1>
-
-<h1>Interactive - 06 - count(1) and where</h1>
-
-<h1>Interactive - 07 - add a check constraint on age</h1>
-
-<h1>Interactive - 08 - create unique id and a primary key</h1>
-
-<h1>Interactive - 09 - add a table with state codes</h1>
-
-<h1>Interactive - 10 - add a index on the name table</h1>
-
-<h1>Interactive - 11 - add a index on the name table that is case insensitive.</h1>
-
-<h1>Interactive - 12 - fix our duplicate data</h1>
-
-<h1>Interactive - 13 - drop both tables</h1>
-
-<h1>Interactive - 14 - data types</h1>
-
-<h1>Interactive - 15 - select with group data of data</h1>
-
-<h1>Interactive - 16 - count matching rows in a select</h1>
-
-<h1>Interactive - 17 - select with join ( inner join, left outer join )</h1>
-
-<h1>Interactive - 18 - More joins (full joins)</h1>
-
-<h1>Interactive - 19 - select using sub-query and exists</h1>
-
-<h1>Interactive - 20 - delete with in based sub-query</h1>
-
-<h1>Interactive - 21 - select with union / minus</h1>
-
-<h1>Interactive - 22 - recursive select - populating existing tables</h1>
-
-<h1>Interactive - 23 - with - pre-selects to do stuff.</h1>
-
-<h1>Interactive - 24 - truncate table</h1>
-
-<h1>Interactive - 25 - drop cascade</h1>
-
-<h1>Mostly Done</h1>
-
-<h1>Interactive - 26 - 1 to 1 relationship                (pk to pk)</h1>
-
-<h1>Interactive - 27 - 1 to 0 or 1 relationship           (fk, unique)</h1>
-
-<h1>Interactive - 28 - 1 to n relationship                (fk)</h1>
-
-<h1>Interactive - 29 - m to n relationship                (fk to join table to fk)</h1>
-
 <h1>Interactive - 30 - 1 to ordered list relationship     (fk to uk with sequence)</h1>
 
-<h1>Interactive - 31 - only one row of data               (uk with no sequence)</h1>
+<p>The model has a 1 to a list of rows.  This is a more unusual relationship
+because the list can be ordered by time.  Usually relationships in a SQL
+database are not inherently ordered.  In  this case we use a sequence
+generated number to make the set of rows in a specific order.</p>
 
-<h1>ToDo</h1>
+<p>Taken from hw26_3.sql that you have already run.
+You don&rsquo;t have to run it again.
+The first step is to create a sequence.   This one is <code>t_log_seq</code>.
+Each time a value is used from the sequenced it increments.</p>
 
-<h1>Interactive - 32 - only one a fixed set of rows.      (pre-papulae with key, pk, check-constraint on key)</h1>
+<pre><code>CREATE SEQUENCE t_log_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
 
-<hr />
-
-<h1>Homework 33 - Install psql  (Assignment 1)</h1>
-
-<pre><code>- 100 pts
 </code></pre>
 
-<h1>Homework 34 - Data Loading - generating SQL statements (Assignment 2)</h1>
+<p>For the field &ldquo;seq&rsquo; in the table we use the sequence.  This is
+the <code>nextval('t_log_seq'::regclass)</code> default value.  When we insert
+we allow the default value to fill <code>seq</code>.   Our join is a 1:n join
+based on user_id to the user.  Each time a security event happens
+we insert the type of event to this table.   In a complete
+security system this kind of a &ldquo;log&rdquo; has a trigger on it and
+for certain events it would generate an email to the user.  An
+example is the creation of a device/application account or the
+change of the account password.   Some events would just be logged
+for later statistical usage - like a login or logout event.</p>
 
-<pre><code>- 300 pts
+<p>Also taken from hw26_3.sql that you have already run.
+You don&rsquo;t have to run it again.</p>
+
+<pre><code>CREATE TABLE &quot;t_ymux_user_log&quot; (
+	  &quot;id&quot;					uuid DEFAULT uuid_generate_v4() not null primary key
+	, &quot;user_id&quot;				uuid 	-- if null then a failed event
+	, &quot;seq&quot;	 				bigint DEFAULT nextval('t_log_seq'::regclass) NOT NULL 
+	, &quot;activity_name&quot;		text
+	, &quot;updated&quot; 			timestamp
+	, &quot;created&quot; 			timestamp default current_timestamp not null
+);
+
+create index &quot;t_ymux_user_log_p1&quot; on &quot;t_ymux_user_log&quot; ( &quot;user_id&quot;, &quot;seq&quot; );
+create index &quot;t_ymux_user_log_p2&quot; on &quot;t_ymux_user_log&quot; ( &quot;user_id&quot;, &quot;created&quot; );
 </code></pre>
 
-<h1>Interactive - 35 - indexes</h1>
+<p>Run a simple select on t_ymux_user_log.  You should have at least 2 rows in
+it.</p>
 
-<pre><code>- hash
-- b-tree
-- gin
-- gist
-- tsvector/tsearch
+<pre><code>select * from t_ymux_user_log;
 </code></pre>
 
-<h1>Interactive - 36 - views</h1>
+<h2>Assignment 03 - Create 2 tables.</h2>
 
-<h1>Interactive - 37 - key word lookup</h1>
+<p>50 points.</p>
 
-<pre><code>Keyword Search tsvecor/tsearch
-</code></pre>
+<p>Create a table a &ldquo;issue&rdquo; table that has a text body column called &ldquo;body&rdquo;.
+The table needs to have a UUID primary key that is automatically generated.
+Then create a child table, &ldquo;issue_note&rdquo; that has a list of comments with dates associated
+with the &ldquo;issue&rdquo; table.   This list of comments needs to be ordered using
+a &ldquo;seq&rdquo; column.   Create a sequence to support this column.  Call the sequence &ldquo;t_issue_note_seq&rdquo;.
+Both tables need to have created/updated columns that are date stamps.</p>
 
-<h1>Homework 38 - Create issue/issue_note tables (Assignment 3)</h1>
+<p>Turn in the source code for creating the tables with some inserts that put
+data into the tables and a select that verifies an issue and a set of
+issue notes.</p>
 
-<h1>Interactive - 33? - encrypted passwords and data</h1>
+<p>Don&rsquo;t loose your source code for these tables.
+We will use these tables in the assignment on key word search later in the class.</p>
 
-<h1>Interactive - 34 - stored procedures</h1>
-
-<pre><code># Interactive - ?? - function returns as selects
-</code></pre>
-
-<h1>Interactive - 35 - triggers</h1>
-
-<h1>Interactive - 36 - materialized views</h1>
-
-<pre><code>https://www.postgresql.org/docs/9.3/rules-materializedviews.html    
-</code></pre>
-
-<h1>Interactive - 37 - indexes on functions - soundex</h1>
-
-<h1>Interactive - 38 - when - if condition in projected columns</h1>
-
-<h1>Interactive - 39 - foreign data wrapper</h1>
-
-<h1>Interactive - 40 - create rule</h1>
-
-<pre><code>https://www.postgresql.org/docs/9.2/sql-createrule.html 
-</code></pre>
-
-<h1>Interactive - 41 - NULL - differences between databases</h1>
-
-<pre><code>coalesce, nullif  (Oracle nvl)
-oracle &quot;dual&quot;
-</code></pre>
-
-<h1>Interactive - 42 - date/time formats</h1>
-
-<h1>Interactive - 43 - data types (chapter 2)</h1>
-
-<h1>Interactive - 44 - window functions</h1>
-
-<pre><code>https://www.postgresql.org/docs/current/tutorial-window.html    
-</code></pre>
-
-<h1>Interactive - 44? - null, NULL, case coalesce nullif</h1>
-
-<pre><code>See:https://www.postgresqltutorial.com/ 
-</code></pre>
-
-<p>Tool  / tool / TOOL
-    1. Display select data<br />
-    2. Button to describe tables/views
-    3. List of tables<br />
-    4. Button to run selected files - hw13_4.sql for example
-    5. Score List - homework done/todo graded.
-    6. List of files for homework.</p>
-
-<p>User interface - determines set of things that are seen in database</p>
-
-<h1>Other Topics</h1>
-
-<pre><code>1. Data Modeling and Design
-2. NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
-3. JSONb in PostreSQL and GIN indexes
-4. Spacial Data
-5. NoSQL - Redis and caching
-6. Blockchain as a Database
-7. Time Seeries Database
-8. Elastisearch (text reverse key)
-8. Volume of Data
-9. Performance
-10. Query Tuning
-11. Backup
-</code></pre>
-
-<p>vacuum operation</p>
-
-<p>create domain - validation of data w/ r.e. in a table.</p>
-
-<p>50 interactive hw * 10pts = 500
-5 assignments = 500
-2 tests * 300 = 600
-5 discussions * 100 = 500<br />
-    += 2000
-50 more homeworks =
-    0. Add columns to table
-    1. Install
-    2. Configure Remote Login
-    3. Dump
-    4. Copy CSV in
-    5. Copy out to CSV
-    6. Make CSV in excel
-    7. Create Soundex-like stored function <code>(*)</code>
-    8. Calculate average of set <code>(*)</code>
-    9. Encrypt passwords <code>(*)</code>
-    10. Add to application new API end point
-    11. GIN index
-    12. Search JSON data
-    13. Backup database
-    14. MongoDB ?
-    14. Redis ?
-    15. reverse key index GIST</p>
-
-<p><a href="https://www.postgresqltutorial.com/plpgsql-function-returns-a-table/">https://www.postgresqltutorial.com/plpgsql-function-returns-a-table/</a></p>
-
-<p><a href="https://startupclass.samaltman.com/">https://startupclass.samaltman.com/</a></p>
-
-<p><a href="https://dba.stackexchange.com/questions/173831/convert-right-side-of-join-of-many-to-many-into-array">https://dba.stackexchange.com/questions/173831/convert-right-side-of-join-of-many-to-many-into-array</a>
-<a href="https://heap.io/blog/engineering/postgresqls-powerful-new-join-type-lateral">https://heap.io/blog/engineering/postgresqls-powerful-new-join-type-lateral</a>
-<a href="https://popsql.com/learn-sql/postgresql/how-to-use-lateral-joins-in-postgresql">https://popsql.com/learn-sql/postgresql/how-to-use-lateral-joins-in-postgresql</a></p>
-
-<p><a href="https://www.postgresqltutorial.com/postgresql-cube/">https://www.postgresqltutorial.com/postgresql-cube/</a></p>
-
-<p><a href="https://www.enterprisedb.com/postgres-tutorials/how-use-grouping-sets-cube-and-rollup-postgresql">https://www.enterprisedb.com/postgres-tutorials/how-use-grouping-sets-cube-and-rollup-postgresql</a></p>
-
-<p><a href="https://www.compose.com/articles/deeper-into-postgres-9-5-new-group-by-options-for-aggregation/">https://www.compose.com/articles/deeper-into-postgres-9-5-new-group-by-options-for-aggregation/</a></p>
-
-<p>HAVING</p>
-
-<p>WITH
-<a href="https://www.tutorialspoint.com/postgresql/postgresql_with_clause.htm">https://www.tutorialspoint.com/postgresql/postgresql_with_clause.htm</a></p>
-
-<p>LIMIT</p>
-
-<p>LIKE and ILIKE and
-regular expressions</p>
-
-<p>NULL Values</p>
-
-<p>Transactions:   See: <a href="https://www.postgresqltutorial.com/postgresql-transaction/">https://www.postgresqltutorial.com/postgresql-transaction/</a></p>
-
-<p>THIS ONE: <a href="https://www.tutorialspoint.com/postgresql/postgresql_with_clause.htm">https://www.tutorialspoint.com/postgresql/postgresql_with_clause.htm</a></p>
-
-<p>Truncate Table</p>
-
-<p>Where/Expressions</p>
-
-<p>Select/Expressions</p>
-
-<p>Notify trigger
-    <a href="https://gist.github.com/colophonemes/9701b906c5be572a40a84b08f4d2fa4e">https://gist.github.com/colophonemes/9701b906c5be572a40a84b08f4d2fa4e</a>
-    - Use &ldquo;create rule&rdquo; with an extension to do WebRTC communication?</p>
-
-<h2><a href="https://stackoverflow.com/questions/23906977/refresh-a-materialized-view-automatically-using-a-rule-or-notify">https://stackoverflow.com/questions/23906977/refresh-a-materialized-view-automatically-using-a-rule-or-notify</a></h2>
-
-<pre><code>    create or replace function refresh_mat_view()
-    returns trigger language plpgsql
-    as $$
-    begin
-        refresh materialized view mat_view;
-        return null;
-    end $$;
-
-    create trigger refresh_mat_view
-    after insert or update or delete or truncate
-    on table1 for each statement 
-    execute procedure refresh_mat_view();
-
-    create trigger refresh_mat_view
-    after insert or update or delete or truncate
-    on table2 for each statement 
-    execute procedure refresh_mat_view();
-</code></pre>
+<h4>Tags: &ldquo;1 to list&rdquo;,&ldquo;list of rows&rdquo;</h4>
 
 </div>
 

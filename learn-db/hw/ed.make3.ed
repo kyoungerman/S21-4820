@@ -1,0 +1,5 @@
+/^MD/+1,/#endMD/-1d
+w
+/^MD/r ,a
+w
+q

@@ -1019,7 +1019,7 @@ BEGIN
 		where t3.homework_id = NEW.homework_id
 		  and t3.completed = 'n'
 	;
-	RETURN NEW;
+	RETURN OLD;
 END
 $$ LANGUAGE 'plpgsql';
 
