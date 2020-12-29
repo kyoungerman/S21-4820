@@ -92,6 +92,9 @@ PY= \
 	hw32_2.sql \
 	hw32_3.sql \
 	hw32_5.sql \
+	hw33_1.sql \
+	hw33_2.sql \
+	hw35_1.sql \
 	old1.sql \
 	s1.sql \
 	s2.sql \

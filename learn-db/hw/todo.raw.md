@@ -72,7 +72,12 @@ Mostly Done
 
 # Interactive - 32 - only one a fixed set of rows.		(pre-papulae with key, pk, check-constraint on key)
 
+# Interactive - 33 - types of indexes (hash, gin)
 
+# Homework 34 - Data Loading - generating SQL statements (Assignment 2)
+	- 300 pts
+
+# Interactive - 35 - views
 
 
 
@@ -96,26 +101,19 @@ ToDo
 ---------------------------------------------------------------------------------------------------------------
 
 
-# Homework 33 - Install psql  (Assignment 1)
+# Homework ? - Install psql  (Assignment 1)
 	- 100 pts
-
-# Homework 34 - Data Loading - generating SQL statements (Assignment 2)
-	- 300 pts
-
-# Interactive - 35 - indexes
-	- hash
-	- b-tree
-	- gin
-	- gist
-	- tsvector/tsearch
-
-# Interactive - 36 - views
-
-# Interactive - 37 - key word lookup
-	Keyword Search tsvecor/tsearch
 
 # Homework 38 - Create issue/issue_note tables (Assignment 3)
 
+# Interactive - 37 - key word lookup
+	Keyword Search tsvecor/tsearch
+	- tsvector/tsearch
+
+# Interactive - 39 - encrypted passwords and data
+
+# Interactive - ? - indexes
+	- gist
 
 
 
@@ -134,7 +132,6 @@ ToDo
 
 
 
-# Interactive - 33? - encrypted passwords and data
 
 
 # Interactive - 34 - stored procedures
@@ -169,6 +166,17 @@ ToDo
 # Interactive - 44? - null, NULL, case coalesce nullif
 	See:https://www.postgresqltutorial.com/ 
 
+# Interactive - 45 - postgresql database maintance
+	vacuum operation
+	find unused indexes
+	find slow queries
+	find size of tables
+
+# Interactive - 46 - pgdump - small backup - export of data
+
+# Interactive - 46 - postresql backup / restore
+
+# Interactive - 46 - postresql backup / restore
 
 
 
@@ -200,7 +208,6 @@ User interface - determines set of things that are seen in database
 	11. Backup
 
 
-vacuum operation
 
 create domain - validation of data w/ r.e. in a table.
 
