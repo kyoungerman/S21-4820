@@ -79,6 +79,9 @@ Mostly Done
 
 # Interactive - 35 - views
 
+# Interactive - 36 - stored procedures
+
+# Interactive - 37 - encrypted/hashed passwords storage
 
 
 
@@ -110,7 +113,6 @@ ToDo
 	Keyword Search tsvecor/tsearch
 	- tsvector/tsearch
 
-# Interactive - 39 - encrypted passwords and data
 
 # Interactive - ? - indexes
 	- gist
@@ -133,11 +135,6 @@ ToDo
 
 
 
-
-# Interactive - 34 - stored procedures
-	# Interactive - ?? - function returns as selects
-
-# Interactive - 35 - triggers
 
 # Interactive - 36 - materialized views
 	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
@@ -195,6 +192,7 @@ User interface - determines set of things that are seen in database
 # Other Topics
 
 	1. Data Modeling and Design
+		- non-crows foot model: PostgreSQL-Python-Sample-Database-Diagram.png
 	2. NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
 	3. JSONb in PostreSQL and GIN indexes
 	4. Spacial Data

@@ -715,13 +715,13 @@ ol {
 
 <h1>Interactive - 31 - only one row of data               (uk with no sequence)</h1>
 
-<p>With system configuration tables it is often useful to only havae 1 row of data.
+<p>With system configuration tables it is often useful to only have 1 row of data.
 Each configuration item is a distinct column in the table.</p>
 
 <p>This can be done with a primary key and a constraint.     The constraint limits the values
 on the primary key and results in an error if a attempt to insert a 2nd row occurs.</p>
 
-<p>In this example we just have <code>applicaiton_name</code> as the single configburation item.</p>
+<p>In this example we just have <code>applicaiton_name</code> as the single configuration item.</p>
 
 <pre><code>create table ct_config (
 	config_id serial primary key check ( config_id = 1 ),

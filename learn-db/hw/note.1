@@ -63,3 +63,50 @@ CREATE TRIGGER avoid_auxid_changes
 
 semper paratus -- alsways ready
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION show_fips_for_states(ref refcursor) 
+RETURNS refcursor 
+AS $$
+DECLARE
+	dummy varchar(10);
+BEGIN
+	OPEN ref FOR 	
+		SELECT state, state_name, fips_code
+		FROM us_state
+		ORDER BY state_name
+	;  
+	RETURN ref;                                  
+END;
+$$ 
+LANGUAGE plpgsql;
+
+-- Create a tranaaction to access this data.
+
+BEGIN
+	select show_fips_for_states("states_cur");
+	FETCH ALL IN "states_cur";
+	COMMIT;	
+END;
+
