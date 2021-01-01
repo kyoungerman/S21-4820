@@ -59,6 +59,7 @@ var Watch = flag.Bool("watch", false, "Watch for changes and re-run on file upda
 var CacheBurstOverride = flag.Int("cache-burst-override", 0, "For testing: override cache burst flag with constant, reset date to constant.")
 var WatchDir = flag.String("watch-dir", "./www/js", "Watch for changes in any file in this directory.") // xyzzy101
 var WatchPat = flag.String("watch-pattern", ".html,.js,.css", "Watch this list of file extensions.")    // xyzzy100
+var Comment = flag.String("comment", "", "Commend for `ps -ef`")
 
 type GlobalConfigData struct {
 	Dest       string `json:"dest" default:"./www"`
