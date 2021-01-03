@@ -1,0 +1,1 @@
+out/qr.png: otpauth://totp/app.example.com:pschlump%40gmail.com?secret=55926540&issuer=app.example.com

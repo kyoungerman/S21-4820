@@ -69,7 +69,7 @@ Done
 
 # Interactive - 33 - types of indexes (hash, gin)
 
-# Homework 34 - Data Loading - generating SQL statements (Assignment 2)
+# Interactive - 34 - 
 
 # Interactive - 35 - views
 
@@ -149,7 +149,15 @@ ToDo
 	- pythnon
 	- access d.b. from python
 	- bottle
+# Assignment 2 - Data Loading - generating SQL statements (Assignment 2)
 
+# Assignment 3 - Key World Search                           
+	- load data from csv file
+	- dump data to csv file
+
+# Assignment 8 - performance turning - finding and fixing bad queries
+	4. Copy CSV in
+	5. Copy out to CSV
 
 
 

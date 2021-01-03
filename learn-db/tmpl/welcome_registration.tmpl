@@ -1,0 +1,63 @@
+
+{{define "__comment__"}}
+	// lms.RunTemplate(TemplateFn string, name_of string, g_data map[string]interface{}) string {
+	fromName := lms.RunTemplate(tfn, "from_name", mdata)
+	fromAddress := lms.RunTemplate(tfn, "from_address", mdata)
+	subject := lms.RunTemplate(tfn, "subject", mdata)
+	toName := lms.RunTemplate(tfn, "to_name", mdata)
+	toAddress := lms.RunTemplate(tfn, "to_address", mdata)
+	textBody := lms.RunTemplate(tfn, "text_body", mdata)
+	htmlBody := lms.RunTemplate(tfn, "html_body", mdata)
+		email.SendEmail("welcome_registration", "username", un, "email", un, "real_name", rn, "token", email_token, "user_id", user_id, "qr_id", qq.QRId, "qr_enc_id", qq.QRIdEnc, "server", gCfg.AuthSelfURL,
+			"qr_url", GenQrURL(qq.QRId, "b"), "application_name", gCfg.AuthApplicationName, "realm", gCfg.Realm, "setup_2fa_token", setup_2fa_token)
+	mux.Handle("/api/v2/confirm-email", http.HandlerFunc(HandleConfirmEmail)).Method("GET", "POST")
+{{end}}
+
+{{define "from_name"}}{{.from_name}}{{end}}
+
+{{define "from_address"}}{{.from_address}}{{end}}
+
+{{define "subject"}}Confirm Registration for {{.application_name}}{{end}}
+
+{{define "to_name"}}{{.real_name}}{{end}}
+
+{{define "to_address"}}{{.email}}{{end}}
+
+{{define "text_body"}}
+
+{{.real_name}}
+
+Welcome to {{.application_name}}.
+
+To complete your registration you will need to cut/paste
+
+	{{.server}}/confirm-email.html
+
+and enter the token:
+
+	{{.token}}
+
+in the form.
+
+{{end}}
+
+<h3>{{define "html_body"}}</h3>
+<br>
+Welcome to {{.application_name}}. <br>
+<br>
+To complete your registration you will need click the link below or cut/paste and enter the token. <br>
+<br>
+	<a href="{{.server}}/api/v2/confirm-email?token={{.token}}&setup_2fa_token={{.setup_2fa_token}}"> {{.server}}/confirm-email.html </a><br>
+<br>
+and enter the token: <br>
+<br>
+	{{.token}}
+<br>
+in the form.<br>
+<br>
+<br>
+Also Two Factor Authenticaiton is required.  To set up your mobile device (iPhone/Android): <br>
+<center><img src="{{.qr_url}}"></center><br>
+<br>
+{{end}}
+

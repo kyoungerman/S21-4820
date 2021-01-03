@@ -1,0 +1,10 @@
+{
+	"Auth2faEnabled": "yes",
+	"AuthEmailConfirm": "no",
+	"AuthLoginOnRegister": "no",
+	"qr_id": "78337382",
+	"qr_url": "/qrr/78337382.png",
+	"status": "success",
+	"user_id": "7a955820-050a-405c-7e30-310da8152b6d",
+	"x_xref_token": "300e3a13-a415-4302-73f7-c2f5a237a96e"
+}

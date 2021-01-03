@@ -1,0 +1,4 @@
+Status: 200
+Content-Type: application/json; charset=utf-8
+
+{"status":"success", "url":"http://127.0.0.1:9019/qr/qr_00026/q02612.4.png"}

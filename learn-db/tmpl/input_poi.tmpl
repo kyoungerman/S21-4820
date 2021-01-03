@@ -1,0 +1,24 @@
+{{define "input_field"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.Name}}</label>
+		<input type="input" class="form-control" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_poi"}}
+	{{range $x, $v := .Input}}
+		{{template "input_field" $v}}
+	{{end}}
+{{end}}
+
+{{define "output_poi"}}
+	<table class="output-table">
+	{{range $x, $v := .}}
+		<tr>
+			<th>{{$x}}</th>
+			<td>{{$v}}</th>
+		</tr>
+	{{end}}
+	</table>
+{{end}}

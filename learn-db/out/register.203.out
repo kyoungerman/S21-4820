@@ -1,0 +1,8 @@
+{
+	"Auth2faEnabled": "no",
+	"AuthEmailConfirm": "no",
+	"AuthLoginOnRegister": "no",
+	"jwt_token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3Rva2VuIjoiZGU2ZDAwNjctZGQ1ZS00YzUyLWEyNmUtMGVlZTE3NzhjMDM0IiwidXNlcl9pZCI6IjJjOTBiMTQ0LWU0NWYtNGM2MS00MTMzLTBhZTU0MmFhNmZjYSJ9.LR_i1lAa6aIHq7gR6UwNtx7J9emb4WhXup3H_bPZOEAUM_2I8ABBtpoc3n_Tk-4lBwW64iqchYyBLjixaAKBPQ",
+	"status": "success",
+	"x_xref_token": "1adc23ee-06e0-44f3-5b46-f7fd9a031fd1"
+}

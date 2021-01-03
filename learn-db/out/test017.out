@@ -1,0 +1,4 @@
+    End Point Table: /api/v1/t_avail_qr -> t_avail_qr
+    End Point Stored Procedure: /api/v1/get_qr_old -> s_get_qr_json
+{"status":"success","to":"http://www.2c-why.com?base60=AA20k&base10=12434&base60=AA20k&hasdata=yes","data":"{\"some\":\"data\"}"}
+

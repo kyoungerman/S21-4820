@@ -1,0 +1,5 @@
+{
+	"jwt_token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3Rva2VuIjoiOTRkOTk1ZGYtMTk1Yy00YjI3LThkOWItNjMwYzE4ZDBlNGNmIiwidXNlcl9pZCI6IjdhOTU1ODIwLTA1MGEtNDA1Yy03ZTMwLTMxMGRhODE1MmI2ZCJ9.5JEBUNkrW54dje9aX72dgXkIm1ggMgP2GC_xXSs19d7N7EgcGAd_X4GKmV9uVc13leP0enpL9CBstvMXz0q4FA",
+	"status": "success",
+	"username": "testlogin@gmail.com"
+}

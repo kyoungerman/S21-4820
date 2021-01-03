@@ -1,0 +1,870 @@
+Status: 200
+
+{
+	"OrderedPatternList": [
+		{
+			"Pos": 0,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/status",
+			"Desc": "## /api/v1/status\n### Methods: Any\n\n### Description\n\nReport the status of the service.\n\nThe status includes the process id for the currently running process. If you are\nkilling and restarting a process this is a very useful. When you kill it lists\nthe current process. Then you can click status to verify that the new process is\nrunning.\n\nThis is also useful to verify that the service is up and running.\n\n### See /status\n\n### Example Output\n\n```\n{\n\t\"LastGen\": \"\",\n\t\"nAvail\": 357,\n\t\"nUsed\": 41,\n\t\"pid\": 57351,\n\t\"status\": \"success\",\n\t\"version\": \"be972fefdd5500aeaaf6848b03b0344f66f132ee-Sun-May-12-16:01:27-MDT-2019\"\n}\n```\n\nIf `LastGen` is empty then this run of qr-micro-service has never created any new QR codes.\n\n",
+			"DocTag": "## /api/v1/status",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "status",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/status"
+		},
+		{
+			"Pos": 1,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET",
+				"POST"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /status",
+			"Desc": "## /status\n### Methods: GET POST\n\n### Description\n\nReport the status of the service.\n\nThe status includes the process id for the currently running process. If you are\nkilling and restarting a process this is a very useful. When you kill it lists\nthe current process. Then you can click status to verify that the new process is\nrunning.\n\nThis is also useful to verify that the service is up and running.\n\n### See /api/v1/status\n\n### Example Output\n\n```\n{\n\t\"LastGen\": \"\",\n\t\"nAvail\": 357,\n\t\"nUsed\": 41,\n\t\"pid\": 57351,\n\t\"status\": \"success\",\n\t\"version\": \"be972fefdd5500aeaaf6848b03b0344f66f132ee-Sun-May-12-16:01:27-MDT-2019\"\n}\n```\n\nIf `LastGen` is empty then this run of qr-micro-service has never created any new QR codes.\n\n\n\n",
+			"DocTag": "## /status",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "status",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/status"
+		},
+		{
+			"Pos": 2,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/config",
+			"Desc": "## /api/v1/config\n### Methods: GET\n\nReturn the current config for this micro service.\n\nAn auth_key or a valid JWT token is required to make this call.\n\n\n\n\n",
+			"DocTag": "## /api/v1/config",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "config",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/config"
+		},
+		{
+			"Pos": 3,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET",
+				"POST"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/kick",
+			"Desc": "## /api/v1/kick\n### Methods: GET POST\n\nKick the service into checking that a sufficient number of QR codes are available.\nThe default is to keep 100 pre-generated and it checks once a minute.  If you are\nusing more than this then a periodic kick may be necessary.\n\nAn auth_key or a valid JWT token is required to make this call.\n\n\n\n\n",
+			"DocTag": "## /api/v1/kick",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "kick",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/kick"
+		},
+		{
+			"Pos": 4,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET",
+				"POST"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/exit-server",
+			"Desc": "## /api/v1/exit-server\n### Methods: GET POST\n\nExit the currently running server.   The server is normally run in a recovery\nloop so a new one will start.  The server is designed to  be gracefully \nexited so as to not leave any open sockets or other resources.   This is the\nnormal method for an upgrade.   Copy the new executable up to the system then\ncall this.  The Process ID will be printed out.  Then click on status to verify\nthat a new process has been stared.\n\nAn auth_key or a valid JWT token is required to make this call.\n\n",
+			"DocTag": "## /api/v1/exit-server",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "exit-server",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/exit-server"
+		},
+		{
+			"Pos": 5,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/conv-36-to-10",
+			"Desc": "## /api/v1/conv-36-to-10\n### Methods: GET POST\n\nConvert from a base 36 id (used in URL shortening) to a base 10 id.\n",
+			"DocTag": "## /api/v1/conv-36-to-10",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "conv-36-to-10",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/conv-36-to-10"
+		},
+		{
+			"Pos": 6,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/conv-10-to-36",
+			"Desc": "## /api/v1/conv-10-to-36\n### Methods: GET POST\n\nConvert from a base 10 id to a base 36 id.\n\n",
+			"DocTag": "## /api/v1/conv-10-to-36",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "conv-10-to-36",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/conv-10-to-36"
+		},
+		{
+			"Pos": 7,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/gen-qr-url",
+			"Desc": "## /api/v1/gen-qr-url\n### Methods: GET POST\n\nUse the current configuration to go from a ID base10 or base36 to a URL\nfor the QR Image.\n\n\n",
+			"DocTag": "## /api/v1/gen-qr-url",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "gen-qr-url",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/gen-qr-url"
+		},
+		{
+			"Pos": 8,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/parse-qr-url",
+			"Desc": "## /api/v1/parse-qr-url\n### Methods: GET POST\n\nGiven the URL of a QR Image - decode it into its components.\n\n",
+			"DocTag": "## /api/v1/parse-qr-url",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "parse-qr-url",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/parse-qr-url"
+		},
+		{
+			"Pos": 9,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/get_qr",
+			"Desc": "## /api/v1/get_qr\n### Methods: GET \n\nReturn a newly allocated QR code from the available supply.\n\n",
+			"DocTag": "## /api/v1/get_qr",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "get_qr",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/get_qr"
+		},
+		{
+			"Pos": 10,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET",
+				"POST",
+				"PUT",
+				"DELETE"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "t_avail_qr",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/t_avail_qr"
+		},
+		{
+			"Pos": 11,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET",
+				"POST"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v1",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "get_qr_old",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v1/get_qr_old"
+		},
+		{
+			"Pos": 12,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeRE",
+					"To": "^......*$",
+					"VarName": "qr60",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/{.qr60:re:^......*$}"
+		},
+		{
+			"Pos": 13,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/conv-60-to-10",
+			"Desc": "## /api/v1/conv-60-to-10\n### Methods: GET POST\n\nConvert from a base 60 id (used in URL shortening) to a base 10 id.\n",
+			"DocTag": "## /api/v1/conv-60-to-10",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v2",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "conv-60-to-10",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v2/conv-60-to-10"
+		},
+		{
+			"Pos": 14,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "## /api/v1/conv-10-to-60",
+			"Desc": "## /api/v1/conv-10-to-60\n### Methods: GET POST\n\nConvert from a base 10 id to a base 60 id.\n\n\n",
+			"DocTag": "## /api/v1/conv-10-to-60",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v2",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "conv-10-to-60",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v2/conv-10-to-60"
+		},
+		{
+			"Pos": 15,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "image",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "lclr.gif",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/image/lclr.gif"
+		},
+		{
+			"Pos": 16,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v2",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "token",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v2/token"
+		},
+		{
+			"Pos": 17,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "desc.html",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/desc.html"
+		},
+		{
+			"Pos": 18,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v2",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "dec",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v2/dec"
+		},
+		{
+			"Pos": 19,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v2",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "set",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v2/set"
+		},
+		{
+			"Pos": 20,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v2",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "set-data",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v2/set-data"
+		},
+		{
+			"Pos": 21,
+			"AuthRequired": false,
+			"MethodList": [
+				"GET",
+				"POST"
+			],
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "api",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "v2",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				},
+				{
+					"MatchTypeStr": "MuxMatchTypeString",
+					"To": "bulk-load",
+					"VarName": "",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/api/v2/bulk-load"
+		},
+		{
+			"Pos": 22,
+			"AuthRequired": false,
+			"MethodList": null,
+			"HostList": null,
+			"SchemeList": null,
+			"PortList": null,
+			"Name": "",
+			"Desc": "",
+			"DocTag": "",
+			"NoDoc": false,
+			"MatchTo": [
+				{
+					"MatchTypeStr": "MuxMatchTypeEndRest",
+					"To": "",
+					"VarName": "restOfUri",
+					"LenOp": "",
+					"Lenval": 0,
+					"ErrorMsg": ""
+				}
+			],
+			"Pattern": "/"
+		}
+	],
+	"IsCompiled": true
+}

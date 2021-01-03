@@ -1,0 +1,19 @@
+
+{{define "__comment__"}}
+			toURL := ymux.RunTemplate(tfn, "login_confirm_2fa_setup", mdata)
+{{end}}
+
+
+{{define "login_confirm_2fa_setup"}}
+<h2> Setup of 2fa </h2>
+
+<br>
+Server: {{.server}} <br>
+user_id: {{.user_id}} <br>
+email_token: {{.email_token}} <br>
+<br>
+{{.server}}/api/v2/complete-2fa-setup?email_token={{.email_token}}&callback=xyzzy<br>
+{{.server}}/api/v2/2fa-dev-setup?email_token={{.email_token}}&callback=xyzzy<br>
+<br>
+
+{{end}}

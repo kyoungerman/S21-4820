@@ -1,0 +1,11 @@
+--2019-12-16 05:58:46--  http://localhost:7001/api/v2/register?username=pschlump%40gmail.com&password=abcdefghi123&real_name=philip%20Jon%20schlump&again=abcdefghi123&__method__=POST&_ran_=538.396
+Resolving localhost (localhost)... ::1, 127.0.0.1
+Connecting to localhost (localhost)|::1|:7001... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 262 [application/json]
+Saving to: ‘xtest1.oo’
+
+     0K                                                       100% 31.2M=0s
+
+2019-12-16 05:58:46 (31.2 MB/s) - ‘xtest1.oo’ saved [262/262]
+

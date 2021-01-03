@@ -1,0 +1,11 @@
+\pset pager off
+Pager usage is off.
+\c learndb
+You are now connected to database "learndb" as user "pschlump".
+\o ./out/reg-tok.out
+select token from t_ymux_registration_token where user_id in (
+	select id
+		from t_ymux_user 
+		where username = 'app.example.com:pschlump@gmail.com'
+);
+\q

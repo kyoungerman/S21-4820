@@ -1,0 +1,14 @@
+id,title,body,state_id,severity_id,words,updated,created
+df4c0f1a-8606-42b2-8999-c4977a8d1daf,learn-db: connection to correct PosgreSQL database.,"When a student logs in the tool must connect to the correct postgresql database for that strudent.
+Currently it is only connected to the ""learndb"" database.
+
+Database connections must be cached.   
+Sufficient number of connections must be provided for in the database configuration for 100 students.
+Connections per-strudent should have a ""time-out"" where they are closed after 2 hours of idle time.
+This means that every use on a connection has to traced for time.
+",3,4,"'100':53B '2':70B 'cach':39B 'close':68B 'configur':51B 'connect':4A,17B,30B,36B,43B,55B,82B 'correct':6A,20B 'current':26B 'databas':8A,22B,34B,35B,50B 'db':3A 'everi':78B 'hour':71B 'idl':73B 'learn':2A 'learn-db':1A 'learndb':33B 'log':12B 'mean':76B 'must':16B,37B,44B 'number':41B 'per':57B 'per-strud':56B 'posgresql':7A 'postgresql':21B 'provid':46B 'strudent':25B,58B 'student':11B,54B 'suffici':40B 'time':63B,74B,87B 'time-out':62B 'tool':15B 'trace':85B 'use':79B",,2021-01-03 12:17:40.687405
+adcc6ae9-a1db-456a-aa49-427a7111c93e,Sample Issue 1,This is a sample of an issue,9,2,"'1':3A 'issu':2A,10B 'sampl':1A,7B",2021-01-03 14:33:11.104795,2021-01-02 15:04:13.738369
+2de76413-d746-4941-886a-a8ef99255956,Sample Issue 2,"This is a 2nd Samle, sample of an issue",9,2,"'2':3A '2nd':7B 'issu':2A,12B 'saml':8B 'sampl':1A,9B",2021-01-03 14:33:43.580756,2021-01-02 15:04:13.738369
+b2a06795-ee6a-4a0d-ee74-bf96c5ca81ab,"issue tracking is lacking a state of ""ignore"" in severity.","Missing states. 
+Missing Severity.
+",1,1,"'ignor':8A 'issu':1A 'lack':4A 'miss':11B,13B 'sever':10A,14B 'state':6A,12B 'track':2A",,2021-01-03 14:34:18.847273

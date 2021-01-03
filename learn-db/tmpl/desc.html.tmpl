@@ -1,0 +1,822 @@
+
+
+// ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------
+{{define "page"}}
+{{template "header"}}
+<div id="to"></div>
+<script>
+
+var jwt_token = "";
+var jwt_expire = "";
+var auth_method = "{{.auth_method}}";
+var auth_key = "";
+var xsrf_token ;	// xyzzy - todo 
+var data = {{marshal .OrderedPatternList}};
+// var renderLogin = false;
+var fileUploadUsed  = 0;
+var uploadIdList = [];
+
+// ------------------------------------------------------------------ Upload ------------------------------------------------------------------ 
+// Function that will allow us to know if Ajax uploads are supported
+function supportAjaxUploadWithProgress() {
+	return supportFileAPI() && supportAjaxUploadProgressEvents() && supportFormData();
+
+	// Is the File API supported?
+	function supportFileAPI() {
+		var fi = document.createElement('INPUT');
+		fi.type = 'file';
+		return 'files' in fi;
+	};
+
+	// Are progress events supported?
+	function supportAjaxUploadProgressEvents() {
+		var xhr = new XMLHttpRequest();
+		return !! (xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
+	};
+
+	// Is FormData supported?
+	function supportFormData() {
+		return !! window.FormData;
+	}
+}
+
+function displayFileUploadSupported() {
+
+	// Actually confirm support
+	if (supportAjaxUploadWithProgress()) {
+		// Ajax uploads are supported!
+		// Change the support message and enable the upload button
+		var notice = document.getElementById('support-notice');
+		var uploadBtn = document.getElementById('upload-button-id');
+		notice.innerHTML = "Your browser supports HTML uploads. Go try me! :-)";
+		uploadBtn.removeAttribute('disabled');
+
+		// Init the Ajax form submission
+		initFullFormAjaxUpload();
+
+		// Init the single-field file upload
+		initFileOnlyAjaxUpload();
+	}
+
+}
+
+function initFullFormAjaxUpload() {
+	var form = document.getElementById('form-id');
+	form.onsubmit = function() {
+		// FormData receives the whole form
+		var formData = new FormData(form);
+
+		// We send the data where the form wanted
+		var action = form.getAttribute('action');
+
+		// Code common to both variants
+		sendXHRequest(formData, action);
+
+		// Avoid normal form submission
+		return false;
+	}
+}
+
+function generateUUID(){
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+    });
+    return uuid;
+};
+
+var g_fid;
+// xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy // xyzzy 
+function UploadTheFile(fid) {
+	var formData = new FormData();
+
+	// Since this is the file only, we send it to a specific location
+	var action = '/upload';
+
+	// FormData only has the file
+	var fileInput = document.getElementById("x"+fid);
+	g_fid = fid;
+	var file = fileInput.files[0];
+	formData.append('file', file);
+	formData.append('id', generateUUID());
+	formData.append('save_on_chain', "no");
+
+	// Code common to both variants
+	sendXHRequest(formData, action);
+}
+
+function initFileOnlyAjaxUpload() {
+	var uploadBtn = document.getElementById('upload-button-id');
+	uploadBtn.onclick = function (evt) {
+		var formData = new FormData();
+
+		// Since this is the file only, we send it to a specific location
+		var action = '/upload';
+
+		// FormData only has the file
+		var fileInput = document.getElementById('file-id');
+		var file = fileInput.files[0];
+		formData.append('file', file);
+		formData.append('id', "15e42502-e7a5-44e2-6920-b410b9308412");
+
+		// Code common to both variants
+		sendXHRequest(formData, action);
+	}
+}
+
+var g_file_name;
+var g_status;
+var callback_func = function ( data, status ) {
+	var tmp = JSON.parse ( data );
+	g_file_name = tmp.hashFn;
+	g_status = status;
+	console.log ( 'callback: raw data=', data, 'status=', status, 'g_file_name=', g_file_name, 'g_status=', g_status, 'g_fid=', g_fid, 'parsed data, tmp=', tmp );
+	$("#"+g_fid).val(g_file_name);
+}
+
+// Once the FormData instance is ready and we know
+// where to send the data, the code is the same
+// for both variants of this technique
+function sendXHRequest(formData, uri, succ) {
+	// Get an XMLHttpRequest instance
+	var xhr = new XMLHttpRequest();
+
+	// Set up events
+	xhr.upload.addEventListener('loadstart', onloadstartHandler, false);
+	xhr.upload.addEventListener('progress', onprogressHandler, false);
+	xhr.upload.addEventListener('load', onloadHandler, false);
+	xhr.addEventListener('readystatechange', function ( evt ) { onreadystatechangeHandler(evt, callback_func); }, false);
+
+	// Set up request
+	xhr.open('POST', uri, true);
+
+	// Fire!
+	xhr.send(formData);
+}
+
+// Handle the start of the transmission
+function onloadstartHandler(evt) {
+	var div = document.getElementById('upload-status');
+	div.innerHTML = 'Upload started.';
+}
+
+// Handle the end of the transmission
+function onloadHandler(evt) {
+	var div = document.getElementById('upload-status');
+	div.innerHTML += '<' + 'br>File uploaded. Waiting for response.';
+}
+
+// Handle the progress
+function onprogressHandler(evt) {
+	var div = document.getElementById('progress');
+	var percent = evt.loaded/evt.total*100;
+	div.innerHTML = 'Progress: ' + percent + '%';
+}
+
+// Handle the response from the server
+function onreadystatechangeHandler(evt, succ) {
+	var status, text, readyState;
+
+	try {
+		readyState = evt.target.readyState;
+		text = evt.target.responseText;
+		status = evt.target.status;
+	}
+	catch(e) {
+		return;
+	}
+
+    if (readyState === 4) {
+      	succ(evt.target.responseText, status);
+    }
+  
+	if (readyState == 4 && status == '200' && evt.target.responseText) {
+		var status = document.getElementById('upload-status');
+		status.innerHTML += '<' + 'br>Success!';
+
+		var result = document.getElementById('result');
+		result.innerHTML = '<p>The server saw it as:</p><pre>' + evt.target.responseText + '</pre>';
+	}
+}
+
+// ------------------------------------------------------------------ SELECT ------------------------------------------------------------------ 
+// xyzzy - todo - check for token/jwt-token stored in local storage - if so fetch it back?
+// 			add a "stay logged in" button/checkbox
+// 			add a logout - clears local storage.
+// 			add a login - just do the /api/v2/token thing
+
+function renderDropdownDflt ( data, name, dflt, vcol, dcol ) {
+	if ( data && data.length && data.length > 0 ) {
+		var s = [
+			'<select class="form-control" id="'+name+'" name="'+name+'" >'
+		];
+		for ( var ii = 0, mx = data.length; ii < mx; ii++ ) {
+			var vv = ( vcol ) ? data[ii][vcol] : data[ii] ;
+			var dd = ( dcol ) ? data[ii][dcol] : data[ii] ;
+			var selected ;
+			if ( dflt ) {
+				selected = ( vv === dflt ) ? " selected " : "";
+			} else {
+				selected = ( ii === 0 ) ? " selected " : "";
+			}
+			s.push ( [ '<option value="', vv, '" ',  selected, '>', dd , "</option>" ].join("") );
+		}
+		s.push ( '</select>' );
+		return s.join("\n");
+	}
+	return "";
+}
+
+// ------------------------------------------------------------------ FORM ------------------------------------------------------------------ 
+var renderForm = function ( uri, method, pos, renderLogin ) {
+	console.log ( "RenderForm called with :", uri, method, pos, renderLogin )
+
+	var item = data[pos];
+	var ss = [];
+	var p1 = [ ''
+		,'<div class="panel panel-info">'
+			,'<div class="panel-heading"> Inputs For This API Call </div>'
+			,'<div class="panel-body">'
+				,'<form id="form00">'
+	].join("\n");
+	var p1x = "</form></div></div>";
+
+	ss.push ( p1 );
+	if ( renderLogin ) {
+		var loginForm = [ "<!-- Login Form -->"
+			,'<div class="form-group ">'
+			,'	<label class="form-control-label" for="_un_" > Username (or email address) </label>'
+			,'	<input class="form-control" id="_un_" name="_un_"  type="text">'
+			,'</div>'
+			,'<div class="form-group ">'
+			,'	<label class="form-control-label" for="_pw_" >Password</label>'
+			,'	<input class="form-control" id="_pw_" name="_pw_"  type="password">'
+			,'</div>'
+			,'<hr>'
+		].join("\n");
+		ss.push ( loginForm );
+	}
+	// type=file, see: /Users/pschlump/go/src/github.com/American-Certified-Brands/tools/hemp-demo/www/js/doc-form33.js
+			//					,'<div class="form-group">'
+			//						,'<div class="custom-file">'
+			//							,'<label id="file-label" for="file-id" class="custom-file-label">Upload Test Document</label>'
+			//							,'<input type="file" class="custom-file-input" id="file-id" name="file">'				
+			//						,'</div>'
+			//					,'</div>'
+	if ( item && item.Input && item.Input.length && item.Input.length > 0 ) {
+		fileUploadUsed  = 0;
+		uploadIdList = [];
+		for ( var ii = 0, mx = item.Input.length; ii < mx; ii++ ) {
+			var inputItem = item.Input[ii];
+			var inputTy = inputItem.Ty;
+			var inputListValues = inputItem.ListValues;	 	// If this is defined - then you shoudl display a select/options with the list of values.
+			var inputListDefault = inputItem.Dflt;			// If this is defined - this is the pre-selected default value for the option list.
+			var w1;
+			if ( inputTy === "file" ) {
+				fileUploadUsed  = 1;
+				w1 = [ ''
+					,'<div class="form-group">'
+						,'<label class="form-control-label" for="x'+inputItem.Name+'" >'+inputItem.Lable+'</label>'
+						,'<div class="custom-file">'
+							,'<label id="file-label" for="x'+inputItem.Name+'" class="custom-file-label">',inputItem.Lable,'</label>'
+							,'<input type="file" class="custom-file-input" id="x'+inputItem.Name+'" name="x'+inputItem.Name+'">'				
+						,'</div>'
+						,'<div id="upload-status"></div>'
+						,'<div id="progress"></div>'
+						,'<input type="hidden" id="'+inputItem.Name+'" name="'+inputItem.Name+'">'				
+					,'</div>'
+				].join("\n");
+				uploadIdList.push ( inputItem.Name );
+			} else {
+				if ( inputListValues ) {
+					console.log ( "inputListValues", inputListValues, "inputListDefault", inputListDefault );
+					var sel = renderDropdownDflt ( inputListValues, inputItem.Name, inputListDefault );
+					w1 = [ ''
+						,'<div class="form-group ">'
+						,'	<label class="form-control-label" for="'+inputItem.Name+'" >'+inputItem.Lable+'</label>'
+						,sel
+						,'</div>'
+					].join("\n");
+				} else {
+					w1 = [ ''
+						,'<div class="form-group ">'
+						,'	<label class="form-control-label" for="'+inputItem.Name+'" >'+inputItem.Lable+'</label>'
+						,'	<input class="form-control" id="'+inputItem.Name+'" name="'+inputItem.Name+'"  type="text">'	// xyzzy if Type == 'S' v.s. 's' - then textbox
+						,'</div>'
+					].join("\n");
+				}
+			}
+			ss.push(w1);
+		}
+	}
+
+	var f1 = [ ''
+		,'<div class="form-group ">'
+		,'	<button class="btn btn-success form-to-run-style" id="form-to-run_'+pos+'" type="button">Run It</button>'
+		,'	<button class="btn btn-success form-to-run-style" id="form-to-show_'+pos+'" type="button">Show Form</button>'
+		,'</div>'
+		,'<div id="show-form_'+pos+'"></div>'
+	].join("\n");
+	ss.push ( f1 );
+
+	ss.push ( p1x );
+	return ss.join("");
+}
+
+var getNames = function ( pos ) {
+	var names = [];
+	var item = data[pos];
+	if ( item && item.Input && item.Input.length && item.Input.length > 0 ) {
+		for ( var ii = 0, mx = item.Input.length; ii < mx; ii++ ) {
+			var inputItem = item.Input[ii];
+			names.push(	inputItem.Name );
+		}
+	}
+	return names;
+}
+
+/**
+ * Description: tSimple Take a template and a hash of values and map the template.
+ * Syntax for the templates is: %{name%}
+ *
+ * @param tmpl string the template.
+ * @param ns hash the hash of replacement values/functions.
+ */
+var qt = function(tmpl, ns) {
+	var p1 = tmpl.replace(/%{([A-Za-z0-9_]*)%}/g, function(j, t) {
+				var s = "";
+				if ( typeof ns [ t ] !== "undefined" )
+					s = ns [ t ];
+				return s;
+			}
+		);
+	return p1;
+};
+
+function SetupJWTBerrer() {
+	$.ajaxSetup({
+		beforeSend: function(xhr) {
+			if ( jwt_token && jwt_token !== "" ) {
+				xhr.setRequestHeader('Authorization', 'Bearer '+jwt_token);
+			}
+			if ( xsrf_token && xsrf_token != "" ) {
+				xhr.setRequestHeader('X-Xsrf-Token', xsrf_token);
+			}
+		}
+		,dataFilter: function(data, type) {
+			var prefix = ['//', ')]}\'', 'while(1);', 'while(true);', 'for(;;);'], i, l, pos;
+
+			// console.log ( "dataFilter: data type", type );
+
+			if (type && type != 'json' && type != 'jsonp') {
+				return data;
+			}
+
+			// console.log ( "dataFilter: raw data before remove of prefix.", data );
+
+			var dl = data.length;	 // data length 
+			for (i = 0, l = prefix.length; i < l; i++) {
+				var pl = prefix[i].length; // pattern lenght
+				// console.log ( "dataFilter: raw substr -={" + data.substring(0,pl) + "}=-" );
+				if ( dl >= pl && data.substring(0,pl) === prefix[i] ) {
+					return data.substring(pl);
+				}
+			}
+
+			return data;
+		}
+	});
+}
+
+SetupJWTBerrer();
+
+// Collapse of card
+// Nav buttons on card - so can do GET | POST
+// List of Var's taken
+// Template for Call - what gets substituted in
+
+function xCallHandler ( event ) {
+	event.preventDefault();
+	var uri = $(event.currentTarget).data("uri");
+	var method = $(event.currentTarget).data("method");
+	var pos = $(event.currentTarget).data("pos");
+	var authRequired = $(event.currentTarget).data("authRequired");
+	var authPotentiallyReq = $(event.currentTarget).data("authPotentiallyRequired");
+
+	var renderLogin = false;
+	if ( ( data[pos].AuthRequired || data[pos].AuthPotentiallyReq ) && jwt_token === "" ) {
+		renderLogin = true;
+	}
+
+	var s = renderForm ( uri, method, pos, renderLogin );
+
+console.log ( 'Just before paint-form', s, authRequired, authPotentiallyReq );
+
+	$("#paint-form_"+pos).html(s);
+	$("#form-to-run_"+pos).click ( function ( event ) {
+		if ( event ) {
+			event.preventDefault();
+		}
+		submit2( uri, method, pos, renderLogin );
+	});
+	$("#form-to-show_"+pos).click ( function ( event ) {
+		if ( event ) {
+			event.preventDefault();
+		}
+		// submit2( uri, method, pos, renderLogin );
+		// ,'<div id="show-form_'+pos+'"></div>'
+		console.log ( "Show Form -- xyzzy1000" );
+		// xyzzy1000 - get # of rows down
+		// xyzzy1000 - just pull out "form" with "action="... and check names
+		// xyzzy1000 - add hidden __ran__ to each form
+		var xxx = s;
+		$("#show-form_"+pos).html("<textarea class='code' rows='120' cols='120'>"+xxx+"</textarea>");
+	});
+	if ( fileUploadUsed ) {
+		fileUploadUsed = 0;
+		for ( var ii = 0, mx = uploadIdList.length; ii < mx; ii++ ) {
+			var uploadId = uploadIdList[ii];
+console.log ( "(0) uploadId=", uploadId );
+			// g_fid = uploadId;
+			$('#x'+uploadId).on('change',function(){
+				var fileName = $(this).val(); //get the file name
+				// console.log ( "(2) fileName=", fileName);
+				if ( fileName.startsWith('C:\\fakepath\\') ) {
+					fileName = fileName.substring(12);
+					// console.log ( "(3) fileName=", fileName);
+				}
+				//$(this).next('.custom-file-label').html(fileName); //replace the "Choose a file" label
+				$('#file-label').html(fileName); //replace the "Choose a file" label
+				UploadTheFile(uploadId);
+			});
+		}
+	}
+}
+
+var submit2 = function ( uri, method, pos, renderLogin ) {
+
+	var action = uri; // xyzzy  - substitute in values in URI
+
+	console.log ( ".x-call", action, method );
+		
+	var frm = {
+		"_ran_": ( Math.random() * 10000000 ) % 10000000
+	};
+	if ( auth_method === "jwt" ) {
+		// frm["$$jwt_token$$"] = jwt_token;		// handled as Auth... Berer
+	} else {
+		frm["auth_key"] = auth_key;
+	}
+
+	var part2 = function () {}
+	if ( action == "/api/v2/token" ) {
+		frm["username"] = $("#username").val();
+		frm["password"] = $("#password").val();
+	} else if ( renderLogin ) {
+		frm["username"] = $("#_un_").val();
+		frm["password"] = $("#_pw_").val();
+		var t_uri = uri, t_method = method, t_pos = pos;
+		part2 = function () {												/// <<<<<<<<<<<<< setup recursive call at this point <<<<<<<<<<<<<<<
+			submit2 ( t_uri, t_method, t_pos, false );
+		}
+		action = "/api/v2/token";
+		method = "GET";
+	} else {
+		names = getNames ( pos );
+		for ( var kk = 0, mx = names.length; kk < mx; kk++ ) {
+			frm[names[kk]] = $("#"+names[kk]).val();
+		}
+	}
+
+	console.log ( 'Just Before Call: ', method, action, frm );
+
+	$.ajax({
+		type: method,
+		url: action,
+		data: frm,
+		success: function (data) {
+			$("#output").text( JSON.stringify(data, null, 4) );
+			console.log ( "Success:", data, typeof data );
+			if ( typeof data == "string" ) {
+				data = JSON.parse ( data );
+			}
+			console.log ( "Success:", data, typeof data );
+			if ( ( data && data.status && data.status == "success" ) || ( data && ! data.status ) ) {
+				if ( action == "/api/v2/token" || renderLogin ) {
+					renderLogin = false;
+					if ( data.jwt_token ) {
+						jwt_token = data.jwt_token;
+						jwt_expire = data.expire;
+					}
+					if ( data.auth_token ) {
+						auth_key = data.auth_token;
+					}
+				} else {
+					$("#output_"+pos).html( "<pre><code>"+JSON.stringify(data,null,4)+"</code></pre>" );
+				}
+				part2();
+			}
+		},
+		error: function(resp,d2,d3) {
+			$("#output").text( "Error!"+resp.status+" "+resp.responseText);
+			console.log ( resp, d2, d3 );
+			console.log("got error status="+resp.status+" "+resp.responseText);
+			alert("got error status="+resp.status+" "+resp.responseText);
+		}
+	});
+}
+
+function renderIndex ( item, idRef, pos ) {
+	var ss = [ ''
+		,'<li><a href="#',item.Pattern,'">',item.Pattern,'</a></li>'
+	].join("\n");
+	return ss;
+}
+
+var x2;
+
+function renderItem ( item, idRef, pos ) {
+	// console.log ( idRef, item )
+	if ( item.NoDoc ) {
+		return
+	}
+
+	var to = $("#"+idRef);
+
+	var sAuth = ( item.AuthRequired || item.AuthPotentiallyReq ) ? "<div class='x-call-auth'><i class='fas fa-lock'></i></div>" : "<div class='x-call-auth'>&nbsp;</div>";
+	x2 = sAuth;
+
+	var button = [ '<ul class="nav nav-tabs card-header-tabs pos-x-call">' ];
+	if ( item.MethodList ) {
+		for ( var ii = 0, mx = item.MethodList.length; ii < mx; ii++ ) {
+			var mm = item.MethodList[ii];
+			button.push ( ['<li class="nav-item nav-item-x-call">'
+					,'<button data-uri="',item.Pattern,'" data-method="',mm,'" data-pos="',pos,'" data-authRequired="',item.AuthRequired,'" data-authPotentiallyReq="',item.AuthPotentiallyReq,'" class="btn btn-primary x-call">',mm,'</button>'
+				,'</li>'
+				].join(""));
+		}
+	} else {
+		button.push ( [ ''
+		,'<li class="nav-item nav-item-x-call">'
+			,'<button data-uri="',item.Pattern,'" data-method="GET" data-pos="',pos,'" class="btn btn-primary x-call">GET</button>'
+		,'</li>'
+		,'<li class="nav-item nav-item-x-call">'
+			,'<button data-uri="',item.Pattern,'" data-method="POST" data-pos="',pos,'" class="btn btn-primary x-call">POST</button>'
+		,'</li>'
+		,'<li class="nav-item nav-item-x-call">'
+			,'<button data-uri="',item.Pattern,'" data-method="PUT" data-pos="',pos,'" class="btn btn-primary x-call">PUT</button>'
+		,'</li>'
+		,'<li class="nav-item nav-item-x-call">'
+			,'<button data-uri="',item.Pattern,'" data-method="DELETE" data-pos="',pos,'" class="btn btn-primary x-call">DELETE</button>'
+		,'</li>'
+		].join("") );
+	}
+	button.push ( "</ul>" );
+	var sButton = button.join("\n");
+
+	// console.log ( "item.Desc", item.Desc );
+
+	var ss = [ ''
+		,'<a name="'+item.Pattern+'"></a>'
+		,'<div class="content container pad25">'
+		,'	<div class="row">'
+		,'		<div class="col-sm-12">'
+		,'			<div class="card">'
+		,'				<div class="card-header"><h2>',item.Pattern,' ',
+		,'					',sAuth
+		,'					',sButton
+		,'					</h2></div>'
+		,'				<div class="card-body x-inner-rend markdown-body">'
+		,'					',item.Desc
+		,'					<h3>Curl Sample Call</h3>'
+		,'					<pre><code>',item.CurlSample,'</code></pre>'
+		,'					<h3>Form</h3>'
+		,'					<div id="paint-form_'+pos+'"></div>'
+		,'					<h3>Results</h3>'
+		,'					<div id="output_'+pos+'"></div>'
+		,'				</div>'
+		,'			</div>'
+		,'		</div>'
+		,'	</div>'
+		,'</div>'
+	].join("\n");
+	to.html(ss);
+
+}
+
+
+var ss = [ '' ];
+var aa = [ '<ul>' ];
+for ( var ii = 0, mx = data.length; ii < mx; ii++ ) {
+	if ( data[ii].NoDoc == false ) {
+		aa.push('<li><a href="#',data[ii].Pattern,'">',data[ii].Pattern,'</a></li>');
+	}
+}
+aa.push("</ul>");	
+var aab = aa.join("");
+
+var bb = [ ''
+	,'<div class="content container">'
+	,'	<div class="row">'
+	,'		<div class="col-sm-10">'
+	,'			<div class="box">'
+	, 				aab
+	,"			</div>"
+	,"		</div>"
+	,"	</div>"
+	,"</div>"
+	,"<hr>"
+].join("\n");
+
+ss.push(bb);
+
+for ( var ii = 0, mx = data.length; ii < mx; ii++ ) {
+	if ( data[ii].NoDoc == false ) {
+		console.log ( data[ii] );
+		var tt = [ ''
+			, '<div id="item_',ii,'"></div>'
+		].join("");
+		ss.push(tt);	
+	}
+}
+
+$("#to").html(ss);
+
+for ( var ii = 0, mx = data.length; ii < mx; ii++ ) {
+	if ( data[ii].NoDoc == false ) {
+		renderItem ( data[ii], "item_"+ii, ii )
+	}
+}
+	
+$(".x-call").click( xCallHandler ); // bind to all .x-call a handler function
+
+</script>
+{{template "footer"}}
+{{- end}}
+
+
+
+
+
+
+
+
+
+
+
+// ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------
+{{define "title"}}Describe API{{end}}
+
+
+
+
+
+
+// ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="apple-touch-icon" href="favicon.png?v=2">
+	<link rel="shortcut icon" sizes="120x120" href="favicon.png?v=2">
+	<!-- <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Make the page mobile compatible -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<title>{{template "title"}}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/markdown.css">
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<style>
+.panel-heading {
+	font-size: x-large;
+}
+.pad5 {
+	x-padding-top: 5px;
+	margin-top: 5px;
+}
+.pad25 {
+	x-padding-top: 5px;
+	margin-top: 25px;
+}
+.nav-item-x-call {
+	margin-left: 5px;
+}
+.pos-x-call {
+	width: 40%;
+	float: right;
+}
+.x-call-auth {
+	width: 10%;
+	float: right;
+}
+
+.x-inner-rend {
+}
+.x-inner-rend h2 {
+	display:none;
+}
+.x-inner-rend h3 {
+	background-color: #e0e0e0;
+	font-size: 1em;
+}
+
+</style>
+<script src="/js/jquery-3.3.1.js"></script>
+<script>
+
+
+// , "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+
+function renderItem ( item, idRef ) {
+	console.log ( idRef, item )
+	// console.log ( idRef, item )
+	if ( item.NoDoc ) {
+		return
+	}
+
+
+	var to = $("#"+idRef);
+
+	var ss = [ ''
+		,'<div class="content container">'
+		,'	<div class="row">'
+		,'		<div class="col-sm-12">'
+		,'			<h3>',item.Pattern,'</h3>'
+		,'			<p><pre>',item.Desc,'</pre></p>'
+		,'		</div>'
+		,'	</div>'
+		,'</div>'
+	].join("\n");
+	to.html(ss);
+}
+
+</script>
+</head>
+<body>
+
+	<div class="page-header"><h1> {{template "title"}} </h1></div>
+
+{{end}}
+
+
+
+
+
+
+
+
+// ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------ // ------------------
+{{define "footer"}}
+
+	</div>
+
+<script src="/js/cfg.js"></script>
+<script src="js/common.js?_ran_=001"></script>
+<script src="/js/popper-1.14.7.js"></script>
+<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<script>
+
+function submitIt ( event, id, action ) {
+	console.log( "Handler for #"+id+".submit() called." );
+	event.preventDefault();
+
+	var frm = $('#'+id);
+	console.log ( "form data: ", frm.serialize(), "id=", id );
+	$.ajax({
+		type: 'GET',
+		url: action,
+		data: frm.serialize(),
+		success: function (data) {
+			$("#output").text( JSON.stringify(data, null, 4) );
+		},
+		error: function(resp) {
+			$("#output").text( "Error!"+JSON.stringify(resp) );
+			alert("got error status="+resp.status+" "+resp.responseText);
+		}
+	});
+}
+
+</script>
+
+<script>
+var _pixel = new Image(1, 1);
+_pixel.src = g_origin + "/image/lclr.gif"
+	+ "?u=" + encodeURIComponent(window.location.pathname)
+	+ (document.referrer ? "&r=" + encodeURIComponent(document.referrer) : "")
+	+ (window.location.hostname ? "&h=" + encodeURIComponent(window.location.hostname) : "")
+;
+</script>
+<noscript>
+<img src="/image/lclr.gif?u={{.url_encode}}">
+</noscript>
+
+</body>
+</html>
+{{- end}}
+

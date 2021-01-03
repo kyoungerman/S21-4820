@@ -9,7 +9,9 @@ all: sql mk_doc
 
 start_watch:
 	( cd mtp ; go build )
-	./mtp/mtp --watch \
+	./mtp/mtp \
+		--comment .../Univ-Wyo-Education/S21-4280/learn-db \
+		--watch \
 		--cache-burst-override 108 \
 		./www-src/index.html \
 		&

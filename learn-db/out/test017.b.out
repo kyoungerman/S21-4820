@@ -1,0 +1,6 @@
+    End Point Table: /api/v1/t_avail_qr -> t_avail_qr
+    End Point Stored Procedure: /api/v1/get_qr_old -> s_get_qr_json
+Status: 200
+Content-Type: application/json; charset=utf-8
+
+{"status":"success"}

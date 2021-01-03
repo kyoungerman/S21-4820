@@ -1,0 +1,9 @@
+    End Point Table: /api/v1/t_avail_qr -> t_avail_qr
+    End Point Table: /api/v1/t_qr_to -> t_qr_to
+    End Point Table: /api/v1/t_qr_to_action -> t_qr_to_action
+    End Point Table: /api/v1/t_qr_event -> t_qr_event
+    End Point Stored Procedure: /api/v1/get_qr_old -> s_get_qr_json
+[31;40mTest API calls added[0m
+Status: 406
+
+Missing 'base60' or 'base10' in input

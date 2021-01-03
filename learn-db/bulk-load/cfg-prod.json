@@ -1,0 +1,10 @@
+{
+	  "base_server_url" : "http://q8s.co"
+	, "db_host": "$ENV$PG_HOST"
+	, "db_user": "pschlump"
+	, "db_password": "$ENV$DB_PASS"
+	, "db_name": "q8s"
+	, "auth_key": "$ENV$QR_TODAY_AUTH_TOKEN"
+	, "username": "test-login-process"
+	, "password": "$ENV$QR_TODAY_TEST_LOGIN"
+}

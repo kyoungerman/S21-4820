@@ -1,0 +1,54 @@
+
+
+// ----------------------------------------------------------------------------------
+// CapName =     [{{.CapName}}]			Identifier
+// Name =        [{{.Name}}]         	identifier
+// APIEndPoint = [{{.APIEndPoint}}]		/api/v1/t_identifier_type
+// ----------------------------------------------------------------------------------
+
+var get{{.CapName}}Data = false;
+var {{.Name}}Data = [];
+var {{.Name}}Repaint = [];
+function get{{.CapName}}(fx) {
+	if ( get{{.CapName}}Data ) {
+		if ( fx ) { 
+			fx();
+			{{.Name}}Repaint.push ( fx );
+		} else {
+			for ( var ii = 0, mx = {{.Name}}Repaint.length; ii < mx; ii++ ) {
+				fx = {{.Name}}Repaint[ii];
+				if ( fx ) { 
+					fx();
+				}
+			}
+		}
+		return
+	}
+	if ( isLoggedIn == false ) {
+		console.log ( "Not Logged In" );
+		return;
+	}
+	if ( ! g_user_id ) {
+		console.log ( "Not Logged In - no user id" );
+		return;
+	}
+	// get data for t_{{.Name}}_type
+	var data = {
+	   	  "user_id"			: g_user_id
+		, "auth_key"		: g_auth_key
+	};
+	submitItData ( event, data, "{{.APIEndPoint}}", function(data){
+		console.log ( "data=", data );
+		{{.Name}}Data = data.data;
+		get{{.CapName}}Data = true;
+		if ( fx ) { 
+			fx();
+			{{.Name}}Repaint.push ( fx );
+		}
+	}, function(data) {
+		console.log ( "ERROR: ", data );
+		renderError ( "Network communication failed.", "Failed to communicate with the server." );
+	}
+	);
+}
+

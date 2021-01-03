@@ -1,0 +1,10 @@
+--2019-06-01 16:43:01--  http://127.0.0.1:7001/api/v2/change-password?old_pw=abcdef1234&password=tom.thumb44&confirm=tom.thumb44
+Connecting to 127.0.0.1:7001... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 360 [application/json]
+Saving to: ‘out/at007a.oo’
+
+     0K                                                       100% 26.4M=0s
+
+2019-06-01 16:43:01 (26.4 MB/s) - ‘out/at007a.oo’ saved [360/360]
+

@@ -1,0 +1,15 @@
+
+// ----------------------------------------------------------------------------------
+// paintName =     	[{{.paintName}}]            // owner
+// target = 		[{{.target}}]				// #paint_owner
+// data =			[{{.data}}]					// partidipantData
+// inputName =		[{{.inputName}}]			// participantData
+// colValue =		[{{.colValue}}]				// id
+// showValue =		[{{.showValue}}]			// name
+// ----------------------------------------------------------------------------------
+
+var {{.paintName}} = function () {
+	paintTo ( "{{.target}}", function () {
+		 return renderDropdown2 ( {{.data}}, "{{.inputName}}", "{{.colValue}}", "{{.showValue}}" );
+	});
+};

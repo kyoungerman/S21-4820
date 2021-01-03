@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Marker: "cd24923f-5864-42d3-5a66-7879d7e02b04" -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+	<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
+	<script src="/js/signature_pad-2.3.2.js"></script>
+
+    <title>QR-Today : Password Reset</title>
+<style>
+.some-style {
+	
+}
+.fixed-width-200 {
+	width: 200px;
+	margin-top: 5px;
+}
+.colorGray {
+	color: #bbb;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item dropdown show-logged-in">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">QR Codes</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Main Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item" href="#" id="evCreate" >Get/Create</a>				<!-- 30 -->
+					<a class="dropdown-item" href="#" id="evConfigUser" >User Config</a>		<!-- 31 -->
+					<a class="dropdown-item" href="#" id="evBulkLoad" >Bulk Load </a>			<!-- 32 -->
+					<a class="dropdown-item" href="#" id="evQRGRoup" >Create Batch </a>			<!-- 33 -->
+					<!-- ==================================================================================================== -->
+				</div>
+			</li>
+            <li class="nav-item show-logged-in">
+                <a class="nav-link" href="#" id="form50-render">List Your QR Codes</a>
+            </li>
+            <li class="nav-item show-anon">
+                <a class="nav-link" href="#" id="getStatus">Status</a>	
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">QR-Today</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item show-anon">
+				<a class="nav-link" href="#" id="register">Register</a>
+            </li>
+            <li class="nav-item show-anon">
+				<a class="nav-link" href="#" id="login">Login</a>
+            </li>
+            <li class="nav-item show-logged-in">
+				<a class="nav-link" href="#" id="logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="top-of-page">
+
+		<h1 id="speical-title">QR Today: Password Reset</h1>
+
+		<div class="content container" id="msg"></div>
+		<div class="content container" id="body"></div>
+
+	</div>
+
+	<script>
+		// $(".show-logged-in").hide();
+		var theOddOnes = document.getElementsByClassName("show-logged-in");
+		for(var i=0; i<theOddOnes.length; i++)
+		{
+			// console.log(theOddOnes[i].innerHTML);
+			theOddOnes[i].style.display = 'none';
+		}
+		// document.getElementsByClassName("show-logged-in").style.display = 'none';
+		// document.getElementById('myElement').style.display = 'block'; // show
+		// document.getElementById('myElement').style.display = 'none'; // hide
+	</script>
+
+	<script src="/js/jquery-3.3.1.js"></script>
+	<script src="/js/popper-1.14.7.js"></script>
+	<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+	<script src="/js/bootstrap-datepicker.min.js"></script>
+	<script src="/pdf/build/pdf.js"></script>
+	<script src="/pdf/build/pdf.worker.js"></script>
+
+	<script src="/js/cfg.js?_ran_=10301"></script>
+
+	<script src="/js/doc-index.js?_ran_=00103"></script>
+	<script src="/js/doc-form25.js?_ran_=0103"></script> <!-- login form -->
+	<script src="/js/doc-form50.js?_ran_=0103"></script> <!-- render welcome page -->
+
+<script>
+console.log ( "Version 103 - Thu May 23 08:26:06 MDT 2019");
+renderForm09(null);
+$("#form00-render").click(renderForm00); 
+$("#form01-render").click(renderForm50); 	
+</script>
+
+</body>
+</html>

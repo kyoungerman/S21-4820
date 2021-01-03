@@ -1,0 +1,15 @@
+{
+	"FromAddress": "pschlump@gmail.com",
+	"FromName": "Authentication",
+	"HtmlBody": "\n\n\u003cdiv\u003e To reset your password click the link below or enter the token ce9fb94a-f6ba-4bc1-428d-c1d437d616c5 into \nthe password reset page. \u003cbr\u003e\n\n\t\u003ca href=\"http://qr-today.com/api/v2/recover-password-pt2?token=ce9fb94a-f6ba-4bc1-428d-c1d437d616c5\"\u003ehttp://qr-today.com/api/v2/recover-password-pt2?token=ce9fb94a-f6ba-4bc1-428d-c1d437d616c5\u003c/a\u003e\u003cbr\u003e\n\n\u003c/div\u003e\n\n",
+	"Subject": "QR-Today.com Password Reset",
+	"TextBody": "\n\nTo reset your password cut and paste the link below or enter the token ce9fb94a-f6ba-4bc1-428d-c1d437d616c5 into \nthe password reset page.\n\n\thttp://qr-today.com/api/v2/recover-password-pt2?token=ce9fb94a-f6ba-4bc1-428d-c1d437d616c5\n\n",
+	"ToAddress": "q8s.co:bob.builder@test.com",
+	"ToName": "q8s.co:bob.builder@test.com",
+	"email": "q8s.co:bob.builder@test.com",
+	"from_address": "pschlump@gmail.com",
+	"from_name": "Authentication",
+	"tfn": "./tmpl/recover_password.tmpl",
+	"token": "ce9fb94a-f6ba-4bc1-428d-c1d437d616c5",
+	"username": "q8s.co:bob.builder@test.com"
+}

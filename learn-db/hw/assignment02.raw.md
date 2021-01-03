@@ -36,29 +36,27 @@ insert statments.   Add "deletes" before the inserts so that you can run this ov
 for the homework.
 
 
+## Running finished program
+
+Checkout a current copy of the 
+[https://github.com/Univ-Wyo-Education/S21-4280/learn-db/hw](https://github.com/Univ-Wyo-Education/S21-4280/learn-db/hw)
+directory.   Run your program on all the `hw*.raw.md` files.
+
 
 ## Output
 
 1. A file with insert statements that creates the data in the 3 tables.
-2. A run of your answer to homework 29 on your data.
+2. A run of your answer to homework 29 on your data. See files hw29_1.sql and hw29_2.sql
 
 
 ## Turn In
 
-1. your source code
-2. your insert statements (output from your program)
-3. the psql output from homework 29 -- xyzzy?????
+1. Your source code (the .py file(s) that you have written to do this).
+2. Your insert statements (output from your program)
+3. The psql output from interactive homework 29.  See files hw29_1.sql and hw29_2.sql
 
 
-## Grading
 
-I am going to run your .sql output and verify that you got the correct data.  100pts
-
-I am going to compile and run your code and verify that your code generates the correct data. 100pts.
-
-I am going to read your code, in detail. This is a code review.  If the code has errors or dubious construes in it I will send it back to you for revision. 100pts.
-This means that you should have meaningful comments.  This also means that you should have a set of automated tests for the functions in your code
-that demonstrate that each of the functions works.
 
 
 ## Code Examples

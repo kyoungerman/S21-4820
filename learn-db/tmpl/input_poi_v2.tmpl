@@ -1,0 +1,143 @@
+{{define "input_field"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<input type="input" class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_unknown_type"}}
+	<!-- Type unknown - this is a backup input field -->
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<input type="input" class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_STRING"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<input type="input" class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_NUMERIC"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<input type="input" class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_NUMERIC_INTEGER"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<input type="input" class="form-control poi-form-element validate-integer" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val | RmZero}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_INTEGER"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<input type="input" class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_FORMULA"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<input type="input" class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_STRING_LIST"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<select class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}">
+		{{range $x, $v := .Constraint.Properties.AllowedValues}}
+			<option value="{{ $v }}" {{ if eq 0 $x }}selected="selected"{{ end }}>{{ $v }}</option>
+		{{end}}
+		</select>
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_NUMERIC_LIST"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<select class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}">
+		{{range $x, $v := .Constraint.Properties.AllowedValues}}
+			<option value="{{ $v }}" {{ if eq 0 $x }}selected="selected"{{ end }}>{{ $v }}</option>
+		{{end}}
+		</select>
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_INTEGER_LIST"}}
+	<div class="form-group">
+		<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+		<select class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}">
+		{{range $x, $v := .Constraint.Properties.AllowedValues}}
+			<option value="{{ $v }}" {{ if eq 0 $x }}selected="selected"{{ end }}>{{ $v }}</option>
+		{{end}}
+		</select>
+		<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+	</div>
+{{end}}
+
+{{define "input_poi"}}
+	{{range $x, $v := .Input}}
+		{{template "input_field" $v}}
+	{{end}}
+{{end}}
+
+{{define "output_poi"}}
+	<table class="output-table">
+	{{range $x, $v := .}}
+		<tr>
+			<th>{{$x}}</th>
+			<td>{{$v}}</th>
+		</tr>
+	{{end}}
+	</table>
+{{end}}
+
+tmplName := fmt.Sprintf("input_area_hdr")
+{{define "input_area_hdr"}}
+	<!-- Input Area Hdr NumRows={{.NumRows}} -->
+	<table class="table-area">
+		<thead>
+		<tr>
+			<th> {{.Name}} </th>
+		</tr>
+		</thead>
+		<tbody>
+{{end}}
+
+tmplName := fmt.Sprintf("input_area_ftr")
+{{define "input_area_ftr"}}
+	<!-- Input Area Ftr NumRows={{.NumRows}} -->
+		</tbody>
+	</table>
+{{end}}
+
+tmplName := fmt.Sprintf("input_area_NUMERIC")
+{{define "input_area_NUMERIC"}}
+	<!-- area numeric input field. -->
+	<tr>
+		<td>
+			<div class="form-group">
+				<label for="{{.Name | ToLower}}">{{.DisplayName}}</label>
+				<input type="input" class="form-control poi-form-element" id="{{.Name | ToLower}}" name="{{.Name | ToLower}}" placeholder="{{.Val}}">
+				<small class="form-text text-muted">This will be the "{{.Name}}" field in the spreadsheet.</small>
+			</div>
+		</td>
+	</tr>
+{{end}}
+

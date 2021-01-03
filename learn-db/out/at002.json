@@ -1,0 +1,17 @@
+{
+	"FromAddress": "pschlump@gmail.com",
+	"FromName": "Authentication",
+	"HtmlBody": "\n\n\u003ch1\u003eWeldome!\u003c/h1\u003e\n\n\u003cstrong\u003eQR-Today provices dynamic QR coeds and tracking of QR codes.\u003c/strong\u003e\n\n",
+	"Subject": "Welcome to QR-Today.com",
+	"TextBody": "\n\nWeldome!\n\nQR-Today provices dynamic QR coeds and tracking of QR codes.\n\n",
+	"ToAddress": "bob.builder@test.com",
+	"ToName": "bob.builder",
+	"email": "bob.builder@test.com",
+	"from_address": "pschlump@gmail.com",
+	"from_name": "Authentication",
+	"real_name": "bob.builder",
+	"tfn": "./tmpl/welcome_registration.tmpl",
+	"token": "77379eb2-e8ea-4ccb-6811-a6be68ee540c",
+	"user_id": "b4c417a9-1110-4be6-52f0-0921b3099e2e",
+	"username": "bob.builder@test.com"
+}

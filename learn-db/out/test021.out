@@ -1,0 +1,320 @@
+Status: 200
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="apple-touch-icon" href="favicon.png?v=2">
+	<link rel="shortcut icon" sizes="120x120" href="favicon.png?v=2">
+	<!-- <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Make the page mobile compatible -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<title>Describe QR Micro Service API</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<style>
+.panel-heading {
+	font-size: x-large;
+}
+.pad5 {
+	x-padding-top: 5px;
+	margin-top: 5px;
+}
+</style>
+<script src="/js/jquery-3.3.1.js"></script>
+<script>
+
+function renderItem ( item, idRef ) {
+	console.log ( idRef, item )
+	// console.log ( idRef, item )
+	if ( item.NoDoc ) {
+		return
+	}
+
+	var to = $("#"+idRef);
+
+	var ss = [ ''
+		,'<div class="content container">'
+		,'	<div class="row">'
+		,'		<div class="col-sm-12">'
+		,'			<h3>',item.Pattern,'</h3>'
+		,'			<p><pre>',item.Desc,'</pre></p>'
+		,'		</div>'
+		,'	</div>'
+		,'</div>'
+	].join("\n");
+	to.html(ss);
+}
+
+</script>
+</head>
+<body>
+
+	<div class="page-header"><h1> Describe QR Micro Service API </h1></div>
+
+
+
+	
+	<div id="item_0"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/status\n### Methods: Any\n\n### Description\n\nReport the status of the service.\n\nThe status includes the process id for the currently running process. If you are\nkilling and restarting a process this is a very useful. When you kill it lists\nthe current process. Then you can click status to verify that the new process is\nrunning.\n\nThis is also useful to verify that the service is up and running.\n\n### See /status\n\n### Example Output\n\n```\n{\n\t\"LastGen\": \"\",\n\t\"nAvail\": 357,\n\t\"nUsed\": 41,\n\t\"pid\": 57351,\n\t\"status\": \"success\",\n\t\"version\": \"be972fefdd5500aeaaf6848b03b0344f66f132ee-Sun-May-12-16:01:27-MDT-2019\"\n}\n```\n\nIf `LastGen` is empty then this run of qr-micro-service has never created any new QR codes.\n\n","DocTag":"## /api/v1/status","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"status","VarName":""}],"MethodList":null,"Name":"## /api/v1/status","NoDoc":false,"Pattern":"/api/v1/status","PortList":null,"Pos":0,"SchemeList":null};
+		renderItem ( item, "item_0" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_1"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /status\n### Methods: GET POST\n\n### Description\n\nReport the status of the service.\n\nThe status includes the process id for the currently running process. If you are\nkilling and restarting a process this is a very useful. When you kill it lists\nthe current process. Then you can click status to verify that the new process is\nrunning.\n\nThis is also useful to verify that the service is up and running.\n\n### See /api/v1/status\n\n### Example Output\n\n```\n{\n\t\"LastGen\": \"\",\n\t\"nAvail\": 357,\n\t\"nUsed\": 41,\n\t\"pid\": 57351,\n\t\"status\": \"success\",\n\t\"version\": \"be972fefdd5500aeaaf6848b03b0344f66f132ee-Sun-May-12-16:01:27-MDT-2019\"\n}\n```\n\nIf `LastGen` is empty then this run of qr-micro-service has never created any new QR codes.\n\n\n\n","DocTag":"## /status","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"status","VarName":""}],"MethodList":["GET","POST"],"Name":"## /status","NoDoc":false,"Pattern":"/status","PortList":null,"Pos":1,"SchemeList":null};
+		renderItem ( item, "item_1" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_2"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/config\n### Methods: GET\n\nReturn the current config for this micro service.\n\nAn auth_key or a valid JWT token is required to make this call.\n\n\n\n\n","DocTag":"## /api/v1/config","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"config","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/config","NoDoc":false,"Pattern":"/api/v1/config","PortList":null,"Pos":2,"SchemeList":null};
+		renderItem ( item, "item_2" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_3"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/kick\n### Methods: GET POST\n\nKick the service into checking that a sufficient number of QR codes are available.\nThe default is to keep 100 pre-generated and it checks once a minute.  If you are\nusing more than this then a periodic kick may be necessary.\n\nAn auth_key or a valid JWT token is required to make this call.\n\n\n\n\n","DocTag":"## /api/v1/kick","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"kick","VarName":""}],"MethodList":["GET","POST"],"Name":"## /api/v1/kick","NoDoc":false,"Pattern":"/api/v1/kick","PortList":null,"Pos":3,"SchemeList":null};
+		renderItem ( item, "item_3" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_4"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/exit-server\n### Methods: GET POST\n\nExit the currently running server.   The server is normally run in a recovery\nloop so a new one will start.  The server is designed to  be gracefully \nexited so as to not leave any open sockets or other resources.   This is the\nnormal method for an upgrade.   Copy the new executable up to the system then\ncall this.  The Process ID will be printed out.  Then click on status to verify\nthat a new process has been stared.\n\nAn auth_key or a valid JWT token is required to make this call.\n\n","DocTag":"## /api/v1/exit-server","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"exit-server","VarName":""}],"MethodList":["GET","POST"],"Name":"## /api/v1/exit-server","NoDoc":false,"Pattern":"/api/v1/exit-server","PortList":null,"Pos":4,"SchemeList":null};
+		renderItem ( item, "item_4" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_5"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/conv-36-to-10\n### Methods: GET POST\n\nConvert from a base 36 id (used in URL shortening) to a base 10 id.\n","DocTag":"## /api/v1/conv-36-to-10","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"conv-36-to-10","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/conv-36-to-10","NoDoc":false,"Pattern":"/api/v1/conv-36-to-10","PortList":null,"Pos":5,"SchemeList":null};
+		renderItem ( item, "item_5" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_6"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/conv-10-to-36\n### Methods: GET POST\n\nConvert from a base 10 id to a base 36 id.\n\n","DocTag":"## /api/v1/conv-10-to-36","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"conv-10-to-36","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/conv-10-to-36","NoDoc":false,"Pattern":"/api/v1/conv-10-to-36","PortList":null,"Pos":6,"SchemeList":null};
+		renderItem ( item, "item_6" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_7"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/gen-qr-url\n### Methods: GET POST\n\nUse the current configuration to go from a ID base10 or base36 to a URL\nfor the QR Image.\n\n\n","DocTag":"## /api/v1/gen-qr-url","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"gen-qr-url","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/gen-qr-url","NoDoc":false,"Pattern":"/api/v1/gen-qr-url","PortList":null,"Pos":7,"SchemeList":null};
+		renderItem ( item, "item_7" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_8"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/parse-qr-url\n### Methods: GET POST\n\nGiven the URL of a QR Image - decode it into its components.\n\n","DocTag":"## /api/v1/parse-qr-url","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"parse-qr-url","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/parse-qr-url","NoDoc":false,"Pattern":"/api/v1/parse-qr-url","PortList":null,"Pos":8,"SchemeList":null};
+		renderItem ( item, "item_8" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_9"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/get_qr\n### Methods: GET \n\nReturn a newly allocated QR code from the available supply.\n\n","DocTag":"## /api/v1/get_qr","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"get_qr","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/get_qr","NoDoc":false,"Pattern":"/api/v1/get_qr","PortList":null,"Pos":9,"SchemeList":null};
+		renderItem ( item, "item_9" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_10"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"t_avail_qr","VarName":""}],"MethodList":["GET","POST","PUT","DELETE"],"Name":"","NoDoc":false,"Pattern":"/api/v1/t_avail_qr","PortList":null,"Pos":10,"SchemeList":null};
+		renderItem ( item, "item_10" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_11"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v1","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"get_qr_old","VarName":""}],"MethodList":["GET","POST"],"Name":"","NoDoc":false,"Pattern":"/api/v1/get_qr_old","PortList":null,"Pos":11,"SchemeList":null};
+		renderItem ( item, "item_11" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_12"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeRE","To":"^......*$","VarName":"qr60"}],"MethodList":["GET"],"Name":"","NoDoc":false,"Pattern":"/{.qr60:re:^......*$}","PortList":null,"Pos":12,"SchemeList":null};
+		renderItem ( item, "item_12" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_13"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/conv-60-to-10\n### Methods: GET POST\n\nConvert from a base 60 id (used in URL shortening) to a base 10 id.\n","DocTag":"## /api/v1/conv-60-to-10","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v2","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"conv-60-to-10","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/conv-60-to-10","NoDoc":false,"Pattern":"/api/v2/conv-60-to-10","PortList":null,"Pos":13,"SchemeList":null};
+		renderItem ( item, "item_13" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_14"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"## /api/v1/conv-10-to-60\n### Methods: GET POST\n\nConvert from a base 10 id to a base 60 id.\n\n\n","DocTag":"## /api/v1/conv-10-to-60","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v2","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"conv-10-to-60","VarName":""}],"MethodList":["GET"],"Name":"## /api/v1/conv-10-to-60","NoDoc":false,"Pattern":"/api/v2/conv-10-to-60","PortList":null,"Pos":14,"SchemeList":null};
+		renderItem ( item, "item_14" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_15"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"image","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"lclr.gif","VarName":""}],"MethodList":null,"Name":"","NoDoc":false,"Pattern":"/image/lclr.gif","PortList":null,"Pos":15,"SchemeList":null};
+		renderItem ( item, "item_15" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_16"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v2","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"token","VarName":""}],"MethodList":null,"Name":"","NoDoc":false,"Pattern":"/api/v2/token","PortList":null,"Pos":16,"SchemeList":null};
+		renderItem ( item, "item_16" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_17"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"desc.html","VarName":""}],"MethodList":null,"Name":"","NoDoc":false,"Pattern":"/desc.html","PortList":null,"Pos":17,"SchemeList":null};
+		renderItem ( item, "item_17" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_18"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v2","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"dec","VarName":""}],"MethodList":null,"Name":"","NoDoc":false,"Pattern":"/api/v2/dec","PortList":null,"Pos":18,"SchemeList":null};
+		renderItem ( item, "item_18" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_19"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v2","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"set","VarName":""}],"MethodList":null,"Name":"","NoDoc":false,"Pattern":"/api/v2/set","PortList":null,"Pos":19,"SchemeList":null};
+		renderItem ( item, "item_19" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_20"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v2","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"set-data","VarName":""}],"MethodList":null,"Name":"","NoDoc":false,"Pattern":"/api/v2/set-data","PortList":null,"Pos":20,"SchemeList":null};
+		renderItem ( item, "item_20" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_21"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"api","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"v2","VarName":""},{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeString","To":"bulk-load","VarName":""}],"MethodList":["GET","POST"],"Name":"","NoDoc":false,"Pattern":"/api/v2/bulk-load","PortList":null,"Pos":21,"SchemeList":null};
+		renderItem ( item, "item_21" )
+	</script>
+	<hr>
+
+
+	
+	<div id="item_22"></div>
+	<script>
+		var item = {"AuthRequired":false,"Desc":"","DocTag":"","HostList":null,"MatchTo":[{"ErrorMsg":"","LenOp":"","Lenval":0,"MatchTypeStr":"MuxMatchTypeEndRest","To":"","VarName":"restOfUri"}],"MethodList":null,"Name":"","NoDoc":false,"Pattern":"/","PortList":null,"Pos":22,"SchemeList":null};
+		renderItem ( item, "item_22" )
+	</script>
+	<hr>
+
+
+
+
+	</div>
+
+<script src="/js/cfg.js"></script>
+<script>
+	$("#qr-gen"  ).attr("href", QRMicroServiceDash);
+	$("#email"   ).attr("href", EmailMicroServiceDash);
+	$("#qr-short").attr("href", QRShortDash);
+	$("#pdf-gen" ).attr("href", PDFMicroServiceDash);
+	$("#eth-sign").attr("href", EthMicroServiceDash);
+	$("#live-mon").attr("href", LiveMoitor);
+</script>
+<script src="js/common.js?_ran_=001"></script>
+<script src="/js/popper-1.14.7.js"></script>
+<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<script>
+
+// --------------------------------------------------------------------------------------------------------------------------
+// TODO
+// 1. cach burser for GET - push into form.
+// 1. Make each thing a link to the other "dash" applications.
+// 2. list pending email in a table ;checkbox for resend by ID
+// --------------------------------------------------------------------------------------------------------------------------
+function submitIt ( event, id, action ) {
+	console.log( "Handler for #"+id+".submit() called." );
+	event.preventDefault();
+
+	var frm = $('#'+id);
+	console.log ( "form data: ", frm.serialize(), "id=", id );
+	$.ajax({
+		type: 'GET',
+		url: action,
+		data: frm.serialize(),
+		success: function (data) {
+			$("#output").text( JSON.stringify(data, null, 4) );
+		},
+		error: function(resp) {
+			$("#output").text( "Error!"+JSON.stringify(resp) );
+			alert("got error status="+resp.status+" "+resp.statusText);
+		}
+	});
+}
+
+$("#b_kick").click(function(event){ submitIt(event,"form03",'/api/v1/kick'); });
+$("#b_status").click(function(event){ submitIt(event,"form03",'/api/v1/status'); });
+$("#b_exit_ms").click(function(event){ submitIt(event,"form03",'/api/v1/exit-server'); });
+
+</script>
+
+<img src="/image/lclr.gif">
+</body>
+</html>

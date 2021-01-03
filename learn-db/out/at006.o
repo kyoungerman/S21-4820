@@ -1,0 +1,10 @@
+--2019-06-01 16:43:01--  http://127.0.0.1:7001/api/v2/logout
+Connecting to 127.0.0.1:7001... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 20 [text/plain]
+Saving to: ‘out/at006.oo’
+
+     0K                                                       100% 3.18M=0s
+
+2019-06-01 16:43:01 (3.18 MB/s) - ‘out/at006.oo’ saved [20/20]
+

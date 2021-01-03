@@ -1,0 +1,11 @@
+--2019-12-16 06:06:23--  http://localhost:7001/api/v2/login?username=pschlump%40gmail.com&password=abcdefghi123&__method__=POST&_ran_=538.396
+Resolving localhost (localhost)... ::1, 127.0.0.1
+Connecting to localhost (localhost)|::1|:7001... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 208 [application/json]
+Saving to: ‘out/xtest3.oo’
+
+     0K                                                       100% 24.8M=0s
+
+2019-12-16 06:06:23 (24.8 MB/s) - ‘out/xtest3.oo’ saved [208/208]
+

@@ -1,0 +1,62 @@
+{"status":"success","data":[
+	{
+		"created": "2020-12-14T21:26:17.09724+0000",
+		"img_url": "select01.jpg",
+		"lang_to_use": "PostgreSQL",
+		"lesson": "{\"sample\": 1}",
+		"lesson_id": "f2c3fe61-0e31-48ec-bea4-982499a4df83",
+		"lesson_name": "s01",
+		"updated": null,
+		"url": "select01.mp4",
+		"video_raw_file": "sql_create_table_1.md",
+		"video_title": "Create Tabel"
+	},
+	{
+		"created": "2020-12-14T21:26:17.09724+0000",
+		"img_url": "select02.jpg",
+		"lang_to_use": "PostgreSQL",
+		"lesson": "{\"sample\": 2}",
+		"lesson_id": "710d1e70-2e26-4d91-9582-ee0444824186",
+		"lesson_name": "s02",
+		"updated": null,
+		"url": "select02.mp4",
+		"video_raw_file": "sql_select_2.md",
+		"video_title": "Select From"
+	},
+	{
+		"created": "2020-12-14T21:26:17.09724+0000",
+		"img_url": "select03.jpg",
+		"lang_to_use": "PostgreSQL",
+		"lesson": "{\"sample\": 3}",
+		"lesson_id": "71a65d15-b572-4259-8e3b-7c34248a622c",
+		"lesson_name": "s03",
+		"updated": null,
+		"url": "select03.mp4",
+		"video_raw_file": "sql_select_3.md",
+		"video_title": "Select Where"
+	},
+	{
+		"created": "2020-12-14T21:26:17.09724+0000",
+		"img_url": "go01.jpg",
+		"lang_to_use": "Go",
+		"lesson": "{\"sample\": 1}",
+		"lesson_id": "b118011d-c1b4-4842-9a7e-443c5d52aa90",
+		"lesson_name": "g01",
+		"updated": null,
+		"url": "go01.mp4",
+		"video_raw_file": "go_calc_1.md",
+		"video_title": "Basic Claculation"
+	},
+	{
+		"created": "2020-12-14T21:26:17.09724+0000",
+		"img_url": "go02.jpg",
+		"lang_to_use": "Go",
+		"lesson": "{\"sample\": 2}",
+		"lesson_id": "0ef919cf-8d5c-445c-ba83-8dfcbf32def4",
+		"lesson_name": "g02",
+		"updated": null,
+		"url": "go02.mp4",
+		"video_raw_file": "go_func_2.md",
+		"video_title": "Functions"
+	}
+]}

@@ -1,0 +1,9 @@
+Siging: {"auth-token":"c110d790-25b9-4b3b-515c-7c1c285a89e6","expire":"never"}
+Claims: {
+	"auth-token": "c110d790-25b9-4b3b-515c-7c1c285a89e6",
+	"expire": "never"
+}
+Status: 200
+
+{"status":"success","jwt_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoLXRva2VuIjoiYzExMGQ3OTAtMjViOS00YjNiLTUxNWMtN2MxYzI4NWE4OWU2IiwiZXhwaXJlIjoibmV2ZXIifQ.lomMWFaHSjtrknG4QWsMOl6IbkJqBoq48tJuENXPvqalOlwlWQmdGvq5PoGnt0lrafqaJGxP8pb0NWZldLMBPw","expire":"never"}
+
