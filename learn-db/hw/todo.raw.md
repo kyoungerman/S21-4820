@@ -53,11 +53,6 @@ Done
 
 # Interactive - 25 - drop cascade 
 
-
-
-
-Mostly Done
-==================
 # Interactive - 26 - 1 to 1 relationship  				(pk to pk)
 
 # Interactive - 27 - 1 to 0 or 1 relationship 			(fk, unique)
@@ -75,7 +70,6 @@ Mostly Done
 # Interactive - 33 - types of indexes (hash, gin)
 
 # Homework 34 - Data Loading - generating SQL statements (Assignment 2)
-	- 300 pts
 
 # Interactive - 35 - views
 
@@ -95,85 +89,68 @@ Mostly Done
 
 
 ToDo
-==================
-
-
-
-
-
 ---------------------------------------------------------------------------------------------------------------
 
 
-# Homework ? - Install psql  (Assignment 1)
-	- 100 pts
-
-# Homework 38 - Create issue/issue_note tables (Assignment 3)
-
-# Interactive - 37 - key word lookup
+# Interactive - 38 - key word lookup
 	Keyword Search tsvecor/tsearch
 	- tsvector/tsearch
 
-
-# Interactive - ? - indexes
-	- gist
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Interactive - 36 - materialized views
+# Interactive - 39 - materialized views
 	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
 
-# Interactive - 37 - indexes on functions - soundex 
 
-# Interactive - 38 - when - if condition in projected columns
 
-# Interactive - 39 - foreign data wrapper
 
-# Interactive - 40 - create rule
+
+
+# Interactive - 40 - indexes on functions - soundex 
+
+# Interactive - 41 - when - if condition in projected columns
+
+# Interactive - 42 - foreign data wrapper
+
+# Interactive - 43 - create rule
 	https://www.postgresql.org/docs/9.2/sql-createrule.html	
 
-# Interactive - 41 - NULL - differences between databases
+# Interactive - 44 - NULL - differences between databases
 	coalesce, nullif  (Oracle nvl)
 	oracle "dual"
-
-# Interactive - 42 - date/time formats
-
-# Interactive - 43 - data types (chapter 2)
-
-# Interactive - 44 - window functions
-	https://www.postgresql.org/docs/current/tutorial-window.html	
-
-
-# Interactive - 44? - null, NULL, case coalesce nullif
+	# Interactive - 47 - null, NULL, case coalesce nullif
 	See:https://www.postgresqltutorial.com/ 
 
-# Interactive - 45 - postgresql database maintance
+# Interactive - 45 - date/time formats
+
+# Interactive - 46 - window functions
+	https://www.postgresql.org/docs/current/tutorial-window.html	
+
+# Interactive - 47 - postgresql database maintance
 	vacuum operation
 	find unused indexes
 	find slow queries
 	find size of tables
 
-# Interactive - 46 - pgdump - small backup - export of data
+# Interactive - 48 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
 
-# Interactive - 46 - postresql backup / restore
+# Interactive - 49 - More on JSONb
 
-# Interactive - 46 - postresql backup / restore
+
+
+
+
+
+
+
+
+# Assignment 1 - Install stuff  
+	- PostgreSQL	
+	- psql	
+	- create database	
+	- pythnon
+	- access d.b. from python
+	- bottle
+
+
 
 
 

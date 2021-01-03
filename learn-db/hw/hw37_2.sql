@@ -4,8 +4,7 @@ DROP TABLE IF EXISTS example_users ;
 CREATE TABLE example_users (
 	id SERIAL PRIMARY KEY,
 	email TEXT NOT NULL UNIQUE,
-	password TEXT NOT NULL,
-	salt TEXT NOT NULL
+	password TEXT NOT NULL
 );
 
 
@@ -18,7 +17,6 @@ BEGIN
 	select gen_salt('bf')
 		into l_salt;
 	l_pw = NEW.password;
-	NEW.salt = l_salt;
 	NEW.password = crypt(l_pw, l_salt);
 	RETURN NEW;
 END

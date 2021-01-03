@@ -1,35 +1,8 @@
 package main
 
-// 1. change to take fns from CLI
-// 2. add in
-/*
-
-4. Tool to go from .md file -> database + other stuff for lessons.
-
-xyzzy100
-#### Validate: 		10pts,SQL-Select-PASS,"select test_13_4()"
-#### Validate: 		10pts,select-n-rows,"/validate/hw_12_2.json"
-
-xyzzy101
-###1 FilesToRun: 	./hw13_1.sql,"Cleanup in preparation for this interactive homework."
-#### FilesToRun: 	./hw13_2.sql,"Some Title for Menu."
-#### FilesToRun: 	./hw13_3.sql,"Some Other Title for Menu."
-#### FilesToRun: 	./hw13_4.sql,"Create and populate the set of tables for this interactive homework."
-
-
-/api/table/validate?hw=XX
-	-> pts, cmd, how
-
-/api/table/files_to_run?hw=XX
-	-> file_name, desc
-
-*/
-// make file - auto edit - to have all hw??.raw.md files -> Makefile - or list below
-
 import (
 	"bufio"
 	"encoding/csv"
-	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -40,43 +13,44 @@ import (
 	"gitlab.com/pschlump/PureImaginationServer/ymux"
 )
 
-// var fns = []string{
-// 	"hw01.raw.md",
-// 	"hw02.raw.md",
-// 	"hw03.raw.md",
-// 	"hw04.raw.md",
-// 	"hw05.raw.md",
-// 	"hw06.raw.md",
-// 	"hw07.raw.md",
-// 	"hw08.raw.md",
-// 	"hw09.raw.md",
-// 	"hw10.raw.md",
-// 	"hw11.raw.md",
-// 	"hw12.raw.md",
-// 	"hw13.raw.md",
-// 	"hw14.raw.md",
-// 	"hw15.raw.md",
-// 	"hw16.raw.md",
-// 	"hw17.raw.md",
-// 	"hw18.raw.md",
-// 	"hw19.raw.md",
-// 	"hw20.raw.md",
-// 	"hw21.raw.md",
-// 	"hw22.raw.md",
-// 	"hw23.raw.md",
-// 	"hw24.raw.md",
-// 	"hw25.raw.md",
-// 	"hw26.raw.md",
-// 	"hw27.raw.md",
-// 	"hw28.raw.md",
-// 	"hw29.raw.md",
-// } // ENDfns
+var fns = []string{
+	"hw01.raw.md",
+	"hw02.raw.md",
+	"hw03.raw.md",
+	"hw04.raw.md",
+	"hw05.raw.md",
+	"hw06.raw.md",
+	"hw07.raw.md",
+	"hw08.raw.md",
+	"hw09.raw.md",
+	"hw10.raw.md",
+	"hw11.raw.md",
+	"hw12.raw.md",
+	"hw13.raw.md",
+	"hw14.raw.md",
+	"hw15.raw.md",
+	"hw16.raw.md",
+	"hw17.raw.md",
+	"hw18.raw.md",
+	"hw19.raw.md",
+	"hw20.raw.md",
+	"hw21.raw.md",
+	"hw22.raw.md",
+	"hw23.raw.md",
+	"hw24.raw.md",
+	"hw25.raw.md",
+	"hw26.raw.md",
+	"hw27.raw.md",
+	"hw28.raw.md",
+	"hw29.raw.md",
+	"hw30.raw.md",
+	"hw31.raw.md",
+	"hw32.raw.md",
+	"hw33.raw.md",
+	"hw34.raw.md",
+}
 
 func main() {
-	flag.Parse() // Parse CLI arguments to this, --cfg <name>.json
-
-	fns := flag.Args()
-
 	for _, fn := range fns {
 		readFile(fn)
 	}
@@ -133,12 +107,6 @@ func readFile(fn string) {
 				}
 				fmt.Printf("insert into ct_tag_homework ( tag_id, homework_id ) values ( '%s', '%s' );\n", t1, u1)
 			}
-		} else if strings.HasPrefix(line, "#### Validate:") {
-			// xyzzy100
-		} else if strings.HasPrefix(line, "#### FilesToRun:") {
-			// xyzzy101
-		} else if strings.HasPrefix(line, "#### ") {
-			// xyzzy100 - unusual tag - has 4 hash
 		}
 	}
 

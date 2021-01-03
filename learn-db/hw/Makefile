@@ -5,6 +5,7 @@ PP=`pwd`
 PY= \
 	all.sql \
 	ans-hw29.sql \
+	ass_4_1.sql \
 	city_copy.sql \
 	city.sql \
 	hw01_0.setup.sql \
@@ -189,12 +190,54 @@ MD= \
 	hw34.md
 #endMD
 
-all: pre $(MD) $(HTML)
+RAW_MD= \
+	hw01.raw.md \
+	hw02.raw.md \
+	hw03.raw.md \
+	hw04.raw.md \
+	hw05.raw.md \
+	hw06.raw.md \
+	hw07.raw.md \
+	hw08.raw.md \
+	hw09.raw.md \
+	hw10.raw.md \
+	hw11.raw.md \
+	hw12.raw.md \
+	hw13.raw.md \
+	hw14.raw.md \
+	hw15.raw.md \
+	hw16.raw.md \
+	hw17.raw.md \
+	hw18.raw.md \
+	hw19.raw.md \
+	hw20.raw.md \
+	hw21.raw.md \
+	hw22.raw.md \
+	hw23.raw.md \
+	hw24.raw.md \
+	hw25.raw.md \
+	hw26.raw.md \
+	hw27.raw.md \
+	hw28.raw.md \
+	hw29.raw.md \
+	hw30.raw.md \
+	hw31.raw.md \
+	hw32.raw.md \
+	hw33.raw.md \
+	hw34.raw.md \
+	hw35.raw.md \
+	hw36.raw.md \
+	hw37.raw.md
+#endRAW_MD
+
+all: pre $(MD) $(HTML) gen_data.sql
 
 pre:
 	cp /dev/null open.1
 .PHONEY: pre
 
+gen_data.sql: $(RAW_MD)
+	go run get-tags.go $(RAW_MD) >gen_data.sql
 
 %.md: %.raw.md $(PY) $(IMG)
 	m4 -P $< >$@
@@ -209,8 +252,8 @@ pre:
 run_all:
 	psql -a <all.sql >all.out
 
-make: m1 m2 m3
-.PHONEY: make m1 m2 m3
+make: m1 m2 m3 m4
+.PHONEY: make m1 m2 m3 m4
 
 m1:
 	rm -f ,*.sql
@@ -228,6 +271,10 @@ m3:
 	ed ,a <ed.make5.ed
 	ed Makefile <ed.make4.ed
 
+m4:
+	ls hw*.raw.md >,a
+	ed ,a <ed.make7.ed
+	ed Makefile <ed.make6.ed
 
 gitupdate:
 	git add -A .

@@ -1,0 +1,5 @@
+/^RAW_MD/+1,/#endRAW_MD/-1d
+w
+/^RAW_MD/r ,a
+w
+q

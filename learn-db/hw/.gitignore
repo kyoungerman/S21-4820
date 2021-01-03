@@ -2,3 +2,5 @@ get-tags
 ,*
 *.o
 __pycache__
+academic-calendar.pdf
+ass_4_1.sql
