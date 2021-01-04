@@ -232,12 +232,22 @@ RAW_MD= \
 
 all: pre $(MD) $(HTML) gen_data.sql
 
+runM4Markdown_to_HTML:
+	m4 -P tmp.raw.md >tmp.md
+	blackfriday-tool ./tmp.md tmp.html
+	@echo "PASS"
+.PHONEY: runM4Markdown_to_HTML
+
+
 pre:
 	cp /dev/null open.1
 .PHONEY: pre
 
-gen_data.sql: $(RAW_MD)
+gen_data.sql: $(RAW_MD) Makefile get-tags.go
 	go run get-tags.go $(RAW_MD) >gen_data.sql
+
+#gen_data.sql: $(RAW_MD) Makefile get-tags.go
+#	go run get-tags.go $(RAW_MD) >gen_data.sql
 
 %.md: %.raw.md $(PY) $(IMG)
 	m4 -P $< >$@

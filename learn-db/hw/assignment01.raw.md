@@ -31,4 +31,33 @@ all of this will work - but you probably need a Pi 4 with 16 gig of memory).
 
 
 
+Mac / PostgreSQL
+--------------------------------------------------------------------------------------------------------------------------------
+
+PostgreSQL download from [https://postgresapp.com/](https://postgresapp.com/)
+
+https://www.pgadmin.org/
+
+Mac / Python, 3.8.x, Anaconda
+--------------------------------------------------------------------------------------------------------------------------------
+
+https://docs.anaconda.com/anaconda/install/mac-os/
+
+fix path
+
+Install iTerm2.0
+
+Bring up termal
+
+use pip to install...
+
+
+Install brew
+
+Install git
+
+Install xcode
+
+brew install redis
+
 

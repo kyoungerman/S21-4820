@@ -95,6 +95,11 @@ ToDo
 # Interactive - 38 - key word lookup
 	Keyword Search tsvecor/tsearch
 	- tsvector/tsearch
+	https://www.compose.com/articles/mastering-postgresql-tools-full-text-search-and-phrase-search/	
+	https://blog.lateral.io/2015/05/full-text-search-in-milliseconds-with-postgresql/	
+		- uses gin index instead of gist
+		- has query with rank/limit on results from using ranking - and how to get ranking.		---- Important !
+	https://alibaba-cloud.medium.com/using-postgresql-to-create-an-efficient-search-engine-d0ab8e11b7	
 
 # Interactive - 39 - materialized views
 	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
@@ -135,6 +140,17 @@ ToDo
 # Interactive - 49 - More on JSONb
 
 
+# Interactive - 50 - Rename Stuff - fix spelling errors
+	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
+	ALTER TABLE table_name RENAME TO new_table_name;	
+
+	https://www.techonthenet.com/postgresql/tables/alter_table.php	
+
+
+
+
+
+
 
 
 
@@ -158,6 +174,17 @@ ToDo
 # Assignment 8 - performance turning - finding and fixing bad queries
 	4. Copy CSV in
 	5. Copy out to CSV
+		\copy v.s. copy
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -247,8 +274,8 @@ LIMIT
 LIKE and ILIKE and 
 regular expressions
 
-NULL Values
 
+COPY (SELECT * FROM tracks WHERE genre_id = 6) TO '/Users/dave/Downloads/blues_tracks.csv' DELIMITER ',' CSV HEADER;
 
 Transactions:   See: https://www.postgresqltutorial.com/postgresql-transaction/ 
 
@@ -288,3 +315,82 @@ https://stackoverflow.com/questions/23906977/refresh-a-materialized-view-automat
 		after insert or update or delete or truncate
 		on table2 for each statement 
 		execute procedure refresh_mat_view();
+
+
+
+
+For Client-Side Export:
+
+\copy [Table/Query] to '[Relative Path/filename.csv]' csv header
+For Server-Side Export:
+
+COPY [Table/Query] to '[Absolute Path/filename.csv]' csv header;
+Example Absolute Path: ‘/Users/matt/Desktop/filename.csv’
+
+
+
+
+
+use GIST for LIKE/ILIKE and RE searches on data-
+--------------------------------------------------------------------------------------------------------------------
+
+I'm testing out the PostgreSQL Text-Search features, using the September data dump from StackOverflow as sample data. :-)
+
+The naive approach of using LIKE predicates or POSIX regular expression matching to search 1.2 million rows takes about 90-105 seconds (on my Macbook) to do a full table-scan searching for a keyword.
+
+SELECT * FROM Posts WHERE body LIKE '%postgresql%';
+SELECT * FROM Posts WHERE body ~ 'postgresql';
+An unindexed, ad hoc text-search query takes about 8 minutes:
+
+SELECT * FROM Posts WHERE to_tsvector(body) @@ to_tsquery('postgresql'); 
+Creating a GIN index takes about 40 minutes:
+
+ALTER TABLE Posts ADD COLUMN PostText TSVECTOR;
+UPDATE Posts SET PostText = to_tsvector(body);
+CREATE INDEX PostText_GIN ON Posts USING GIN(PostText);
+(I realize I could also do this in one step by defining it as an expression index.)
+
+Afterwards, a query assisted by a GIN index runs a lot faster -- this takes about 40 milliseconds:
+
+SELECT * FROM Posts WHERE PostText @@ 'postgresql'; 
+However, when I create a GiST index, the results are quite different. It takes less than 2 minutes to create the index:
+
+CREATE INDEX PostText_GIN ON Posts USING GIST(PostText);
+Afterwards, a query using the @@ text-search operator takes 90-100 seconds. So GiST indexes do improve an unindexed TS query from 8 minutes to 1.5 minutes. But that's no improvement over doing a full table-scan with LIKE. It's useless in a web programming environment.
+
+Am I missing something crucial to using GiST indexes? Do the indexes need to be pre-cached in memory or something? I am using a plain PostgreSQL installation from MacPorts, with no tuning.
+
+What is the recommended way to use GiST indexes? Or does everyone doing TS with PostgreSQL skip GiST indexes and use only GIN indexes?
+
+PS: I do know about alternatives like Sphinx Search and Lucene. I'm just trying to learn about the features provided by PostgreSQL itself.
+
+performance
+postgresql
+full-text-search
+share  improve this question  follow 
+asked Oct 8 '09 at 20:49
+
+Bill Karwin
+446k7777 gold badges595595 silver badges749749 bronze badges
+add a comment
+3 Answers
+
+6
+
+try
+
+CREATE INDEX PostText_GIST ON Posts USING GIST(PostText varchar_pattern_ops);
+which creates an index suitable for prefix queries. See the PostgreSQL docs on Operator Classes and Operator Families. The @@ operator is only sensible on term vectors; the GiST index (with varchar_pattern_ops) will give excellent results with LIKE.
+
+
+
+
+
+Copy of entire databse
+--------------------------------------------------------------------------------------------------------------------
+
+To create a copy of a database, run the following command in psql:
+
+CREATE DATABASE [Database to create]
+WITH TEMPLATE [Database to copy]
+OWNER [Your username];
