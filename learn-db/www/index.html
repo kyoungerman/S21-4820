@@ -414,15 +414,33 @@
 								<div id="lesson_text"> xxxxxxxxxxxxxxxxx {{lesson_text}} </div>
 								<input type="hidden" name="lesson_id" id="lesson_id" value="{{lesson_id}}">
 							<h3> Input </h3>
+
+								<button type="button" class="btn btn-primary bind-click" data-click="descTable" style="float:right;margin-right:10px;margin-bottom:3px;">Desc</button>
+
+								<div class="dropdown" style="float:right;margin-right:10px;margin-bottom:3px;">
+									<button id=list-of-files-button" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Files
+									</button>
+									<div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item bind-click" href="#" data-click="runFile" data-xdata="File1" >File1</a>
+										<a class="dropdown-item bind-click" href="#" data-click="runFile" data-xdata="File2" >File2</a>
+										<a class="dropdown-item bind-click" href="#" data-click="runFile" data-xdata="File3" >File3</a>
+									</div>
+								</div>
+
 								<div class="form-group">
 									<label for="input_box">SQL Input</label>
 									<textarea class="form-control" id="stmt" style="width:100%;" rows="25" name="stmt" ></textarea>
 								</div>
+
 								<button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
+
 							<h3> Output </h3>
 								<div id="output_box" style="width:100%;height:400px;border:1px solid #ced4da;margin-bottom:10px;"></div>
-								<button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
-								<button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
+								<!--
+									<button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
+									<button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
+								-->
 						</form>
 					</div>
 				</div>
@@ -528,7 +546,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0108"></script>
+<script src="/js/cfg.js?_ran_=0127"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -967,26 +985,26 @@ $(document).ready(function(){
 <script src="/pdf/build/pdf.js"></script>
 <script src="/pdf/build/pdf.worker.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00108"></script>
-<script src="/js/table.js?_ran_=00108"></script>
+<script src="/js/doc-index.js?_ran_=00127"></script>
+<script src="/js/table.js?_ran_=00127"></script>
 
-<script src="/js/doc-form25.js?_ran_=0108"></script> <!-- login form / registration form -->
-<script src="/js/doc-form50.js?_ran_=0108"></script> <!-- render welcome page -->
+<script src="/js/doc-form25.js?_ran_=0127"></script> <!-- login form / registration form -->
+<script src="/js/doc-form50.js?_ran_=0127"></script> <!-- render welcome page -->
 
-<script src="/js/doc-form30.js?_ran_=0108"></script> <!-- QR: Create QR Assoc.  -->
-<script src="/js/doc-form31.js?_ran_=0108"></script> <!-- QR: Config User  -->
-<script src="/js/doc-form32.js?_ran_=0108"></script> <!-- TODO New: QR: Bulk Load    -->
-<script src="/js/doc-form33.js?_ran_=0108"></script> <!-- SampleUplaod -->
+<script src="/js/doc-form30.js?_ran_=0127"></script> <!-- QR: Create QR Assoc.  -->
+<script src="/js/doc-form31.js?_ran_=0127"></script> <!-- QR: Config User  -->
+<script src="/js/doc-form32.js?_ran_=0127"></script> <!-- TODO New: QR: Bulk Load    -->
+<script src="/js/doc-form33.js?_ran_=0127"></script> <!-- SampleUplaod -->
 
-<script src="/js/doc-form00.js?_ran_=0108"></script> <!-- document upload sign -->
-<script src="/js/doc-form01.js?_ran_=0108"></script> <!-- list documents -->
-<script src="/js/doc-form02.js?_ran_=0108"></script> <!-- render documents -->
-<script src="/js/doc-form09.js?_ran_=0108"></script> <!-- render welcome page -->
+<script src="/js/doc-form00.js?_ran_=0127"></script> <!-- document upload sign -->
+<script src="/js/doc-form01.js?_ran_=0127"></script> <!-- list documents -->
+<script src="/js/doc-form02.js?_ran_=0127"></script> <!-- render documents -->
+<script src="/js/doc-form09.js?_ran_=0127"></script> <!-- render welcome page -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0108 - 2019-12-18T00:00:00");
+console.log ( "Version 0127 - 2019-12-18T00:00:00");
 </script>
 
 </body>

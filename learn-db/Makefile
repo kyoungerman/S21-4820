@@ -21,10 +21,6 @@ sql:
 
 mk_code:
 
-server-main.go: meta/server-main.go
-	mkdir -p ./out
-	ifit -i meta/server-main.go -o server-main.go q8s impA="www.2c-why.com/q8s.co" port="7001"
-
 
 # formerly: ValidateTables.go
 gen:
@@ -50,27 +46,8 @@ run: all
 	./learn-db
 
 
-#deploy_74: mk_doc
-#	~/go/src/gitlab.com/pschlump/PureImaginationServer/bin/cmp-prod.sh q8s-service.linux
-#	echo ssh pschlump@192.154.97.74 "mkdir -p ~q8s/q8s/server"
-#	echo ssh pschlump@192.154.97.74 "mkdir -p ~q8s/q8s/server/www"
-#	echo ssh pschlump@192.154.97.74 "mkdir -p ~q8s/q8s/server/Fonts"
-#	-echo ssh pschlump@192.154.97.74 "mv ~q8s/q8s/server/q8s-service.linux ,aaaaa"
-#	echo scp *.linux pschlump@192.154.97.74:/home/q8s/q8s/server
-#	check-json-syntax --ignore-tab-warning prod-cfg.json
-#	scp prod-cfg.json pschlump@192.154.97.74:/home/q8s/q8s/server
-#	scp run-prod.sh pschlump@192.154.97.74:/home/q8s/q8s/server
-#	scp prod-cfg.js pschlump@192.154.97.74:/home/q8s/q8s/server
-#	scp *.sql pschlump@192.154.97.74:/home/q8s/q8s/server
-#	echo scp prod-cfg.js pschlump@192.154.97.74:/home/q8s/q8s/server/www/js/cfg.js
-#	rsync -r -a -v -e "ssh -l pschlump"    --delete --exclude www/qr 		./www      			pschlump@192.154.97.74:/home/q8s/q8s/server
-#	echo rsync -r -a -v -e "ssh -l pschlump"    --delete 					./Fonts    			pschlump@192.154.97.74:/home/q8s/q8s/server
-#	scp *.png pschlump@192.154.97.74:/home/q8s/q8s/server
-#	echo "deploy-to-prod: " ${GIT_COMMIT} `date` >>build-log.txt 
-#.PHONY: deploy_74
 
-# http://192.154.97.76:7000/
-	
+
 FR=./tmpl/md/
 
 mk_doc: ./www/api-doc.html

@@ -80,8 +80,11 @@ type GlobalConfigData struct {
 	QRGeneration
 
 	UploadFile.UploadFileCfg
+
+	ExpiredConnectionThreshold int `json:"expired_connection_threshold" defauilt:"500"`
 }
 
+var n_ticks = 0
 var gCfg GlobalConfigData
 var GitCommit string
 var ch chan string
@@ -352,13 +355,15 @@ func main() {
 		for {
 			time.Sleep(time.Duration(n) * time.Second)
 			timeout <- "timeout"
+			n_ticks++
 		}
 	}(gCfg.TickerSeconds)
 
-	go func() {
-		time.Sleep(1 * time.Second)
-		timeout <- "timeout"
-	}()
+	//	go func() {
+	//		time.Sleep(1 * time.Second)
+	//		timeout <- "timeout"
+	//		n_ticks++
+	//	}()
 
 	// ------------------------------------------------------------------------------
 	// Setup signal capture
@@ -586,13 +591,19 @@ func QrDispatch() {
 		select {
 		case <-ch:
 			fmt.Printf("%sChanel Activated\n%s", MiscLib.ColorCyan, MiscLib.ColorReset)
+			CloseExpiredConnections(gCfg.ExpiredConnectionThreshold, n_ticks)
 			// QrGenerate()
 
 		case <-timeout:
 			fmt.Printf("%sTimeout\n%s", MiscLib.ColorYellow, MiscLib.ColorReset)
+			CloseExpiredConnections(gCfg.ExpiredConnectionThreshold, n_ticks)
 			// QrGenerate()
 		}
 	}
+}
+
+func GetCurTick() int {
+	return n_ticks
 }
 
 // mux.Handle("/api/v1/create-document", http.HandlerFunc(HandleCreateDocument)).Method("GET", "POST").DocTag("<h2>/api/v1/create-document")

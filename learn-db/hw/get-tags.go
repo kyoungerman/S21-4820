@@ -138,7 +138,7 @@ func readFile(fn string) (n_err int) {
 			}
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
-			fmt.Printf("insert into ct_file_list ( file_list_uuid, lesson_name, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
+			fmt.Printf("insert into ct_file_list ( file_list_id, lesson_name, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
 		} else if strings.HasPrefix(line, "#### ") {
 			if db4 {
 				fmt.Printf("Undefined Unusual Line ->%s<-\n", line)

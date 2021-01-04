@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
+	"sync"
 
 	"github.com/pschlump/Go-FTL/server/sizlib"
 	"gitlab.com/pschlump/PureImaginationServer/ymux"
@@ -13,12 +15,15 @@ import (
 
 type AConn struct {
 	DatabaseName string // name of database, looks like le0000
+	AtTime       int    // A time in seconds when this was last used.
+	Name         string
 	connToDb     *sql.DB
 }
 
 type ConnPool map[string]AConn
 
 var G_ConnPool ConnPool
+var G_ConnMutex sync.Mutex
 
 // var DB *sql.DB -- delcared in server-main.go
 
@@ -45,8 +50,17 @@ func GetConn(name string) (*sql.DB, error) {
 		return DB, nil
 	}
 
-	var conn AConn
+	conn := AConn{AtTime: 999999999999, DatabaseName: "", Name: name, connToDb: nil}
 	var ok bool
+
+	CloseExpiredConnections(gCfg.ExpiredConnectionThreshold, n_ticks)
+
+	G_ConnMutex.Lock()
+	defer G_ConnMutex.Unlock()
+
+	if n := CountOfConnections(); n > 50 {
+		LRUPurge(n)
+	}
 
 	if conn, ok = G_ConnPool[name]; !ok {
 		return nil, fmt.Errorf("Invalid name [%s] is not configured to connect to database", name)
@@ -75,8 +89,66 @@ func GetConn(name string) (*sql.DB, error) {
 		G_ConnPool[name] = conn
 	}
 
+	conn.AtTime = GetCurTick()
+	G_ConnPool[name] = conn
+
 	return conn.connToDb, nil
 
+}
+
+// -----------------------------------------------------------------------------------------------------------------
+
+type ByAConn []AConn
+
+func (a ByAConn) Len() int           { return len(a) }
+func (a ByAConn) Less(i, j int) bool { return a[i].AtTime > a[j].AtTime }
+func (a ByAConn) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+
+func LRUPurge(n int) {
+	SortBy := make(ByAConn, 0, n)
+	for _, val := range G_ConnPool {
+		SortBy = append(SortBy, val)
+	}
+	G_ConnPool := make(ConnPool)
+	sort.Sort(ByAConn(SortBy))
+	for ii := 0; ii < len(SortBy)/2; ii++ {
+		val := SortBy[ii]
+		key := val.Name
+		if ii < len(SortBy)/2 {
+			G_ConnPool[key] = val
+		} else {
+			if val.connToDb != nil {
+				val.connToDb.Close()
+				val.connToDb = nil
+				G_ConnPool[key] = val
+			}
+		}
+	}
+}
+
+func CountOfConnections() (n int) {
+	n = 0
+	for _ = range G_ConnPool {
+		n++
+	}
+	return
+}
+
+func CloseExpiredConnections(thresholdCount, curTime int) {
+	G_ConnMutex.Lock()
+	defer G_ConnMutex.Unlock()
+	for key, val := range G_ConnPool {
+		if val.AtTime < curTime-thresholdCount {
+			// xyzzy - close the connection
+			if val.connToDb != nil {
+				val.connToDb.Close()
+				val.connToDb = nil
+				G_ConnPool[key] = val
+			}
+			// delete it
+			delete(G_ConnPool, key)
+		}
+	}
 }
 
 /*
