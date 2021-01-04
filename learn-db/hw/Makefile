@@ -8,6 +8,7 @@ PY= \
 	ass_4_1.sql \
 	city_copy.sql \
 	city.sql \
+	gen_data.sql \
 	hw01_0.setup.sql \
 	hw01_1.sql \
 	hw02_1.sql \
@@ -72,17 +73,17 @@ PY= \
 	hw24_1.sql \
 	hw25_1.sql \
 	hw25_2.sql \
+	hw26_01.sql \
+	hw26_02.sql \
+	hw26_03.sql \
+	hw26_04.sql \
+	hw26_05.sql \
+	hw26_06.sql \
+	hw26_07.sql \
+	hw26_08.sql \
+	hw26_09.sql \
 	hw26_10.sql \
 	hw26_11.sql \
-	hw26_1.sql \
-	hw26_2.sql \
-	hw26_3.sql \
-	hw26_4.sql \
-	hw26_5.sql \
-	hw26_6.sql \
-	hw26_7.sql \
-	hw26_8.sql \
-	hw26_9.sql \
 	hw28_1.sql \
 	hw29_1.sql \
 	hw29_2.sql \
@@ -243,11 +244,11 @@ pre:
 	cp /dev/null open.1
 .PHONEY: pre
 
-gen_data.sql: $(RAW_MD) Makefile get-tags.go
-	go run get-tags.go $(RAW_MD) >gen_data.sql
-
 #gen_data.sql: $(RAW_MD) Makefile get-tags.go
 #	go run get-tags.go $(RAW_MD) >gen_data.sql
+gen_data.sql: $(RAW_MD) Makefile get-tags.go $(PY)
+	go run get-tags.go $(RAW_MD) >gen_data.sql
+
 
 %.md: %.raw.md $(PY) $(IMG)
 	m4 -P $< >$@

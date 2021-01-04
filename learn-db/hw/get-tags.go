@@ -66,7 +66,7 @@ func main() {
 	}
 	if db3 {
 		for key, val := range tag_to_uuid {
-			fmt.Printf("-- Tag %s %s\n", key, val)
+			fmt.Printf("#-- Tag %s %s\n", key, val)
 		}
 	}
 }
@@ -97,7 +97,7 @@ func readFile(fn string) (n_err int) {
 			fmt.Printf("%5d:%s\n", line_no, line)
 		}
 		if strings.HasPrefix(line, "# Inter") {
-			fmt.Printf("-- title: %5d:%s\n", line_no, line)
+			fmt.Printf("#-- title: %5d:%s\n", line_no, line)
 			title := line[1:]
 			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
 				u1,                          // UUID
@@ -109,7 +109,7 @@ func readFile(fn string) (n_err int) {
 			)
 			body = append(body, line)
 		} else if strings.HasPrefix(line, "#### Tags:") {
-			fmt.Printf("-- tag  : %5d:%s\n", line_no, line)
+			fmt.Printf("#-- tag  : %5d:%s\n", line_no, line)
 			for _, tag_word := range getTags(line) {
 				var t1 string
 				var ok bool
@@ -122,12 +122,12 @@ func readFile(fn string) (n_err int) {
 			}
 			body = append(body, line)
 		} else if strings.HasPrefix(line, "#### Validate:") {
-			fmt.Printf("-- validate  : %5d:%s\n", line_no, line)
+			fmt.Printf("#-- validate  : %5d:%s\n", line_no, line)
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
 			fmt.Printf("insert into ct_val_homework ( val_id, lesson_name, val_type, val_data  ) values ( '%s', %d, '%s', '%s' );\n", t1, nno, sqlEncode(uX[0]), sqlEncode(uX[1]))
 		} else if strings.HasPrefix(line, "#### FilesToRun:") {
-			fmt.Printf("-- FilesToRun  : %5d:%s\n", line_no, line)
+			fmt.Printf("#-- FilesToRun  : %5d:%s\n", line_no, line)
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
 			fmt.Printf("insert into ct_file_list ( file_list_uuid, lesson_name, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
@@ -204,7 +204,7 @@ func getTags(line string) (tag_list []string) {
 	// #### Tags: "hw02" "insert"
 	tag_str := line[11:]
 	if db2 {
-		fmt.Printf("-- Tag str ->%s<- \n", tag_str)
+		fmt.Printf("#-- Tag str ->%s<- \n", tag_str)
 	}
 	tag_str = strings.Trim(tag_str, " \t\r")
 
