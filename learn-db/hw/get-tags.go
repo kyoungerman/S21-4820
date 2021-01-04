@@ -97,7 +97,9 @@ func readFile(fn string) (n_err int) {
 			fmt.Printf("%5d:%s\n", line_no, line)
 		}
 		if strings.HasPrefix(line, "# Inter") {
-			fmt.Printf("#-- title: %5d:%s\n", line_no, line)
+			if db4 {
+				fmt.Printf("-- title: %5d:%s\n", line_no, line)
+			}
 			title := line[1:]
 			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
 				u1,                          // UUID
@@ -109,7 +111,9 @@ func readFile(fn string) (n_err int) {
 			)
 			body = append(body, line)
 		} else if strings.HasPrefix(line, "#### Tags:") {
-			fmt.Printf("#-- tag  : %5d:%s\n", line_no, line)
+			if db4 {
+				fmt.Printf("#-- tag  : %5d:%s\n", line_no, line)
+			}
 			for _, tag_word := range getTags(line) {
 				var t1 string
 				var ok bool
@@ -122,17 +126,23 @@ func readFile(fn string) (n_err int) {
 			}
 			body = append(body, line)
 		} else if strings.HasPrefix(line, "#### Validate:") {
-			fmt.Printf("#-- validate  : %5d:%s\n", line_no, line)
+			if db4 {
+				fmt.Printf("#-- validate  : %5d:%s\n", line_no, line)
+			}
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
 			fmt.Printf("insert into ct_val_homework ( val_id, lesson_name, val_type, val_data  ) values ( '%s', %d, '%s', '%s' );\n", t1, nno, sqlEncode(uX[0]), sqlEncode(uX[1]))
 		} else if strings.HasPrefix(line, "#### FilesToRun:") {
-			fmt.Printf("#-- FilesToRun  : %5d:%s\n", line_no, line)
+			if db4 {
+				fmt.Printf("#-- FilesToRun  : %5d:%s\n", line_no, line)
+			}
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
 			fmt.Printf("insert into ct_file_list ( file_list_uuid, lesson_name, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
 		} else if strings.HasPrefix(line, "#### ") {
-			// fmt.Printf("Undefined Unusual Line ->%s<-\n", line)
+			if db4 {
+				fmt.Printf("Undefined Unusual Line ->%s<-\n", line)
+			}
 			body = append(body, line)
 		} else {
 			body = append(body, line)
@@ -166,7 +176,9 @@ func readFile(fn string) (n_err int) {
 		fmt.Fprintf(os.Stderr, "%sError on running `make runM4Markdown_to_HTML` file %s is: %s%s\n", MiscLib.ColorRed, fn, err, MiscLib.ColorReset)
 		n_err++
 	}
-	fmt.Printf("%s\n", stdoutStderr)
+	if db5 {
+		fmt.Printf("%s\n", stdoutStderr)
+	}
 	buf, err := ioutil.ReadFile("tmp.md")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%sError on reading tmp.md for `make runM4Markdown_to_HTML` file %s is: %s%s\n", MiscLib.ColorRed, fn, err, MiscLib.ColorReset)
@@ -192,7 +204,7 @@ func readFile(fn string) (n_err int) {
 	// --------------------------------------------------------------------
 	// Update lesson in d.b. with final data.
 	// --------------------------------------------------------------------
-	fmt.Printf("update ct_homework set lesson_body = '%s' where homework_id = '%s'", sqlEncode(godebug.SVar(jb)), u1)
+	fmt.Printf("update ct_homework set lesson_body = '%s' where homework_id = '%s';\n\n\n", sqlEncode(godebug.SVar(jb)), u1)
 
 	if err := scanner.Err(); err != nil {
 		log.Fatalf("File:%s Error:%s\n", fn, err)
@@ -233,3 +245,5 @@ func sqlEncode(s string) (rv string) {
 var db1 = false
 var db2 = false
 var db3 = false
+var db4 = false
+var db5 = false
