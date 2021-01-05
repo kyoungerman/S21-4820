@@ -81,6 +81,9 @@ Done
 
 
 
+# Interactive - 42 - foreign data wrapper
+	- pull data from different PG database
+	- fdw for csv
 
 
 
@@ -101,53 +104,54 @@ ToDo
 		- has query with rank/limit on results from using ranking - and how to get ranking.		---- Important !
 	https://alibaba-cloud.medium.com/using-postgresql-to-create-an-efficient-search-engine-d0ab8e11b7	
 
+
+
+
+
+
 # Interactive - 39 - materialized views
 	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
 
+# Interactive - 43 - indexes on functions - soundex 
 
+# Interactive - 43 - when - if condition in projected columns
 
-
-
-
-# Interactive - 40 - indexes on functions - soundex 
-
-# Interactive - 41 - when - if condition in projected columns
-
-# Interactive - 42 - foreign data wrapper
-	- pull data from different PG database
-	- fdw for csv
-		
-
-# Interactive - 43 - create rule
+# Interactive - 44 - create rule
 	https://www.postgresql.org/docs/9.2/sql-createrule.html	
 
-# Interactive - 44 - NULL - differences between databases
+# Interactive - 45 - NULL - differences between databases
 	coalesce, nullif  (Oracle nvl)
 	oracle "dual"
 	# Interactive - 47 - null, NULL, case coalesce nullif
 	See:https://www.postgresqltutorial.com/ 
 
-# Interactive - 45 - date/time formats
 
-# Interactive - 46 - window functions
+
+
+# Interactive - 46 - date/time formats
+
+# Interactive - 47 - window functions
 	https://www.postgresql.org/docs/current/tutorial-window.html	
 
-# Interactive - 47 - postgresql database maintance
+# Interactive - 48 - postgresql database maintance
 	vacuum operation
 	find unused indexes
 	find slow queries
 	find size of tables
 
-# Interactive - 48 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
+# Interactive - 49 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
 
-# Interactive - 49 - More on JSONb
+# Interactive - 50 - More on JSONb
 
-
-# Interactive - 50 - Rename Stuff - fix spelling errors
+# Interactive - 51 - Rename Stuff - fix spelling errors
 	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
 	ALTER TABLE table_name RENAME TO new_table_name;	
 
 	https://www.techonthenet.com/postgresql/tables/alter_table.php	
+
+
+
+
 
 
 
