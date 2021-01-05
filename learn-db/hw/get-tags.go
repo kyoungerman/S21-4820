@@ -55,6 +55,12 @@ func main() {
 
 	error_cnt := 0
 
+	fmt.Printf("delete from ct_tag cascade;\n")
+	fmt.Printf("delete from ct_homework_ans cascade;\n")
+	fmt.Printf("delete from ct_homework cascade;\n")
+	fmt.Printf("delete from ct_tag cascade;\n")
+	fmt.Printf("\n\n\n")
+
 	for _, fn := range fns {
 		n_err := readFile(fn)
 		error_cnt += n_err
@@ -180,7 +186,7 @@ func readFile(fn string) (n_err int) {
 	if db5 {
 		fmt.Printf("%s\n", stdoutStderr)
 	}
-	buf, err := ioutil.ReadFile("tmp.md")
+	buf, err := ioutil.ReadFile("tmp.html")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%sError on reading tmp.md for `make runM4Markdown_to_HTML` file %s is: %s%s\n", MiscLib.ColorRed, fn, err, MiscLib.ColorReset)
 		n_err++

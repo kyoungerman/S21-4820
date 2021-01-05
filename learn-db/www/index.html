@@ -394,8 +394,8 @@
 </div>
 
 
-<video id="my-video" class="video-js" controls preload="auto" width="1640" height="1264" poster="/img/{{img_url}}" data-setup="{}">
-	<source src="/vid/{{url}}" type="video/mp4" />
+<video id="my-video" class="video-js" controls preload="auto" width="1640" height="1264" poster="/img/{{video_img}}" data-setup="{}">
+	<source src="/vid/{{video_url}}" type="video/mp4" />
 	<p class="vjs-no-js">
 	  To view this video please enable JavaScript, and consider upgrading to a web browser that
 	  <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -546,7 +546,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0160"></script>
+<script src="/js/cfg.js?_ran_=0163"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -822,12 +822,13 @@ CREATE TABLE ct_homework (
 			window.g_data = parsedJSON;
 			renderLesson( {
 				  "homework_title": data.data[0].homework_title
-				, "homework_text": parsedJSON.Lesson
+				, "homework_text": "Hi There" // parsedJSON.Lesson
 				, "homework_id": data.data[0].homework_id
 				, "video_url": data.data[0].video_url
 				, "video_img": data.data[0].video_img
 				, "tag": tag
 			} );
+			$("#homework_text").html( parsedJSON.Lesson );
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
@@ -994,26 +995,26 @@ $(document).ready(function(){
 <script src="/pdf/build/pdf.js"></script>
 <script src="/pdf/build/pdf.worker.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00160"></script>
-<script src="/js/table.js?_ran_=00160"></script>
+<script src="/js/doc-index.js?_ran_=00163"></script>
+<script src="/js/table.js?_ran_=00163"></script>
 
-<script src="/js/doc-form25.js?_ran_=0160"></script> <!-- login form / registration form -->
-<script src="/js/doc-form50.js?_ran_=0160"></script> <!-- render welcome page -->
+<script src="/js/doc-form25.js?_ran_=0163"></script> <!-- login form / registration form -->
+<script src="/js/doc-form50.js?_ran_=0163"></script> <!-- render welcome page -->
 
-<script src="/js/doc-form30.js?_ran_=0160"></script> <!-- QR: Create QR Assoc.  -->
-<script src="/js/doc-form31.js?_ran_=0160"></script> <!-- QR: Config User  -->
-<script src="/js/doc-form32.js?_ran_=0160"></script> <!-- TODO New: QR: Bulk Load    -->
-<script src="/js/doc-form33.js?_ran_=0160"></script> <!-- SampleUplaod -->
+<script src="/js/doc-form30.js?_ran_=0163"></script> <!-- QR: Create QR Assoc.  -->
+<script src="/js/doc-form31.js?_ran_=0163"></script> <!-- QR: Config User  -->
+<script src="/js/doc-form32.js?_ran_=0163"></script> <!-- TODO New: QR: Bulk Load    -->
+<script src="/js/doc-form33.js?_ran_=0163"></script> <!-- SampleUplaod -->
 
-<script src="/js/doc-form00.js?_ran_=0160"></script> <!-- document upload sign -->
-<script src="/js/doc-form01.js?_ran_=0160"></script> <!-- list documents -->
-<script src="/js/doc-form02.js?_ran_=0160"></script> <!-- render documents -->
-<script src="/js/doc-form09.js?_ran_=0160"></script> <!-- render welcome page -->
+<script src="/js/doc-form00.js?_ran_=0163"></script> <!-- document upload sign -->
+<script src="/js/doc-form01.js?_ran_=0163"></script> <!-- list documents -->
+<script src="/js/doc-form02.js?_ran_=0163"></script> <!-- render documents -->
+<script src="/js/doc-form09.js?_ran_=0163"></script> <!-- render welcome page -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0160 - 2019-12-18T00:00:00");
+console.log ( "Version 0163 - 2019-12-18T00:00:00");
 </script>
 
 </body>

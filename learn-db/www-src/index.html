@@ -454,12 +454,13 @@ CREATE TABLE ct_homework (
 			window.g_data = parsedJSON;
 			renderLesson( {
 				  "homework_title": data.data[0].homework_title
-				, "homework_text": parsedJSON.Lesson
+				, "homework_text": "Hi There" // parsedJSON.Lesson
 				, "homework_id": data.data[0].homework_id
 				, "video_url": data.data[0].video_url
 				, "video_img": data.data[0].video_img
 				, "tag": tag
 			} );
+			$("#homework_text").html( parsedJSON.Lesson );
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
