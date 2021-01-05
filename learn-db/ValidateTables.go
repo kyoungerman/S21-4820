@@ -61,13 +61,13 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_2fa",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "last_used"},
-			{ColumnName: "updated"},
-			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "user_id"},
 			{ColumnName: "user_hash"},
 			{ColumnName: "device_desc"},
+			{ColumnName: "last_used"},
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -140,10 +140,10 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_auth_token",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "user_id"},
 			{ColumnName: "updated"},
-			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -160,6 +160,7 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		"i_value": true,
 		"id": true,
 		"name": true,
+		"realm": true,
 		"ty": true,
 		"updated": true,
 		"value": true
@@ -168,14 +169,15 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_config",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "b_value"},
-			{ColumnName: "updated"},
-			{ColumnName: "created"},
-			{ColumnName: "id"},
-			{ColumnName: "name"},
 			{ColumnName: "ty"},
 			{ColumnName: "value"},
+			{ColumnName: "b_value"},
+			{ColumnName: "created"},
+			{ColumnName: "id"},
+			{ColumnName: "realm"},
+			{ColumnName: "name"},
 			{ColumnName: "i_value"},
+			{ColumnName: "updated"},
 		},
 	})
 	if err != nil {
@@ -210,24 +212,24 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_documents",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "document_hash"},
-			{ColumnName: "document_file_name"},
-			{ColumnName: "signature"},
-			{ColumnName: "txid"},
-			{ColumnName: "created"},
-			{ColumnName: "id"},
-			{ColumnName: "hash"},
 			{ColumnName: "ethstatus"},
-			{ColumnName: "blockno"},
-			{ColumnName: "updated"},
+			{ColumnName: "blockhash"},
+			{ColumnName: "blockerr"},
+			{ColumnName: "user_id"},
 			{ColumnName: "file_name"},
 			{ColumnName: "orig_file_extension"},
-			{ColumnName: "blockhash"},
-			{ColumnName: "user_id"},
-			{ColumnName: "orig_file_name"},
 			{ColumnName: "url_file_name"},
-			{ColumnName: "blockerr"},
+			{ColumnName: "signature"},
+			{ColumnName: "id"},
+			{ColumnName: "document_file_name"},
+			{ColumnName: "orig_file_name"},
+			{ColumnName: "txid"},
+			{ColumnName: "hash"},
 			{ColumnName: "note"},
+			{ColumnName: "document_hash"},
+			{ColumnName: "blockno"},
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -295,11 +297,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_registration_token",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "user_id"},
 			{ColumnName: "token"},
-			{ColumnName: "updated"},
-			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -347,11 +349,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_role_priv",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "role_id"},
 			{ColumnName: "priv_id"},
 			{ColumnName: "updated"},
-			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -396,30 +398,30 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		Columns: []ymux.PGColumn{
 			{ColumnName: "setup_2fa_complete"},
 			{ColumnName: "rfc_6238_secret"},
-			{ColumnName: "recovery_expire"},
-			{ColumnName: "setup_2fa_token"},
-			{ColumnName: "default_image"},
+			{ColumnName: "recovery_token"},
 			{ColumnName: "user_role"},
-			{ColumnName: "real_name"},
-			{ColumnName: "email"},
-			{ColumnName: "parent_user_id"},
-			{ColumnName: "auth_token"},
 			{ColumnName: "config"},
 			{ColumnName: "acct_type"},
-			{ColumnName: "default_title"},
-			{ColumnName: "roles_privs"},
-			{ColumnName: "org_user_id"},
-			{ColumnName: "username"},
-			{ColumnName: "recovery_token"},
-			{ColumnName: "salt"},
-			{ColumnName: "created"},
-			{ColumnName: "id"},
-			{ColumnName: "realm"},
-			{ColumnName: "userinfo"},
 			{ColumnName: "acct_expire"},
-			{ColumnName: "updated"},
 			{ColumnName: "password"},
+			{ColumnName: "salt"},
+			{ColumnName: "email"},
 			{ColumnName: "email_confirmed"},
+			{ColumnName: "default_image"},
+			{ColumnName: "roles_privs"},
+			{ColumnName: "default_title"},
+			{ColumnName: "auth_token"},
+			{ColumnName: "id"},
+			{ColumnName: "username"},
+			{ColumnName: "realm"},
+			{ColumnName: "real_name"},
+			{ColumnName: "recovery_expire"},
+			{ColumnName: "setup_2fa_token"},
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
+			{ColumnName: "userinfo"},
+			{ColumnName: "parent_user_id"},
+			{ColumnName: "org_user_id"},
 		},
 	})
 	if err != nil {
@@ -455,40 +457,38 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		good = append(good, "t_ymux_user_log")
 	}
 
-	// Table: ct_lesson
+	// Table: ct_homework
 	/* {
 		"created": true,
-		"img_url": true,
-		"lang_to_use": true,
-		"lesson": true,
-		"lesson_id": true,
-		"lesson_name": true,
+		"homework_id": true,
+		"homework_no": true,
+		"homework_title": true,
+		"lesson_body": true,
+		"points_avail": true,
 		"updated": true,
-		"url": true,
-		"video_raw_file": true,
-		"video_title": true
+		"video_img": true,
+		"video_url": true
 	} */
 
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
-		TableName: "ct_lesson",
+		TableName: "ct_homework",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "lang_to_use"},
-			{ColumnName: "video_title"},
-			{ColumnName: "url"},
-			{ColumnName: "lesson_name"},
-			{ColumnName: "lesson"},
+			{ColumnName: "homework_id"},
 			{ColumnName: "updated"},
+			{ColumnName: "video_img"},
+			{ColumnName: "lesson_body"},
 			{ColumnName: "created"},
-			{ColumnName: "lesson_id"},
-			{ColumnName: "video_raw_file"},
-			{ColumnName: "img_url"},
+			{ColumnName: "homework_title"},
+			{ColumnName: "homework_no"},
+			{ColumnName: "points_avail"},
+			{ColumnName: "video_url"},
 		},
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Missing %s - PG not setup correctly.  Table missing column or missing.\n", err)
-		bad = append(bad, "ct_lesson")
+		bad = append(bad, "ct_homework")
 	} else {
-		good = append(good, "ct_lesson")
+		good = append(good, "ct_homework")
 	}
 
 	// Table: ct_login
@@ -517,11 +517,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		good = append(good, "ct_login")
 	}
 
-	// Table: ct_lesson_seen
+	// Table: ct_homework_seen
 	/* {
 		"created": true,
+		"homework_id": true,
 		"id": true,
-		"lesson_id": true,
 		"updated": true,
 		"user_id": true,
 		"watch_count": true,
@@ -530,23 +530,23 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	} */
 
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
-		TableName: "ct_lesson_seen",
+		TableName: "ct_homework_seen",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "user_id"},
+			{ColumnName: "homework_id"},
 			{ColumnName: "when_seen"},
 			{ColumnName: "watch_count"},
 			{ColumnName: "when_start"},
 			{ColumnName: "updated"},
 			{ColumnName: "created"},
 			{ColumnName: "id"},
-			{ColumnName: "user_id"},
-			{ColumnName: "lesson_id"},
 		},
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Missing %s - PG not setup correctly.  Table missing column or missing.\n", err)
-		bad = append(bad, "ct_lesson_seen")
+		bad = append(bad, "ct_homework_seen")
 	} else {
-		good = append(good, "ct_lesson_seen")
+		good = append(good, "ct_homework_seen")
 	}
 
 	// Table: ct_homework_grade
@@ -562,12 +562,12 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_homework_grade",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "user_id"},
+			{ColumnName: "lesson_id"},
 			{ColumnName: "tries"},
 			{ColumnName: "pass"},
 			{ColumnName: "updated"},
 			{ColumnName: "created"},
-			{ColumnName: "user_id"},
-			{ColumnName: "lesson_id"},
 		},
 	})
 	if err != nil {
@@ -591,13 +591,13 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_homework_list",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "when_test"},
-			{ColumnName: "code"},
-			{ColumnName: "pass"},
 			{ColumnName: "updated"},
 			{ColumnName: "created"},
 			{ColumnName: "user_id"},
 			{ColumnName: "lesson_id"},
+			{ColumnName: "when_test"},
+			{ColumnName: "code"},
+			{ColumnName: "pass"},
 		},
 	})
 	if err != nil {
@@ -607,7 +607,7 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		good = append(good, "ct_homework_list")
 	}
 
-	// Table: ct_lesson_validation
+	// Table: ct_homework_validation
 	/* {
 		"created": true,
 		"id": true,
@@ -618,21 +618,75 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	} */
 
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
-		TableName: "ct_lesson_validation",
+		TableName: "ct_homework_validation",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "updated"},
 			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "lesson_id"},
 			{ColumnName: "seq"},
 			{ColumnName: "qdata"},
+			{ColumnName: "updated"},
 		},
 	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Missing %s - PG not setup correctly.  Table missing column or missing.\n", err)
-		bad = append(bad, "ct_lesson_validation")
+		bad = append(bad, "ct_homework_validation")
 	} else {
-		good = append(good, "ct_lesson_validation")
+		good = append(good, "ct_homework_validation")
+	}
+
+	// Table: ct_file_list
+	/* {
+		"created": true,
+		"file_list_id": true,
+		"file_name": true,
+		"homework_no": true,
+		"updated": true
+	} */
+
+	err = ymux.PGCheckTableColumns(ymux.PGTable{
+		TableName: "ct_file_list",
+		Columns: []ymux.PGColumn{
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
+			{ColumnName: "file_list_id"},
+			{ColumnName: "homework_no"},
+			{ColumnName: "file_name"},
+		},
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Missing %s - PG not setup correctly.  Table missing column or missing.\n", err)
+		bad = append(bad, "ct_file_list")
+	} else {
+		good = append(good, "ct_file_list")
+	}
+
+	// Table: ct_val_homework
+	/* {
+		"created": true,
+		"homework_no": true,
+		"updated": true,
+		"val_data": true,
+		"val_id": true,
+		"val_type": true
+	} */
+
+	err = ymux.PGCheckTableColumns(ymux.PGTable{
+		TableName: "ct_val_homework",
+		Columns: []ymux.PGColumn{
+			{ColumnName: "val_id"},
+			{ColumnName: "homework_no"},
+			{ColumnName: "val_type"},
+			{ColumnName: "val_data"},
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
+		},
+	})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Missing %s - PG not setup correctly.  Table missing column or missing.\n", err)
+		bad = append(bad, "ct_val_homework")
+	} else {
+		good = append(good, "ct_val_homework")
 	}
 
 	if len(exitOnError) > 0 {

@@ -62,7 +62,7 @@ func main() {
 	if error_cnt > 0 {
 		fmt.Fprintf(os.Stderr, "%sFAIL - %d errors%s\n", MiscLib.ColorRed, error_cnt, MiscLib.ColorReset)
 	} else {
-		fmt.Printf("%sPASS%s\n", MiscLib.ColorGreen, MiscLib.ColorReset)
+		fmt.Printf("-- %sPASS%s\n", MiscLib.ColorGreen, MiscLib.ColorReset)
 	}
 	if db3 {
 		for key, val := range tag_to_uuid {
@@ -101,6 +101,7 @@ func readFile(fn string) (n_err int) {
 				fmt.Printf("-- title: %5d:%s\n", line_no, line)
 			}
 			title := line[1:]
+			title = strings.TrimSpace(title)
 			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
 				u1,                          // UUID
 				sqlEncode(title),            // Title
@@ -131,14 +132,14 @@ func readFile(fn string) (n_err int) {
 			}
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
-			fmt.Printf("insert into ct_val_homework ( val_id, lesson_name, val_type, val_data  ) values ( '%s', %d, '%s', '%s' );\n", t1, nno, sqlEncode(uX[0]), sqlEncode(uX[1]))
+			fmt.Printf("insert into ct_val_homework ( val_id, homework_no, val_type, val_data  ) values ( '%s', %d, '%s', '%s' );\n", t1, nno, sqlEncode(uX[0]), sqlEncode(uX[1]))
 		} else if strings.HasPrefix(line, "#### FilesToRun:") {
 			if db4 {
 				fmt.Printf("#-- FilesToRun  : %5d:%s\n", line_no, line)
 			}
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
-			fmt.Printf("insert into ct_file_list ( file_list_id, lesson_name, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
+			fmt.Printf("insert into ct_file_list ( file_list_id, homework_no, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
 		} else if strings.HasPrefix(line, "#### ") {
 			if db4 {
 				fmt.Printf("Undefined Unusual Line ->%s<-\n", line)

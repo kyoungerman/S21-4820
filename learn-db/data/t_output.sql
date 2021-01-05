@@ -12,6 +12,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 -- -------------------------------------------------------- -- --------------------------------------------------------
 CREATE SEQUENCE t_output_id_seq
   INCREMENT 1
@@ -32,7 +41,7 @@ create index "t_output_p1" on "t_output" ( "created" );
 -- -------------------------------------------------------- -- --------------------------------------------------------
 drop table if exists "t_debug_flag" ;
 create table "t_debug_flag" (
-	  "id"					char varying(40) DEFAULT uuid_generate_v4() not null primary key
+	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
 	, "seq"	 				bigint DEFAULT nextval('t_output_id_seq'::regclass) NOT NULL 
 	, "flag_name"			text
 	, "created" 			timestamp default current_timestamp not null 						--

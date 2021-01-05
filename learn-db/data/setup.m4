@@ -1,7 +1,7 @@
 
 m4_changequote(`[[[', `]]]')
 
-m4_define([[[m4_uuid_type]]],[[[char varying(40)]]])
+m4_define([[[m4_uuid_type]]],[[[uuid]]])
 
 m4_define([[[m4_updTrig]]],[[[
 

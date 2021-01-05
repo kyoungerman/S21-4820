@@ -10,7 +10,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="card bg-default">
-				<div class="card-header"><h2>Lesson: {{lesson_title}}</h2></div>
+				<div class="card-header"><h2>Lesson: {{homework_title}}</h2></div>
 			</div>
 		</div>
 	</div>
@@ -32,10 +32,10 @@
 			<div class="card bg-default">
 				<div class="card-body">
 					<div id="table-paint">
-						<form id="form01" action="/api/v1/lesson" method="POST" class="bind-submit-table">
+						<form id="form01" action="/api/v1/homework" method="POST" class="bind-submit-table">
 							<h3> Desc </h3>
-								<div id="lesson_text"> xxxxxxxxxxxxxxxxx {{lesson_text}} </div>
-								<input type="hidden" name="lesson_id" id="lesson_id" value="{{lesson_id}}">
+								<div id="homework_text"> xxxxxxxxxxxxxxxxx {{homework_text}} </div>
+								<input type="hidden" name="homework_id" id="homework_id" value="{{homework_id}}">
 							<h3> Input </h3>
 
 								<button type="button" class="btn btn-primary bind-click" data-click="descTable" style="float:right;margin-right:10px;margin-bottom:3px;">Desc</button>

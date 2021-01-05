@@ -2,8 +2,8 @@ DROP TABLE if exists ct_homework cascade;
 
 CREATE TABLE ct_homework (
 	  homework_id				uuid DEFAULT uuid_generate_v4() not null primary key
-	, homework_no				text not null
 	, homework_title			text not null
+	, lesson_no					text not null
 	, points_avail				int not null default 10
 	, video_url					text not null
 	, video_img					text not null

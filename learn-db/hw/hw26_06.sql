@@ -1,6 +1,6 @@
 DROP TABLE if exists ct_homework_ans ;
 CREATE TABLE ct_homework_ans (
-	  homework__ans_id			uuid DEFAULT uuid_generate_v4() not null primary key
+	  homework_ans_id			uuid DEFAULT uuid_generate_v4() not null primary key
 	, homework_id				uuid not null
 	, user_id					uuid not null
 	, points					int not null default 0

@@ -1,7 +1,7 @@
 
 -- "Copyright (C) Philip Schlump, 2009-2017." 
 
-m4_include(types.m4)
+m4_include(setup.m4)
 
 -- -------------------------------------------------------- -- --------------------------------------------------------
 CREATE SEQUENCE t_output_id_seq

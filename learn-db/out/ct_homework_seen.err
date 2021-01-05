@@ -1,0 +1,10 @@
+--2021-01-05 00:15:49--  http://127.0.0.1:7001/api/v1/ct_homework_seen
+Connecting to 127.0.0.1:7001... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 32 [application/json]
+Saving to: ‘ct_homework_seen.out’
+
+     0K                                                       100% 6.87M=0s
+
+2021-01-05 00:15:49 (6.87 MB/s) - ‘ct_homework_seen.out’ saved [32/32]
+

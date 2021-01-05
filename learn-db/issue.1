@@ -1,0 +1,96 @@
+
+00003:
+	must get all UUIDs to be uuid type - t_ymux_user for example.
+
+00004: (Non fatal - anoyance)
+	data load, ./hw/get-tags.go
+	1. homework_title - should have a LR trim of blanks before data saved
+
+00001: on startup - error in pgsave.go:
+	AuthRealm ->*<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:69
+	AuthRealm ->app.example.com<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:265
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:324
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:324
+	AuthRealm ->*<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:265
+	AuthRealm ->*<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:265
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:324
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:324
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:343
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:324
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:343
+	pq: duplicate key value violates unique constraint "t_ymux_config_u1" from File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:324
+	AuthRealm ->*<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:265
+	AuthRealm ->*<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:265
+	AuthRealm ->*<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:265
+
+	-- Proposed fix --
+	Should keep a hash of updates that have already occured, and not dupliate in Go code.
+
+	line 104: added...
+			title = strings.TrimSpace(title)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+??Fixed!!
+ 00002:  Crash on server - cause by handle.go having an incorrect table name that is not longer in existence.  "ct_lesson_seen" non-existent table.
+	Top of HandleCrudConfig: AT: File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:512
+	  AT: File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:550
+	  AT: File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:561
+	AT AT:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:562
+	  AT: File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:568
+
+	Error fetching form ct_lesson_seen ->select * from "ct_lesson_seen"<- error pq: relation "ct_lesson_seen" does not exist at File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:648
+
+	2021/01/04 23:51:05 http: panic serving 127.0.0.1:33936: runtime error: invalid memory address or nil pointer dereference
+
+	goroutine 86 [running]:
+	net/http.(*conn).serve.func1(0xc0001fcaa0)
+		/usr/local/go/src/net/http/server.go:1772 +0x139
+	panic(0xcf5c60, 0x16f44b0)
+		/usr/local/go/src/runtime/panic.go:975 +0x3e3
+	database/sql.(*Rows).close(0x0, 0x0, 0x0, 0x0, 0x0)
+		/usr/local/go/src/database/sql/sql.go:3063 +0x76
+	database/sql.(*Rows).Close(0x0, 0x4141514141384141, 0x4141414141414141)
+		/usr/local/go/src/database/sql/sql.go:3059 +0x33
+	gitlab.com/pschlump/PureImaginationServer/ymux.HandleCRUDConfig(0xfb8220, 0xc0001f8700, 0xc000326800, 0xdf7d15, 0x18, 0x0, 0x0, 0x0, 0x0, 0x0, ...)
+		/home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go:652 +0x34ef
+	gitlab.com/pschlump/PureImaginationServer/ymux.HandleTables.func1.1(0xfb8220, 0xc0001f8700, 0xc000326800)
+		/home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go:1325 +0xb4
+	net/http.HandlerFunc.ServeHTTP(0xc000120680, 0xfb8220, 0xc0001f8700, 0xc000326800)
+		/usr/local/go/src/net/http/server.go:2012 +0x44
+		

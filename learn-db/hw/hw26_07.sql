@@ -83,7 +83,8 @@ $$ LANGUAGE 'plpgsql';
 
 drop TRIGGER if exists ct_login_trig on ct_login;
 
+drop TRIGGER ct_login_trig on ct_login;
 CREATE TRIGGER ct_login_trig
-BEFORE insert ON ct_login
+after insert ON ct_login
 FOR EACH ROW
 EXECUTE PROCEDURE ct_login_ins();

@@ -32,7 +32,7 @@ var StoredProcConfig = []ymux.CrudStoredProcConfig{
 // Table based end points
 var TableConfig = []ymux.CrudConfig{
 	/*
-		create table ct_lesson_seen (
+		create table ct_homework_seen (
 			  id						char varying (40) DEFAULT uuid_generate_v4() not null primary key
 			, user_id					char varying (40)  not null
 			, lesson_id					char varying (40) not null
@@ -43,14 +43,14 @@ var TableConfig = []ymux.CrudConfig{
 	*/
 	{
 		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:   "/api/v1/ct_lesson_seen",
+			URIPath:   "/api/v1/ct_homework_seen",
 			AuthKey:   false,
-			JWTKey:    true,
+			JWTKey:    false,
 			NoDoc:     true,
-			AuthPrivs: []string{"role:admin"},
+			AuthPrivs: []string{"role:user"},
 		},
 		MethodsAllowed: []string{"GET", "POST", "PUT", "DELETE"},
-		TableName:      "ct_lesson_seen",
+		TableName:      "ct_homework_seen",
 		InsertCols:     []string{"id", "user_id", "lesson_id", "when_seen", "watch_count"},
 		InsertPkCol:    "id",
 		UpdateCols:     []string{"id", "user_id", "lesson_id", "when_seen", "watch_count"},
@@ -59,129 +59,86 @@ var TableConfig = []ymux.CrudConfig{
 	},
 
 	/*
-		CREATE TABLE ct_lesson (
-			  lesson_id					m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
-			, video_raw_file			text not null
-			, video_title				text not null
-			, url						text not null
-			, img_url					text not null
-			, lesson					jsonb not null	-- all the leson data from ./lesson/{lesson_id}.json, ./raw/{fn}
-			, lesson_name				text not null
-			, lang_to_use				text default 'Go' not null				-- Go or PostgreSQL
-			, updated 					timestamp
-			, created 					timestamp default current_timestamp not null
+		CREATE TABLE ct_homework (
+			  homework_id				uuid DEFAULT uuid_generate_v4() not null primary key
+			, homework_title			text not null
+			, homework_no					text not null
+			, points_avail				int not null default 10
+			, video_url					text not null
+			, video_img					text not null
+			, lesson_body 				JSONb not null 	-- body, html, text etc.
+		 	, updated 					timestamp
+		 	, created 					timestamp default current_timestamp not null
 		);
 	*/
 	{
 		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:   "/api/v1/ct_lesson",
+			URIPath:   "/api/v1/ct_homework",
 			AuthKey:   false,
 			JWTKey:    false,
 			NoDoc:     true,
-			AuthPrivs: []string{"role:admin"},
+			AuthPrivs: []string{"role:user"},
 		},
 		MethodsAllowed: []string{"GET", "POST", "PUT", "DELETE"},
-		TableName:      "ct_lesson",
-		InsertCols:     []string{"lesson_id", "video_raw_file", "video_title", "url", "img_url", "lesson", "lesson_name", "lang_to_use"},
-		InsertPkCol:    "lesson_id",
-		UpdateCols:     []string{"lesson_id", "video_raw_file", "video_title", "url", "img_url", "lesson", "lesson_name", "lang_to_use"},
-		UpdatePkCol:    "lesson_id",
-		WhereCols:      []string{"lesson_id", "video_raw_file", "video_title", "url", "img_url", "lesson", "lesson_name", "lang_to_use"},
+		TableName:      "ct_homework",
+		InsertCols:     []string{"homework_id", "homework_title", "homework_no", "points_avail", "video_url", "video_img", "lesson_body"},
+		InsertPkCol:    "homework_id",
+		UpdateCols:     []string{"homework_id", "homework_title", "homework_no", "points_avail", "video_url", "video_img", "lesson_body"},
+		UpdatePkCol:    "homework_id",
+		WhereCols:      []string{"homework_id", "homework_title", "homework_no", "points_avail", "video_url", "video_img", "lesson_body"},
 	},
-
 	/*
-		create table ct_lesson_validation (
-			  id						char varying (40) DEFAULT uuid_generate_v4() not null primary key
-		   	, lesson_id				char varying (40) DEFAULT uuid_generate_v4() not null primary key
-		   	, seq					bigint DEFAULT nextval('ct_run_seq'::regclass) NOT NULL 	-- ID for passing to client as a number
-		   	, qdata					jsonb not null
-		   	, pass					char (1) default 'n' not null check ( "pass" in ( 'y','n' ) )
-		);
-	*/
-	{
-		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:   "/api/v1/ct_lesson_validation",
-			AuthKey:   false,
-			JWTKey:    true,
-			NoDoc:     true,
-			AuthPrivs: []string{"role:admin"},
-		},
-		MethodsAllowed: []string{"GET", "POST", "PUT", "DELETE"},
-		TableName:      "ct_lesson_validation",
-		InsertCols:     []string{"id", "lesson_id", "seq", "qdata"},
-		InsertPkCol:    "id",
-		UpdateCols:     []string{"id", "lesson_id", "seq", "qdata"},
-		UpdatePkCol:    "id",
-		WhereCols:      []string{"id", "lesson_id", "seq", "qdata"},
-	},
-
-	/*
-	   CREATE TABLE ct_login (
-	   	  user_id					m4_uuid_type() not null primary key -- 1 to 1 to t_ymux_user."id"
-	   	, pg_acct					char varying (20) not null
-	   	, class_no					text not null				-- 4280 or 4010-BC - one of 2 classes
-	   	, lang_to_use				text not null				-- Go or PostgreSQL
-	   	, misc						JSONb not null				-- Whatever I forgot
+	   create table ct_val_homework (
+	   	val_id m4_uuid_type() not null primary key,
+	   	homework_no int not null,
+	   	val_type text not null,
+	   	val_data text not null
+	    	, updated 				timestamp
+	    	, created 				timestamp default current_timestamp not null
 	   );
 	*/
 	{
 		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:   "/api/v1/ct_login",
+			URIPath:   "/api/v1/ct_val_homework",
 			AuthKey:   false,
-			JWTKey:    true,
+			JWTKey:    false,
 			NoDoc:     true,
-			AuthPrivs: []string{"role:admin"},
+			AuthPrivs: []string{"role:user"},
 		},
 		MethodsAllowed: []string{"GET", "POST", "PUT", "DELETE"},
-		TableName:      "ct_login",
-		InsertCols:     []string{"user_id", "pg_acct", "class_no", "lang_to_use", "misc"},
-		InsertPkCol:    "user_id",
-		UpdateCols:     []string{"user_id", "pg_acct", "class_no", "lang_to_use", "misc"},
-		UpdatePkCol:    "user_id",
-		WhereCols:      []string{"user_id", "pg_acct", "class_no", "lang_to_use", "misc"},
+		TableName:      "ct_val_homework",
+		InsertCols:     []string{"val_id", "homework_no", "val_type", "val_data"},
+		InsertPkCol:    "homework_id",
+		UpdateCols:     []string{"val_id", "homework_no", "val_type", "val_data"},
+		UpdatePkCol:    "homework_id",
+		WhereCols:      []string{"val_id", "homework_no"},
 	},
 
 	/*
-		Depricated .... based on a non-login view
-			   create or replace view ct_video_per_user as
-			   	select
-			   			  t1.lesson_id
-			   			, t1.id
-			   			, t1.video_raw_file
-			   			, t1.video_title
-			   			, t1.url
-			   			, t1.img_url
-			   			, t1.lesson
-			   			, t1.lesson_name
-						, t2.id as video_seen_id
-			   			, t2.when_seen
-			   			, t2.watch_count
-			   			, case
-			   				when t2.watch_count = 0 then 'n'
-			   				when t2.watch_count is null then 'n'
-			   				else 'y'
-			   			  end as "has_been_seen"
-			   		from ct_lesson as t1
-			   			left outer join ct_lesson_seen as t2 on ( t1.lesson_id = t2.lesson_id )
-			   ;
-		{
-			CrudBaseConfig: ymux.CrudBaseConfig{
-				URIPath:       "/api/v1/ct_video_per_user",
-				AuthKey:       false,
-				JWTKey:        true,
-				NoDoc:         true,
-				AuthPrivs:     []string{"role:admin"},
-				TableNameList: []string{"ct_lesson", "ct_lesson_seen"},
-			},
-			MethodsAllowed: []string{"GET"},
-			TableName:      "ct_video_per_user",
-			InsertCols:     []string{},
-			InsertPkCol:    "lesson_id",
-			UpdateCols:     []string{},
-			UpdatePkCol:    "lesson_id",
-			WhereCols:      []string{"lesson_id", "video_raw_file", "video_title", "url", "img_url", "lesson", "lesson_name", "when_seen", "video_seen_id", "watch_count", "has_been_seen", "lang_to_use"},
-		},
+	   create table ct_file_list (
+	   	file_list_id m4_uuid_type() not null primary key,
+	   	homework_no int not null,
+	   	file_name text not null
+	    	, updated 				timestamp
+	    	, created 				timestamp default current_timestamp not null
+	   );
 	*/
+	{
+		CrudBaseConfig: ymux.CrudBaseConfig{
+			URIPath:   "/api/v1/ct_file_list",
+			AuthKey:   false,
+			JWTKey:    false,
+			NoDoc:     true,
+			AuthPrivs: []string{"role:user"},
+		},
+		MethodsAllowed: []string{"GET", "POST", "PUT", "DELETE"},
+		TableName:      "ct_file_list",
+		InsertCols:     []string{"file_list_id", "homework_no", "file_name"},
+		InsertPkCol:    "homework_id",
+		UpdateCols:     []string{"file_list_id", "homework_no", "file_name"},
+		UpdatePkCol:    "homework_id",
+		WhereCols:      []string{"file_list_id", "homework_no"},
+	},
 }
 
 var QueryConfig = []ymux.CrudQueryConfig{
@@ -219,28 +176,41 @@ var QueryConfig = []ymux.CrudQueryConfig{
 	*/
 	{
 		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:       "/api/v1/ct_lesson_per_user",
+			URIPath:       "/api/v1/ct_homework_per_user",
 			AuthKey:       false,
 			JWTKey:        true,
 			NoDoc:         true,
-			TableNameList: []string{"t_ymux_user", "ct_lesson", "ct_lesson_seen"},
+			TableNameList: []string{"t_ymux_user", "ct_homework", "ct_homework_seen"},
 			ParameterList: []ymux.ParamListItem{
 				{ReqVar: "user_id", ParamName: "$1"},
 			},
 		},
-		// t1.lesson to be remove from the semi-view (large objet)
-		// use t1.lesson_id to query the table for that - one row at a time
+		// t1.homework to be remove from the semi-view (large objet)
+		// use t1.homework_id to query the table for that - one row at a time
 		// See /v2/ below.
+		/*
+			CREATE TABLE ct_homework (
+				  homework_id				uuid DEFAULT uuid_generate_v4() not null primary key
+				, homework_title			text not null
+				, homework_no					text not null
+				, points_avail				int not null default 10
+				, video_url					text not null
+				, video_img					text not null
+				, homework_body 				JSONb not null 	-- body, html, text etc.
+			 	, updated 					timestamp
+			 	, created 					timestamp default current_timestamp not null
+			);
+		*/
 		QueryString: `
 			select
-					  t1.lesson_id
-					, t1.video_raw_file
-					, t1.video_title
-					, t1.url
-					, t1.img_url
-					, t1.lesson
-					, t1.lesson_name
-					, t2.id as lesson_seen_id
+					  t1.homework_id
+					, t1.homework_title
+					, t1.homework_no
+					, t1.points_avail
+					, t1.video_url
+					, t1.video_img
+					, t1.lesson_body
+					, t2.id as homework_seen_id
 					, t2.when_seen
 					, t2.watch_count
 					, case
@@ -248,38 +218,37 @@ var QueryConfig = []ymux.CrudQueryConfig{
 						when t2.watch_count is null then 'n'
 						else 'y'
 					  end as "has_been_seen"
-					, t1.lang_to_use				
-				from ct_lesson as t1
-					left outer join ct_lesson_seen as t2 on ( t1.lesson_id = t2.lesson_id )
+				from ct_homework as t1
+					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
 				where exists (
 						select 1 as "found"
 						from ct_login as t3
 						where t3.user_id = $1
-						  and t3.lang_to_use = t1.lang_to_use
 					)
-				order by t1.lesson
+				order by t1.homework_no
 		`,
 	},
 	{
 		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:       "/api/v2/ct_lesson_per_user",
+			URIPath:       "/api/v2/ct_homework_per_user",
 			AuthKey:       false,
 			JWTKey:        true,
 			NoDoc:         true,
-			TableNameList: []string{"t_ymux_user", "ct_lesson", "ct_lesson_seen"},
+			TableNameList: []string{"t_ymux_user", "ct_homework", "ct_homework_seen"},
 			ParameterList: []ymux.ParamListItem{
 				{ReqVar: "user_id", ParamName: "$1"},
 			},
 		},
 		QueryString: `
 			select
-					  t1.lesson_id
-					, t1.video_raw_file
-					, t1.video_title
-					, t1.url
-					, t1.img_url
-					, t1.lesson_name
-					, t2.id as lesson_seen_id
+					  t1.homework_id
+					, t1.homework_title
+					, t1.homework_no
+					, t1.points_avail
+					, t1.video_url
+					, t1.video_img
+					, t1.lesson_body
+					, t2.id as homework_seen_id
 					, t2.when_seen
 					, t2.watch_count
 					, case
@@ -287,33 +256,31 @@ var QueryConfig = []ymux.CrudQueryConfig{
 						when t2.watch_count is null then 'n'
 						else 'y'
 					  end as "has_been_seen"
-					, t1.lang_to_use				
-				from ct_lesson as t1
-					left outer join ct_lesson_seen as t2 on ( t1.lesson_id = t2.lesson_id )
+				from ct_homework as t1
+					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
 				where exists (
 						select 1 as "found"
 						from ct_login as t3
 						where t3.user_id = $1
-						  and t3.lang_to_use = t1.lang_to_use
 					)
-				order by t1.lesson
+				order by t1.homework_no
 		`,
 	},
 	{
 		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:       "/api/v1/ct_lesson_done",
+			URIPath:       "/api/v1/ct_homework_done",
 			AuthKey:       false,
 			JWTKey:        true,
 			NoDoc:         true,
-			TableNameList: []string{"t_ymux_user", "ct_lesson", "ct_lesson_seen"},
+			TableNameList: []string{"t_ymux_user", "ct_homework", "ct_homework_seen"},
 			ParameterList: []ymux.ParamListItem{
 				{ReqVar: "user_id", ParamName: "$1"},
-				{ReqVar: "lesson_seen_id", ParamName: "$2"},
+				{ReqVar: "homework_seen_id", ParamName: "$2"},
 			},
 		},
 		IsUpdate: true,
 		QueryString: `
-			update ct_lesson_seen
+			update ct_homework_seen
 				set when_seen = now(),
 					watch_count = watch_count + 1
 				where exists (

@@ -331,7 +331,7 @@ function postRenderLearnList () {
 
 	// var url = "/api/v1/ct_video_per_user"; -- old non-user_id view -- depricated
 	// var url = "/api/v1/ct_lesson_per_user"; --old-- v1 
-	var url = "/api/v2/ct_lesson_per_user";
+	var url = "/api/v2/ct_homework_per_user";
 	var getdata = {
 		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
@@ -350,18 +350,18 @@ function postRenderLearnList () {
 				fullRow["xx"] = xx;
 				return qt ( [ '',
 					'       <td>\n',
-					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{lesson_name%}" name="%{lesson_name%}"/>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
 					'       </td>\n',
 				].join(""), fullRow );
 			};
 
 			var x_hdrCfg = {
-				ColNames: 	[ { Name:"Complete?"}, 		{ Name:"Lessons" }, 		{ Name:"Done Wnen" } 	],
+				ColNames: 	[ { Name:"Complete?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
 			};
 			var x_rowCfg = {
 				cols: [
 						{ Name: "has_been_seen", fx: ActionFunc },
-						{ Name: "video_title", rowTmpl: "<a href=\"#\" onclick='renderLessonParam(event,\"%{lesson_name%}\",\"%{lesson_id%}\")'>%{video_title%}</a>" },
+						{ Name: "video_title", rowTmpl: "<a href=\"#\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
 						{ Name: "when_seen", defaultIfEmpty: " "},
 				]
 			};
@@ -399,7 +399,7 @@ function postRenderLesson ( fd ) {
 	//		console.log ( "pre - Lesson - fetch of partial" );
 	//		} );
 
-	$("#lesson_text").html ( window.g_data.lesson_text );			// line 745
+	$("#lesson_text").html ( window.g_data.lesson_body );			// line 745
 	window.g_data = {};
 }
 
@@ -421,44 +421,53 @@ function renderLessonParam_old(event,tag){
 	} );
 }
 
-function renderLessonParam(event,tag,lesson_id){
+// mt/LearnList.html - 
+function renderLessonParam(event,tag,homework_id){
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
-	console.log("renderLessonPram_2:",tag,lesson_id);
+	console.log("renderLessonPram_2:",tag,homework_id);
 
+/*
+CREATE TABLE ct_homework (
+	  homework_id				m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
+	, homework_title			text not null
+	, homework_no					text not null
+	, points_avail				int not null default 10
+	, video_url					text not null
+	, video_img					text not null
+	, lesson_body 				JSONb not null 	-- body, html, text etc.
+ 	, updated 					timestamp
+ 	, created 					timestamp default current_timestamp not null
+);
+*/
 	var getdata = {
-		  "lesson_id": lesson_id
+		  "homework_id"		: homework_id
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	}
 	$.ajax({
 		type: 'GET',
-		url: "/api/v1/ct_lesson",
+		url: "/api/v1/ct_homework",
 		data: getdata,
 		success: function (data) {
 			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
-			var parsedJSON = JSON.parse ( data.data[0].lesson );
-			// xyzzy - check for errors  - handle
+			var parsedJSON = JSON.parse ( data.data[0].lesson_body );
+			console.log ( "    before renderLesson parsedJSON=", parsedJSON );
 			window.g_data = parsedJSON;
 			renderLesson( {
-				  "lesson_title": data.data[0].video_title
-				, "lesson_text": "...placeholder..." 
-				, "lesson_id": lesson_id
-				, "url": data.data[0].url
-				, "img_url": data.data[0].img_url
+				  "homework_title": data.data[0].homework_title
+				, "homework_text": parsedJSON.Lesson
+				, "homework_id": data.data[0].homework_id
+				, "video_url": data.data[0].video_url
+				, "video_img": data.data[0].video_img
 				, "tag": tag
 			} );
-			// xyzzy - do we have a race condition?
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
 			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
 		}
 	});
 }
@@ -471,7 +480,7 @@ function submitRunItCode( event, erro ) {
 	console.log("submitRunItCode");
 
 	var getdata = {
-		  "lesson_id"		: $("#lesson_id").val()
+		  "homework_id"		: $("#homework_id").val()
 		, "stmt"			: $("#stmt").val()
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};

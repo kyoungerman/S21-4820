@@ -23,7 +23,7 @@
 
 drop TABLE if exists "ct_user" ;
 CREATE TABLE "ct_user" (
-	  "id"					char varying(40) DEFAULT uuid_generate_v4() not null primary key
+	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
 	, "username" 			text
 	, "password" 			text
 	, "real_name" 			text
@@ -51,7 +51,7 @@ insert into "ct_user" ( "id", "username", "password", "salt", "default_image", "
 
 drop TABLE if exists "t_registration_key" ;
 CREATE TABLE "t_registration_key" (
-	  "id"					char varying(40) DEFAULT uuid_generate_v4() not null primary key
+	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
 	, "key" 				text not null
 	, "owner_id" 			text
 );
@@ -82,8 +82,8 @@ EXECUTE PROCEDURE ct_user_upd();
 delete from "ct_auth_token";
 drop TABLE if exists "ct_auth_token" ;
 CREATE TABLE "ct_auth_token" (
-	  "id"					char varying(40) DEFAULT uuid_generate_v4() not null primary key
-	, "user_id"				char varying(40) not null
+	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
+	, "user_id"				uuid not null
 	, "updated" 			timestamp
 	, "created" 			timestamp default current_timestamp not null
 );
@@ -114,8 +114,8 @@ EXECUTE PROCEDURE ct_auth_token_upd();
 delete from "ct_add_token";
 drop TABLE if exists "ct_add_token" ;
 CREATE TABLE "ct_add_token" (
-	  "id"					char varying(40) DEFAULT uuid_generate_v4() not null primary key
-	, "user_id"				char varying(40) not null
+	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
+	, "user_id"				uuid not null
 	, "token_type"			text			-- "device", "recovery", "temorary"
 	, "sell_by_date"		timestamp		-- when token expires
 	, "username"			text

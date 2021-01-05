@@ -1,0 +1,34 @@
+{"status":"success","data":[
+	{
+		"created": "2021-01-04T21:33:40.3896+0000",
+		"homework_no": 1,
+		"updated": null,
+		"val_data": "select validate_hw01()",
+		"val_id": "7eca9faf-575d-4716-7485-3824ee87dc25",
+		"val_type": "te: SQL-Select"
+	},
+	{
+		"created": "2021-01-04T21:33:40.40072+0000",
+		"homework_no": 2,
+		"updated": null,
+		"val_data": "select 'PASS' from name_list where name = 'Philip Schlump'",
+		"val_id": "c6bd189f-e90c-4c2e-7710-5c339eba8954",
+		"val_type": "te: SQL-Select"
+	},
+	{
+		"created": "2021-01-04T21:33:40.52762+0000",
+		"homework_no": 13,
+		"updated": null,
+		"val_data": "select 'PASS' from ( select count(1) as cnt from us_state ) as foo where foo.cnt = 53",
+		"val_id": "5f03ddb2-3620-4dac-4170-1b374bcad6a3",
+		"val_type": "te: SQL-Select"
+	},
+	{
+		"created": "2021-01-04T21:33:40.68219+0000",
+		"homework_no": 26,
+		"updated": null,
+		"val_data": "select select setup_data_26()",
+		"val_id": "16228a7b-f417-4990-78bf-224514c390c7",
+		"val_type": "te: SQL-Select"
+	}
+]}
