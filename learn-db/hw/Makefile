@@ -84,6 +84,7 @@ PY= \
 	hw26_09.sql \
 	hw26_10.sql \
 	hw26_11.sql \
+	hw26_14.sql \
 	hw28_1.sql \
 	hw29_1.sql \
 	hw29_2.sql \
@@ -105,6 +106,9 @@ PY= \
 	hw37_3.sql \
 	hw37_4.sql \
 	hw37_5.sql \
+	hw42_01.sql \
+	hw42_02.sql \
+	hw42_04.sql \
 	old1.sql \
 	s1.sql \
 	s2.sql \
@@ -228,7 +232,8 @@ RAW_MD= \
 	hw34.raw.md \
 	hw35.raw.md \
 	hw36.raw.md \
-	hw37.raw.md
+	hw37.raw.md \
+	hw42.raw.md
 #endRAW_MD
 
 all: pre $(MD) $(HTML) gen_data.sql

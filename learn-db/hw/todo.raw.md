@@ -114,6 +114,9 @@ ToDo
 # Interactive - 41 - when - if condition in projected columns
 
 # Interactive - 42 - foreign data wrapper
+	- pull data from different PG database
+	- fdw for csv
+		
 
 # Interactive - 43 - create rule
 	https://www.postgresql.org/docs/9.2/sql-createrule.html	
