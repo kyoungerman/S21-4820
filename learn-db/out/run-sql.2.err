@@ -1,0 +1,11 @@
+--2021-01-05 15:45:13--  http://localhost:7001/api/v1/run-sql-in-db?lesson_id=01&homework_id=7185233a-bc4e-4d5a-7dee-f572ed1cd622&stmt=%0Adrop%20table%20if%20exists%20name2_list%3B&_ran_=3339832.447221793
+Resolving localhost (localhost)... ::1, 127.0.0.1
+Connecting to localhost (localhost)|::1|:7001... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 20 [application/json]
+Saving to: ‘./out/run-sql.2.out’
+
+     0K                                                       100% 2.32M=0s
+
+2021-01-05 15:45:13 (2.32 MB/s) - ‘./out/run-sql.2.out’ saved [20/20]
+

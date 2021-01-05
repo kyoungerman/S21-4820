@@ -334,7 +334,7 @@ func HandleBulkLoadQR(www http.ResponseWriter, req *http.Request) {
 	err := json.Unmarshal([]byte(updateStr), &update)
 	if err != nil {
 		www.WriteHeader(http.StatusInternalServerError) // 500 is this the correct error to return at this point?
-		fmt.Fprintf(logFilePtr, "BulkLoad: parse error: %s, %s, %s\n", update, err, godebug.LF())
+		fmt.Fprintf(logFilePtr, "BulkLoad: parse error: %v, %s, %s\n", update, err, godebug.LF())
 		fmt.Fprintf(www, "Error: parse error: %s\n", err)
 		return
 	}

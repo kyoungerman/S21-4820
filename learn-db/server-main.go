@@ -81,7 +81,7 @@ type GlobalConfigData struct {
 
 	UploadFile.UploadFileCfg
 
-	ExpiredConnectionThreshold int `json:"expired_connection_threshold" defauilt:"500"`
+	ExpiredConnectionThreshold int `json:"expired_connection_threshold" defauilt:"50000"`
 }
 
 var n_ticks = 0

@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/pschlump/godebug"
 	"gitlab.com/pschlump/PureImaginationServer/CliResponseWriter"
 )
 
@@ -53,4 +54,34 @@ func Test_BulkLoad(t *testing.T) {
 		RequestURI: Cli + "?" + qryParam, // "RequestURI": "/api/v1/status?id=dump-request",
 	}
 	HandleBulkLoadQR(www, req)
+}
+
+// func SplitIntStmt(stmt string) (rv []string) {
+func Test_SplitIntoStmt(t *testing.T) {
+	tests := []struct {
+		strIn    string
+		expected []string
+	}{
+		{
+			strIn: "drop table abc; create table abc ( n int ); select 12 from abc;",
+			expected: []string{
+				"drop table abc",
+				"create table abc ( n int )",
+				"select 12 from abc",
+			},
+		},
+	}
+
+	for ii, test := range tests {
+		rv := SplitIntoStmt(test.strIn)
+		if len(rv) != len(test.expected) {
+			t.Errorf("Test %d Length Mismatch: Exptect %s got %s\n", ii, godebug.SVar(test.expected), godebug.SVar(rv))
+		} else {
+			for jj := 0; jj < len(test.expected); jj++ {
+				if test.expected[jj] != rv[jj] {
+					t.Errorf("Test %d Mismatch at %d: Exptect %s got %s\n", ii, jj, godebug.SVar(test.expected), godebug.SVar(rv))
+				}
+			}
+		}
+	}
 }

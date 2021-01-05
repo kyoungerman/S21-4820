@@ -36,7 +36,9 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
 	fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
+	fmt.Printf("username: ->%s<-\n", username)
 	fmt.Printf("stmt: ->%s<-\n", stmt)
 	fmt.Printf("lesson_id: ->%s<-\n", lesson_id)
 	fmt.Printf("rawuserdata: ->%s<-\n", rawuserdata)
@@ -45,6 +47,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
 		www.WriteHeader(500)
+		fmt.Fprintf(os.Stderr, "%sMissing connection to database for=[%s]%s\n", MiscLib.ColorRed, username, MiscLib.ColorReset)
 		fmt.Fprintf(www, "Missing connection to database for=[%s]", username)
 		return
 	}
@@ -53,6 +56,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
 		www.WriteHeader(406)
 		fmt.Fprintf(www, "Missing lesson_id")
+		fmt.Fprintf(os.Stderr, "%sMissing lesson_id, AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
 		return
 	}
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
@@ -60,6 +64,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
 		www.WriteHeader(406)
 		fmt.Fprintf(www, "Missing stmt")
+		fmt.Fprintf(os.Stderr, "%sMissing stmt, AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
 		return
 	}
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
@@ -82,40 +87,63 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
 
 	rv = `{"status":"error","msg":"invalid case"}`
-	if IsSelect(lesson_id, stmt, www, req) {
-		if len(userdata) == 0 {
+	stmt_set := SplitIntoStmt(stmt)
+	type RvData struct {
+		Status string
+		MsgSet []string
+	}
+	sRv := RvData{Status: "error"}
+
+	for ss, stmtX := range stmt_set {
+		if IsSelect(lesson_id, stmtX, www, req) {
+			if len(userdata) == 0 {
+				fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+				// resultSet, err = ymux.SQLQueryDB(UserDB, stmtX)
+				resultSet = sizlib.SelData(UserDB, stmtX)
+			} else {
+				fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+				// resultSet, err = ymux.SQLQueryDB(UserDB, stmtX, userdata...) // Xyzzy - add data as JSON array (Bind variables)
+				resultSet = sizlib.SelData(UserDB, stmtX, userdata...)
+			}
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+				sRv.Status = "error"
+				sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("%s", err))
+			} else {
+				fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+				// rv = fmt.Sprintf(`{"status":"success","data":%s}`, godebug.SVarI(resultSet))
+				sRv.Status = "success"
+				sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("%s", godebug.SVarI(resultSet)))
+			}
+		} else if IsUpdate(lesson_id, stmtX, www, req) {
 			fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-			// resultSet, err = ymux.SQLQueryDB(UserDB, stmt)
-			resultSet = sizlib.SelData(UserDB, stmt)
+			nr, err = ymux.SQLUpdateDB(UserDB, stmtX)
+			if err != nil {
+				// rv = fmt.Sprintf(`{"status":"error","msg":%q}`, err)
+				sRv.Status = "error"
+				sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("%s", err))
+			} else {
+				// rv = fmt.Sprintf(`{"status":"success","n_rows_updated":%d}`, nr)
+				sRv.Status = "success"
+				sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("n_rows_update=%d", nr))
+			}
 		} else {
 			fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-			// resultSet, err = ymux.SQLQueryDB(UserDB, stmt, userdata...) // Xyzzy - add data as JSON array (Bind variables)
-			resultSet = sizlib.SelData(UserDB, stmt, userdata...)
-		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-			rv = fmt.Sprintf(`{"status":"error","msg":%q}`, err)
-		} else {
-			fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-			rv = fmt.Sprintf(`{"status":"success","data":%s}`, godebug.SVarI(resultSet))
-		}
-	} else if IsUpdate(lesson_id, stmt, www, req) {
-		fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-		nr, err = ymux.SQLUpdateDB(UserDB, stmt)
-		if err != nil {
-			rv = fmt.Sprintf(`{"status":"error","msg":%q}`, err)
-		} else {
-			rv = fmt.Sprintf(`{"status":"success","n_rows_updated":%d}`, nr)
-		}
-	} else {
-		fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-		err = ymux.SQLInsertDB(UserDB, stmt)
-		if err != nil {
-			rv = fmt.Sprintf(`{"status":"error","msg":%q}`, err)
-		} else {
-			rv = fmt.Sprintf(`{"status":"success"}`)
+			err = ymux.SQLInsertDB(UserDB, stmtX)
+			if err != nil {
+				// rv = fmt.Sprintf(`{"status":"error","msg":%q}`, err)
+				sRv.Status = "error"
+				sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("%s", err))
+			} else {
+				rv = fmt.Sprintf(`{"status":"success"}`)
+				sRv.Status = "success"
+				sRv.MsgSet = append(sRv.MsgSet, "ok")
+			}
 		}
 	}
+
+	rv = godebug.SVarI(sRv)
+	fmt.Fprintf(os.Stderr, "%sOutput From Run ->%s<- AT:%s%s\n", MiscLib.ColorGreen, rv, godebug.LF(), MiscLib.ColorReset)
 
 	www.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
@@ -153,6 +181,7 @@ func HandleValidateSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	}
 
 	fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
+	fmt.Printf("username: ->%s<-\n", username)
 	fmt.Printf("stmt: ->%s<-\n", stmt)
 	fmt.Printf("lesson_id: ->%s<-\n", lesson_id)
 	fmt.Printf("rawuserdata: ->%s<-\n", rawuserdata)
@@ -269,6 +298,7 @@ func HandleSubmitAnswerInDatabase(www http.ResponseWriter, req *http.Request) {
 	}
 
 	fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
+	fmt.Printf("username: ->%s<-\n", username)
 	fmt.Printf("stmt: ->%s<-\n", stmt)
 	fmt.Printf("lesson_id: ->%s<-\n", lesson_id)
 	fmt.Printf("rawuserdata: ->%s<-\n", rawuserdata)
@@ -371,14 +401,31 @@ func GetUsernameFromId(user_id string) (username string, err error) {
 	return
 }
 
+func SplitIntoStmt(stmt string) (rv []string) {
+	eq := 0
+	sp := 0
+	for ii, cc := range stmt {
+		if eq == 1 {
+		} else if cc == '\'' {
+			eq = 1
+		} else if cc == '"' {
+			eq = 1
+		} else if cc == ';' {
+			rv = append(rv, strings.Trim(stmt[sp:ii], " \n\t\f\r"))
+			sp = ii + 1
+		}
+	}
+	return
+}
+
 // if IsSelect(lesson_id, stmt, www, req) {
 func IsSelect(lesson_id, stmt string, www http.ResponseWriter, req *http.Request) (rv bool) {
-	ss := strings.Split(stmt, " ")
+	ss := strings.Split(strings.Trim(stmt, " \t\f\n\r"), " \t\f\n\r")
 	return len(ss) > 0 && strings.ToLower(ss[0]) == "select"
 }
 
 // } else if IsUpdate(lesson_id, stmt, www, req) {
 func IsUpdate(lesson_id, stmt string, www http.ResponseWriter, req *http.Request) (rv bool) {
-	ss := strings.Split(stmt, " ")
+	ss := strings.Split(strings.Trim(stmt, " \t\f\n\r"), " \t\f\n\r")
 	return len(ss) > 0 && strings.ToLower(ss[0]) == "update"
 }

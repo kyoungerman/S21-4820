@@ -78,6 +78,7 @@ func GetConn(name string) (*sql.DB, error) {
 	}
 
 	if conn.connToDb == nil {
+
 		// create connection to database using NamePool info
 		t1, err := ConnectToPGGeneral(gCfg.DBHost, gCfg.DBPort, gCfg.DBUser, gCfg.DBPassword, conn.DatabaseName, gCfg.DBSSLMode)
 		if err != nil {
@@ -138,6 +139,7 @@ func CloseExpiredConnections(thresholdCount, curTime int) {
 	G_ConnMutex.Lock()
 	defer G_ConnMutex.Unlock()
 	for key, val := range G_ConnPool {
+		_ = key
 		if val.AtTime < curTime-thresholdCount {
 			// xyzzy - close the connection
 			if val.connToDb != nil {
@@ -146,7 +148,7 @@ func CloseExpiredConnections(thresholdCount, curTime int) {
 				G_ConnPool[key] = val
 			}
 			// delete it
-			delete(G_ConnPool, key)
+			// delete(G_ConnPool, key)
 		}
 	}
 }
