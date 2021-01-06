@@ -85,3 +85,35 @@ func Test_SplitIntoStmt(t *testing.T) {
 		}
 	}
 }
+
+// func IsSelect(stmt string) (rv bool) {
+func Test_IsSelect(t *testing.T) {
+	tests := []struct {
+		strIn    string
+		expected bool
+	}{
+		{
+			strIn:    "drop table abc",
+			expected: false,
+		},
+		{
+			strIn:    "create table abc ( n int )",
+			expected: false,
+		},
+		{
+			strIn:    "select 12 from abc;",
+			expected: true,
+		},
+		{
+			strIn:    " select 12 from abc; ",
+			expected: true,
+		},
+	}
+
+	for ii, test := range tests {
+		rv := IsSelect(test.strIn)
+		if rv != test.expected {
+			t.Errorf("Test %d Mismatch: Exptect %v got %v\n", ii, test.expected, rv)
+		}
+	}
+}

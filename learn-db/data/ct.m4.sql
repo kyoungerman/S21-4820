@@ -24,7 +24,7 @@ DROP SEQUENCE if exists ct_run_seq ;
 -- Inserted right after registration. (part of user create script)
 -- -------------------------------------------------------- -- --------------------------------------------------------
 CREATE TABLE ct_login (
-	  user_id					m4_uuid_type() not null primary key -- 1 to 1 to t_ymux_user."id"
+	  user_id					uuid not null primary key -- 1 to 1 to t_ymux_user."id"
 	, pg_acct					char varying (20) not null
 );
 
@@ -38,9 +38,9 @@ CREATE UNIQUE INDEX ct_login_u1 on ct_login ( pg_acct );
 -- -------------------------------------------------------- -- --------------------------------------------------------
 
 CREATE TABLE ct_homework_seen (
-	  id						m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
-	, user_id					m4_uuid_type() not null
-	, homework_id				m4_uuid_type() not null
+	  id						uuid DEFAULT uuid_generate_v4() not null primary key
+	, user_id					uuid not null
+	, homework_id				uuid not null
 	, when_seen					timestamp 
 	, watch_count				int default 0 not null
 	, when_start				timestamp 
@@ -59,10 +59,11 @@ m4_updTrig(ct_homework_seen)
 -- WHen : on submit of homework.
 -- -------------------------------------------------------- -- --------------------------------------------------------
 CREATE TABLE ct_homework_grade (
-	  user_id		m4_uuid_type() not null						-- 1 to 1 map to user	
-	, lesson_id		m4_uuid_type() not null						-- assignment
+	  user_id		uuid not null						-- 1 to 1 map to user	
+	, lesson_id		uuid not null						-- assignment
 	, tries			int default 0 not null				-- how many times did they try thisa
 	, pass			text default 'No' not null			-- Did the test get passed
+	, pts			int default 0 not null				-- points awarded
  	, updated 		timestamp
  	, created 		timestamp default current_timestamp not null
 );
@@ -77,8 +78,8 @@ m4_updTrig(ct_homework_grade)
 -- Hm.... ???
 -- -------------------------------------------------------- -- --------------------------------------------------------
 CREATE TABLE ct_homework_list (
-	  user_id		m4_uuid_type() not null						-- 1 to 1 map to user	
-	, lesson_id		m4_uuid_type() not null						-- assignment
+	  user_id		uuid not null						-- 1 to 1 map to user	
+	, lesson_id		uuid not null						-- assignment
 	, when_test		timestamp not null default now()	-- when did it get run/tested?
 	, code			text not null						-- the submitted code
 	, pass			text default 'No' not null			-- Assume that it failed to pass
@@ -96,7 +97,7 @@ m4_updTrig(ct_homework_list)
 -- DROP VIEW if exists ct_homework_per_user_title;
 
 CREATE TABLE ct_homework (
-	  homework_id				m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
+	  homework_id				uuid DEFAULT uuid_generate_v4() not null primary key
 	, homework_title			text not null
 	, homework_no					text not null
 	, points_avail				int not null default 10
@@ -140,8 +141,8 @@ CREATE SEQUENCE ct_run_seq
 -- , pass					char (1) default 'n' not null check ( "pass" in ( 'y','n' ) )
 -- -------------------------------------------------------- -- --------------------------------------------------------
 CREATE TABLE ct_homework_validation (
-	  id					m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
-	, lesson_id				m4_uuid_type() not null
+	  id					uuid DEFAULT uuid_generate_v4() not null primary key
+	, lesson_id				uuid not null
 	, seq					bigint DEFAULT nextval('ct_run_seq'::regclass) NOT NULL 	-- ID for passing to client as a number
 	, qdata					jsonb not null
  	, updated 				timestamp
@@ -157,7 +158,7 @@ m4_updTrig(ct_homework_validation)
 -- 
 -- -------------------------------------------------------- -- --------------------------------------------------------
 create table ct_val_homework (
-	val_id m4_uuid_type() not null primary key,
+	val_id uuid not null primary key,
 	homework_no int not null,
 	val_type text not null,
 	val_data text not null
@@ -172,7 +173,7 @@ m4_updTrig(ct_val_homework)
 -- 
 -- -------------------------------------------------------- -- --------------------------------------------------------
 create table ct_file_list (
-	file_list_id m4_uuid_type() not null primary key,
+	file_list_id uuid not null primary key,
 	homework_no int not null,
 	file_name text not null
  	, updated 				timestamp
@@ -387,7 +388,7 @@ $$ LANGUAGE plpgsql;
 CREATE or REPLACE FUNCTION ct_table_test ( p_p1 varchar, p_p2 varchar )
 RETURNS varchar AS $$
 DECLARE
-    l_junk m4_uuid_type();
+    l_junk uuid;
     l_cnt int;
     l_n_err int;
 BEGIN

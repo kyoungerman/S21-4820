@@ -1,1 +1,33 @@
-{"status":"success"}
+{
+	"Status": "success",
+	"MsgSet": [
+		{
+			"Msg": "ok",
+			"Stmt": "drop table if exists name2_list",
+			"NRowsUpdated": 0
+		},
+		{
+			"Msg": "ok",
+			"Stmt": "create table name2_list ( a int )",
+			"NRowsUpdated": 0
+		},
+		{
+			"Msg": "ok",
+			"Stmt": "insert into name2_list ( a ) values ( 12 ), ( 14 )",
+			"NRowsUpdated": 0
+		},
+		{
+			"Msg": "ok",
+			"Stmt": "select * from name2_list",
+			"Data": [
+				{
+					"a": 12
+				},
+				{
+					"a": 14
+				}
+			],
+			"NRowsUpdated": 0
+		}
+	]
+}

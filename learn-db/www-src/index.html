@@ -329,9 +329,7 @@ function postRenderLearnList () {
 	window.g_data = {};
 	console.log ( "post - LearnList" );
 
-	// var url = "/api/v1/ct_video_per_user"; -- old non-user_id view -- depricated
-	// var url = "/api/v1/ct_lesson_per_user"; --old-- v1 
-	var url = "/api/v2/ct_homework_per_user";
+	var url = "/api/v1/ct_homework_per_user";
 	var getdata = {
 		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};

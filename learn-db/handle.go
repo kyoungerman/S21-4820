@@ -139,6 +139,33 @@ var TableConfig = []ymux.CrudConfig{
 		UpdatePkCol:    "homework_id",
 		WhereCols:      []string{"file_list_id", "homework_no"},
 	},
+	/*
+	   CREATE TABLE ct_homework_grade (
+	   	  user_id		uuid not null						-- 1 to 1 map to user
+	   	, homework_id		uuid not null						-- assignment
+	   	, tries			int default 0 not null				-- how many times did they try thisa
+	   	, pass			text default 'No' not null			-- Did the test get passed
+	   	, pts			int default 0 not null				-- points awarded
+	    	, updated 		timestamp
+	    	, created 		timestamp default current_timestamp not null
+	   );
+	*/
+	{
+		CrudBaseConfig: ymux.CrudBaseConfig{
+			URIPath:   "/api/v1/ct_homework_grade",
+			AuthKey:   false,
+			JWTKey:    false,
+			NoDoc:     true,
+			AuthPrivs: []string{"role:admin"},
+		},
+		MethodsAllowed: []string{"GET", "POST", "PUT", "DELETE"},
+		TableName:      "ct_homework_grade",
+		InsertCols:     []string{"user_id", "homework_id", "tries", "pass", "pts", "updated", "created"},
+		InsertPkCol:    "homework_id",
+		UpdateCols:     []string{"user_id", "homework_id", "tries", "pass", "pts", "updated", "created"},
+		UpdatePkCol:    "homework_id",
+		WhereCols:      []string{"user_id", "homework_id", "tries", "pass", "pts", "updated", "created"},
+	},
 }
 
 var QueryConfig = []ymux.CrudQueryConfig{
@@ -218,52 +245,19 @@ var QueryConfig = []ymux.CrudQueryConfig{
 						when t2.watch_count is null then 'n'
 						else 'y'
 					  end as "has_been_seen"
+					, t1.homework_no::int as i_homework_no
+					, t3.tries
+					, t3.pass
+					, t3.pts
 				from ct_homework as t1
 					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
+					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
 				where exists (
 						select 1 as "found"
 						from ct_login as t3
 						where t3.user_id = $1
 					)
-				order by t1.homework_no
-		`,
-	},
-	{
-		CrudBaseConfig: ymux.CrudBaseConfig{
-			URIPath:       "/api/v2/ct_homework_per_user",
-			AuthKey:       false,
-			JWTKey:        true,
-			NoDoc:         true,
-			TableNameList: []string{"t_ymux_user", "ct_homework", "ct_homework_seen"},
-			ParameterList: []ymux.ParamListItem{
-				{ReqVar: "user_id", ParamName: "$1"},
-			},
-		},
-		QueryString: `
-			select
-					  t1.homework_id
-					, t1.homework_title
-					, t1.homework_no
-					, t1.points_avail
-					, t1.video_url
-					, t1.video_img
-					, t1.lesson_body
-					, t2.id as homework_seen_id
-					, t2.when_seen
-					, t2.watch_count
-					, case
-						when t2.watch_count = 0 then 'n'
-						when t2.watch_count is null then 'n'
-						else 'y'
-					  end as "has_been_seen"
-				from ct_homework as t1
-					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
-				where exists (
-						select 1 as "found"
-						from ct_login as t3
-						where t3.user_id = $1
-					)
-				order by t1.homework_no
+				order by 12 asc
 		`,
 	},
 	{

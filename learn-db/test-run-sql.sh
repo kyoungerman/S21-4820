@@ -20,8 +20,11 @@ echo "jwt_token=${jwt_token}"
 wget -o ./out/run-sql.2.err -O ./out/run-sql.2.out \
 	--header="Authorization: bearer ${jwt_token}"  \
 	--header='Accept: application/json' \
-	'http://localhost:7001/api/v1/run-sql-in-db?lesson_id=01&homework_id=7185233a-bc4e-4d5a-7dee-f572ed1cd622&stmt=%0Adrop%20table%20if%20exists%20name2_list%3B&_ran_=3339832.447221793' \
+	'http://localhost:7001/api/v1/run-sql-in-db?lesson_id=01&homework_id=7185233a-bc4e-4d5a-7dee-f572ed1cd622&stmt=%0Adrop%20table%20if%20exists%20name2_list%3B%0Acreate%20table%20name2_list%20%28%20a%20int%20%29%3B%0Ainsert%20into%20name2_list%20%28%20a%20%29%20values%20%28%2012%20%29%2C%20%28%2014%20%29%3B%0Aselect%20%2A%20from%20name2_list%3B%0A&_ran_=3339832.447221793' \
 
-# %0Acreate%20table%20name2_list%20%28%20a%20int%20%29%3B%0A
-# cat out/run-sql.2.out
+echo "Error ====================="
+cat out/run-sql.2.err
+echo "Out ====================="
+cat out/run-sql.2.out
+echo ""
 
