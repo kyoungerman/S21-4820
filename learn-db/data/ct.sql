@@ -87,9 +87,10 @@ EXECUTE PROCEDURE ct_homework_seen_upd();
 -- -------------------------------------------------------- -- --------------------------------------------------------
 CREATE TABLE ct_homework_grade (
 	  user_id		uuid not null						-- 1 to 1 map to user	
-	, lesson_id		uuid not null						-- assignment
+	, homework_id		uuid not null						-- assignment
 	, tries			int default 0 not null				-- how many times did they try thisa
 	, pass			text default 'No' not null			-- Did the test get passed
+	, pts			int default 0 not null				-- points awarded
  	, updated 		timestamp
  	, created 		timestamp default current_timestamp not null
 );

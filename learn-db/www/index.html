@@ -546,7 +546,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0144"></script>
+<script src="/js/cfg.js?_ran_=0170"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -787,6 +787,63 @@ function renderLessonParam_old(event,tag){
 	} );
 }
 
+function loadFile ( event, fn ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("loadFile:",fn);
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/files/"+fn,
+		data: getdata,
+		success: function (data) {
+			$("#stmt").val(data);
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( `Failed to get: ${fn}`, msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+function renderFileListParams(homework_no){
+	console.log("renderFileListParams:",homework_no);
+	var getdata = {
+		  "homework_no"		: homework_no
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_file_list",
+		data: getdata,
+		success: function (data) {
+			// <div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			var mx = data.data.length;
+			console.log ( "vvvvvvvvv mx = ", mx, data );
+			if ( mx > 0 ) {
+				var ss = [];
+				for ( var ii = 0; ii < mx; ii++ ) {
+					var fn = data.data[ii].file_name ;
+					ss.push ( `<a class="dropdown-item bind-click" href="#" onclick="loadFile(event,'${fn}');" >${fn}</a>` )
+				}
+				console.log ( ss.join("\n") );
+				$("#list-of-file").html( ss.join("\n") );
+			} else {
+				$("#list-of-file").html("-- no files to run --");
+			}
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "Failed to get list of files", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
 // mt/LearnList.html - 
 function renderLessonParam(event,tag,homework_id){
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
@@ -827,6 +884,7 @@ CREATE TABLE ct_homework (
 				, "tag": tag
 			} );
 			$("#homework_text").html( parsedJSON.Lesson );
+			renderFileListParams(data.data[0].homework_no);
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
@@ -993,26 +1051,26 @@ $(document).ready(function(){
 <script src="/pdf/build/pdf.js"></script>
 <script src="/pdf/build/pdf.worker.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00144"></script>
-<script src="/js/table.js?_ran_=00144"></script>
+<script src="/js/doc-index.js?_ran_=00170"></script>
+<script src="/js/table.js?_ran_=00170"></script>
 
-<script src="/js/doc-form25.js?_ran_=0144"></script> <!-- login form / registration form -->
-<script src="/js/doc-form50.js?_ran_=0144"></script> <!-- render welcome page -->
+<script src="/js/doc-form25.js?_ran_=0170"></script> <!-- login form / registration form -->
+<script src="/js/doc-form50.js?_ran_=0170"></script> <!-- render welcome page -->
 
-<script src="/js/doc-form30.js?_ran_=0144"></script> <!-- QR: Create QR Assoc.  -->
-<script src="/js/doc-form31.js?_ran_=0144"></script> <!-- QR: Config User  -->
-<script src="/js/doc-form32.js?_ran_=0144"></script> <!-- TODO New: QR: Bulk Load    -->
-<script src="/js/doc-form33.js?_ran_=0144"></script> <!-- SampleUplaod -->
+<script src="/js/doc-form30.js?_ran_=0170"></script> <!-- QR: Create QR Assoc.  -->
+<script src="/js/doc-form31.js?_ran_=0170"></script> <!-- QR: Config User  -->
+<script src="/js/doc-form32.js?_ran_=0170"></script> <!-- TODO New: QR: Bulk Load    -->
+<script src="/js/doc-form33.js?_ran_=0170"></script> <!-- SampleUplaod -->
 
-<script src="/js/doc-form00.js?_ran_=0144"></script> <!-- document upload sign -->
-<script src="/js/doc-form01.js?_ran_=0144"></script> <!-- list documents -->
-<script src="/js/doc-form02.js?_ran_=0144"></script> <!-- render documents -->
-<script src="/js/doc-form09.js?_ran_=0144"></script> <!-- render welcome page -->
+<script src="/js/doc-form00.js?_ran_=0170"></script> <!-- document upload sign -->
+<script src="/js/doc-form01.js?_ran_=0170"></script> <!-- list documents -->
+<script src="/js/doc-form02.js?_ran_=0170"></script> <!-- render documents -->
+<script src="/js/doc-form09.js?_ran_=0170"></script> <!-- render welcome page -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0144 - 2019-12-18T00:00:00");
+console.log ( "Version 0170 - 2019-12-18T00:00:00");
 </script>
 
 </body>

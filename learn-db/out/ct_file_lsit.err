@@ -1,0 +1,10 @@
+--2021-01-07 03:00:31--  http://127.0.0.1:7001/api/v1/ct_file_list?homework_no=26
+Connecting to 127.0.0.1:7001... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [application/json]
+Saving to: ‘out/ct_file_lsit.out’
+
+     0K .......... ..                                           466M=0s
+
+2021-01-07 03:00:31 (466 MB/s) - ‘out/ct_file_lsit.out’ saved [12365]
+

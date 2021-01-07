@@ -419,6 +419,63 @@ function renderLessonParam_old(event,tag){
 	} );
 }
 
+function loadFile ( event, fn ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("loadFile:",fn);
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/files/"+fn,
+		data: getdata,
+		success: function (data) {
+			$("#stmt").val(data);
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( `Failed to get: ${fn}`, msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+function renderFileListParams(homework_no){
+	console.log("renderFileListParams:",homework_no);
+	var getdata = {
+		  "homework_no"		: homework_no
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_file_list",
+		data: getdata,
+		success: function (data) {
+			// <div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			var mx = data.data.length;
+			console.log ( "vvvvvvvvv mx = ", mx, data );
+			if ( mx > 0 ) {
+				var ss = [];
+				for ( var ii = 0; ii < mx; ii++ ) {
+					var fn = data.data[ii].file_name ;
+					ss.push ( `<a class="dropdown-item bind-click" href="#" onclick="loadFile(event,'${fn}');" >${fn}</a>` )
+				}
+				console.log ( ss.join("\n") );
+				$("#list-of-file").html( ss.join("\n") );
+			} else {
+				$("#list-of-file").html("-- no files to run --");
+			}
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "Failed to get list of files", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
 // mt/LearnList.html - 
 function renderLessonParam(event,tag,homework_id){
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
@@ -459,6 +516,7 @@ CREATE TABLE ct_homework (
 				, "tag": tag
 			} );
 			$("#homework_text").html( parsedJSON.Lesson );
+			renderFileListParams(data.data[0].homework_no);
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );

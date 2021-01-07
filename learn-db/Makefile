@@ -61,7 +61,7 @@ mk_doc: ./www/api-doc.html
 
 
 
-l_test: l_test_pre l_test1 l_test2 l_test3 l_test4 l_test5 l_test6
+l_test: l_test_pre l_test1 l_test2 l_test3 l_test4 l_test5 l_test6 l_test7
 
 l_test_pre:
 	mkdir -p out
@@ -91,14 +91,23 @@ l_test5:
 l_test6:
 	wget -o out/ct_file_list.3.err -O out/ct_file_list.3.out "http://127.0.0.1:7001/api/v1/ct_file_list?homework_no=13"
 
-
-
-
-
 # Test the API for getting the list of lessons
 l_test7:
 	wget -o out/ct_homework.err -O out/ct_homework.out "http://127.0.0.1:7001/api/v1/ct_homework"
 
 
 
+
+#			URIPath:   "/api/v1/ct_file_list",
+l_test8:
+	wget -o out/ct_file_list.err -O out/ct_file_list.out "http://127.0.0.1:7001/api/v1/ct_file_list?homework_no=26"
+
+
+
+
+xx='http://localhost:7001/api/v1/run-sql-in-db?homework_id=6e6fa42d-a556-4bc8-61ee-addcae6a6622&stmt=%0A--%20--------------------------------------------------------%20--%20--------------------------------------------------------%0A--%20Note%20the%20%22auth_token%22%20is%20the%20%22ID%22%20for%20this%20row.%20(Primnary%20Key)%0A--%20--------------------------------------------------------%20--%20--------------------------------------------------------%0A%0Adrop%20TABLE%20if%20exists%20%22t_ymux_auth_token%22%20%3B%0ACREATE%20TABLE%20%22t_ymux_auth_token%22%20(%0A%09%20%20%22id%22%09%09%09%09%09uuid%20DEFAULT%20uuid_generate_v4()%20not%20null%20primary%20key%0A%09%2C%20%22user_id%22%09%09%09%09uuid%20not%20null%0A%09%2C%20%22updated%22%20%09%09%09timestamp%0A%09%2C%20%22created%22%20%09%09%09timestamp%20default%20current_timestamp%20not%20null%0A)%3B%0ACOMMENT%20ON%20TABLE%20%22t_ymux_auth_token%22%20IS%20%27version%3A%20b14871d878aa2f9fbaa35f4ad2c6c2baf9584c06%20tag%3A%20v0.1.9%20build_date%3A%20Fri%20Dec%2011%2014%3A30%3A43%20MST%202020%27%3B%0A%0Acreate%20index%20%22t_ymux_auth_token_p1%22%20on%20%22t_ymux_auth_token%22%20(%20%22user_id%22%20)%3B%0Acreate%20index%20%22t_ymux_auth_token_p2%22%20on%20%22t_ymux_auth_token%22%20(%20%22created%22%20)%3B%0A%0A%0AALTER%20TABLE%20%22t_ymux_auth_token%22%0A%09ADD%20CONSTRAINT%20%22t_ymux_auth_token_user_id_fk1%22%0A%09FOREIGN%20KEY%20(%22user_id%22)%0A%09REFERENCES%20%22t_ymux_user%22%20(%22id%22)%0A%3B%0A%0ACREATE%20OR%20REPLACE%20function%20t_ymux_auth_token_upd()%0ARETURNS%20trigger%20AS%20%24%24%0ABEGIN%0A%09--%20version%3A%20b14871d878aa2f9fbaa35f4ad2c6c2baf9584c06%20tag%3A%20v0.1.9%20build_date%3A%20Fri%20Dec%2011%2014%3A30%3A43%20MST%202020%0A%09NEW.updated%20%3A%3D%20current_timestamp%3B%0A%09RETURN%20NEW%3B%0AEND%0A%24%24%20LANGUAGE%20%27plpgsql%27%3B%0A%0A%0ACREATE%20TRIGGER%20t_ymux_auth_token_trig%0ABEFORE%20update%20ON%20%22t_ymux_auth_token%22%0AFOR%20EACH%20ROW%0AEXECUTE%20PROCEDURE%20t_ymux_auth_token_upd()%3B%0A&_ran_=4827085.297543914'
+
+
+l_test9:
+	wget -o out/run-it.err -O out/run-it.out "${xx}"
 

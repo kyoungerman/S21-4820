@@ -70,6 +70,17 @@ func Test_SplitIntoStmt(t *testing.T) {
 				"select 12 from abc",
 			},
 		},
+		{
+			strIn: `
+-- comment
+
+drop TABLE if exists "t_ymux_auth_token" ;
+
+`,
+			expected: []string{
+				"drop TABLE if exists \"t_ymux_auth_token\" ;",
+			},
+		},
 	}
 
 	for ii, test := range tests {

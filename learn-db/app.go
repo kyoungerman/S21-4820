@@ -25,7 +25,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(www, "Missing to user_id=[%s]", user_id)
 		return
 	}
-	_, lesson_id := ymux.GetVar("lesson_id", www, req)
+	_, homework_id := ymux.GetVar("homework_id", www, req)
 	_, stmt := ymux.GetVar("stmt", www, req)
 	_, rawuserdata := ymux.GetVar("rawuserdata", www, req)
 	username, err := GetUsernameFromId(user_id)
@@ -41,7 +41,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
 	fmt.Printf("username: ->%s<-\n", username)
 	fmt.Printf("stmt: ->%s<-\n", stmt)
-	fmt.Printf("lesson_id: ->%s<-\n", lesson_id)
+	fmt.Printf("homework_id: ->%s<-\n", homework_id)
 	fmt.Printf("rawuserdata: ->%s<-\n", rawuserdata)
 
 	UserDB, err := GetConn(username)
@@ -53,11 +53,11 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		return
 	}
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-	if lesson_id == "" {
+	if homework_id == "" {
 		fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
 		www.WriteHeader(406)
-		fmt.Fprintf(www, "Missing lesson_id")
-		fmt.Fprintf(os.Stderr, "%sMissing lesson_id, AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+		fmt.Fprintf(www, "Missing homework_id")
+		fmt.Fprintf(os.Stderr, "%sMissing homework_id, AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
 		return
 	}
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
@@ -194,16 +194,33 @@ func GetUsernameFromId(user_id string) (username string, err error) {
 func SplitIntoStmt(stmt string) (rv []string) {
 	eq := 0
 	sp := 0
-	for ii, cc := range stmt {
-		if eq == 1 {
-		} else if cc == '\'' {
-			eq = 1
-		} else if cc == '"' {
-			eq = 1
-		} else if cc == ';' {
-			rv = append(rv, strings.Trim(stmt[sp:ii], " \n\t\f\r"))
-			sp = ii + 1
+	var ii int
+	// for ii, cc := range stmt {
+	for ii = 0; ii < len(stmt); ii++ {
+		cc := stmt[ii]
+		if strings.HasPrefix(stmt[ii:], "--") {
+			fmt.Printf("Found Comment at %d", ii)
+			for ; ii < len(stmt); ii++ {
+				if stmt[ii] == '\n' || stmt[ii] == '\r' {
+					fmt.Printf("Advance to %d\n", ii)
+					break
+				}
+			}
+			sp = ii
+		} else {
+			if eq == 1 {
+			} else if cc == '\'' {
+				eq = 1
+			} else if cc == '"' {
+				eq = 1
+			} else if cc == ';' {
+				rv = append(rv, strings.Trim(stmt[sp:ii], " \n\t\f\r"))
+				sp = ii + 1
+			}
 		}
+	}
+	if sp < ii {
+		rv = append(rv, strings.Trim(stmt[sp:ii], " \n\t\f\r"))
 	}
 	return
 }

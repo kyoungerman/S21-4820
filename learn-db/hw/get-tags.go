@@ -48,6 +48,8 @@ import (
 	"gitlab.com/pschlump/PureImaginationServer/ymux"
 )
 
+var dest = "/home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/www/files"
+
 func main() {
 	flag.Parse() // Parse CLI arguments to this, --cfg <name>.json
 
@@ -59,6 +61,8 @@ func main() {
 	fmt.Printf("delete from ct_homework_ans cascade;\n")
 	fmt.Printf("delete from ct_homework cascade;\n")
 	fmt.Printf("delete from ct_tag cascade;\n")
+	fmt.Printf("delete from ct_file_list cascade;\n")
+	fmt.Printf("delete from ct_val_homework cascade;\n")
 	fmt.Printf("\n\n\n")
 
 	for _, fn := range fns {
@@ -146,6 +150,7 @@ func readFile(fn string) (n_err int) {
 			uX := getTags(line)
 			t1 := ymux.GenUUID()
 			fmt.Printf("insert into ct_file_list ( file_list_id, homework_no, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
+			cpTo(uX[0], dest)
 		} else if strings.HasPrefix(line, "#### ") {
 			if db4 {
 				fmt.Printf("Undefined Unusual Line ->%s<-\n", line)
@@ -221,24 +226,31 @@ func readFile(fn string) (n_err int) {
 
 func getTags(line string) (tag_list []string) {
 	// #### Tags: "hw02" "insert"
-	tag_str := line[11:]
-	if db2 {
-		fmt.Printf("#-- Tag str ->%s<- \n", tag_str)
-	}
-	tag_str = strings.Trim(tag_str, " \t\r")
-
-	r := csv.NewReader(strings.NewReader(tag_str))
-
-	for {
-		record, err := r.Read()
-		if err == io.EOF {
-			break
+	// #### Validate: SQL-Select,"select select setup_data_26()"
+	// #### FilesToRun: hw26_01.sql
+	fmt.Fprintf(os.Stderr, "line >%s<\n", line)
+	s0 := strings.Split(line, ":")
+	fmt.Fprintf(os.Stderr, "s0 >%s<\n", s0)
+	if len(s0) > 1 {
+		tag_str := s0[1]
+		if db2 {
+			fmt.Printf("#-- Tag str ->%s<- \n", tag_str)
 		}
-		if err != nil {
-			log.Fatal(err)
-		}
+		tag_str = strings.Trim(tag_str, " \t\r")
 
-		tag_list = append(tag_list, record...)
+		r := csv.NewReader(strings.NewReader(tag_str))
+
+		for {
+			record, err := r.Read()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			tag_list = append(tag_list, record...)
+		}
 	}
 
 	return
@@ -247,6 +259,22 @@ func getTags(line string) (tag_list []string) {
 func sqlEncode(s string) (rv string) {
 	rv = strings.Replace(s, "'", "''", -1)
 	return
+}
+
+// cpTo ( uX[0], dest );
+func cpTo(fn, dest string) {
+	fmt.Fprintf(os.Stderr, "**** fn= ->%s<- dest= ->%s<-\n", fn, dest)
+	dat, err := ioutil.ReadFile(fn)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to read ->%s<- %s\n", fn, err)
+		return
+	}
+	dest = dest + "/" + fn
+	err = ioutil.WriteFile(dest, dat, 0644)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to write ->%s<- %s\n", fn, err)
+		return
+	}
 }
 
 var db1 = false
