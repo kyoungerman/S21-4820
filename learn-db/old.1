@@ -309,3 +309,88 @@ curl -v -L -X PUT -T /path/to/local/file.txt localhost:3000/file.txt
 
 # get file in key "file.txt"
 curl -v -L -o /path/to/local/file.txt localhost:3000/file.txt
+// <button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
+
+function submitAutoAnswer( event, erro ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("rsubmitAutoAnswer");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "output_box"		: $("#output_box").val()
+		, "hash_box"		: $("#hash_box").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/validate-sql-in-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+
+}
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
+
+function submitSubmitAnswer( event ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitSubmitAnswer");
+
+	var getdata = {
+		  "lesson_id"		: $("#lesson_id").val()
+		, "stmt"			: $("#stmt").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/submit-answer-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+
+}
+
+	// mux.Handle("/api/v1/validate-sql-in-db", http.HandlerFunc(HandleValidateSQLInDatabase)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
+	// mux.Handle("/api/v1/submit-answer-db", http.HandlerFunc(HandleSubmitAnswerInDatabase)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
+//// Button: Auto Test
+//// mux.Handle("/api/v1/validate-sql-in-db", http.HandlerFunc(HandleValidateSQLInDatabase)).DocTag("<h2>/api/v1/status")
+//func HandleValidateSQLInDatabase(www http.ResponseWriter, req *http.Request) {
+//	www.Header().Set("Content-Type", "application/json")
+//	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+//	www.WriteHeader(200) // Status Success
+//	fmt.Fprintf(www, "%s", "{}")
+//}
+//
+//// Button: Submit Answer
+//// mux.Handle("/api/v1/submit-answer-db", http.HandlerFunc(HandleSubmitAnswerInDatabase)).DocTag("<h2>/api/v1/status")
+//func HandleSubmitAnswerInDatabase(www http.ResponseWriter, req *http.Request) {
+//	www.Header().Set("Content-Type", "application/json")
+//	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+//	www.WriteHeader(200) // Status Success
+//	fmt.Fprintf(www, "%s", "{}")
+//}

@@ -36,7 +36,7 @@ jwt_token=$( jq .jwt_token out/login.801.out | sed -e 's/"//g' )
 curl \
 	-H "Authorization: bearer ${jwt_token}"  \
 	-H 'Accept: application/json' \
-	"http://localhost:7001/api/v1/run-sql-in-db?stmt=select%20n%20as%20ttt%20from%20tat&lesson_id=s02" \
+	"http://localhost:7001/api/v1/run-sql-in-db?stmt=select%20n%20as%20ttt%20from%20tat&homwork_no=02" \
 		-o out/run-button.out
 
 echo

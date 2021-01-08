@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-	<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
-	<script src="/js/signature_pad-2.3.2.js"></script>
 
 	<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
 	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
@@ -204,7 +202,7 @@ setAppData();
 	// document.getElementById('myElement').style.display = 'none'; // hide
 </script>
 
-<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/jquery-3.5.1.js"></script>
 <script src="/js/popper-1.14.7.js"></script>
 <script src="/js/mustache.js" type="text/javascript"></script>
 <script src="/js/jquery.mustache.js" type="text/javascript"></script>
@@ -511,6 +509,7 @@ CREATE TABLE ct_homework (
 				  "homework_title": data.data[0].homework_title
 				, "homework_text": "Hi There" // parsedJSON.Lesson
 				, "homework_id": data.data[0].homework_id
+				, "homework_no": data.data[0].homework_no
 				, "video_url": data.data[0].video_url
 				, "video_img": data.data[0].video_img
 				, "tag": tag
@@ -531,13 +530,13 @@ CREATE TABLE ct_homework (
 
 
 // <button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
-
-function submitRunItCode( event, erro ) {
+function submitRunItCode( event ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 	console.log("submitRunItCode");
 
 	var getdata = {
 		  "homework_id"		: $("#homework_id").val()
+		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
@@ -547,98 +546,50 @@ function submitRunItCode( event, erro ) {
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
-			$("#output_box").text( JSON.stringify(data) );
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
 		}
 	});
 
 }
 
-// <button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
 
-function submitAutoAnswer( event, erro ) {
+// <button type="button" class="btn btn-primary bind-click" data-click="testGradeCode">Test/Grade Code</button>
+function testGradeCode ( event ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
-	console.log("rsubmitAutoAnswer");
+	console.log("testGradeCode");
 
 	var getdata = {
-		  "lesson_id"		: $("#lesson_id").val()
+		  "homework_id"		: $("#homework_id").val()
+		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
-		, "output_box"		: $("#output_box").val()
-		, "hash_box"		: $("#hash_box").val()
+		, "grade_it"		: "yes"
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
 		type: 'GET',
-		url: "/api/v1/validate-sql-in-db",
+		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			console.log ( ">>>>>>> grade it >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
 		}
 	});
 
 }
-
-// <button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
-
-function submitSubmitAnswer( event, erro ) {
-	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
-	console.log("submitSubmitAnswer");
-
-	var getdata = {
-		  "lesson_id"		: $("#lesson_id").val()
-		, "stmt"			: $("#stmt").val()
-		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
-	};
-	console.log ( "getdata=", getdata );
-	$.ajax({
-		type: 'GET',
-		url: "/api/v1/submit-answer-db",
-		data: getdata,
-		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
-		},
-		error: function(resp) {
-			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
-		}
-	});
-
-}
-
-
 
 
 
@@ -680,24 +631,10 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/pdf/build/pdf.js"></script>
-<script src="/pdf/build/pdf.worker.js"></script>
-
 <script src="/js/doc-index.js?_ran_=0$$$cache-burst$$$"></script>
 <script src="/js/table.js?_ran_=0$$$cache-burst$$$"></script>
 
 <script src="/js/doc-form25.js?_ran_=$$$cache-burst$$$"></script> <!-- login form / registration form -->
-<script src="/js/doc-form50.js?_ran_=$$$cache-burst$$$"></script> <!-- render welcome page -->
-
-<script src="/js/doc-form30.js?_ran_=$$$cache-burst$$$"></script> <!-- QR: Create QR Assoc.  -->
-<script src="/js/doc-form31.js?_ran_=$$$cache-burst$$$"></script> <!-- QR: Config User  -->
-<script src="/js/doc-form32.js?_ran_=$$$cache-burst$$$"></script> <!-- TODO New: QR: Bulk Load    -->
-<script src="/js/doc-form33.js?_ran_=$$$cache-burst$$$"></script> <!-- SampleUplaod -->
-
-<script src="/js/doc-form00.js?_ran_=$$$cache-burst$$$"></script> <!-- document upload sign -->
-<script src="/js/doc-form01.js?_ran_=$$$cache-burst$$$"></script> <!-- list documents -->
-<script src="/js/doc-form02.js?_ran_=$$$cache-burst$$$"></script> <!-- render documents -->
-<script src="/js/doc-form09.js?_ran_=$$$cache-burst$$$"></script> <!-- render welcome page -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 

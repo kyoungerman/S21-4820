@@ -218,7 +218,7 @@ type SchemaItem struct {
 func InstallSchema(DB *sql.DB, schemaSet []SchemaItem) {
 	for ii, vv := range schemaSet {
 		fmt.Printf("Schema Setup - Item %d ->%s<-\n", ii, vv.Body)
-		err := ymux.SQLInsertDB(DB, vv.Body)
+		_, err := ymux.SQLInsertDB(DB, vv.Body)
 		if err != nil {
 			fmt.Printf("Error: at %d in setup schema ->%s<- error %s\n", ii, vv.Body, err)
 		}

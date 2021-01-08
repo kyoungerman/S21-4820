@@ -27,7 +27,9 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		return
 	}
 	_, homework_id := ymux.GetVar("homework_id", www, req)
+	_, homework_no := ymux.GetVar("homework_no", www, req)
 	_, stmt := ymux.GetVar("stmt", www, req)
+	_, grade_it := ymux.GetVar("grade_it", www, req)
 	_, rawuserdata := ymux.GetVar("rawuserdata", www, req)
 	username, err := GetUsernameFromId(user_id)
 	fmt.Fprintf(os.Stderr, "%suser_id %s username = ->%s<- AT: %s%s\n", MiscLib.ColorCyan, user_id, username, godebug.LF(), MiscLib.ColorReset)
@@ -43,6 +45,8 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	fmt.Printf("username: ->%s<-\n", username)
 	fmt.Printf("stmt: ->%s<-\n", stmt)
 	fmt.Printf("homework_id: ->%s<-\n", homework_id)
+	fmt.Printf("homework_no: ->%s<-\n", homework_no)
+	fmt.Printf("grade_it: ->%s<-\n", grade_it)
 	fmt.Printf("rawuserdata: ->%s<-\n", rawuserdata)
 
 	UserDB, err := GetConn(username)
@@ -59,6 +63,14 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		www.WriteHeader(406)
 		fmt.Fprintf(www, "Missing homework_id")
 		fmt.Fprintf(os.Stderr, "%sMissing homework_id, AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+		return
+	}
+	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+	if homework_no == "" {
+		fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
+		www.WriteHeader(406)
+		fmt.Fprintf(www, "Missing homework_no")
+		fmt.Fprintf(os.Stderr, "%sMissing homework_no, AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
 		return
 	}
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
@@ -91,10 +103,12 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	rv = `{"status":"error","msg":"invalid case"}`
 	stmt_set := SplitIntoStmt(stmt)
 	type RvStmt struct {
-		Msg          string
-		Stmt         string
-		Data         []map[string]interface{} `json:"Data,omitempty"` // JSON Format
-		NRowsUpdated int
+		Msg           string
+		Stmt          string
+		Data          []map[string]interface{} `json:"Data,omitempty"` // JSON Format
+		NRowsUpdated  *int                     `json:"NRowsUpdated,omitempty"`
+		NRowsInserted *int                     `json:"NRowsInserted,omitempty"`
+		NRowsDeleted  *int                     `json:"NRowsDeleted,omitempty"`
 	}
 	type RvData struct {
 		Status string
@@ -132,11 +146,34 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 			} else {
 				sRv.Status = "success"
 				// sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("n_rows_update=%d", nr))
-				sRv.MsgSet = append(sRv.MsgSet, RvStmt{Msg: "ok", NRowsUpdated: nr, Stmt: stmtX})
+				sRv.MsgSet = append(sRv.MsgSet, RvStmt{Msg: "ok", NRowsUpdated: &nr, Stmt: stmtX})
+			}
+		} else if IsInsert(stmtX) {
+			fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+			ni, err := ymux.SQLInsertDB(UserDB, stmtX)
+			if err != nil {
+				sRv.Status = "error"
+				sRv.MsgSet = append(sRv.MsgSet, RvStmt{Msg: fmt.Sprintf("%s", err), Stmt: stmtX})
+			} else {
+				sRv.Status = "success"
+				// sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("n_rows_update=%d", nr))
+				sRv.MsgSet = append(sRv.MsgSet, RvStmt{Msg: "ok", NRowsInserted: &ni, Stmt: stmtX})
+			}
+		} else if IsDelete(stmtX) {
+			fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+			nd, err := ymux.SQLDeleteDB(UserDB, stmtX)
+			if err != nil {
+				sRv.Status = "error"
+				sRv.MsgSet = append(sRv.MsgSet, RvStmt{Msg: fmt.Sprintf("%s", err), Stmt: stmtX})
+			} else {
+				sRv.Status = "success"
+				// sRv.MsgSet = append(sRv.MsgSet, fmt.Sprintf("n_rows_update=%d", nr))
+				sRv.MsgSet = append(sRv.MsgSet, RvStmt{Msg: "ok", NRowsDeleted: &nd, Stmt: stmtX})
 			}
 		} else {
 			fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-			err = ymux.SQLInsertDB(UserDB, stmtX)
+			nX, err := ymux.SQLInsertDB(UserDB, stmtX)
+			_ = nX
 			if err != nil {
 				sRv.Status = "error"
 				sRv.MsgSet = append(sRv.MsgSet, RvStmt{Msg: fmt.Sprintf("%s", err), Stmt: stmtX})
@@ -157,24 +194,6 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	www.WriteHeader(200) // Status Success
 	fmt.Fprintf(www, "%s", rv)
 
-}
-
-// Button: Auto Test
-// mux.Handle("/api/v1/validate-sql-in-db", http.HandlerFunc(HandleValidateSQLInDatabase)).DocTag("<h2>/api/v1/status")
-func HandleValidateSQLInDatabase(www http.ResponseWriter, req *http.Request) {
-	www.Header().Set("Content-Type", "application/json")
-	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-	www.WriteHeader(200) // Status Success
-	fmt.Fprintf(www, "%s", "{}")
-}
-
-// Button: Submit Answer
-// mux.Handle("/api/v1/submit-answer-db", http.HandlerFunc(HandleSubmitAnswerInDatabase)).DocTag("<h2>/api/v1/status")
-func HandleSubmitAnswerInDatabase(www http.ResponseWriter, req *http.Request) {
-	www.Header().Set("Content-Type", "application/json")
-	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-	www.WriteHeader(200) // Status Success
-	fmt.Fprintf(www, "%s", "{}")
 }
 
 // username, err := GetUsernameFromId(user_id)
@@ -219,18 +238,18 @@ func IsXXX(stmt, word string) (rv bool) {
 	return
 }
 
-// if IsSelect(lesson_id, stmt, www, req) {
 func IsSelect(stmt string) (rv bool) {
 	return IsXXX(stmt, "select")
-	// ss := strings.Split(strings.Trim(stmt, " \t\f\n\r"), " \t\f\n\r")
-	// fmt.Fprintf(os.Stderr, "IsSelect: ss=%s rv=%v\n", ss, len(ss) > 0 && strings.ToLower(ss[0]) == "select")
-	// return len(ss) > 0 && strings.ToLower(ss[0]) == "select"
 }
 
-// } else if IsUpdate(lesson_id, stmt, www, req) {
 func IsUpdate(stmt string) (rv bool) {
 	return IsXXX(stmt, "update")
-	// ss := strings.Split(strings.Trim(stmt, " \t\f\n\r"), " \t\f\n\r")
-	// fmt.Fprintf(os.Stderr, "IsUpdate: ss=%s rv=%v\n", ss, len(ss) > 0 && strings.ToLower(ss[0]) == "update")
-	// return len(ss) > 0 && strings.ToLower(ss[0]) == "update"
+}
+
+func IsDelete(stmt string) (rv bool) {
+	return IsXXX(stmt, "delete")
+}
+
+func IsInsert(stmt string) (rv bool) {
+	return IsXXX(stmt, "insert")
 }

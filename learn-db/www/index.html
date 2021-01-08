@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
     <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
-	<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
-	<script src="/js/signature_pad-2.3.2.js"></script>
 
 	<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
 	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
@@ -118,7 +116,7 @@
 
 	</div>
 
-<!-- Found at line 121 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
+<!-- Found at line 119 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
 
 <script type="text/html" id="dom-template-Register">
 <div>
@@ -413,6 +411,7 @@
 							<h3> Desc </h3>
 								<div id="homework_text"> xxxxxxxxxxxxxxxxx {{homework_text}} </div>
 								<input type="hidden" name="homework_id" id="homework_id" value="{{homework_id}}">
+								<input type="hidden" name="homework_no" id="homework_no" value="{{homework_no}}">
 							<h3> Input </h3>
 
 								<button type="button" class="btn btn-primary bind-click" data-click="descTable" style="float:right;margin-right:10px;margin-bottom:3px;">Desc</button>
@@ -430,17 +429,14 @@
 
 								<div class="form-group">
 									<label for="input_box">SQL Input</label>
-									<textarea class="form-control" id="stmt" style="width:100%;" rows="25" name="stmt" ></textarea>
+									<textarea class="form-control" id="stmt" style="width:100%;" rows="15" name="stmt" ></textarea>
 								</div>
 
 								<button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
+								<button type="button" class="btn btn-primary bind-click" data-click="testGradeCode">Test/Grade Code</button>
 
 							<h3> Output </h3>
-								<div id="output_box" style="width:100%;height:400px;border:1px solid #ced4da;margin-bottom:10px;"></div>
-								<!--
-									<button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
-									<button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
-								-->
+								<div id="output_box" style="width:100%;min-height:200px;border:1px solid #ced4da;margin-bottom:10px;"></div>
 						</form>
 					</div>
 				</div>
@@ -546,7 +542,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0170"></script>
+<script src="/js/cfg.js?_ran_=0259"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -560,7 +556,7 @@ setAppData();
 	// document.getElementById('myElement').style.display = 'none'; // hide
 </script>
 
-<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/jquery-3.5.1.js"></script>
 <script src="/js/popper-1.14.7.js"></script>
 <script src="/js/mustache.js" type="text/javascript"></script>
 <script src="/js/jquery.mustache.js" type="text/javascript"></script>
@@ -879,6 +875,7 @@ CREATE TABLE ct_homework (
 				  "homework_title": data.data[0].homework_title
 				, "homework_text": "Hi There" // parsedJSON.Lesson
 				, "homework_id": data.data[0].homework_id
+				, "homework_no": data.data[0].homework_no
 				, "video_url": data.data[0].video_url
 				, "video_img": data.data[0].video_img
 				, "tag": tag
@@ -899,13 +896,13 @@ CREATE TABLE ct_homework (
 
 
 // <button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
-
-function submitRunItCode( event, erro ) {
+function submitRunItCode( event ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 	console.log("submitRunItCode");
 
 	var getdata = {
 		  "homework_id"		: $("#homework_id").val()
+		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
@@ -915,98 +912,50 @@ function submitRunItCode( event, erro ) {
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
-			$("#output_box").text( JSON.stringify(data) );
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
 		}
 	});
 
 }
 
-// <button type="button" class="btn btn-primary bind-click" data-click="submitAutoAnswer">Auto Test</button>
 
-function submitAutoAnswer( event, erro ) {
+// <button type="button" class="btn btn-primary bind-click" data-click="testGradeCode">Test/Grade Code</button>
+function testGradeCode ( event ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
-	console.log("rsubmitAutoAnswer");
+	console.log("testGradeCode");
 
 	var getdata = {
-		  "lesson_id"		: $("#lesson_id").val()
+		  "homework_id"		: $("#homework_id").val()
+		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
-		, "output_box"		: $("#output_box").val()
-		, "hash_box"		: $("#hash_box").val()
+		, "grade_it"		: "yes"
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
 		type: 'GET',
-		url: "/api/v1/validate-sql-in-db",
+		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			console.log ( ">>>>>>> grade it >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
 		}
 	});
 
 }
-
-// <button type="button" class="btn btn-primary bind-click" data-click="submitSubmitAnswer">Submit Answer</button>
-
-function submitSubmitAnswer( event, erro ) {
-	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
-	console.log("submitSubmitAnswer");
-
-	var getdata = {
-		  "lesson_id"		: $("#lesson_id").val()
-		, "stmt"			: $("#stmt").val()
-		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
-	};
-	console.log ( "getdata=", getdata );
-	$.ajax({
-		type: 'GET',
-		url: "/api/v1/submit-answer-db",
-		data: getdata,
-		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
-		},
-		error: function(resp) {
-			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
-		}
-	});
-
-}
-
-
 
 
 
@@ -1048,29 +997,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/pdf/build/pdf.js"></script>
-<script src="/pdf/build/pdf.worker.js"></script>
+<script src="/js/doc-index.js?_ran_=00259"></script>
+<script src="/js/table.js?_ran_=00259"></script>
 
-<script src="/js/doc-index.js?_ran_=00170"></script>
-<script src="/js/table.js?_ran_=00170"></script>
-
-<script src="/js/doc-form25.js?_ran_=0170"></script> <!-- login form / registration form -->
-<script src="/js/doc-form50.js?_ran_=0170"></script> <!-- render welcome page -->
-
-<script src="/js/doc-form30.js?_ran_=0170"></script> <!-- QR: Create QR Assoc.  -->
-<script src="/js/doc-form31.js?_ran_=0170"></script> <!-- QR: Config User  -->
-<script src="/js/doc-form32.js?_ran_=0170"></script> <!-- TODO New: QR: Bulk Load    -->
-<script src="/js/doc-form33.js?_ran_=0170"></script> <!-- SampleUplaod -->
-
-<script src="/js/doc-form00.js?_ran_=0170"></script> <!-- document upload sign -->
-<script src="/js/doc-form01.js?_ran_=0170"></script> <!-- list documents -->
-<script src="/js/doc-form02.js?_ran_=0170"></script> <!-- render documents -->
-<script src="/js/doc-form09.js?_ran_=0170"></script> <!-- render welcome page -->
+<script src="/js/doc-form25.js?_ran_=0259"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0170 - 2019-12-18T00:00:00");
+console.log ( "Version 0259 - 2019-12-18T00:00:00");
 </script>
 
 </body>

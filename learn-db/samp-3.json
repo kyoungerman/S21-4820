@@ -1,0 +1,54 @@
+{
+        "Status": "success",
+        "MsgSet": [
+                {
+                        "Msg": "ok",
+                        "Stmt": "create table t1 ( n int )"
+                },
+                {
+                        "Msg": "ok",
+                        "Stmt": "insert into t1 values ( 3 ), (4 )",
+                        "NRowsInserted": 2
+                },
+                {
+                        "Msg": "ok",
+                        "Stmt": "update t1 set n = n + 1",
+                        "NRowsUpdated": 2
+                },
+                {
+                        "Msg": "ok",
+                        "Stmt": "delete from t1 where n = 4",
+                        "NRowsDeleted": 1
+                },
+                {
+                        "Msg": "ok",
+                        "Stmt": "drop table if exists t1"
+                },
+                {
+                        "Msg": "ok",
+                        "Stmt": "select * from t_ymux_user",
+                        "Data": [
+                                {
+                                        "acct_expire": null,
+                                        "auth_token": null,
+                                        "created": "2020-12-28T14:41:06.38237+0000",
+                                        "email": "testlogin@gmail.com",
+                                        "email_confirmed": "y",
+                                        "id": "7a955820-050a-405c-7e30-310da8152b6d",
+                                        "org_user_id": null,
+                                        "parent_user_id": null,
+                                        "password": "8009f839a419a57023235cacd45aacc6675561131a80524a01412c1c833bdb17d51a205c639cdf3630bcc79abb32c02c6efb4255bf39bf73806d650d5ff9867c",
+                                        "real_name": "Test Login",
+                                        "realm": "app.example.com",
+                                        "recovery_expire": null,
+                                        "recovery_token": "ee201a82-84f0-4278-5e7d-10d511b1ad80",
+                                        "rfc_6238_secret": "YFKM6OARYRRVN6NH",
+                                        "salt": "3738333337333832",
+                                        "setup_2fa_complete": "y",
+                                        "updated": null,
+                                        "username": "app.example.com:testlogin@gmail.com"
+                                }
+                        ]
+                }
+        ]
+}
