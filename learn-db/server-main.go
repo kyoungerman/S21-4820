@@ -268,6 +268,8 @@ func main() {
 	mux.Handle("/upload", http.HandlerFunc(UploadFile.UploadFileClosure(gCfg.UploadPath))).NoDoc()
 	mux.Handle("/api/v1/create-document", http.HandlerFunc(HandleCreateDocument)).Method("GET", "POST").DocTag("<h2>/api/v1/create-document")
 
+	// ----------------------------------------------------------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------------------------------------
 	//if DbOn["test-http-end-points"] {
 	//}
 	/*
@@ -279,9 +281,9 @@ func main() {
 		5. Add call to run validaiton code
 		6. Grade it (Report validation results)
 	*/
-	mux.Handle("/api/v1/run-sql-in-db", http.HandlerFunc(HandleRunSQLInDatabase)).DocTag("<h2>/api/v1/status").AuthRequired()
-	mux.Handle("/api/v1/validate-sql-in-db", http.HandlerFunc(HandleValidateSQLInDatabase)).DocTag("<h2>/api/v1/status").AuthRequired()
-	mux.Handle("/api/v1/submit-answer-db", http.HandlerFunc(HandleSubmitAnswerInDatabase)).DocTag("<h2>/api/v1/status").AuthRequired()
+	mux.Handle("/api/v1/run-sql-in-db", http.HandlerFunc(HandleRunSQLInDatabase)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
+	mux.Handle("/api/v1/validate-sql-in-db", http.HandlerFunc(HandleValidateSQLInDatabase)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
+	mux.Handle("/api/v1/submit-answer-db", http.HandlerFunc(HandleSubmitAnswerInDatabase)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
 
 	// For the list of end-points (URI Paths) see ./handle.go
 	ymux.HandleTables(mux, &(gCfg.BaseConfigType))
