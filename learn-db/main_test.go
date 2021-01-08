@@ -63,22 +63,97 @@ func Test_SplitIntoStmt(t *testing.T) {
 		expected []string
 	}{
 		{
-			strIn: "drop table abc; create table abc ( n int ); select 12 from abc;",
+			strIn: `
+drop table abc;
+create table abc ( n int );   
+select 12 from abc;  
+`,
 			expected: []string{
-				"drop table abc",
-				"create table abc ( n int )",
-				"select 12 from abc",
+				"drop table abc;",
+				"create table abc ( n int );",
+				"select 12 from abc;",
 			},
 		},
 		{
 			strIn: `
--- comment
 
-drop TABLE if exists "t_ymux_auth_token" ;
+-- commet 1
+
+drop TABLE if exists "t_ymux_auth_token" ; -- comment 2
+drop TABLE if exists "t_ymu'_auth_token" ; -- comment 3
+drop TABLE if exists "t_ymu""_auth_token" ; -- comment 4
 
 `,
 			expected: []string{
-				"drop TABLE if exists \"t_ymux_auth_token\" ;",
+				`drop TABLE if exists "t_ymux_auth_token" ;`,
+				`drop TABLE if exists "t_ymu'_auth_token" ;`,
+				`drop TABLE if exists "t_ymu""_auth_token" ;`,
+			},
+		},
+		{
+			strIn: `
+
+---- ya ya ya
+
+drop TABLE if exists "t_ymux_auth_token" ;
+CREATE TABLE "t_ymux_auth_token" (
+	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
+	, "user_id"				uuid not null
+	, "updated" 			timestamp
+	, "created" 			timestamp default current_timestamp not null
+);
+
+create index "t_ymux_auth_token_p1" on "t_ymux_auth_token" ( "user_id" );
+create index "t_ymux_auth_token_p2" on "t_ymux_auth_token" ( "created" );
+
+
+ALTER TABLE "t_ymux_auth_token"
+	ADD CONSTRAINT "t_ymux_auth_token_user_id_fk1"
+	FOREIGN KEY ("user_id")
+	REFERENCES "t_ymux_user" ("id")
+;
+
+CREATE OR REPLACE function t_ymux_auth_token_upd()
+RETURNS trigger AS $$
+BEGIN
+	NEW.updated := current_timestamp;
+	RETURN NEW;
+END
+$$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER t_ymux_auth_token_trig
+BEFORE update ON "t_ymux_auth_token"
+FOR EACH ROW
+EXECUTE PROCEDURE t_ymux_auth_token_upd();
+
+`,
+			expected: []string{
+				"drop TABLE if exists \"t_ymux_auth_token\"",
+				`CREATE TABLE "t_ymux_auth_token" (
+	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
+	, "user_id"				uuid not null
+	, "updated" 			timestamp
+	, "created" 			timestamp default current_timestamp not null
+)`,
+				`create index "t_ymux_auth_token_p1" on "t_ymux_auth_token" ( "user_id" )`,
+				`create index "t_ymux_auth_token_p2" on "t_ymux_auth_token" ( "created" )`,
+
+				`ALTER TABLE "t_ymux_auth_token"
+	ADD CONSTRAINT "t_ymux_auth_token_user_id_fk1"
+	FOREIGN KEY ("user_id")
+	REFERENCES "t_ymux_user" ("id")`,
+				`CREATE OR REPLACE function t_ymux_auth_token_upd()
+RETURNS trigger AS $$
+BEGIN
+	NEW.updated := current_timestamp;
+	RETURN NEW;
+END
+$$ LANGUAGE 'plpgsql'`,
+				`CREATE TRIGGER t_ymux_auth_token_trig
+BEFORE update ON "t_ymux_auth_token"
+FOR EACH ROW
+EXECUTE PROCEDURE t_ymux_auth_token_upd();`,
 			},
 		},
 	}
@@ -86,11 +161,11 @@ drop TABLE if exists "t_ymux_auth_token" ;
 	for ii, test := range tests {
 		rv := SplitIntoStmt(test.strIn)
 		if len(rv) != len(test.expected) {
-			t.Errorf("Test %d Length Mismatch: Exptect %s got %s\n", ii, godebug.SVar(test.expected), godebug.SVar(rv))
+			t.Errorf("Test %d Length Mismatch: Exptect(%d) %s\n Got(%d) %s\n", ii, len(test.expected), godebug.SVarI(test.expected), len(rv), godebug.SVarI(rv))
 		} else {
 			for jj := 0; jj < len(test.expected); jj++ {
 				if test.expected[jj] != rv[jj] {
-					t.Errorf("Test %d Mismatch at %d: Exptect %s got %s\n", ii, jj, godebug.SVar(test.expected), godebug.SVar(rv))
+					t.Errorf("Test %d Mismatch at %d: Exptect %s\nGot      %s\n", ii, jj, godebug.SVarI(test.expected), godebug.SVarI(rv))
 				}
 			}
 		}

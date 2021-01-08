@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Univ-Wyo-Education/S21-4280/learn-db/scan"
 	"github.com/pschlump/Go-FTL/server/sizlib"
 	"github.com/pschlump/MiscLib"
 	"github.com/pschlump/godebug"
@@ -192,37 +193,14 @@ func GetUsernameFromId(user_id string) (username string, err error) {
 }
 
 func SplitIntoStmt(stmt string) (rv []string) {
-	eq := 0
-	sp := 0
-	var ii int
-	// for ii, cc := range stmt {
-	for ii = 0; ii < len(stmt); ii++ {
-		cc := stmt[ii]
-		if strings.HasPrefix(stmt[ii:], "--") {
-			fmt.Printf("Found Comment at %d", ii)
-			for ; ii < len(stmt); ii++ {
-				if stmt[ii] == '\n' || stmt[ii] == '\r' {
-					fmt.Printf("Advance to %d\n", ii)
-					break
-				}
-			}
-			sp = ii
-		} else {
-			if eq == 1 {
-			} else if cc == '\'' {
-				eq = 1
-			} else if cc == '"' {
-				eq = 1
-			} else if cc == ';' {
-				rv = append(rv, strings.Trim(stmt[sp:ii], " \n\t\f\r"))
-				sp = ii + 1
-			}
-		}
+
+	rv, _, _, err := scan.ScanPostgreSQLText(stmt)
+	if err != nil {
+		// xyzzy
 	}
-	if sp < ii {
-		rv = append(rv, strings.Trim(stmt[sp:ii], " \n\t\f\r"))
-	}
+
 	return
+
 }
 
 func IsXXX(stmt, word string) (rv bool) {

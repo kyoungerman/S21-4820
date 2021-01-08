@@ -5,22 +5,17 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/pschlump/MiscLib"
+	"github.com/pschlump/godebug"
 )
 
-func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg string, err error) {
-	// Initialize return Values
-	// e_line_no = 0
-	// e_msg = ""
-	// err = nil
-	// stmt_list = make([]string, 0, 50)
-	var buffer bytes.Buffer
-	/*
-		for i := 0; i < 1000; i++ {
-			buffer.WriteString("a")
-		}
+// seek peek to see if "create or replace function" or "create function" - if so go looking for '$$' in col1
 
-		fmt.Println(buffer.String())
-	*/
+func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg string, err error) {
+	var buffer bytes.Buffer
+	var id_buf bytes.Buffer
+	var id_list []string
 
 	st := 0 // Start in 0 state
 
@@ -30,13 +25,9 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 		return
 	}
 	pos := 0
-	bs := 0 // must use buffer and write to it
-	_ = bs
-
+	tok := ""
 	ch := in[pos]
 	pos++
-	id_st := 0
-	id := ""
 
 	for pos < len(in) {
 		if db1 {
@@ -51,47 +42,43 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				pos++
 			case '\n':
 				line_no++
+				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
 			case 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 				'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 				'_':
 				st = 10
-				id_st = pos
 				buffer.WriteByte(ch)
-				bs = pos
+				id_buf.WriteByte(ch)
 				ch = in[pos]
 				pos++
 			case '\'':
 				st = 20
 				buffer.WriteByte(ch)
-				id_st = pos
 				ch = in[pos]
 				pos++
 			case '"':
 				st = 30
 				buffer.WriteByte(ch)
-				id_st = pos
 				ch = in[pos]
 				pos++
 			case '-':
 				st = 40
-				id_st = pos
 				ch = in[pos]
 				pos++
 			case ';':
-				id_st = pos
-				stmt := strings.Trim(buffer.String(), " \t")
+				stmt := strings.Trim(buffer.String(), " \t\n\r\f")
 				if stmt != "" {
 					if db0 {
 						fmt.Printf("stmt ->%s<-\n", stmt)
 					}
 					stmt_list = append(stmt_list, stmt)
+					id_list = make([]string, 0, 50)
 				}
 				buffer.Reset()
 				ch = in[pos]
 				pos++
-				bs = pos
 			default:
 				buffer.WriteByte(ch)
 				ch = in[pos]
@@ -101,37 +88,65 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 		// -------------------------------------------------------------------
 		case 10: // scan across ID - not quoted
 			switch ch {
-			case '\n':
+			case '\n': // end of ID
 				line_no++
 				st = 0
-				id = in[id_st:pos]
+				id := strings.Trim(id_buf.String(), " \t\n\r\f") // end of id - check now
+				id_buf.Reset()
+				id_list = append(id_list, id)
+				if isAsBody(id_list) {
+					id_list = make([]string, 0, 50)
+					if db2 {
+						fmt.Printf("%sisAsBody is true... %s\n", MiscLib.ColorCyan, MiscLib.ColorReset)
+					}
+					st = 60
+				}
 				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
 			case 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 				'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_':
-				st = 10
+				// st = 10 -- current state
+				id_buf.WriteByte(ch)
 				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
-			case ';':
+			case ';': // end of ID
 				st = 0
-				id_st = pos
-				stmt := strings.Trim(buffer.String(), " \t")
+				id := strings.Trim(id_buf.String(), " \t\n\r\f") // end of id - check now
+				id_buf.Reset()
+				id_list = append(id_list, id)
+				if isAsBody(id_list) {
+					id_list = make([]string, 0, 50)
+					if db2 {
+						fmt.Printf("%sisAsBody is true... %s\n", MiscLib.ColorCyan, MiscLib.ColorReset)
+					}
+					st = 60
+				}
+				stmt := strings.Trim(buffer.String(), " \t\n\r\f")
 				if stmt != "" {
 					if db0 {
 						fmt.Printf("stmt ->%s<-\n", stmt)
 					}
 					stmt_list = append(stmt_list, stmt)
+					id_list = make([]string, 0, 50)
 				}
 				buffer.Reset()
 				ch = in[pos]
 				pos++
 			default: // end of ID
 				st = 0
-				id = in[id_st:pos]
-				// xyzzy - sneed peek to see if "create or replace function" or "create function" - if so go looking for '$$' in col1
+				id := strings.Trim(id_buf.String(), " \t\n\r\f") // end of id - check now
+				id_list = append(id_list, id)
+				id_buf.Reset()
+				if isAsBody(id_list) {
+					id_list = make([]string, 0, 50)
+					if db2 {
+						fmt.Printf("%sisAsBody is true... %s\n", MiscLib.ColorCyan, MiscLib.ColorReset)
+					}
+					st = 60
+				}
 				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
@@ -143,7 +158,6 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 			case '\n':
 				line_no++
 				st = 0
-				id = in[id_st:pos]
 				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
@@ -162,13 +176,35 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 			case '\n':
 				line_no++
 				st = 0
-				id = in[id_st : pos-1]
 				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
 			case '\'':
 				st = 20
 				buffer.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			case ';': // end of ID
+				st = 0
+				id := strings.Trim(id_buf.String(), " \t\n\r\f") // end of id - check now
+				id_buf.Reset()
+				id_list = append(id_list, id)
+				if isAsBody(id_list) {
+					id_list = make([]string, 0, 50)
+					if db2 {
+						fmt.Printf("%sisAsBody is true... %s\n", MiscLib.ColorCyan, MiscLib.ColorReset)
+					}
+					st = 60
+				}
+				stmt := strings.Trim(buffer.String(), " \t\n\r\f")
+				if stmt != "" {
+					if db0 {
+						fmt.Printf("stmt ->%s<-\n", stmt)
+					}
+					stmt_list = append(stmt_list, stmt)
+					id_list = make([]string, 0, 50)
+				}
+				buffer.Reset()
 				ch = in[pos]
 				pos++
 			default: // end of ID
@@ -184,7 +220,6 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 			case '\n':
 				line_no++
 				st = 0
-				id = in[id_st:pos]
 				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
@@ -206,10 +241,32 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				buffer.WriteByte(ch)
 				ch = in[pos]
 				pos++
-				id = in[id_st : pos-1]
 			case '"':
 				st = 30
 				buffer.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			case ';': // end of ID
+				st = 0
+				id := strings.Trim(id_buf.String(), " \t\n\r\f") // end of id - check now
+				id_buf.Reset()
+				id_list = append(id_list, id)
+				if isAsBody(id_list) {
+					id_list = make([]string, 0, 50)
+					if db2 {
+						fmt.Printf("%sisAsBody is true... %s\n", MiscLib.ColorCyan, MiscLib.ColorReset)
+					}
+					st = 60
+				}
+				stmt := strings.Trim(buffer.String(), " \t\n\r\f")
+				if stmt != "" {
+					if db0 {
+						fmt.Printf("stmt ->%s<-\n", stmt)
+					}
+					stmt_list = append(stmt_list, stmt)
+					id_list = make([]string, 0, 50)
+				}
+				buffer.Reset()
 				ch = in[pos]
 				pos++
 			default: // end of ID
@@ -253,22 +310,152 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 			}
 
 		// -------------------------------------------------------------------
+		case 60: // -- ID Token to quote body of store procedure
+			switch ch {
+			case ' ', '\t', '\f', '\r':
+				buffer.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			case '\n':
+				line_no++
+				ch = in[pos]
+				pos++
+			case '$':
+				st = 61
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			case '-':
+				st = 70
+				ch = in[pos]
+				pos++
+			default:
+				buffer.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			}
+		case 61:
+			switch ch {
+			case '\n':
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				line_no++
+				ch = in[pos]
+				pos++
+			case '$':
+				st = 62
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				tok = id_buf.String()
+				id_buf.Reset()
+				ch = in[pos]
+				pos++
+			case '-':
+				st = 70
+				ch = in[pos]
+				pos++
+			default:
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			}
+		case 62:
+			switch ch {
+			case '\n':
+				buffer.WriteByte(ch)
+				line_no++
+				ch = in[pos]
+				pos++
+			case '$':
+				st = 63
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			default:
+				buffer.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			}
+		case 63:
+			switch ch {
+			case '\n':
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				line_no++
+				ch = in[pos]
+				pos++
+			case '$':
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				tokEnd := id_buf.String()
+				id_buf.Reset()
+				if tokEnd == tok {
+					st = 0
+				}
+				ch = in[pos]
+				pos++
+			case '-':
+				st = 70
+				ch = in[pos]
+				pos++
+			default:
+				buffer.WriteByte(ch)
+				id_buf.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			}
+
+		// -------------------------------------------------------------------
+		case 70: // -- comment start
+			switch ch {
+			case '\n':
+				line_no++
+				st = 60
+				buffer.WriteByte('-')
+				buffer.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			case '-':
+				st = 71
+				ch = in[pos]
+				pos++
+			default:
+				st = 60
+				buffer.WriteByte('-')
+				buffer.WriteByte(ch)
+				ch = in[pos]
+				pos++
+			}
+		case 71: // -- comment start
+			switch ch {
+			case '\n':
+				line_no++
+				st = 60
+				ch = in[pos]
+				pos++
+			default:
+				ch = in[pos]
+				pos++
+			}
+
+		// -------------------------------------------------------------------
 		default:
 			fmt.Fprintf(os.Stderr, "Invalid state - setting back to 0\n")
 			st = 0
 		}
 	}
 
-	if false {
-		fmt.Printf("id=%s\n", id)
-	}
 	// process end of stuff at this point based on state!
-	stmt := strings.Trim(buffer.String(), " \t")
+	stmt := strings.Trim(buffer.String(), " \t\n\r\f")
 	if stmt != "" {
 		if db0 {
 			fmt.Printf("stmt ->%s<-\n", stmt)
 		}
 		stmt_list = append(stmt_list, stmt)
+		id_list = make([]string, 0, 50)
 	}
 	buffer.Reset()
 
@@ -276,5 +463,16 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 
 }
 
+func isAsBody(id_list []string) bool {
+	if db2 {
+		fmt.Printf("Words are: %s\n", godebug.SVar(id_list))
+	}
+	if len(id_list) > 0 && strings.ToLower(id_list[len(id_list)-1]) == "as" {
+		return true
+	}
+	return false
+}
+
 var db0 = false
 var db1 = false
+var db2 = false
