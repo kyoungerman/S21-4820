@@ -111,8 +111,9 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		NRowsDeleted  *int                     `json:"NRowsDeleted,omitempty"`
 	}
 	type RvData struct {
-		Status string
-		MsgSet []RvStmt
+		Status   string
+		MsgSet   []RvStmt
+		GradeMsg []string
 	}
 	sRv := RvData{Status: "error"}
 
@@ -188,6 +189,150 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 
 	rv = godebug.SVarI(sRv)
 	fmt.Fprintf(os.Stderr, "%sOutput From Run ->%s<- AT:%s%s\n", MiscLib.ColorGreen, rv, godebug.LF(), MiscLib.ColorReset)
+
+	/*
+	   select * from ct_val_homework;
+	   			   val_id                | homework_no |    val_type    |                                       val_data                                        |
+	   --------------------------------------+-------------+----------------+---------------------------------------------------------------------------------------+
+	   7eca9faf-575d-4716-7485-3824ee87dc25 |           1 | te: SQL-Select | select validate_hw01()                                                                |
+	   c6bd189f-e90c-4c2e-7710-5c339eba8954 |           2 | te: SQL-Select | select 'PASS' from name_list where name = 'Philip Schlump'                            |
+	   5f03ddb2-3620-4dac-4170-1b374bcad6a3 |          13 | te: SQL-Select | select 'PASS' from ( select count(1) as cnt from us_state ) as foo where foo.cnt = 53 |
+	   16228a7b-f417-4990-78bf-224514c390c7 |          26 | te: SQL-Select | select select setup_data_26()                                                         |
+
+	   CREATE TABLE ct_homework_grade (
+	   	  user_id		uuid not null						-- 1 to 1 map to user
+	   	, homework_id		uuid not null						-- assignment
+	   	, tries			int default 0 not null				-- how many times did they try thisa
+	   	, pass			text default 'No' not null			-- Did the test get passed
+	   	, pts			int default 0 not null				-- points awarded
+	   	, updated 		timestamp
+	   	, created 		timestamp default current_timestamp not null
+	   );
+	*/
+	getStr := func(row map[string]interface{}, name string, dflt string) (rv string) {
+		var ok, ok2 bool
+		var tmp interface{}
+		rv = dflt
+		if tmp, ok = row[name]; ok {
+			if rv, ok2 = tmp.(string); !ok2 {
+				rv = dflt
+			}
+		}
+		return
+	}
+
+	getInt := func(row map[string]interface{}, name string, dflt int) (rv int) {
+		var ok, ok2 bool
+		var tmp interface{}
+		rv = dflt
+		if tmp, ok = row[name]; ok {
+			if rv, ok2 = tmp.(int); !ok2 {
+				rv = dflt
+			}
+		}
+		return
+	}
+
+	if grade_it == "yes" {
+		fmt.Fprintf(os.Stderr, "%sGrad Of Run ------------------------------------------------ AT:%s%s\n", MiscLib.ColorGreen, godebug.LF(), MiscLib.ColorReset)
+		stmt := `select t1.val_type, t1.val_data, t2.points_avail
+			from ct_val_homework  as t1
+				join ct_homework as t2 on ( t2.homework_no::int = t1.homework_no )
+			where t1.homework_no = $1`
+		type CountRowsType struct {
+			Nr []int
+		}
+		// var resultSet []map[string]interface{}
+		resultSet = sizlib.SelData(DB, stmt, homework_no)
+		fmt.Fprintf(os.Stderr, "%sresultSet = %s AT:%s%s\n", MiscLib.ColorCyan, godebug.SVarI(resultSet), godebug.LF(), MiscLib.ColorReset)
+		for ii, row := range resultSet {
+			_ = ii
+
+			val_type := getStr(row, "val_type", "")
+			val_data := getStr(row, "val_data", "")
+			points_avail := getInt(row, "points_avail", 10)
+
+			pass := ""
+			switch val_type {
+			case "SQL-Select":
+				resultSet2 := sizlib.SelData(UserDB, val_data)
+				fmt.Fprintf(os.Stderr, "%sresultSet2 = %s AT:%s%s\n", MiscLib.ColorCyan, godebug.SVarI(resultSet2), godebug.LF(), MiscLib.ColorReset)
+				if len(resultSet2) > 0 {
+					fmt.Fprintf(os.Stderr, "%sPASS AT:%s%s\n", MiscLib.ColorGreen, godebug.LF(), MiscLib.ColorReset)
+					pass = getStr(resultSet2[0], "x", "")
+				} else {
+					fmt.Fprintf(os.Stderr, "%sFAIL AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+					pass = "no"
+				}
+			case "CountRows":
+				var cnt CountRowsType
+				err := json.Unmarshal([]byte(val_data), &cnt)
+				if err != nil {
+					pass = "no"
+					// xyzzy
+				} else {
+					for _, xx := range sRv.MsgSet {
+						if xx.Data != nil {
+							l := len(xx.Data)
+							if godebug.InArrayInt(l, cnt.Nr) != -1 {
+								pass = "PASS"
+							}
+						}
+					}
+				}
+			case "":
+				pass = "no"
+			}
+			if pass == "PASS" {
+				_ = points_avail
+				// insert update stuff // insert update stuff // insert update stuff // insert update stuff
+				// CREATE OR REPLACE FUNCTION grade_hw_no( p_user_id uuid, p_homework_id uuid, p_pts ) RETURNS text
+				resultSet3 := sizlib.SelData(DB, "select grade_hw_no ( $1, $2, $3 ) as x", user_id, homework_id, 10)
+				if len(resultSet3) > 0 {
+					fmt.Fprintf(os.Stderr, "%sgraded AT:%s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
+					x := getStr(resultSet3[0], "x", "")
+					if x == "PASS" {
+						sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Graded: got %d points out of possible %d.\n", 10, 10))
+						fmt.Fprintf(os.Stderr, "%sgraded AT:%s%s\n", MiscLib.ColorGreen, godebug.LF(), MiscLib.ColorReset)
+					} else {
+						sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Error Grading Pleae Report: got %d points out of possible %d.\n", 0, 10))
+						fmt.Fprintf(os.Stderr, "%sgraded/function failed FAIL AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+					}
+				} else {
+					sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Error Grading Pleae Report: got %d points out of possible %d.\n", 0, 10))
+					fmt.Fprintf(os.Stderr, "%sgraded FAIL AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+				}
+			} else {
+				resultSet3 := sizlib.SelData(DB, "select grade_hw_no ( $1, $2, $3 ) as x", user_id, homework_id, -1)
+				sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Graded: got %d points out of possible %d.\n", 0, 10))
+				if len(resultSet3) > 0 {
+					fmt.Fprintf(os.Stderr, "%sgraded AT:%s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
+					x := getStr(resultSet3[0], "x", "")
+					if x == "PASS" {
+						sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Graded: got %d points out of possible %d.\n", 10, 10))
+						fmt.Fprintf(os.Stderr, "%sgraded AT:%s%s\n", MiscLib.ColorGreen, godebug.LF(), MiscLib.ColorReset)
+					} else {
+						sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Error Grading Pleae Report: got %d points out of possible %d.\n", 0, 10))
+						fmt.Fprintf(os.Stderr, "%sgraded/function failed FAIL AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+					}
+				} else {
+					sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Error Grading Pleae Report: got %d points out of possible %d.\n", 0, 10))
+					fmt.Fprintf(os.Stderr, "%sgraded FAIL AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+				}
+			}
+		}
+		rv = godebug.SVarI(sRv)
+		fmt.Fprintf(os.Stderr, "%sOutput From Run/Grade ->%s<- AT:%s%s\n", MiscLib.ColorGreen, rv, godebug.LF(), MiscLib.ColorReset)
+		// get data
+		// if 'SQL-Select"
+		// 		run select
+		// 		see if 'PASS'
+		// if 'CountRows'
+		// 		see if a "select" has that number of rows in output data
+		//		see if 'PASS'
+		// if 'PASS' then
+		//		insert/update this hw to reflect points_avail - into ct_homework_grade - if update, increment tries, set pass & pts
+	}
 
 	www.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)

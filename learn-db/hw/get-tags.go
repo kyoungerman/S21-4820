@@ -112,12 +112,33 @@ func readFile(fn string) (n_err int) {
 			}
 			title := line[1:]
 			title = strings.TrimSpace(title)
+			ioutil.WriteFile(
+				fmt.Sprintf(`../www/img/hw%s.svg`, no),
+				[]byte(fmt.Sprintf(`<?xml version='1.0' standalone='no'?>
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+<svg width='100%%' height='100%%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+	<!-- Copyright (C) University of Wyoming, 2021. -->
+
+	<title>%s</title>
+
+	<g id='columnGroup'>
+		<rect x='1' y='1' width='1800' height='750' fill='white'/>
+
+		<text x='30' y='30' font-size='64px' font-weight='bold' fill='brown'>
+			<tspan x='30' dy='1.7em' font-size='84px' fill="gold">  University of Wyoming</tspan>
+			<tspan x='80' dy='1em' fill="black">	4280 Computer Science</tspan>
+			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
+			<tspan x='80' dy='2em' fill="black">	%s</tspan>
+		</text>
+	</g>
+</svg>
+`, title, title)), 0644)
 			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
 				u1,                          // UUID
 				sqlEncode(title),            // Title
 				nno,                         // homework number
 				fmt.Sprintf("hw%s.mp4", no), // video_url
-				fmt.Sprintf("hw%s.jpg", no), // video_img
+				fmt.Sprintf("hw%s.svg", no), // video_img
 				"{}",                        // See the Update Below (implemented via update)
 			)
 			body = append(body, line)
@@ -125,7 +146,7 @@ func readFile(fn string) (n_err int) {
 			if db4 {
 				fmt.Printf("#-- tag  : %5d:%s\n", line_no, line)
 			}
-			for _, tag_word := range getTags(line) {
+			for _, tag_word := range getTags(line, fn, line_no) {
 				var t1 string
 				var ok bool
 				if t1, ok = tag_to_uuid[tag_word]; !ok {
@@ -140,14 +161,14 @@ func readFile(fn string) (n_err int) {
 			if db4 {
 				fmt.Printf("#-- validate  : %5d:%s\n", line_no, line)
 			}
-			uX := getTags(line)
+			uX := getTags(line, fn, line_no)
 			t1 := ymux.GenUUID()
 			fmt.Printf("insert into ct_val_homework ( val_id, homework_no, val_type, val_data  ) values ( '%s', %d, '%s', '%s' );\n", t1, nno, sqlEncode(uX[0]), sqlEncode(uX[1]))
 		} else if strings.HasPrefix(line, "#### FilesToRun:") {
 			if db4 {
 				fmt.Printf("#-- FilesToRun  : %5d:%s\n", line_no, line)
 			}
-			uX := getTags(line)
+			uX := getTags(line, fn, line_no)
 			t1 := ymux.GenUUID()
 			fmt.Printf("insert into ct_file_list ( file_list_id, homework_no, file_name ) values ( '%s', %d, '%s' );\n", t1, nno, sqlEncode(uX[0]))
 			cpTo(uX[0], dest)
@@ -219,12 +240,13 @@ func readFile(fn string) (n_err int) {
 	fmt.Printf("update ct_homework set lesson_body = '%s' where homework_id = '%s';\n\n\n", sqlEncode(godebug.SVar(jb)), u1)
 
 	if err := scanner.Err(); err != nil {
-		log.Fatalf("File:%s Error:%s\n", fn, err)
+		fmt.Fprintf(os.Stderr, "File:%s Error:%s\n", fn, err)
+		os.Exit(2)
 	}
 	return
 }
 
-func getTags(line string) (tag_list []string) {
+func getTags(line, fn string, line_no int) (tag_list []string) {
 	// #### Tags: "hw02" "insert"
 	// #### Validate: SQL-Select,"select select setup_data_26()"
 	// #### FilesToRun: hw26_01.sql
@@ -246,7 +268,7 @@ func getTags(line string) (tag_list []string) {
 				break
 			}
 			if err != nil {
-				log.Fatal(err)
+				fmt.Fprintf(os.Stderr, "Error: %s input->%s<- file:%s line:%d\n", err, record, fn, line_no)
 			}
 
 			tag_list = append(tag_list, record...)

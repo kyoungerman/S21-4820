@@ -56,14 +56,16 @@
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
 					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderGradesOnLessons" > Grades on Lessons </a>	
 				</div>
 			</li>
+			<!-- ==================================================================================================== -->
+			<!-- Admin Menu  -->
+			<!-- ==================================================================================================== -->
+			<!--
 			<li class="nav-item dropdown show-logged-in">
 				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account/Admin</a>
 				<div class="dropdown-menu">
-					<!-- ==================================================================================================== -->
-					<!-- Admin Menu  -->
-					<!-- ==================================================================================================== -->
 					<a class="dropdown-item auto-bind" href="#" id="auth-change-password" data-click="renderChangePassword" > Change Password</a>			
 					<a class="dropdown-item auto-bind" href="#" id="authNewDevAccount" data-click="renderCreateDevUnPwAcct" > New Device Account</a>	
 					<a class="dropdown-item auto-bind" href="#" id="sampleUpload" data-click="renderSampleUpload" > Sample Upload </a>	
@@ -81,6 +83,7 @@
             <li class="nav-item show-logged-in">
                 <a class="nav-link" href="#" id="form50-render">List Your Stuff</a>
             </li>
+			-->
             <li class="nav-item show-anon">
                 <a class="nav-link" href="#" id="getStatus">Status</a>	
             </li>
@@ -116,7 +119,7 @@
 
 	</div>
 
-<!-- Found at line 119 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
+<!-- Found at line 122 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
 
 <script type="text/html" id="dom-template-Register">
 <div>
@@ -542,7 +545,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0259"></script>
+<script src="/js/cfg.js?_ran_=0246"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -637,37 +640,8 @@ setAppData();
 			var fd = $(this).data("param");
 			fd = ( fd ) ? { "param": fd } : {};
 			console.log ( "fd=", fd );	
-//				var frmid = $(this).data("formid");
-//				if ( !window[fx] ) {
-//					console.log ( "Missing Function - will create default", fx )
-//					window[fx] = function(event) {
-//						if ( event ) { event.preventDefault(); }
-//						console.log ( "call to: "+fx+"() -- auto generated version" );
-//						$("#_ran_").val( ( Math.random() * 10000000 ) % 10000000 );
-//console.log ( "frmid=", frmid );
-//						var frm = $( frmid );
-//						var data = frm.serialize();
-//						var url = frm.attr('action');
-//						console.log ( "data=", data, 'url=', url );
-//						submitItData ( event, data, url, function(data){
-//							console.log( "data=", data );
-//						}, function(data) {
-//							console.log( "ERROR: ", data );
-//							renderError( "Failed to Login - Network communication failed.", "Failed to communicate with the server." );
-//						});
-//					};
-//				}
 			callFunc ( fx, fd );
 		});
-/*
-					<button type="button" class="btn btn-primary bind-click"
-						data-formid="#fomr08"
-						data-click="submitDevUnPwCreate"
-						data-succTitle="Device Account Created"
-						data-succMsg="You have successfully created an account for a device to login with."
-						data-errTitle="Failed to Create Device Account"
-						data-errMsg="Unable to Create Account: {%msg%} {%id%}"
-*/
 	});
 })(jQuery);
 
@@ -747,9 +721,6 @@ function postRenderLearnList () {
 
 
 // -----------------------------------------------------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------------------------------------------------
-
 function preRenderLesson () {
 	console.log ( "pre - Lesson" );
 }
@@ -926,6 +897,16 @@ function submitRunItCode( event ) {
 }
 
 
+/*
+select * from ct_val_homework;
+                val_id                | homework_no |    val_type    |                                       val_data                                        | 
+--------------------------------------+-------------+----------------+---------------------------------------------------------------------------------------+
+ 7eca9faf-575d-4716-7485-3824ee87dc25 |           1 | te: SQL-Select | select validate_hw01()                                                                |
+ c6bd189f-e90c-4c2e-7710-5c339eba8954 |           2 | te: SQL-Select | select 'PASS' from name_list where name = 'Philip Schlump'                            |
+ 5f03ddb2-3620-4dac-4170-1b374bcad6a3 |          13 | te: SQL-Select | select 'PASS' from ( select count(1) as cnt from us_state ) as foo where foo.cnt = 53 |
+ 16228a7b-f417-4990-78bf-224514c390c7 |          26 | te: SQL-Select | select select setup_data_26()                                                         |
+
+*/
 // <button type="button" class="btn btn-primary bind-click" data-click="testGradeCode">Test/Grade Code</button>
 function testGradeCode ( event ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
@@ -997,15 +978,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00259"></script>
-<script src="/js/table.js?_ran_=00259"></script>
+<script src="/js/doc-index.js?_ran_=00275"></script>
+<script src="/js/table.js?_ran_=00275"></script>
 
-<script src="/js/doc-form25.js?_ran_=0259"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0275"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0259 - 2019-12-18T00:00:00");
+console.log ( "Version 0246 - 2019-12-18T00:00:00");
 </script>
 
 </body>

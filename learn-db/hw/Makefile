@@ -8,7 +8,6 @@ PY= \
 	ass_4_1.sql \
 	city_copy.sql \
 	city.sql \
-	gen_data.sql \
 	hw01_0.setup.sql \
 	hw01_1.sql \
 	hw02_1.sql \
@@ -272,7 +271,7 @@ make: m1 m2 m3 m4
 .PHONEY: make m1 m2 m3 m4
 
 m1:
-	rm -f ,*.sql
+	rm -f ,*.sql gen_data.sql
 	ls *.sql >,a
 	ed ,a <ed.make1.ed
 	ed Makefile <ed.make2.ed

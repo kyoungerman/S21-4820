@@ -742,17 +742,16 @@ CREATE TABLE &quot;t_ymux_user&quot; (
 	, &quot;email&quot; 				text
 	, &quot;email_confirmed&quot; 	char varying (1) default 'n' not null
 	, &quot;setup_2fa_complete&quot; 	char varying (1) default 'n' not null
-	, &quot;rfc_6238_secret&quot;		text -- if not null then this supports auth with RFC 6238 hmac/hash time based 2fa.
+	, &quot;rfc_6238_secret&quot;		text 
 	, &quot;recovery_token&quot; 		text
 	, &quot;recovery_expire&quot; 	timestamp
 	, &quot;parent_user_id&quot;		uuid
 	, &quot;org_user_id&quot;			uuid
-	, &quot;auth_token&quot;			text -- if this is an auth-token based device login
+	, &quot;auth_token&quot;			text 
 	, &quot;acct_expire&quot; 		timestamp
 	, &quot;updated&quot; 			timestamp
 	, &quot;created&quot; 			timestamp default current_timestamp not null
 );
-COMMENT ON TABLE &quot;t_ymux_user&quot; IS 'version: m4_ver_version() tag: m4_ver_tag() build_date: m4_ver_date()';
 
 
 create unique index &quot;t_ymux_user_u1&quot; on &quot;t_ymux_user&quot; ( &quot;username&quot; );
@@ -767,7 +766,6 @@ create index &quot;t_ymux_user_p3&quot; on &quot;t_ymux_user&quot; ( &quot;creat
 CREATE OR REPLACE function t_ymux_user_upd()
 RETURNS trigger AS $$
 BEGIN
-	-- version: b14871d878aa2f9fbaa35f4ad2c6c2baf9584c06 tag: v0.1.9 build_date: Fri Dec 11 14:30:43 MST 2020
 	NEW.updated := current_timestamp;
 	RETURN NEW;
 END
@@ -795,7 +793,6 @@ CREATE TABLE &quot;t_ymux_auth_token&quot; (
 	, &quot;updated&quot; 			timestamp
 	, &quot;created&quot; 			timestamp default current_timestamp not null
 );
-COMMENT ON TABLE &quot;t_ymux_auth_token&quot; IS 'version: b14871d878aa2f9fbaa35f4ad2c6c2baf9584c06 tag: v0.1.9 build_date: Fri Dec 11 14:30:43 MST 2020';
 
 create index &quot;t_ymux_auth_token_p1&quot; on &quot;t_ymux_auth_token&quot; ( &quot;user_id&quot; );
 create index &quot;t_ymux_auth_token_p2&quot; on &quot;t_ymux_auth_token&quot; ( &quot;created&quot; );
@@ -810,7 +807,6 @@ ALTER TABLE &quot;t_ymux_auth_token&quot;
 CREATE OR REPLACE function t_ymux_auth_token_upd()
 RETURNS trigger AS $$
 BEGIN
-	-- version: b14871d878aa2f9fbaa35f4ad2c6c2baf9584c06 tag: v0.1.9 build_date: Fri Dec 11 14:30:43 MST 2020
 	NEW.updated := current_timestamp;
 	RETURN NEW;
 END
@@ -837,13 +833,12 @@ DROP TABLE if exists &quot;t_ymux_user_log&quot; ;
 
 CREATE TABLE &quot;t_ymux_user_log&quot; (
 	  &quot;id&quot;					uuid DEFAULT uuid_generate_v4() not null primary key
-	, &quot;user_id&quot;				uuid 	-- if null then a failed event
+	, &quot;user_id&quot;				uuid 	
 	, &quot;seq&quot;	 				bigint DEFAULT nextval('t_log_seq'::regclass) NOT NULL 
 	, &quot;activity_name&quot;		text
 	, &quot;updated&quot; 			timestamp
 	, &quot;created&quot; 			timestamp default current_timestamp not null
 );
-COMMENT ON TABLE &quot;t_ymux_user_log&quot; IS 'version: b14871d878aa2f9fbaa35f4ad2c6c2baf9584c06 tag: v0.1.9 build_date: Fri Dec 11 14:30:43 MST 2020';
 
 create index &quot;t_ymux_user_log_p1&quot; on &quot;t_ymux_user_log&quot; ( &quot;user_id&quot;, &quot;seq&quot; );
 create index &quot;t_ymux_user_log_p2&quot; on &quot;t_ymux_user_log&quot; ( &quot;user_id&quot;, &quot;created&quot; );
@@ -857,7 +852,6 @@ ALTER TABLE &quot;t_ymux_user_log&quot;
 CREATE OR REPLACE function t_ymux_user_log_upd()
 RETURNS trigger AS $$
 BEGIN
-	-- version: b14871d878aa2f9fbaa35f4ad2c6c2baf9584c06 tag: v0.1.9 build_date: Fri Dec 11 14:30:43 MST 2020
 	NEW.updated := current_timestamp;
 	RETURN NEW;
 END
@@ -1110,7 +1104,7 @@ select setup_data_26();
 
 <h4>Tags: &ldquo;setup&rdquo;,&ldquo;ct_homework&rdquo;,&ldquo;ct_homework_ans&rdquo;,&ldquo;ct_tag&rdquo;,&ldquo;ct_tag_homework&rdquo;,&ldquo;t_ymux_user&rdquo;,&ldquo;t_ymux_user_log&rdquo;,&ldquo;t_ymux_auth_token&rdquo;</h4>
 
-<h4>Validate: SQL-Select,&ldquo;select select setup_data_26()&rdquo;</h4>
+<h4>Validate: SQL-Select,&ldquo;select setup_data_26()&rdquo;</h4>
 
 <h4>FilesToRun: hw26_01.sql</h4>
 
@@ -1133,6 +1127,8 @@ select setup_data_26();
 <h4>FilesToRun: hw26_10.sql</h4>
 
 <h4>FilesToRun: hw26_11.sql</h4>
+
+<h4>FilesToRun: hw26_14.sql</h4>
 
 </div>
 

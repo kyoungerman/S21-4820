@@ -391,3 +391,17 @@ BEGIN
 	RETURN 'PASS';
 END;
 $$;
+
+
+
+CREATE OR REPLACE FUNCTION validate_hw01() RETURNS text
+LANGUAGE plpgsql
+AS $$
+DECLARE
+	l_junk text;
+BEGIN
+	l_junk = 'PASS';
+	RETURN l_junk;
+END;
+$$;
+
