@@ -733,7 +733,7 @@ more general approach and use UUIDs.</p>
 on that column.</p>
 
 <p>This relies on having a way to generate UUIDs, it is an extension package to the
-default Postgres database. (double quotes, <code>&quot;</code> are correct for this command).</p>
+default PostgreSQL database. (double quotes, <code>&quot;</code> are correct for this command).</p>
 
 <pre><code>CREATE EXTENSION IF NOT EXISTS &quot;uuid-ossp&quot;;
 
@@ -804,6 +804,8 @@ be unique).</p>
 </code></pre>
 
 <h4>Tags: &ldquo;primary key&rdquo;,&ldquo;uuid&rdquo;,&ldquo;unique id&rdquo;,&ldquo;UUID&rdquo;</h4>
+
+<h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x from ( select count(1) as x from name_list ) as t1 where t1.x = 10 &ldquo;</h4>
 
 </div>
 

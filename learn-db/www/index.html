@@ -55,8 +55,8 @@
 					<!-- ==================================================================================================== -->
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
-					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
-					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderGradesOnLessons" > Grades on Lessons </a>	
+					<a class="dropdown-item auto-bind" href="#learnList" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradesOnLessons" > Grades on Lessons </a>	
 				</div>
 			</li>
 			<!-- ==================================================================================================== -->
@@ -423,11 +423,7 @@
 									<button id=list-of-files-button" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										Files
 									</button>
-									<div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item bind-click" href="#" data-click="runFile" data-xdata="File1" >File1</a>
-										<a class="dropdown-item bind-click" href="#" data-click="runFile" data-xdata="File2" >File2</a>
-										<a class="dropdown-item bind-click" href="#" data-click="runFile" data-xdata="File3" >File3</a>
-									</div>
+									<div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
 								</div>
 
 								<div class="form-group">
@@ -545,7 +541,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0249"></script>
+<script src="/js/cfg.js?_ran_=0278"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -697,7 +693,7 @@ function postRenderLearnList () {
 			var x_rowCfg = {
 				cols: [
 						{ Name: "has_been_seen", fx: ActionFunc },
-						{ Name: "video_title", rowTmpl: "<a href=\"#\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,lessonParam\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
 						{ Name: "when_seen", defaultIfEmpty: " "},
 				]
 			};
@@ -968,7 +964,8 @@ function postRegistrationSetup( data ) {
 
 // -----------------------------------------------------------------------------------------------------------------------
 $(document).ready(function(){
-	$(".auto-bind").click(function(){
+	$(".auto-bind").click(function( event ){
+		if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 		callFunc ( $(this).data("click") );
 	});
 });
@@ -978,15 +975,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00249"></script>
-<script src="/js/table.js?_ran_=00249"></script>
+<script src="/js/doc-index.js?_ran_=00306"></script>
+<script src="/js/table.js?_ran_=00306"></script>
 
-<script src="/js/doc-form25.js?_ran_=0249"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0306"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0249 - 2019-12-18T00:00:00");
+console.log ( "Version 0306 - 2019-12-18T00:00:00");
 </script>
 
 </body>

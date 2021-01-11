@@ -55,8 +55,8 @@
 					<!-- ==================================================================================================== -->
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
-					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
-					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderGradesOnLessons" > Grades on Lessons </a>	
+					<a class="dropdown-item auto-bind" href="#learnList" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradesOnLessons" > Grades on Lessons </a>	
 				</div>
 			</li>
 			<!-- ==================================================================================================== -->
@@ -331,7 +331,7 @@ function postRenderLearnList () {
 			var x_rowCfg = {
 				cols: [
 						{ Name: "has_been_seen", fx: ActionFunc },
-						{ Name: "video_title", rowTmpl: "<a href=\"#\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,lessonParam\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
 						{ Name: "when_seen", defaultIfEmpty: " "},
 				]
 			};
@@ -602,7 +602,8 @@ function postRegistrationSetup( data ) {
 
 // -----------------------------------------------------------------------------------------------------------------------
 $(document).ready(function(){
-	$(".auto-bind").click(function(){
+	$(".auto-bind").click(function( event ){
+		if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 		callFunc ( $(this).data("click") );
 	});
 });

@@ -269,7 +269,7 @@ function isLoggedInStartupCheck() {
 	var rv = false;
 	if ( window.localStorage ) {
 		var x = localStorage.jwt_token;
-		if ( x && x.length > 0 ) {
+		if ( x && x.length > 0 && x !== "undefined" ) {
 			jwt_token = x;
 			LoggInDone (jwt_token);
 			rv = true;

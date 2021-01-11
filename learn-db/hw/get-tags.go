@@ -134,12 +134,12 @@ func readFile(fn string) (n_err int) {
 </svg>
 `, title, title)), 0644)
 			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
-				u1,                          // UUID
-				sqlEncode(title),            // Title
-				nno,                         // homework number
-				fmt.Sprintf("hw%s.mp4", no), // video_url
-				fmt.Sprintf("hw%s.svg", no), // video_img
-				"{}",                        // See the Update Below (implemented via update)
+				u1,                              // UUID
+				sqlEncode(rmDoubleQuote(title)), // Title
+				nno,                             // homework number
+				fmt.Sprintf("hw%s.mp4", no),     // video_url
+				fmt.Sprintf("hw%s.svg", no),     // video_img
+				"{}",                            // See the Update Below (implemented via update)
 			)
 			body = append(body, line)
 		} else if strings.HasPrefix(line, "#### Tags:") {
@@ -280,6 +280,11 @@ func getTags(line, fn string, line_no int) (tag_list []string) {
 
 func sqlEncode(s string) (rv string) {
 	rv = strings.Replace(s, "'", "''", -1)
+	return
+}
+
+func rmDoubleQuote(s string) (rv string) {
+	rv = strings.Replace(s, `"`, ``, -1)
 	return
 }
 

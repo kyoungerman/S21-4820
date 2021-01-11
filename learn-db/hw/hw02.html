@@ -713,7 +713,7 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Interactive - 02 - Insert data into &ldquo;name_list&rdquo;</h1>
+<h1>Interactive - 02 - Insert data into name_list</h1>
 
 <p>Insert some data into the table.</p>
 
@@ -771,11 +771,21 @@ So, To insert <code>that's</code>  we would use in our insert statement,
 <p>Numbers are respresented as a set of digits.  With fractional(floating point) numbers you put in a decimal
 point - but note that our column age is not a float - so just whole years.</p>
 
+<p>If all has worked correctly then you should have 6 rows in the table.</p>
+
+<pre><code>select count(1) as x
+from name_list
+;
+
+</code></pre>
+
+<p>6 rows is good.  Click to grade the homework.</p>
+
 <p>Book: Pages 7 to 9</p>
 
 <h4>Tags: &ldquo;hw02&rdquo;,&ldquo;insert&rdquo;</h4>
 
-<h4>Validate: SQL-Select,&ldquo;select distinct &lsquo;PASS&rsquo; from name_list where name = &lsquo;Philip Schlump&rsquo;&rdquo;</h4>
+<h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x from ( select count(1) as x from name_list ) as t1 where t1.x = 6 &ldquo;</h4>
 
 </div>
 
