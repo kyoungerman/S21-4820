@@ -235,8 +235,13 @@ func main() {
 	// ------------------------------------------------------------------------------
 	// Set config in d.b. based on ./cfg.json file
 	// ------------------------------------------------------------------------------
-	fmt.Printf("AT: %s gCfg = --->>>\n%s<<<---\n", godebug.LF(), godebug.SVarI(gCfg))
-	pgsave.PgSaveStruct(&gCfg)
+
+	// -------------------------------------------- TODO xyzzy - Temp Comment Out -------------------------------------------------------
+	// -------------------------------------------- TODO xyzzy - Temp Comment Out -------------------------------------------------------
+	if false {
+		fmt.Printf("AT: %s gCfg = --->>>\n%s<<<---\n", godebug.LF(), godebug.SVarI(gCfg))
+		pgsave.PgSaveStruct(&gCfg)
+	}
 
 	// ------------------------------------------------------------------------------
 	// Setup connection to S3

@@ -1,6 +1,35 @@
 
+1. If rfc_6238_secret is set (not null) for an acount
+and a login tales palace then the go code is incorrect.   A jwt token will be created and returned -when it shoult not be.
+
+		// error - xyzzy23423232323 no jwt should be generated if rawDataMap["rfc_6238_secret"] is not ""
+		ymux/
+			/home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/auth_check/auth_handlers.go : 190
+
+		- Untested code, commented out!
+
+		in Go data may be, "RFC6238Secret": "", -- definitly
 
 
+			rawDataMap = {
+				"Auth2faEnabled": "no",
+				"AuthEmailConfirm": "no",
+				"AuthLoginOnRegister": "yes",
+				"RFC6238Secret": "",
+				"acct_type": "login-user",
+				"auth_token": "fc4ddf5c-a240-4aab-8c56-9982d82f13a8",
+				"email": "testlogin@gmail.com",
+				"email_confirmed": "y",
+				"pwh": "8009f839a419a57023235cacd45aacc6675561131a80524a01412c1c833bdb17d51a205c639cdf3630bcc79abb32c02c6efb4255bf39bf73806d650d5ff9867c",
+				"salt": "3738333337333832",
+				"status": "success",
+				"user_id": "7a955820-050a-405c-7e30-310da8152b6d"
+			} at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/auth_check/auth_handlers.go LineNo:1291
+
+update t_ymux_user 
+set rfc_6238_secret = 'YFKM6OARYRRVN6NH'
+where username = 'app.example.com:testlogin@gmail.com'
+;
 
 
 

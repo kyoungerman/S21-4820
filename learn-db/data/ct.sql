@@ -601,6 +601,7 @@ select  ct_setup_data ();
 
 
 
+
 -- CREATE TABLE ct_homework_grade (
 -- 	  user_id		uuid not null						-- 1 to 1 map to user	
 -- 	, homework_id		uuid not null						-- assignment
@@ -641,7 +642,7 @@ BEGIN
 		update ct_homework_grade
 			set tries = tries + 1
 				, pass = l_pass
-				, pts = l_pts
+				, pts = greatest ( pts, p_pts )
 			where homework_id = p_homework_id 
 			  and user_id = p_user_id
 			;

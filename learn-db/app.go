@@ -113,9 +113,10 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 	type RvData struct {
 		Status   string
 		MsgSet   []RvStmt
-		GradeMsg []string
+		GradeMsg []string `json:"GradeMsg,omitempty"`
 	}
 	sRv := RvData{Status: "error"}
+	sRv.MsgSet = make([]RvStmt, 0, 1)
 
 	for _, stmtX := range stmt_set {
 		if IsSelect(stmtX) {
@@ -246,7 +247,8 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		resultSet = sizlib.SelData(DB, stmt, homework_no)
 		fmt.Fprintf(os.Stderr, "%sresultSet = %s AT:%s%s\n", MiscLib.ColorCyan, godebug.SVarI(resultSet), godebug.LF(), MiscLib.ColorReset)
 		for ii, row := range resultSet {
-			_ = ii
+
+			fmt.Fprintf(os.Stderr, "%sPostion %d ------------------------------------------------ AT:%s%s\n", MiscLib.ColorGreen, ii, godebug.LF(), MiscLib.ColorReset)
 
 			val_type := getStr(row, "val_type", "")
 			val_data := getStr(row, "val_data", "")
@@ -304,7 +306,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 				}
 			} else {
 				resultSet3 := sizlib.SelData(DB, "select grade_hw_no ( $1, $2, $3 ) as x", user_id, homework_id, -1)
-				sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Graded: got %d points out of possible %d.\n", 0, 10))
+				// sRv.GradeMsg = append(sRv.GradeMsg, fmt.Sprintf("Graded: got %d points out of possible %d.\n", 0, 10))
 				if len(resultSet3) > 0 {
 					fmt.Fprintf(os.Stderr, "%sgraded AT:%s%s\n", MiscLib.ColorYellow, godebug.LF(), MiscLib.ColorReset)
 					x := getStr(resultSet3[0], "x", "")
