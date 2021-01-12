@@ -238,17 +238,17 @@ var QueryConfig = []ymux.CrudQueryConfig{
 					, t1.video_img
 					, t1.lesson_body
 					, t2.id as homework_seen_id
-					, t2.when_seen
+					, substring(date(greatest(t3.created,t3.updated))::text from 1 for 10) when_seen
 					, t2.watch_count
 					, case
-						when t2.watch_count = 0 then 'n'
-						when t2.watch_count is null then 'n'
+						when t3.pts = 0 then 'n'
+						when t3.pts is null then 'n'
 						else 'y'
 					  end as "has_been_seen"
 					, t1.homework_no::int as i_homework_no
-					, t3.tries
-					, t3.pass
-					, t3.pts
+					, coalesce(t3.tries,NULL,0,t3.tries) as tries
+					, coalesce(t3.pass,NULL,'no',t3.pass) as pass
+					, coalesce(greatest(t3.pts,0),null,0,greatest(t3.pts,0)) as pts
 				from ct_homework as t1
 					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
 					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
@@ -284,6 +284,78 @@ var QueryConfig = []ymux.CrudQueryConfig{
 						  and t3.lang_to_use = t1.lang_to_use
 					)
 				  and id = $2
+		`,
+	},
+	/*
+	   CREATE TABLE ct_homework_grade (
+	   	  user_id		uuid not null						-- 1 to 1 map to user
+	   	, homework_id		uuid not null						-- assignment
+	   	, tries			int default 0 not null				-- how many times did they try thisa
+	   	, pass			text default 'No' not null			-- Did the test get passed
+	   	, pts			int default 0 not null				-- points awarded
+	    	, updated 		timestamp
+	    	, created 		timestamp default current_timestamp not null
+	   );
+	   CREATE TABLE ct_homework (
+	   	  homework_id				uuid DEFAULT uuid_generate_v4() not null primary key
+	   	, homework_title			text not null
+	   	, homework_no					text not null
+	   	, points_avail				int not null default 10
+	   	, video_url					text not null
+	   	, video_img					text not null
+	   	, lesson_body 				JSONb not null 	-- body, html, text etc.
+	    	, updated 					timestamp
+	    	, created 					timestamp default current_timestamp not null
+	   );
+	*/
+	{
+		CrudBaseConfig: ymux.CrudBaseConfig{
+			URIPath:       "/api/v1/ct_homework_grade_per_user",
+			AuthKey:       false,
+			JWTKey:        true,
+			NoDoc:         true,
+			TableNameList: []string{"t_ymux_user", "ct_homework", "ct_homework_grade"},
+			ParameterList: []ymux.ParamListItem{
+				{ReqVar: "user_id", ParamName: "$1"},
+			},
+		},
+		// t1.homework to be remove from the semi-view (large objet)
+		// use t1.homework_id to query the table for that - one row at a time
+		// See /v2/ below.
+		/*
+			CREATE TABLE ct_homework (
+				  homework_id				uuid DEFAULT uuid_generate_v4() not null primary key
+				, homework_title			text not null
+				, homework_no					text not null
+				, points_avail				int not null default 10
+				, video_url					text not null
+				, video_img					text not null
+				, homework_body 				JSONb not null 	-- body, html, text etc.
+			 	, updated 					timestamp
+			 	, created 					timestamp default current_timestamp not null
+			);
+		*/
+		QueryString: `
+			select
+					  t1.homework_id
+					, t1.homework_title
+					, t1.homework_no
+					, t1.points_avail
+					, t1.video_url
+					, t1.video_img
+					, t1.lesson_body
+					, t1.homework_no::int as i_homework_no
+					, t3.tries
+					, t3.pass
+					, t3.pts
+				from ct_homework as t1
+					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
+				where exists (
+						select 1 as "found"
+						from ct_login as t3
+						where t3.user_id = $1
+					)
+				order by 12 asc
 		`,
 	},
 }

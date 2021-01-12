@@ -56,7 +56,7 @@
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
 					<a class="dropdown-item auto-bind" href="#learnList" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
-					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradesOnLessons" > Grades on Lessons </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradeList" > Grades on Lessons </a>	
 				</div>
 			</li>
 			<!-- ==================================================================================================== -->
@@ -445,6 +445,24 @@
 </div>
 </script>
 
+<script type="text/html" id="dom-template-GradeList">
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2> Grades on completed interactie homework</h2></div>
+				<div class="card-body">
+					<div id="table-paint">
+						<form id="form01" action="/api/v1/grade-list" method="POST" class="bind-submit-table">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
 <script type="text/html" id="dom-template-LoginPage">
 <div>
 	<div class="row">
@@ -541,7 +559,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0278"></script>
+<script src="/js/cfg.js?_ran_=0284"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -618,6 +636,7 @@ setAppData();
 		genRenderFuncs ( "ChangePassword" );
 		genRenderFuncs ( "Logout" );
 		genRenderFuncs ( "Lesson" );
+		genRenderFuncs ( "GradeList" );
 		genRenderFuncs ( "LoginPage" );
 
 (function ($) {
@@ -688,7 +707,7 @@ function postRenderLearnList () {
 			};
 
 			var x_hdrCfg = {
-				ColNames: 	[ { Name:"Complete?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
+				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
 			};
 			var x_rowCfg = {
 				cols: [
@@ -714,6 +733,77 @@ function postRenderLearnList () {
 		}
 	});
 }
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderGradeList () {
+	console.log ( "pre - GradeList" );
+}
+function postRenderGradeList () {
+	window.g_data = {};
+	console.log ( "post - GradeList" );
+
+	var url = "/api/v1/ct_homework_per_user";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+			function PointsFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				return qt ( [ '',
+					'       <td>\n',
+					`			%{pts%} out of %{points_avail%} pts\n`,
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Viewed?"}, { Name:"Lessons" }, { Name:"Completion Date" }, { Name: "Points" }	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,lessonParam\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+						{ Name: "pts", fx: PointsFunc },
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
+			// alert("got error status="+resp.status+" "+resp.statusText);
+			if ( erro ) {
+				erro(resp);
+			} else {
+				var msg = resp.statusText;
+				renderError ( "xyzzy-www-src/index.html:419", msg );
+				render5SecClearMessage ( );
+			}
+		}
+	});
+}
+
 
 
 // -----------------------------------------------------------------------------------------------------------------------
@@ -975,15 +1065,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00306"></script>
-<script src="/js/table.js?_ran_=00306"></script>
+<script src="/js/doc-index.js?_ran_=00284"></script>
+<script src="/js/table.js?_ran_=00284"></script>
 
-<script src="/js/doc-form25.js?_ran_=0306"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0284"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0306 - 2019-12-18T00:00:00");
+console.log ( "Version 0284 - 2019-12-18T00:00:00");
 </script>
 
 </body>
