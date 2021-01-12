@@ -3,7 +3,7 @@
 <svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
 	<!-- Copyright (C) University of Wyoming, 2021. -->
 
-	<title>Interactive - 36 - stored procedures</title>
+	<title>Interactive - 43 - indexes on functions - soundex</title>
 
 	<g id='columnGroup'>
 		<rect x='1' y='1' width='1800' height='750' fill='white'/>
@@ -12,8 +12,8 @@
 			<tspan x='30' dy='1.7em' font-size='84px' fill="gold">  University of Wyoming</tspan>
 			<tspan x='80' dy='1em' fill="black">	4280 Computer Science</tspan>
 			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
-			<tspan x='80' dy='2em' fill="black">	Interactive - 36 - stored</tspan>
-			<tspan x='80' dy='1em' fill="black">	 procedures</tspan>
+			<tspan x='80' dy='2em' fill="black">	Interactive - 43 - indexes on</tspan>
+			<tspan x='80' dy='1em' fill="black">	 functions - soundex</tspan>
 		</text>
 	</g>
 </svg>

@@ -784,7 +784,7 @@ select count(1) from old_name_list;
 a thing called a <code>PRIMARY KEY</code>.</p>
 
 <p>Your result should be similar to this list (the name_list_id&rsquo;s will
-be unique).</p>
+be unique to you and will not match the UUIDs below).</p>
 
 <pre><code>             name_list_id             |      real_name      | age | state 
 --------------------------------------+---------------------+-----+-------
@@ -803,9 +803,11 @@ be unique).</p>
 
 </code></pre>
 
+<p>The grading code will look at the table name_list and verify that you have 11 rows of data in it.</p>
+
 <h4>Tags: &ldquo;primary key&rdquo;,&ldquo;uuid&rdquo;,&ldquo;unique id&rdquo;,&ldquo;UUID&rdquo;</h4>
 
-<h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x from ( select count(1) as x from name_list ) as t1 where t1.x = 10 &ldquo;</h4>
+<h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x from ( select count(1) as x from name_list ) as t1 where t1.x = 11 &ldquo;</h4>
 
 </div>
 

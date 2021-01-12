@@ -12,7 +12,8 @@
 			<tspan x='30' dy='1.7em' font-size='84px' fill="gold">  University of Wyoming</tspan>
 			<tspan x='80' dy='1em' fill="black">	4280 Computer Science</tspan>
 			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
-			<tspan x='80' dy='2em' fill="black">	Interactive - 07 - add a check constraint on age</tspan>
+			<tspan x='80' dy='2em' fill="black">	Interactive - 07 - add a check</tspan>
+			<tspan x='80' dy='1em' fill="black">	 constraint on age</tspan>
 		</text>
 	</g>
 </svg>

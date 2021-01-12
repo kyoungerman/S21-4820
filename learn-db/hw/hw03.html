@@ -771,9 +771,23 @@ where state = 'wy'
 
 <p>will not give you any rows.  Try it.</p>
 
+<p>The query to run before to get your grade is:</p>
+
+<pre><code>
+SELECT real_name
+	FROM name_list
+	WHERE state = 'WY'
+;
+
+</code></pre>
+
+<p>It should return 3 rows.  This is what is checked for by the application.</p>
+
+<p>Book: Chapter 2 - pages 11 to 22.</p>
+
 <h4>Tags: select,where</h4>
 
-<h4>Validate: &ldquo;CountRows&rdquo;,&ldquo;{%22Nr%22%3A[1]}&rdquo;</h4>
+<h4>Validate: &ldquo;CountRows&rdquo;,&ldquo;{%22Nr%22%3A[3]}&rdquo;</h4>
 
 </div>
 

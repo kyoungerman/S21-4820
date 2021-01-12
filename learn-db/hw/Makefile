@@ -8,11 +8,13 @@ PY= \
 	ass_4_1.sql \
 	city_copy.sql \
 	city.sql \
+	grade_hw_no.sql \
 	hw01_0.setup.sql \
 	hw01_1.sql \
 	hw02_1.sql \
 	hw02_2.sql \
 	hw02_2.test01.sql \
+	hw02_3.sql \
 	hw03_1.sql \
 	hw03_1.test01.sql \
 	hw03_2.sql \
@@ -108,6 +110,9 @@ PY= \
 	hw42_01.sql \
 	hw42_02.sql \
 	hw42_04.sql \
+	hw43_1.sql \
+	hw43_2.sql \
+	hw43_3.sql \
 	old1.sql \
 	s1.sql \
 	s2.sql \
@@ -232,7 +237,8 @@ RAW_MD= \
 	hw35.raw.md \
 	hw36.raw.md \
 	hw37.raw.md \
-	hw42.raw.md
+	hw42.raw.md \
+	hw43.raw.md
 #endRAW_MD
 
 all: pre $(MD) $(HTML) gen_data.sql

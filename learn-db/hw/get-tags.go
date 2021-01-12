@@ -112,6 +112,11 @@ func readFile(fn string) (n_err int) {
 			}
 			title := line[1:]
 			title = strings.TrimSpace(title)
+			// title35 := title
+			// titleRem := ""
+			// if len(title) > 35 {
+			title35, titleRem := WordSplit(title, 35)
+			// }
 			ioutil.WriteFile(
 				fmt.Sprintf(`../www/img/hw%s.svg`, no),
 				[]byte(fmt.Sprintf(`<?xml version='1.0' standalone='no'?>
@@ -129,10 +134,11 @@ func readFile(fn string) (n_err int) {
 			<tspan x='80' dy='1em' fill="black">	4280 Computer Science</tspan>
 			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
 			<tspan x='80' dy='2em' fill="black">	%s</tspan>
+			<tspan x='80' dy='1em' fill="black">	%s</tspan>
 		</text>
 	</g>
 </svg>
-`, title, title)), 0644)
+`, title, title35, titleRem)), 0644)
 			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
 				u1,                              // UUID
 				sqlEncode(rmDoubleQuote(title)), // Title
@@ -302,6 +308,22 @@ func cpTo(fn, dest string) {
 		fmt.Fprintf(os.Stderr, "Failed to write ->%s<- %s\n", fn, err)
 		return
 	}
+}
+
+func WordSplit(s string, atPos int) (first, rest string) {
+	first = s
+	rest = ""
+	if len(s) > atPos {
+		ch := s[atPos]
+		ii := atPos
+		for ch != ' ' && ii > 1 {
+			ii--
+			ch = s[ii]
+		}
+		first = s[0:ii]
+		rest = s[ii:]
+	}
+	return
 }
 
 var db1 = false

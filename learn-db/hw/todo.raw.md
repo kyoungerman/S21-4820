@@ -81,10 +81,12 @@ Done
 
 
 
+
 # Interactive - 42 - foreign data wrapper
 	- pull data from different PG database
 	- fdw for csv
 
+# Interactive - 43 - indexes on functions - soundex 
 
 
 
@@ -94,6 +96,11 @@ Done
 ToDo
 ---------------------------------------------------------------------------------------------------------------
 
+# Interactive - 40 -  NULL - differences between databases
+	coalesce, nullif  (Oracle nvl)
+	oracle "dual"
+	# Interactive - 47 - null, NULL, case coalesce nullif
+	See:https://www.postgresqltutorial.com/ 
 
 # Interactive - 38 - key word lookup
 	Keyword Search tsvecor/tsearch
@@ -112,18 +119,17 @@ ToDo
 # Interactive - 39 - materialized views
 	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
 
-# Interactive - 43 - indexes on functions - soundex 
 
 # Interactive - 43 - when - if condition in projected columns
 
 # Interactive - 44 - create rule
 	https://www.postgresql.org/docs/9.2/sql-createrule.html	
 
-# Interactive - 45 - NULL - differences between databases
-	coalesce, nullif  (Oracle nvl)
-	oracle "dual"
-	# Interactive - 47 - null, NULL, case coalesce nullif
-	See:https://www.postgresqltutorial.com/ 
+# Interactive - 45 - Rename Stuff - fix spelling errors
+	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
+	ALTER TABLE table_name RENAME TO new_table_name;	
+
+	https://www.techonthenet.com/postgresql/tables/alter_table.php	
 
 
 
@@ -143,12 +149,16 @@ ToDo
 
 # Interactive - 50 - More on JSONb
 
-# Interactive - 51 - Rename Stuff - fix spelling errors
-	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
-	ALTER TABLE table_name RENAME TO new_table_name;	
 
-	https://www.techonthenet.com/postgresql/tables/alter_table.php	
 
+
+40 - 30m
+38 - 2h
+39 - 20m
+43 - 20m
+44 - 20m
+46 - 30m
+47 - 30m += 4h
 
 
 
