@@ -77,14 +77,11 @@ Done
 
 # Interactive - 37 - encrypted/hashed passwords storage
 
+# Interactive - 38 - key word lookup
 
-
-
-
+# Interactive - 39 - materialized views
 
 # Interactive - 42 - foreign data wrapper
-	- pull data from different PG database
-	- fdw for csv
 
 # Interactive - 43 - indexes on functions - soundex 
 
@@ -102,7 +99,17 @@ ToDo
 	# Interactive - 47 - null, NULL, case coalesce nullif
 	See:https://www.postgresqltutorial.com/ 
 
-# Interactive - 38 - key word lookup
+# Interactive - 41 - when - if condition in projected columns
+
+# Interactive - 41 - alter table to add columns, remove columns
+
+# Interactive - 41 - alter table to add constraint
+
+	- pull data from different PG database
+	- fdw for csv
+
+	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
+
 	Keyword Search tsvecor/tsearch
 	- tsvector/tsearch
 	https://www.compose.com/articles/mastering-postgresql-tools-full-text-search-and-phrase-search/	
@@ -113,18 +120,6 @@ ToDo
 
 
 
-
-
-
-# Interactive - 39 - materialized views
-	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
-
-
-# Interactive - 43 - when - if condition in projected columns
-
-# Interactive - 44 - create rule
-	https://www.postgresql.org/docs/9.2/sql-createrule.html	
-
 # Interactive - 45 - Rename Stuff - fix spelling errors
 	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
 	ALTER TABLE table_name RENAME TO new_table_name;	
@@ -133,8 +128,6 @@ ToDo
 
 
 
-
-# Interactive - 46 - date/time formats
 
 # Interactive - 47 - window functions
 	https://www.postgresql.org/docs/current/tutorial-window.html	
@@ -149,6 +142,13 @@ ToDo
 
 # Interactive - 50 - More on JSONb
 
+
+
+
+
+
+# Interactive - 44 - create rule
+	https://www.postgresql.org/docs/9.2/sql-createrule.html	
 
 
 

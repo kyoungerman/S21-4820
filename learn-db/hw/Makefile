@@ -35,6 +35,9 @@ PY= \
 	hw06_3.sql \
 	hw06_4.sql \
 	hw08_1.sql \
+	hw08_2.sql \
+	hw08_3.sql \
+	hw08_4.sql \
 	hw09_1.sql \
 	hw09_2.sql \
 	hw09_3.sql \
@@ -107,6 +110,20 @@ PY= \
 	hw37_3.sql \
 	hw37_4.sql \
 	hw37_5.sql \
+	hw38_01.sql \
+	hw38_02.sql \
+	hw38_03.sql \
+	hw38_04.sql \
+	hw38_05.sql \
+	hw38_06.sql \
+	hw38_07.sql \
+	hw38_08.sql \
+	hw38_09.sql \
+	hw38_10.sql \
+	hw38_11.sql \
+	hw38_12.sql \
+	hw39_1.sql \
+	hw39_2.sql \
 	hw42_01.sql \
 	hw42_02.sql \
 	hw42_04.sql \
@@ -237,6 +254,8 @@ RAW_MD= \
 	hw35.raw.md \
 	hw36.raw.md \
 	hw37.raw.md \
+	hw38.raw.md \
+	hw39.raw.md \
 	hw42.raw.md \
 	hw43.raw.md
 #endRAW_MD

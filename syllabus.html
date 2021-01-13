@@ -1,0 +1,1144 @@
+<style>
+@font-face {
+	font-family: octicons-link;
+	src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	line-height: 1.5;
+	color: #24292e;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 16px;
+	line-height: 1.5;
+	word-wrap: break-word;
+}
+
+.markdown-body .pl-c {
+	color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+	color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+	color: #6f42c1;
+}
+
+.markdown-body .pl-smi,
+.markdown-body .pl-s .pl-s1 {
+	color: #24292e;
+}
+
+.markdown-body .pl-ent {
+	color: #22863a;
+}
+
+.markdown-body .pl-k {
+	color: #d73a49;
+}
+
+.markdown-body .pl-s,
+.markdown-body .pl-pds,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sre,
+.markdown-body .pl-sr .pl-sra {
+	color: #032f62;
+}
+
+.markdown-body .pl-v,
+.markdown-body .pl-smw {
+	color: #e36209;
+}
+
+.markdown-body .pl-bu {
+	color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+	color: #fafbfc;
+	background-color: #b31d28;
+}
+
+.markdown-body .pl-c2 {
+	color: #fafbfc;
+	background-color: #d73a49;
+}
+
+.markdown-body .pl-c2::before {
+	content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+	font-weight: bold;
+	color: #22863a;
+}
+
+.markdown-body .pl-ml {
+	color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+	font-weight: bold;
+	color: #005cc5;
+}
+
+.markdown-body .pl-mi {
+	font-style: italic;
+	color: #24292e;
+}
+
+.markdown-body .pl-mb {
+	font-weight: bold;
+	color: #24292e;
+}
+
+.markdown-body .pl-md {
+	color: #b31d28;
+	background-color: #ffeef0;
+}
+
+.markdown-body .pl-mi1 {
+	color: #22863a;
+	background-color: #f0fff4;
+}
+
+.markdown-body .pl-mc {
+	color: #e36209;
+	background-color: #ffebda;
+}
+
+.markdown-body .pl-mi2 {
+	color: #f6f8fa;
+	background-color: #005cc5;
+}
+
+.markdown-body .pl-mdr {
+	font-weight: bold;
+	color: #6f42c1;
+}
+
+.markdown-body .pl-ba {
+	color: #586069;
+}
+
+.markdown-body .pl-sg {
+	color: #959da5;
+}
+
+.markdown-body .pl-corl {
+	text-decoration: underline;
+	color: #032f62;
+}
+
+.markdown-body .octicon {
+	display: inline-block;
+	vertical-align: text-top;
+	fill: currentColor;
+}
+
+.markdown-body a {
+	background-color: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+	outline-width: 0;
+}
+
+.markdown-body strong {
+	font-weight: inherit;
+}
+
+.markdown-body strong {
+	font-weight: bolder;
+}
+
+.markdown-body h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+
+.markdown-body img {
+	border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}
+
+.markdown-body hr {
+	box-sizing: content-box;
+	height: 0;
+	overflow: visible;
+}
+
+.markdown-body input {
+	font: inherit;
+	margin: 0;
+}
+
+.markdown-body input {
+	overflow: visible;
+}
+
+.markdown-body [type="checkbox"] {
+	box-sizing: border-box;
+	padding: 0;
+}
+
+.markdown-body * {
+	box-sizing: border-box;
+}
+
+.markdown-body input {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.markdown-body a {
+	color: #0366d6;
+	text-decoration: none;
+}
+
+.markdown-body a:hover {
+	text-decoration: underline;
+}
+
+.markdown-body strong {
+	font-weight: 600;
+}
+
+.markdown-body hr {
+	height: 0;
+	margin: 15px 0;
+	overflow: hidden;
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr::before {
+	display: table;
+	content: "";
+}
+
+.markdown-body hr::after {
+	display: table;
+	clear: both;
+	content: "";
+}
+
+.markdown-body table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+	padding: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body h1 {
+	font-size: 32px;
+	font-weight: 600;
+}
+
+.markdown-body h2 {
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.markdown-body h3 {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.markdown-body h4 {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.markdown-body h5 {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.markdown-body h6 {
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.markdown-body p {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+	margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+	x-list-style-type: lower-roman;
+	  list-style-type: decimal;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+	list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+	margin-left: 0;
+}
+
+.markdown-body code {
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	font-size: 12px;
+}
+
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	font-size: 12px;
+}
+
+.markdown-body .octicon {
+	vertical-align: text-bottom;
+}
+
+.markdown-body .pl-0 {
+	padding-left: 0 !important;
+}
+
+.markdown-body .pl-1 {
+	padding-left: 4px !important;
+}
+
+.markdown-body .pl-2 {
+	padding-left: 8px !important;
+}
+
+.markdown-body .pl-3 {
+	padding-left: 16px !important;
+}
+
+.markdown-body .pl-4 {
+	padding-left: 24px !important;
+}
+
+.markdown-body .pl-5 {
+	padding-left: 32px !important;
+}
+
+.markdown-body .pl-6 {
+	padding-left: 40px !important;
+}
+
+.markdown-body::before {
+	display: table;
+	content: "";
+}
+
+.markdown-body::after {
+	display: table;
+	clear: both;
+	content: "";
+}
+
+.markdown-body>*:first-child {
+	margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+	margin-bottom: 0 !important;
+}
+
+.markdown-body a:not([href]) {
+	color: inherit;
+	text-decoration: none;
+}
+
+.markdown-body .anchor {
+	float: left;
+	padding-right: 4px;
+	margin-left: -20px;
+	line-height: 1;
+}
+
+.markdown-body .anchor:focus {
+	outline: none;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 16px;
+}
+
+.markdown-body hr {
+	height: 0.25em;
+	padding: 0;
+	margin: 24px 0;
+	background-color: #e1e4e8;
+	border: 0;
+}
+
+.markdown-body blockquote {
+	padding: 0 1em;
+	color: #6a737d;
+	border-left: 0.25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+	margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+	margin-bottom: 0;
+}
+
+.markdown-body kbd {
+	display: inline-block;
+	padding: 3px 5px;
+	font-size: 11px;
+	line-height: 10px;
+	color: #444d56;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: solid 1px #c6cbd1;
+	border-bottom-color: #959da5;
+	border-radius: 3px;
+	box-shadow: inset 0 -1px 0 #959da5;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	margin-top: 24px;
+	margin-bottom: 16px;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+	color: #1b1f23;
+	vertical-align: middle;
+	visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+	text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+	visibility: visible;
+}
+
+.markdown-body h1 {
+	padding-bottom: 0.3em;
+	font-size: 2em;
+	border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+	padding-bottom: 0.3em;
+	font-size: 1.5em;
+	border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h3 {
+	font-size: 1.25em;
+}
+
+.markdown-body h4 {
+	font-size: 1em;
+}
+
+.markdown-body h5 {
+	font-size: 0.875em;
+}
+
+.markdown-body h6 {
+	font-size: 0.85em;
+	color: #6a737d;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body li {
+	word-wrap: break-all;
+}
+
+.markdown-body li>p {
+	margin-top: 16px;
+}
+
+.markdown-body li+li {
+	margin-top: 0.25em;
+}
+
+.markdown-body dl {
+	padding: 0;
+}
+
+.markdown-body dl dt {
+	padding: 0;
+	margin-top: 16px;
+	font-size: 1em;
+	font-style: italic;
+	font-weight: 600;
+}
+
+.markdown-body dl dd {
+	padding: 0 16px;
+	margin-bottom: 16px;
+}
+
+.markdown-body table {
+	display: block;
+	width: 100%;
+	overflow: auto;
+}
+
+.markdown-body table th {
+	font-weight: 600;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+	padding: 6px 13px;
+	border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+	background-color: #fff;
+	border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+	background-color: #f6f8fa;
+}
+
+.markdown-body img {
+	max-width: 100%;
+	box-sizing: content-box;
+	background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+	padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+	padding-right: 20px;
+}
+
+.markdown-body code {
+	padding: 0.2em 0.4em;
+	margin: 0;
+	font-size: 85%;
+	background-color: rgba(27,31,35,0.05);
+	border-radius: 3px;
+}
+
+.markdown-body pre {
+	word-wrap: normal;
+}
+
+.markdown-body pre>code {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	word-break: normal;
+	white-space: pre;
+	background: transparent;
+	border: 0;
+}
+
+.markdown-body .highlight {
+	margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+	margin-bottom: 0;
+	word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+	padding: 16px;
+	overflow: auto;
+	font-size: 85%;
+	line-height: 1.45;
+	background-color: #f6f8fa;
+	border-radius: 3px;
+}
+
+.markdown-body pre code {
+	display: inline;
+	max-width: auto;
+	padding: 0;
+	margin: 0;
+	overflow: visible;
+	line-height: inherit;
+	word-wrap: normal;
+	background-color: transparent;
+	border: 0;
+}
+
+.markdown-body .full-commit .btn-outline:not(:disabled):hover {
+	color: #005cc5;
+	border-color: #005cc5;
+}
+
+.markdown-body kbd {
+	display: inline-block;
+	padding: 3px 5px;
+	font: 11px "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	line-height: 10px;
+	color: #444d56;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: solid 1px #d1d5da;
+	border-bottom-color: #c6cbd1;
+	border-radius: 3px;
+	box-shadow: inset 0 -1px 0 #c6cbd1;
+}
+
+.markdown-body :checked+.radio-label {
+	position: relative;
+	z-index: 1;
+	border-color: #0366d6;
+}
+
+.markdown-body .task-list-item {
+	list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+	margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+	margin: 0 0.2em 0.25em -1.6em;
+	vertical-align: middle;
+}
+
+.markdown-body hr {
+	border-bottom-color: #eee;
+}
+
+</style>
+<style>
+ol {
+    display: block;
+    list-style-type: decimal;
+}
+.pagebreak { page-break-before: always; }
+.half { height: 200px; }
+</style>
+
+<div class="markdown-body">
+
+<style>
+.pagebreak { page-break-before: always; }
+.half { height: 200px; }
+</style>
+
+<h1>Syllabus: University of Wyoming Computer Science 4280 Database</h1>
+
+<h2>Spring 2021</h2>
+
+<ul>
+<li>Instructor: Prof. Philip Schlump</li>
+<li>Office: Office hours will be online using Zoom. M,W,F from 8:00am to 9:00am and by appointment.  The Zoom link to join will be emailed out to the class.</li>
+<li>Contact via email (pschlump@uwyo.edu) or (for emergencies only): 720-209-7888 (my cell)
+and pschlump@gmail.com (personal email).</li>
+<li>Class Time:  Lectures are online and pre-recorded.</li>
+</ul>
+
+<p>If you call me to set up an appointment, you will need to send me a SMS message
+first so that I enter your name into my contact list.  I get 10+ robo-calls a day and
+I will not answer a random number.  Text me with your name and that you are a student
+in 4280 class.</p>
+
+<h3>Overview</h3>
+
+<p>Database is one of the code technologies behind most applications.
+That makes this a very important class.</p>
+
+<p>The class will have a set of pre-recorded lectures.  These are available
+for both download and from YouTube.</p>
+
+<p>There will be a set of Interactive Homework.  Each of these has a sort
+video, text and an interactive box for doing the work.  The first 2 videos
+are critical as they show how to use the tool and how to get your grade
+for these assignments.</p>
+
+<p>There are 5 Interactive discussions.  These are required.  They will be
+on zoom.  Pic a time of day to attend.  They will be held at 3 different
+times a day - so you only need to attend one of the 3 on that a day.
+Each of the synchronous zoom discussions will be at 9:00am, 3:00pm and
+6:00pm on a Monday.  If you are unable to make one of the times let me
+know and I will find a time.  These will be about 45 minutes long.</p>
+
+<p>There will be  8 assignments.  The number of points varies.  Assignment 3 and 4
+are a single project broken into 2 parts.  You have to complete 3 to do 4.</p>
+
+<p>There will be a midterm and a final.   They will be online.</p>
+
+<h3>Lectures</h3>
+
+<ol>
+<li>Syllabus -- Class Requirements
+
+<ul>
+<li>Interactive Homework</li>
+<li>Assignments</li>
+<li>Interactive Discussions (zoom)</li>
+<li>Tests</li>
+</ul></li>
+<li>Why Database</li>
+<li>My Database Background</li>
+<li>Future of Database</li>
+<li>How applications work today</li>
+<li>Jobs In Database</li>
+<li>Installing PostgreSQL and other tools (Assignment 1)
+
+<ul>
+<li>PostgreSQL</li>
+<li>Python</li>
+<li>bottle</li>
+<li>python libraries</li>
+<li>JavaScript (jQuery)</li>
+<li>style sheets and fonts (Bootstrap)</li>
+</ul></li>
+<li>Global Variables Considered Harmful</li>
+<li>Midterm Review.</li>
+<li>Data Modeling ( Entity Relationship Model )</li>
+<li>ACID compliance and history of database</li>
+<li>The Rise of NoSQL - MongoDB (MongoDB v.s. PostgreSQL JSONb data type)</li>
+<li>F1 a world scale database</li>
+<li>Practical NoSQL - Redis</li>
+<li>Scaling SQL</li>
+<li>Hash Based Databases v.s. SqLite</li>
+<li>Testing with Database</li>
+<li>Blockchain as a Database</li>
+<li>Data Growth</li>
+<li>PostGIS - Geographic Information System</li>
+<li>Conclusions / Final Review</li>
+</ol>
+
+<h3>Class Interactive Discussions</h3>
+
+<ol>
+<li>Application Supply Chain - Feb 15</li>
+<li>Security - Feb 22</li>
+<li>Backup and the Law - Mar 8</li>
+<li>Future of Database - Mar 15</li>
+<li>SQL or NoSQL - Mar 29</li>
+</ol>
+
+<h3>Interactive Homework</h3>
+
+<p>The interactive tool is at <a href="https://easy-2c-why.com/">https://easy-2c-why.com/</a> . You should have
+received and email with this location and your login and password to tool.
+The Interactive is 255 of your semester grade.   The tool is not tied directly to
+the UW Canvas system so I will have a &ldquo;Interactive Homework&rdquo; assignment that is the
+cumulative number of points for this set of work.</p>
+
+<h3>Homework on your computer</h3>
+
+<p>You will need to install and use a number of database tools on your computer.
+If you are using a Microsoft Surface that is not x86 based this may be difficult to
+impossible to do.   In that case get a free AWS EC3 instance or a $5.00 a month
+Linode and load the database and other tools on that and run them remotely.</p>
+
+<h3>Grading</h3>
+
+<table>
+<thead>
+<tr>
+<th>Points</th>
+<th>Percentage</th>
+<th>Grade</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>2000&hellip;1800</td>
+<td>100% to 90%</td>
+<td>A</td>
+</tr>
+
+<tr>
+<td>1800&hellip;1600</td>
+<td>90% to 80%</td>
+<td>B</td>
+</tr>
+
+<tr>
+<td>1600&hellip;1400</td>
+<td>80% to 70%</td>
+<td>C</td>
+</tr>
+
+<tr>
+<td>1400&hellip;1200</td>
+<td>70% to 60%</td>
+<td>D</td>
+</tr>
+
+<tr>
+<td>1200&hellip;0</td>
+<td>below 60%</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Assignments.</h3>
+
+<p>1000pts total.</p>
+
+<table>
+<thead>
+<tr>
+<th>Assignments</th>
+<th align="right">Pts</th>
+<th>Description</th>
+<th>Due Date</th>
+<th align="right">Duration</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>01 - Install</td>
+<td align="right">50</td>
+<td>Install PosgreSQL, Redis, Python, pgAdmin</td>
+<td>2021-02-01</td>
+<td align="right">2 weeks</td>
+</tr>
+
+<tr>
+<td>02 - Insert</td>
+<td align="right">200</td>
+<td>Parse text / generate data</td>
+<td>2021-02-15</td>
+<td align="right">2 weeks</td>
+</tr>
+
+<tr>
+<td>03 - Keyword</td>
+<td align="right">200</td>
+<td>Key World Search</td>
+<td>2021-03-01</td>
+<td align="right">2 weeks</td>
+</tr>
+
+<tr>
+<td>04 - App</td>
+<td align="right">300</td>
+<td>Issue Tracking Application</td>
+<td>2021-03-22</td>
+<td align="right">3 weeks</td>
+</tr>
+
+<tr>
+<td>05 - Data dump</td>
+<td align="right">50</td>
+<td>Use pgdump to dump data</td>
+<td>2021-03-29</td>
+<td align="right">1 weeks</td>
+</tr>
+
+<tr>
+<td>06 - Backup</td>
+<td align="right">50</td>
+<td>Use tar to backup entire database</td>
+<td>2021-04-05</td>
+<td align="right">1 weeks</td>
+</tr>
+
+<tr>
+<td>07 - Remote</td>
+<td align="right">50</td>
+<td>Setup database security</td>
+<td>2021-04-12</td>
+<td align="right">1 weeks</td>
+</tr>
+
+<tr>
+<td>08 - Tune SQL</td>
+<td align="right">100</td>
+<td>Find and Tune SQL</td>
+<td>2021-04-26</td>
+<td align="right">2 weeks</td>
+</tr>
+
+<tr>
+<td></td>
+<td align="right"></td>
+<td></td>
+<td></td>
+<td align="right"></td>
+</tr>
+
+<tr>
+<td>Total</td>
+<td align="right">1000</td>
+<td></td>
+<td></td>
+<td align="right">11 weeks</td>
+</tr>
+</tbody>
+</table>
+
+<p>1000 pts - Assignments
+ 500 pts - Interactive Homework
+ 500 pts - 2 tests (midterm, final) Midterm: 2021-03-10 Final: 2021-05-11</p>
+
+<p>2000 pts - total</p>
+
+<p>50 Interactive (10pts each)
+    10 per week = 4 weeks ( &gt;&gt;</p>
+
+<table>
+<thead>
+<tr>
+<th>iHW Num.</th>
+<th>Due Date</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>01 .. 09</td>
+<td>2021-02-01</td>
+</tr>
+
+<tr>
+<td>10 .. 19</td>
+<td>2021-02-08</td>
+</tr>
+
+<tr>
+<td>20 .. 29</td>
+<td>2021-02-15</td>
+</tr>
+
+<tr>
+<td>30 .. 39</td>
+<td>2021-02-22</td>
+</tr>
+
+<tr>
+<td>40 .. 50</td>
+<td>2021-03-08</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Tests (Midterm, Final)</h3>
+
+<p>2 tests each worth 250 points.</p>
+
+<p>Midterm will be due on March 19.  You will have about a week to
+do it.  It will be online.</p>
+
+<p>Final will available on May 6th and due on the last day of finals, May 14.</p>
+
+<h3>Tools</h3>
+
+<p>PostgreSQL:</p>
+
+<p>PgAdmin:</p>
+
+<p>Redis:</p>
+
+<p>Python 3.8 - Anaconda: <a href="https://www.anaconda.com/products/individual">https://www.anaconda.com/products/individual</a></p>
+
+<h3>Extra credit</h3>
+
+<p>No extra credit is planned at this time.</p>
+
+<h3>Required texts</h3>
+
+<p>The interactive homework lists sections of the book.  The textbook book is required.</p>
+
+<h2>Office Hours</h2>
+
+<p>Online: Office hours are online - you can make an appointment but I will be online in Zoom
+Monday, Wednesday, Friday from 8:00am till 9:00am.  Additional office hours will be
+announced.</p>
+
+<h3>Late work.</h3>
+
+<p>Generally it is a good idea to get the homework done on time.   Normally I take 10% off for each
+week day that a homework is late until it is worth only 40% of the original points.  The last day
+for turning in homework is Dec 12.</p>
+
+<h3>Original work policy (in this class).</h3>
+
+<p>Homework is turned in online via file upload.   The homework is really, really important.  Do your own
+work.  That is how you learn.  If you use google or other web sources, then note where you got the
+code or answer from.  If you copy from the web, then expect that on a one-on-one basis I will be asking
+you how the code works.   Help each other.  It is legitimate in this class, (it may not be in other
+classes), for you to help your fellow student.   If you do then note it in your code.  Code is very
+unique to each person.  If two of you turn in the same code - that is very bad.  If you note that
+you worked on it together - and then I ask each of you to explain how it works - that&rsquo;s alright.
+If you have questions about this email me.</p>
+
+<h3>Title IX – Duty to Report</h3>
+
+<p>The University of Wyoming faculty are committed to helping create a safe learning environment for all students and for
+the university as a whole. If you have experienced any form of gender or sex-based discrimination or harassment,
+including sexual assault, sexual harassment, relationship violence, or stalking, know that help and support are
+available. The University has staff members trained to support survivors in navigating campus life, accessing health and
+counseling services, providing academic and housing accommodations, and more. The University strongly encourages all
+students to report any such incidents to the University. Please be aware that all University of Wyoming employees,
+including student staff, are required to report all Title IX related concerns to the Title IX Coordinator or their
+supervisor. This means that if you tell a faculty member about a situation of sexual harassment or sexual violence, or
+other related misconduct, the faculty member must share that information with the University’s Title IX Coordinator.
+UW’s Title IX Coordinator is Jim Osborn (Manager of Investigations, Equal Opportunity Report and Response). He is
+located in Room 320 of the Bureau of Mines Building, and can be reached via email at report-it@uwyo.edu or via phone at
+766-5200 or 766-5228. For more information, go to:
+<a href="http://www.uwyo.edu/reportit/learn-more/faqs.html">http://www.uwyo.edu/reportit/learn-more/faqs.html</a> .</p>
+
+<h3>Attendance and Absence policies</h3>
+
+<p>You have to watch the lectures.  This class has prerecorded lectures
+that you are expected to watch/listen to.   This is your &ldquo;required&rdquo; attendance.</p>
+
+<h3>SARS-Cov-2 / COVID-19 Related Policies</h3>
+
+<p>During this pandemic, you must abide by all UW policies and public health rules
+put forward by the City of Laramie (or by Natrona County if at UW-Casper), the University of Wyoming
+and the State of Wyoming to promote the health and well-being of fellow students and your own personal
+self-care. Please review our current policy.
+As with other disruptive behaviors, we have the right to dismiss you from the classroom (Zoom and
+physical), or other class activities if you fail to abide by these COVID-19 policies. These behaviors will
+be referred to the Dean of Students Office using the UWYO Cares Reporting Form for Student Code of
+Conduct processes.</p>
+
+<h3>Syllabus Changes</h3>
+
+<p>I will alert you to any possible course format changes in response to UW decisions
+about community safety during the semester.</p>
+
+<h2>Classroom Behavior Policy</h2>
+
+<p>(This section is not really applicable to this class - we will have class discussions that this applies to)</p>
+
+<p>At all times, treat your presence in the classroom and your enrollment in this course as you would a job. Act
+professionally, arrive on time, pay attention, complete your work in a timely and professional manner. You will be
+respectful towards your classmates and instructor. Spirited debate and disagreement are to be expected in any classroom
+and all views will be heard fully, but at all times we will behave civilly and with respect towards one another.
+Personal attacks, offensive language, name-calling, and dismissive gestures are not warranted in a learning atmosphere.
+As the instructor, I have the right to dismiss you from the classroom.</p>
+
+<h2>Classroom Statement on Diversity</h2>
+
+<p>The University of Wyoming values an educational environment that is diverse, equitable, and inclusive. The diversity
+that students and faculty bring to class, including age, country of origin, culture, disability, economic class,
+ethnicity, gender identity, immigration status, linguistic, political affiliation, race, religion, sexual orientation,
+veteran status, worldview, and other social and cultural diversity is valued, respected, and considered a resource for
+learning.</p>
+
+<h2>Disability Support</h2>
+
+<p>If you have a physical, learning, sensory or psychological disability and require accommodations, please register as
+soon as possible and provide documentation of your disability to Disability Support Services (DSS), Room 109 Knight
+Hall. You may also contact DSS at (307) 766-3073 or udss@uwyo.edu. Visit their website for more
+information: www.uwyo.edu/udss</p>
+
+<h2>Academic Dishonesty Policies</h2>
+
+<p>Don&rsquo;t cheat on the exams. I expect you to take full advantage of all the online resources you can get your hands on.
+That includes Stack Overflow, Github etc. If you do use someone else&rsquo;s code, put in a link to where you found it.
+Don&rsquo;t cheat on the projects - do you own work.  Most of the learning in the class is from <em>doing</em> the projects.</p>
+
+<h2>Substantive changes to syllabus</h2>
+
+<p>All deadlines, requirements, and course structure are subject to change if deemed necessary by the instructor. Students
+will be notified verbally in class, on our WyoCourses page announcement, and via email of these changes. I do travel
+during the semester. Class could be canceled or assignments due dates changed.</p>
+
+<h1>Copyright</h1>
+
+<p>Copyright &copy; University of Wyoming, 2021.</p>
+
+<div class="pagebreak"> </div>
+
+</div>
+
