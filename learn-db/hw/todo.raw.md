@@ -81,21 +81,21 @@ Done
 
 # Interactive - 39 - materialized views
 
+# Interactive - 41 - case/when - if in projected columns
+
 # Interactive - 42 - foreign data wrapper
 
 # Interactive - 43 - indexes on functions - soundex 
 
+# Interactive - 44 - alter table to add columns, remove columns
 
-
+# Interactive - 45 - alter table to add constraint
 
 
 
 ToDo
 ---------------------------------------------------------------------------------------------------------------
-# Interactive - 41 - when - if condition in projected columns
-# Interactive - 44 - alter table to add columns, remove columns
 
-# Interactive - 45 - alter table to add constraint
 
 # Interactive - 47 - Rename Stuff - fix spelling errors
 	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
@@ -110,20 +110,6 @@ ToDo
 	# Interactive - 47 - null, NULL, case coalesce nullif
 	See:https://www.postgresqltutorial.com/ 
 
-
-
-	- pull data from different PG database
-	- fdw for csv
-
-	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
-
-	Keyword Search tsvecor/tsearch
-	- tsvector/tsearch
-	https://www.compose.com/articles/mastering-postgresql-tools-full-text-search-and-phrase-search/	
-	https://blog.lateral.io/2015/05/full-text-search-in-milliseconds-with-postgresql/	
-		- uses gin index instead of gist
-		- has query with rank/limit on results from using ranking - and how to get ranking.		---- Important !
-	https://alibaba-cloud.medium.com/using-postgresql-to-create-an-efficient-search-engine-d0ab8e11b7	
 
 
 
@@ -414,3 +400,17 @@ To create a copy of a database, run the following command in psql:
 CREATE DATABASE [Database to create]
 WITH TEMPLATE [Database to copy]
 OWNER [Your username];
+
+	- pull data from different PG database
+	- fdw for csv
+
+	https://www.postgresql.org/docs/9.3/rules-materializedviews.html	
+
+	Keyword Search tsvecor/tsearch
+	- tsvector/tsearch
+	https://www.compose.com/articles/mastering-postgresql-tools-full-text-search-and-phrase-search/	
+	https://blog.lateral.io/2015/05/full-text-search-in-milliseconds-with-postgresql/	
+		- uses gin index instead of gist
+		- has query with rank/limit on results from using ranking - and how to get ranking.		---- Important !
+	https://alibaba-cloud.medium.com/using-postgresql-to-create-an-efficient-search-engine-d0ab8e11b7	
+
