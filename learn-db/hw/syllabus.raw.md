@@ -64,17 +64,19 @@ There will be a midterm and a final.   They will be online.
 	- JavaScript (jQuery)
 	- style sheets and fonts (Bootstrap)
 8. Global Variables Considered Harmful
-9. Data Modeling
-10. ACID compliance and history of database
-11. The Rise of NoSQL - MongoDB (MongoDB v.s. PostgreSQL JSONb data type)
-12. F1 a world scale database
-13. Practical NoSQL - Redis
-14. Scaling SQL
-15. Hash Based Databases v.s. SqLite
-16. Testing with Database
-17. Blockchain as a Database
-18. Data Growth
-19. PostGIS - Geographic Information System
+9. Midterm Review.
+10. Data Modeling ( Entity Relationship Model )
+11. ACID compliance and history of database
+12. The Rise of NoSQL - MongoDB (MongoDB v.s. PostgreSQL JSONb data type)
+13. F1 a world scale database
+14. Practical NoSQL - Redis
+15. Scaling SQL
+16. Hash Based Databases v.s. SqLite
+17. Testing with Database
+18. Blockchain as a Database
+19. Data Growth
+20. PostGIS - Geographic Information System
+21. Conclusions / Final Review
 
 ### Class Interactive Discussions
 

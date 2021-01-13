@@ -241,7 +241,7 @@ RAW_MD= \
 	hw43.raw.md
 #endRAW_MD
 
-all: pre $(MD) $(HTML) gen_data.sql
+all: pre $(MD) $(HTML) gen_data.sql syllabus.html
 
 runM4Markdown_to_HTML:
 	m4 -P tmp.raw.md >tmp.md
