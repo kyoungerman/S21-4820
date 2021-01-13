@@ -124,6 +124,7 @@ PY= \
 	hw38_12.sql \
 	hw39_1.sql \
 	hw39_2.sql \
+	hw41_01.sql \
 	hw42_01.sql \
 	hw42_02.sql \
 	hw42_04.sql \
@@ -256,6 +257,7 @@ RAW_MD= \
 	hw37.raw.md \
 	hw38.raw.md \
 	hw39.raw.md \
+	hw41.raw.md \
 	hw42.raw.md \
 	hw43.raw.md
 #endRAW_MD
