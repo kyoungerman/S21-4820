@@ -92,18 +92,25 @@ Done
 
 ToDo
 ---------------------------------------------------------------------------------------------------------------
+# Interactive - 41 - when - if condition in projected columns
+# Interactive - 44 - alter table to add columns, remove columns
 
-# Interactive - 40 -  NULL - differences between databases
+# Interactive - 45 - alter table to add constraint
+
+# Interactive - 47 - Rename Stuff - fix spelling errors
+	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
+	ALTER TABLE table_name RENAME TO new_table_name;	
+
+	https://www.techonthenet.com/postgresql/tables/alter_table.php	
+
+
+# Interactive - 46 -  NULL - differences between databases
 	coalesce, nullif  (Oracle nvl)
 	oracle "dual"
 	# Interactive - 47 - null, NULL, case coalesce nullif
 	See:https://www.postgresqltutorial.com/ 
 
-# Interactive - 41 - when - if condition in projected columns
 
-# Interactive - 41 - alter table to add columns, remove columns
-
-# Interactive - 41 - alter table to add constraint
 
 	- pull data from different PG database
 	- fdw for csv
@@ -120,35 +127,31 @@ ToDo
 
 
 
-# Interactive - 45 - Rename Stuff - fix spelling errors
-	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
-	ALTER TABLE table_name RENAME TO new_table_name;	
-
-	https://www.techonthenet.com/postgresql/tables/alter_table.php	
 
 
 
 
-# Interactive - 47 - window functions
+# Interactive - 48 - window functions
 	https://www.postgresql.org/docs/current/tutorial-window.html	
 
-# Interactive - 48 - postgresql database maintance
+# Interactive - 49 - postgresql database maintance
 	vacuum operation
 	find unused indexes
 	find slow queries
 	find size of tables
 
-# Interactive - 49 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
-
-# Interactive - 50 - More on JSONb
+# Interactive - 50 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
 
 
 
 
 
 
-# Interactive - 44 - create rule
-	https://www.postgresql.org/docs/9.2/sql-createrule.html	
+
+
+
+
+
 
 
 

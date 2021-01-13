@@ -108,3 +108,7 @@
 -- 50    Vermont               623,989    0.19%
 -- 51    Wyoming               578,759    0.17%
 --
+
+# Interactive - 44 - create rule
+	https://www.postgresql.org/docs/9.2/sql-createrule.html	
+
