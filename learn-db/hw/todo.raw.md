@@ -91,74 +91,69 @@ Done
 
 # Interactive - 45 - alter table to add constraint
 
-
-
-
-
 # Interactive - 46 -  NULL - differences between databases
-	coalesce, nullif  (Oracle nvl)
-	oracle "dual"
-	# Interactive - 47 - null, NULL, case coalesce nullif
-	See:https://www.postgresqltutorial.com/ 
+
+
+# Interactive - 48 - window functions
+
+# Interactive - 49 - PostgreSQL database maintenance
 
 
 
 
-# Interactive - 47 - Rename Stuff - fix spelling errors
-	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
-	ALTER TABLE table_name RENAME TO new_table_name;	
-
-	https://www.techonthenet.com/postgresql/tables/alter_table.php	
 
 
 
 
+
+
+# Interactive - 47 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
 
 
 ToDo
 ---------------------------------------------------------------------------------------------------------------
 
 
-# Interactive - 48 - window functions
-	https://www.postgresql.org/docs/current/tutorial-window.html	
+# Interactive - 50 - Geometric Data / PostGIS
 
-# Interactive - 49 - PostgreSQL database maintenance
-	vacuum operation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	find unused indexes
 	find slow queries
 	find size of tables
-
-# Interactive - 50 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-40 - 30m
-38 - 2h
-39 - 20m
-43 - 20m
-44 - 20m
-46 - 30m
-47 - 30m += 4h
-
-
-
-
-
-
-
-
-
 
 
 
@@ -415,4 +410,15 @@ OWNER [Your username];
 		- uses gin index instead of gist
 		- has query with rank/limit on results from using ranking - and how to get ranking.		---- Important !
 	https://alibaba-cloud.medium.com/using-postgresql-to-create-an-efficient-search-engine-d0ab8e11b7	
+
+	https://www.postgresql.org/docs/current/tutorial-window.html	
+	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
+	ALTER TABLE table_name RENAME TO new_table_name;	
+
+	https://www.techonthenet.com/postgresql/tables/alter_table.php	
+
+	coalesce, nullif  (Oracle nvl)
+	oracle "dual"
+	# Interactive - 47 - null, NULL, case coalesce nullif
+	See:https://www.postgresqltutorial.com/ 
 

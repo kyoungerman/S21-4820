@@ -134,8 +134,17 @@ PY= \
 	hw44_1.sql \
 	hw44_2.sql \
 	hw45_1.sql \
+	hw46_1.sql \
+	hw46_2.sql \
+	hw46_3.sql \
+	hw46_4.sql \
+	hw46_5.sql \
+	hw46_6.sql \
+	hw47_1.sql \
+	hw47_2.sql \
 	hw48_1.sql \
 	hw48_2.sql \
+	hw49_1.sql \
 	old1.sql \
 	s1.sql \
 	s2.sql \
@@ -267,7 +276,10 @@ RAW_MD= \
 	hw43.raw.md \
 	hw44.raw.md \
 	hw45.raw.md \
-	hw48.raw.md
+	hw46.raw.md \
+	hw47.raw.md \
+	hw48.raw.md \
+	hw49.raw.md
 #endRAW_MD
 
 all: pre $(MD) $(HTML) gen_data.sql syllabus.html
