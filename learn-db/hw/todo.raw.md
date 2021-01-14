@@ -70,7 +70,6 @@ Done
 # Interactive - 33 - types of indexes (hash, gin)
 
 
-# Interactive - 34 - 
 
 
 # Interactive - 35 - views
@@ -115,7 +114,58 @@ Done
 ToDo
 ---------------------------------------------------------------------------------------------------------------
 
+# Interactive - 34 - 
+
 # Interactive - 50 - Geometric Data / PostGIS
+
+
+
+
+
+
+
+
+
+ToDo
+---------------------------------------------------------------------------------------------------------------
+
+1. Application 
+	0. back button 
+		(Partially complete - works with learn-list but not in a "general" sence and can not bookmark)
+		https://stackoverflow.com/questions/25806608/how-to-detect-browser-back-button-event-cross-browser	
+		-- includes backspace key for back to previous page --
+		https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate	
+
+	1. a "Next" button (better have a "prev" button also)
+	2. grades on array/list
+	3. =catch= "Leave w/o doing the "grade button""
+1. Class stuff, 34, 50
+2. Start push-up of videos (edit YouTube links into videos)
+
+
+server
+	1. if syntax error in SQL - fail to report it as an error. this is the "t0WHERE" concatenation thing.
+	1. if syntax error in SQL - fail to prevent concatenation from juxtaposing to terms. this is the "t0WHERE" concatenation thing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

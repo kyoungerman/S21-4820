@@ -832,7 +832,7 @@ it connects (joins) the data together.</p>
 up we can find that Sally and Liz and the
 Development Department.</p>
 
-<p>File: hw17_1.sql</p>
+<p>File: <code>hw17_1.sql</code></p>
 
 <pre><code>
 DROP TABLE if exists employee;
@@ -893,9 +893,9 @@ an underscore, then the column name, then <code>_seq</code>.</p>
 
 <p><img src="PostgreSQL-Inner-Join.png" alt="PostgreSQL Inner Join" /></p>
 
-<pre><code>select t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year pay&quot;
-from employee as t1
-	join department as t2 on ( t1.department_id = t2.department_id )
+<pre><code>SELECT t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year pay&quot;
+	FROM employee as t1
+		JOIN department as t2 on ( t1.department_id = t2.department_id )
 ;
 
 </code></pre>
@@ -917,9 +917,9 @@ or NULLs where they don&rsquo;t join.</p>
 
 <p><img src="PostgreSQL-Left-Outer-Join.png" alt="Left Outer Join" /></p>
 
-<pre><code>select t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year Pay&quot;
-from employee as t1
-	left outer join department as t2 on ( t1.department_id = t2.department_id )
+<pre><code>SELECT t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year Pay&quot;
+	FROM employee as t1
+		LEFT OUTER JOIN department as t2 on ( t1.department_id = t2.department_id )
 ;
 
 </code></pre>
@@ -929,22 +929,22 @@ from employee as t1
 <p>Now we can answer the question how many people are not in departments and
 how much do they get payed.</p>
 
-<pre><code>select t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year Pay&quot;
-from employee as t1
-	left outer join department as t2 on ( t1.department_id = t2.department_id )
-where t1.department_id is null
+<pre><code>SELECt t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year Pay&quot;
+	FROM employee as t1
+		LEFT OUTER JOIN department as t2 on ( t1.department_id = t2.department_id )
+	WHERE t1.department_id is null
 ;
 
 </code></pre>
 
 <p>or how much pay is spent on employees not in departments.</p>
 
-<pre><code>select sum(t0.pay) as &quot;Total Pay&quot;
-from (
-	select t1.name, t2.dept_name, t1.pay 
-	from employee as t1
+<pre><code>SELECT sum(t0.pay) as &quot;Total Pay&quot;
+FROM (
+	SELECT t1.name, t2.dept_name, t1.pay 
+	FROM employee as t1
 		left outer join department as t2 on ( t1.department_id = t2.department_id )
-	where t1.department_id is null
+	WHERE t1.department_id is null
 ) t0
 ;
 
@@ -958,6 +958,8 @@ departments.</p>
 <h4>Tags: &ldquo;inner join&rdquo;,&ldquo;outer join&rdquo;,&ldquo;left outer join&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
+
+<h4>FilesToRun: hw17_1.sql</h4>
 
 </div>
 

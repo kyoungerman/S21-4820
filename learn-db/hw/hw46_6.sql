@@ -1,1 +1,1 @@
-select coalesce(5,2);
+SELECT coalesce(5,2);

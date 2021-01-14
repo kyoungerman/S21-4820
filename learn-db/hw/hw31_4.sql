@@ -9,5 +9,5 @@ $$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER ct_config_prevent_delete 
-BEFORE DELETE ON ct_config
-FOR EACH ROW EXECUTE PROCEDURE ct_config_prevent_delete();
+	BEFORE DELETE ON ct_config
+	FOR EACH ROW EXECUTE PROCEDURE ct_config_prevent_delete();

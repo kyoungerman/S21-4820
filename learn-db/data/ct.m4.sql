@@ -9,7 +9,8 @@ m4_include(setup.m4)
 
 DROP VIEW if exists ct_video_per_user cascade ;
 DROP TABLE if exists ct_homework_seen cascade ;
-DROP TABLE if exists ct_homework_grade cascade ;
+CREATE TABLE ct_homework_grade_backup as select * from ct_homework_grade;
+-- DROP TABLE if exists ct_homework_grade cascade ;
 DROP TABLE if exists ct_homework_list cascade ;
 DROP TABLE if exists ct_homework cascade ;
 DROP TABLE if exists ct_homework_validation cascade ;
@@ -70,6 +71,9 @@ CREATE TABLE ct_homework_grade (
  	, created 		timestamp default current_timestamp not null
 );
 
+CREATE UNIQUE index ct_homework_grade_u1 on ct_homework_grade ( homework_id, user_id );
+CREATE UNIQUE index ct_homework_grade_u2 on ct_homework_grade ( homework_no, user_id );
+
 m4_updTrig(ct_homework_grade)
 
 
@@ -112,6 +116,7 @@ CREATE TABLE ct_homework (
 
 CREATE INDEX ct_homework_p1 on ct_homework ( homework_no );
 CREATE INDEX ct_video_p2 on ct_homework using gin ( lesson_body );
+CREATE UNIQUE index ct_homework_u1 on ct_homework ( homework_no );
 
 m4_updTrig(ct_homework)
 
@@ -469,6 +474,7 @@ select  ct_setup_data ();
 
 
 
+
 -- CREATE TABLE ct_homework_grade (
 -- 	  user_id		uuid not null						-- 1 to 1 map to user	
 -- 	, homework_id		uuid not null						-- assignment
@@ -487,6 +493,7 @@ DECLARE
 	l_rv text;
 	l_pass text;
 	l_found int;
+	l_h_no text;
 BEGIN
 	l_rv = 'PASS';
 	if p_pts > 0 then
@@ -495,27 +502,80 @@ BEGIN
 		l_pass = 'no';
 	end if;
 
-	select 1 
-		into l_found
-		from ct_homework_grade
-		where homework_id = p_homework_id 
-		  and user_id = p_user_id
+	select homework_no
+		into l_h_no
+		from ct_homework	
+		where homework_id = p_homework_id
 		;
 
 	if not found then
-		insert into ct_homework_grade ( user_id, homework_id, tries, pass, pts )
-			values ( p_user_id, p_homework_id, 1, l_pass, p_pts );
-	else
-		update ct_homework_grade
-			set tries = tries + 1
-				, pass = l_pass
-				, pts = greatest ( pts, p_pts )
+		l_rv = 'FAIL';
+	end if;
+
+	if l_rv = 'PASS' then
+
+		select 1 
+			into l_found
+			from ct_homework_grade
 			where homework_id = p_homework_id 
 			  and user_id = p_user_id
 			;
+
+		if not found then
+			insert into ct_homework_grade ( user_id, homework_id, tries, pass, pts, homework_no )
+				values ( p_user_id, p_homework_id, 1, l_pass, p_pts, l_h_no );
+		else
+			update ct_homework_grade
+				set tries = tries + 1
+					, pass = l_pass
+					, pts = greatest ( pts, p_pts )
+					, homework_no = l_h_no
+				where homework_id = p_homework_id 
+				  and user_id = p_user_id
+				;
+		end if;
+
 	end if;
+
 
 	RETURN l_rv;
 END;
 $$;
 
+
+CREATE OR REPLACE FUNCTION grade_hw_migrate( ) RETURNS text
+LANGUAGE plpgsql
+AS $$
+DECLARE
+	l_rv text;
+	l_id uuid;
+	f record;
+BEGIN
+	l_rv = 'PASS';
+
+	for f in select * from ct_homework_grade loop
+		select homework_id
+			into l_id			
+			from ct_homework
+			where homework_no = f.homework_no		
+		;
+		if not found then
+	
+		else
+			update ct_homework_grade
+				set homework_id = l_id
+				where homework_id = f.homework_id		
+				  and user_id = f.user_id
+			;
+		end if;	
+	end loop;
+
+	RETURN l_rv;
+END;
+$$;
+
+select grade_hw_migrate( ) ;
+
+-- select grade_hw_no ( '7a955820-050a-405c-7e30-310da8152b6d',  'd66aae56-b399-42ef-5486-519e19c80d05', 10 );
+
+	

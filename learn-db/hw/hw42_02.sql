@@ -1,4 +1,3 @@
-
 CREATE FOREIGN TABLE table1_import (
   col1 text,
   col2 text

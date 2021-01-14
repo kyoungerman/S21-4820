@@ -33,14 +33,14 @@ create index "t_ymux_user_p3" on "t_ymux_user" ( "created", "email_confirmed" );
 
 CREATE OR REPLACE function t_ymux_user_upd()
 RETURNS trigger AS $$
-BEGIN
-	NEW.updated := current_timestamp;
-	RETURN NEW;
-END
+BEGIN 
+	NEW.updated := current_timestamp; 
+	RETURN NEW; 
+END 
 $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER t_ymux_user_trig
-BEFORE update ON "t_ymux_user"
-FOR EACH ROW
-EXECUTE PROCEDURE t_ymux_user_upd();
+	BEFORE update ON "t_ymux_user"
+	FOR EACH ROW
+	EXECUTE PROCEDURE t_ymux_user_upd();

@@ -819,8 +819,8 @@ ol {
 <p><img src="PostgreSQL-Full-Outer-Join.png" alt="Full Outer Join" /></p>
 
 <pre><code>SELECT t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year pay&quot;
-FROM employee as t1
-	FULL JOIN  department as t2 on ( t1.department_id = t2.department_id )
+	FROM employee as t1
+		FULL JOIN  department as t2 on ( t1.department_id = t2.department_id )
 ;
 
 </code></pre>
@@ -834,10 +834,10 @@ FROM employee as t1
 <p><img src="PostgreSQL-Full-Outer-Unique-Join.png" alt="PostgreSQL Inner Join" /></p>
 
 <pre><code>SELECT t1.name as &quot;Employee Name&quot;, t2.dept_name as &quot;Department Name&quot;, t1.pay &quot;Year pay&quot;
-FROM employee as t1
-	FULL JOIN department as t2 on ( t1.department_id = t2.department_id )
-WHERE t1.name is null 
-   OR t2.dept_name is null
+	FROM employee as t1
+		FULL JOIN department as t2 on ( t1.department_id = t2.department_id )
+	WHERE t1.name is null 
+	   OR t2.dept_name is null
 ;
 
 </code></pre>

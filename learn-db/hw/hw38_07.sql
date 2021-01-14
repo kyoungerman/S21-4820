@@ -7,7 +7,7 @@ CREATE TABLE indexed_docs (
     document_tokens TSVECTOR 
 );
 
-insert into indexed_docs ( document_title, document_body ) values
+INSERT INTO indexed_docs ( document_title, document_body ) values
 	( 'On Tyrany', 'A book about how to stop tyrants and how to deal with the devaluation of democracy.' ),
 	( 'How Democracies Die', 'A look at how other democracies around the world have failed.' )
 ;

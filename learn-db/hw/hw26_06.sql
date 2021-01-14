@@ -39,7 +39,7 @@ $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER ct_homework_ans_trig
-BEFORE update ON ct_homework_ans
-FOR EACH ROW
-EXECUTE PROCEDURE ct_homework_ans_upd();
+	BEFORE update ON ct_homework_ans
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_homework_ans_upd();
 

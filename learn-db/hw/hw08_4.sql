@@ -1,3 +1,3 @@
-insert into name_list ( real_name, age, state ) 
-	select real_name, age, state 
-	from old_name_list;
+INSERT INTO name_list ( real_name, age, state ) 
+	SELECT real_name, age, state 
+	FROM old_name_list;

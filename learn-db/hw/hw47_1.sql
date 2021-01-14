@@ -5,6 +5,6 @@ CREATE TABLE test_collection (
 
 CREATE INDEX test_collection_gin_1 ON test_collection USING gin (data);
 
-insert into test_collection ( data ) values	
+INSERT INTO test_collection ( data ) values	
 	( '{"name":"bob"}' )
 ;

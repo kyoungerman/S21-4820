@@ -765,17 +765,17 @@ create index &quot;t_ymux_user_p3&quot; on &quot;t_ymux_user&quot; ( &quot;creat
 
 CREATE OR REPLACE function t_ymux_user_upd()
 RETURNS trigger AS $$
-BEGIN
-	NEW.updated := current_timestamp;
-	RETURN NEW;
-END
+BEGIN 
+	NEW.updated := current_timestamp; 
+	RETURN NEW; 
+END 
 $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER t_ymux_user_trig
-BEFORE update ON &quot;t_ymux_user&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE t_ymux_user_upd();
+	BEFORE update ON &quot;t_ymux_user&quot;
+	FOR EACH ROW
+	EXECUTE PROCEDURE t_ymux_user_upd();
 
 </code></pre>
 
@@ -806,17 +806,17 @@ ALTER TABLE &quot;t_ymux_auth_token&quot;
 
 CREATE OR REPLACE function t_ymux_auth_token_upd()
 RETURNS trigger AS $$
-BEGIN
-	NEW.updated := current_timestamp;
-	RETURN NEW;
-END
+BEGIN 
+	NEW.updated := current_timestamp; 
+	RETURN NEW; 
+END 
 $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER t_ymux_auth_token_trig
-BEFORE update ON &quot;t_ymux_auth_token&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE t_ymux_auth_token_upd();
+	BEFORE update ON &quot;t_ymux_auth_token&quot;
+	FOR EACH ROW
+	EXECUTE PROCEDURE t_ymux_auth_token_upd();
 
 </code></pre>
 
@@ -851,7 +851,7 @@ ALTER TABLE &quot;t_ymux_user_log&quot;
 
 CREATE OR REPLACE function t_ymux_user_log_upd()
 RETURNS trigger AS $$
-BEGIN
+BEGIN 
 	NEW.updated := current_timestamp;
 	RETURN NEW;
 END
@@ -859,9 +859,9 @@ $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER t_ymux_user_log_trig
-BEFORE update ON &quot;t_ymux_user_log&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE t_ymux_user_log_upd();
+	BEFORE update ON &quot;t_ymux_user_log&quot;
+	FOR EACH ROW
+	EXECUTE PROCEDURE t_ymux_user_log_upd();
 
 </code></pre>
 
@@ -876,6 +876,7 @@ ct_homework_ans.</p>
 <p>Run the file hw26_04.sql</p>
 
 <pre><code>DROP TABLE if exists ct_login ;
+
 CREATE TABLE ct_login (
 	  user_id					uuid not null primary key -- 1 to 1 to &quot;t_ymux_user&quot;.&quot;id&quot;
 	, pg_acct					char varying (20) not null
@@ -960,9 +961,9 @@ $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER ct_homework_ans_trig
-BEFORE update ON ct_homework_ans
-FOR EACH ROW
-EXECUTE PROCEDURE ct_homework_ans_upd();
+	BEFORE update ON ct_homework_ans
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_homework_ans_upd();
 
 
 </code></pre>
@@ -996,9 +997,9 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER if exists ct_homework_trig_ins_upd on ct_homework;
 
 CREATE TRIGGER ct_homework_trig_ins_upd
-after insert or update ON ct_homework
-FOR EACH ROW
-EXECUTE PROCEDURE ct_homework_ins();
+	AFTER insert or update ON ct_homework
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_homework_ins();
 
 
 
@@ -1021,9 +1022,9 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER if exists ct_homework_trig_del on ct_homework;
 
 CREATE TRIGGER ct_homework_trig_del
-BEFORE delete ON ct_homework
-FOR EACH ROW
-EXECUTE PROCEDURE ct_homework_del();
+	BEFORE delete ON ct_homework
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_homework_del();
 
 
 
@@ -1057,9 +1058,9 @@ $$ LANGUAGE 'plpgsql';
 drop TRIGGER if exists ct_login_trig on ct_login;
 
 CREATE TRIGGER ct_login_trig
-after insert ON ct_login
-FOR EACH ROW
-EXECUTE PROCEDURE ct_login_ins();
+	AFTER insert ON ct_login
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_login_ins();
 
 </code></pre>
 
@@ -1096,9 +1097,7 @@ CREATE UNIQUE INDEX ct_tag_homework_u1 on ct_tag_homework ( tag_id, homework_id 
 
 <p>Run the file hw26_11.sql to setup data for these tables.</p>
 
-<pre><code>
-select setup_data_26();
-
+<pre><code>select setup_data_26();
 
 </code></pre>
 

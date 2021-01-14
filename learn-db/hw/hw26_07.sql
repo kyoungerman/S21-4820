@@ -23,9 +23,9 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER if exists ct_homework_trig_ins_upd on ct_homework;
 
 CREATE TRIGGER ct_homework_trig_ins_upd
-after insert or update ON ct_homework
-FOR EACH ROW
-EXECUTE PROCEDURE ct_homework_ins();
+	AFTER insert or update ON ct_homework
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_homework_ins();
 
 
 
@@ -48,9 +48,9 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER if exists ct_homework_trig_del on ct_homework;
 
 CREATE TRIGGER ct_homework_trig_del
-BEFORE delete ON ct_homework
-FOR EACH ROW
-EXECUTE PROCEDURE ct_homework_del();
+	BEFORE delete ON ct_homework
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_homework_del();
 
 
 
@@ -84,6 +84,6 @@ $$ LANGUAGE 'plpgsql';
 drop TRIGGER if exists ct_login_trig on ct_login;
 
 CREATE TRIGGER ct_login_trig
-after insert ON ct_login
-FOR EACH ROW
-EXECUTE PROCEDURE ct_login_ins();
+	AFTER insert ON ct_login
+	FOR EACH ROW
+	EXECUTE PROCEDURE ct_login_ins();

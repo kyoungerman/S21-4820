@@ -1,1 +1,1 @@
-select coalesce(NULL,2);
+SELECT coalesce(NULL,2);

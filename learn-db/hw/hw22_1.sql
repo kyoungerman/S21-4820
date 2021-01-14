@@ -1,3 +1,5 @@
+DROP TABLE if exists tree_example ;
+
 CREATE TABLE tree_example (
 	id  			int not null primary key,
 	manager_id  	int,

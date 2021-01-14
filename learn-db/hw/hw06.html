@@ -725,9 +725,8 @@ ol {
 
 <p>or with a where clause</p>
 
-<pre><code>
-SELECT count(*) from name_list
-where state = 'NJ'
+<pre><code>SELECT count(*) from name_list
+	WHERE state = 'NJ'
 ;
 
 </code></pre>
@@ -736,8 +735,7 @@ where state = 'NJ'
 
 <p>with a name for the returned data column</p>
 
-<pre><code>
-SELECT count(*) as &quot;count_of_names&quot;
+<pre><code>SELECT count(*) as &quot;count_of_names&quot;
 	FROM name_list
 ;
 
@@ -747,8 +745,7 @@ SELECT count(*) as &quot;count_of_names&quot;
 
 <p>Book: page 117 to 118</p>
 
-<pre><code>
-SELECT count(distinct real_name) 
+<pre><code>SELECT count(distinct real_name) 
 	FROM name_list
 	WHERE state = 'NJ'
 ;

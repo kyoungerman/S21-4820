@@ -23,14 +23,14 @@ ALTER TABLE "t_ymux_auth_token"
 
 CREATE OR REPLACE function t_ymux_auth_token_upd()
 RETURNS trigger AS $$
-BEGIN
-	NEW.updated := current_timestamp;
-	RETURN NEW;
-END
+BEGIN 
+	NEW.updated := current_timestamp; 
+	RETURN NEW; 
+END 
 $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER t_ymux_auth_token_trig
-BEFORE update ON "t_ymux_auth_token"
-FOR EACH ROW
-EXECUTE PROCEDURE t_ymux_auth_token_upd();
+	BEFORE update ON "t_ymux_auth_token"
+	FOR EACH ROW
+	EXECUTE PROCEDURE t_ymux_auth_token_upd();

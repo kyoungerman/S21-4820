@@ -731,8 +731,7 @@ of columns you get back.  <code>*</code> is for all the columns.</p>
 
 <p>Gives you back just the name and state.</p>
 
-<pre><code>
-SELECT lower(real_name) as &quot;real_name_lower&quot;, real_name
+<pre><code>SELECT lower(real_name) as &quot;real_name_lower&quot;, real_name
 from name_list;
 
 </code></pre>
@@ -743,8 +742,8 @@ from name_list;
 
 <pre><code>
 SELECT lower(real_name) as &quot;real_name_lower&quot;, real_name
-	from name_list
-	order by 1 desc
+	FROM name_list
+	ORDER BY 1 desc
 ;
 
 </code></pre>

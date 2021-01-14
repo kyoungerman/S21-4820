@@ -513,6 +513,31 @@ function URLStrToHash(query) {
 	return rv;
 }
 
+function paintFragment() {
+	var s = window.location.href;
+	var sa = s.split("#");
+console.log ( 'sa=', sa );
+	s = ( sa.length > 1 ) ? sa[1] : "";
+console.log ( 's=', s );
+	sa = s.split(",");
+console.log ( 'sa=', sa );
+	var s2 = ( sa.length > 1 ) ? sa[1] : "";
+	s = sa[0];
+console.log ( 's=', s );
+	if ( s !== "" ) {
+		switch ( s ) {
+		case "learn-list":
+			renderLearnList();
+		break;
+		case "lesson":
+			renderLesson();
+		break;
+		default:
+		break;
+		}
+	}
+}
+
 var g_origin = window.location.origin;
 if ( ! g_origin ) {			// Probablyl running on Opera
 	g_origin = window.location.protocol + "//" + window.location.host;
@@ -559,7 +584,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0284"></script>
+<script src="/js/cfg.js?_ran_=0359"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -677,6 +702,7 @@ function postRenderLoginPage () {
 
 function preRenderLearnList () {
 	console.log ( "pre - LearnList" );
+	history.pushState({page:"learn-list"}, "List of Interactive Homework", "#learn-list");
 }
 function postRenderLearnList () {
 	window.g_data = {};
@@ -809,6 +835,7 @@ function postRenderGradeList () {
 // -----------------------------------------------------------------------------------------------------------------------
 function preRenderLesson () {
 	console.log ( "pre - Lesson" );
+	history.pushState({page:"lesson"}, "Lesson", "#lesson");
 }
 function postRenderLesson ( fd ) {
 	console.log ( "post - Lesson", fd, window.g_data );
@@ -874,7 +901,10 @@ function renderFileListParams(homework_no){
 		data: getdata,
 		success: function (data) {
 			// <div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			var mx = data.data.length;
+			var mx = 0;
+			if ( data && data.data && data.data.length ) {
+				mx = data.data.length;
+			}
 			console.log ( "vvvvvvvvv mx = ", mx, data );
 			if ( mx > 0 ) {
 				var ss = [];
@@ -1054,10 +1084,38 @@ function postRegistrationSetup( data ) {
 
 // -----------------------------------------------------------------------------------------------------------------------
 $(document).ready(function(){
+	// history.
+	window.onpopstate = function(event){
+		// console.log ( ">>>>>>>>> PopState called", JSON.stringify(event.state) );
+		if ( event && event.state && event.state.page ) {
+			switch ( event.state.page ) {
+			case "learn-list":
+				renderLearnList();
+			break;
+			default:
+			break;
+			}
+		}
+	};
+});
+
+// -----------------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
 	$(".auto-bind").click(function( event ){
 		if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 		callFunc ( $(this).data("click") );
 	});
+});
+
+$(document).ready(function(){
+	setTimeout(function(){
+		try {
+			paintFragment();
+		}
+		catch(err) {
+			console.log( err.message );
+		}	
+	}, 200);
 });
 
 </script>
@@ -1065,15 +1123,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00284"></script>
-<script src="/js/table.js?_ran_=00284"></script>
+<script src="/js/doc-index.js?_ran_=00359"></script>
+<script src="/js/table.js?_ran_=00359"></script>
 
-<script src="/js/doc-form25.js?_ran_=0284"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0359"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0284 - 2019-12-18T00:00:00");
+console.log ( "Version 0359 - 2019-12-18T00:00:00");
 </script>
 
 </body>

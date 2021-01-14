@@ -720,13 +720,20 @@ ol {
 <p>Let&rsquo;s get rid of the people that are not in a department.</p>
 
 <pre><code>SELECT t0.name as &quot;Employee Name&quot;, t0.dept_name as &quot;Department Name&quot;, t0.pay &quot;Year Pay&quot;
-FROM  (
-		SELECT t1.name, t2.dept_name, t1.pay, t1.employee_id
-		FROM employee as t1
-			LEFT OUTER join department as t2 on ( t1.department_id = t2.department_id )
-		WHERE t1.department_id is null
-		ORDER BY 1, 3 desc, 4
-	) as t0
+	FROM  (
+			SELECT t1.name, t2.dept_name, t1.pay, t1.employee_id
+			FROM employee as t1
+				LEFT OUTER join department as t2 on ( t1.department_id = t2.department_id )
+			WHERE t1.department_id is null
+			ORDER BY 1, 3 desc, 4
+		) as t0
+	WHERE 
+		exists (
+			SELECT 'found'
+			FROM employee as t5
+			WHERE t5.pay &gt; 65000
+			  and t5.employee_id = t0.employee_id
+		)
 ;
 
 </code></pre>

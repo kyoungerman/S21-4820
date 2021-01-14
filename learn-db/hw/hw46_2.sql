@@ -1,1 +1,1 @@
-select 'found' where NULL is NULL;
+SELECT 'found' where NULL is NULL;

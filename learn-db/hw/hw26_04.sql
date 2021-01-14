@@ -1,4 +1,5 @@
 DROP TABLE if exists ct_login ;
+
 CREATE TABLE ct_login (
 	  user_id					uuid not null primary key -- 1 to 1 to "t_ymux_user"."id"
 	, pg_acct					char varying (20) not null

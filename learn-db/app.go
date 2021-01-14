@@ -386,7 +386,7 @@ func IsXXX(stmt, word string) (rv bool) {
 }
 
 func IsSelect(stmt string) (rv bool) {
-	return IsXXX(stmt, "select")
+	return IsXXX(stmt, "select") || IsXXX(stmt, "with")
 }
 
 func IsUpdate(stmt string) (rv bool) {

@@ -725,11 +725,11 @@ A foreign key relationship exists between the 2 tables.  This means
 that you can have more than 1 auth token for each user.   Basically
 a user can login from more than one computer at a time.</p>
 
-<pre><code>select setup_data_26();
+<pre><code>SELECT setup_data_26();
 
-select t1.email, t2.id as &quot;auth_token&quot;
-from &quot;t_ymux_user&quot; as t1
-	join &quot;t_ymux_auth_token&quot; as t2 on ( t1.&quot;id&quot; = t2.&quot;user_id&quot; )
+SELECT t1.email, t2.id as &quot;auth_token&quot;
+	FROM &quot;t_ymux_user&quot; as t1
+		join &quot;t_ymux_auth_token&quot; as t2 on ( t1.&quot;id&quot; = t2.&quot;user_id&quot; )
 ;
 
 </code></pre>

@@ -747,8 +747,7 @@ They will not work for this.</p>
 <p>First we are going to rename the table, so we can save
 it for later. (Familiar, we did this last time)</p>
 
-<pre><code>
-ALTER TABLE name_list
+<pre><code>ALTER TABLE name_list
 	RENAME TO old_name_list;
 
 </code></pre>
@@ -766,9 +765,9 @@ ALTER TABLE name_list
 
 <p>Now copy the data back.</p>
 
-<pre><code>insert into name_list ( real_name, age, state ) 
-	select real_name, age, state 
-	from old_name_list;
+<pre><code>INSERT INTO name_list ( real_name, age, state ) 
+	SELECT real_name, age, state 
+	FROM old_name_list;
 
 </code></pre>
 

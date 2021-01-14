@@ -1,1 +1,1 @@
-select nullif(1,2);
+SELECT nullif(1,2);

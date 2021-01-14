@@ -873,8 +873,8 @@ It is built on top of the geometric data types and GIN indexes.</p>
 <p>Often we want a column to show when a new row is inserted or updated in a table.
 Let&rsquo;s add these to our name_list table.</p>
 
-<pre><code>alter table name_list add updated timestamp ;
-alter table name_list add created timestamp 
+<pre><code>ALTER TABLE name_list add updated timestamp ;
+ALTER TABLE name_list add created timestamp 
 	default current_timestamp not null  ;
 
 </code></pre>
@@ -888,19 +888,19 @@ Run the file <code>hw14_2.sql</code>.  The contents of the file is shown below.<
 <pre><code>
 CREATE OR REPLACE function name_list_upd()
 RETURNS trigger AS 
-$$
-BEGIN
-  NEW.updated := current_timestamp;
-  RETURN NEW;
-END
+$$ 
+BEGIN 
+  NEW.updated := current_timestamp; 
+  RETURN NEW; 
+END 
 $$
 LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER name_list_trig
-BEFORE update ON name_list
-FOR EACH ROW
-EXECUTE PROCEDURE name_list_upd();
+	BEFORE update ON name_list
+	FOR EACH ROW
+	EXECUTE PROCEDURE name_list_upd();
 
 
 </code></pre>
@@ -911,6 +911,8 @@ to the current time.</p>
 <h4>Tags: &ldquo;data types&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
+
+<h4>FilesToRun: hw14_2.sql</h4>
 
 </div>
 

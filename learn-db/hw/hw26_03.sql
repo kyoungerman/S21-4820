@@ -27,7 +27,7 @@ ALTER TABLE "t_ymux_user_log"
 
 CREATE OR REPLACE function t_ymux_user_log_upd()
 RETURNS trigger AS $$
-BEGIN
+BEGIN 
 	NEW.updated := current_timestamp;
 	RETURN NEW;
 END
@@ -35,6 +35,6 @@ $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER t_ymux_user_log_trig
-BEFORE update ON "t_ymux_user_log"
-FOR EACH ROW
-EXECUTE PROCEDURE t_ymux_user_log_upd();
+	BEFORE update ON "t_ymux_user_log"
+	FOR EACH ROW
+	EXECUTE PROCEDURE t_ymux_user_log_upd();

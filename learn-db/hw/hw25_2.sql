@@ -1,1 +1,1 @@
-drop table if exists us_state cascade;
+DROP TABLE if exists us_state cascade;

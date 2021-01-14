@@ -1,1 +1,1 @@
-select * from unused_index;
+SELECT * from unused_index;
