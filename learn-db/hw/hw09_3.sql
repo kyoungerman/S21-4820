@@ -1,3 +1,4 @@
+DELETE FROM us_state ;
 INSERT INTO us_state ( state_name, state, FIPS_code ) values
 	('Alabama','AL','01'),
 	('Alaska','AK','02'),

@@ -742,10 +742,16 @@ reference it.</p>
 
 </code></pre>
 
+<p>If this is not the first time this is run you may need to delete existing data.</p>
+
+<pre><code>DELETE FROM us_state ;
+</code></pre>
+
 <p>Then we need to populate the state table with states.  Please cut-and-paste
 this or use the supplied file to insert the states.</p>
 
-<pre><code>INSERT INTO us_state ( state_name, state, FIPS_code ) values
+<pre><code>DELETE FROM us_state ;
+INSERT INTO us_state ( state_name, state, FIPS_code ) values
 	('Alabama','AL','01'),
 	('Alaska','AK','02'),
 	('Arizona','AZ','04'),
@@ -835,6 +841,14 @@ DETAIL:  Key (state)=(XX) is not present in table &quot;us_state&quot;.
 <h4>Tags: &ldquo;foreign key&rdquo;,&ldquo;alter table&rdquo;,&ldquo;add constraint&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
+
+<h4>FilesToRun: hw09_1.sql</h4>
+
+<h4>FilesToRun: hw09_2.sql</h4>
+
+<h4>FilesToRun: hw09_3.sql</h4>
+
+<h4>FilesToRun: hw09_4.sql</h4>
 
 </div>
 

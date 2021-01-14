@@ -79,6 +79,8 @@ func main() {
 			fmt.Printf("#-- Tag %s %s\n", key, val)
 		}
 	}
+	fmt.Printf("\n\n\n")
+	fmt.Printf("select grade_hw_migrate();\n")
 }
 
 var tag_to_uuid = make(map[string]string)
@@ -256,9 +258,13 @@ func getTags(line, fn string, line_no int) (tag_list []string) {
 	// #### Tags: "hw02" "insert"
 	// #### Validate: SQL-Select,"select select setup_data_26()"
 	// #### FilesToRun: hw26_01.sql
-	fmt.Fprintf(os.Stderr, "line >%s<\n", line)
+	if db6 {
+		fmt.Fprintf(os.Stderr, "line >%s<\n", line)
+	}
 	s0 := strings.Split(line, ":")
-	fmt.Fprintf(os.Stderr, "s0 >%s<\n", s0)
+	if db6 {
+		fmt.Fprintf(os.Stderr, "s0 >%s<\n", s0)
+	}
 	if len(s0) > 1 {
 		tag_str := s0[1]
 		if db2 {
@@ -296,7 +302,7 @@ func rmDoubleQuote(s string) (rv string) {
 
 // cpTo ( uX[0], dest );
 func cpTo(fn, dest string) {
-	fmt.Fprintf(os.Stderr, "**** fn= ->%s<- dest= ->%s<-\n", fn, dest)
+	fmt.Fprintf(os.Stderr, "Processing: fn= ->%s<- dest= ->%s<-\n", fn, dest)
 	dat, err := ioutil.ReadFile(fn)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to read ->%s<- %s\n", fn, err)
@@ -331,3 +337,4 @@ var db2 = false
 var db3 = false
 var db4 = false
 var db5 = false
+var db6 = false

@@ -69,7 +69,9 @@ Done
 
 # Interactive - 33 - types of indexes (hash, gin)
 
+
 # Interactive - 34 - 
+
 
 # Interactive - 35 - views
 
@@ -146,6 +148,24 @@ ToDo
 
 
 
+https://stackoverflow.com/questions/36558455/postgresql-output-explain-analyze-to-file
+i
+
+create or replace function get_explain(in qry text, out r text) returns setof text as $$
+begin
+  for r in execute qry loop
+    raise info '%', r;
+    return next;
+  end loop;
+  return;
+end; $$ language plpgsql;
+
+-- Note that if you don't want to really modify the data then you shpuld to wrap it into the transaction:
+
+begin;
+	copy (select get_explain('explain (analyze) select 1;')) to '/tmp/foo.foo';
+	select get_explain('explain (analyze, format xml) select 1;');
+rollback;
 
 
 
