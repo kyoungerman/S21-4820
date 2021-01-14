@@ -93,15 +93,6 @@ Done
 
 
 
-ToDo
----------------------------------------------------------------------------------------------------------------
-
-
-# Interactive - 47 - Rename Stuff - fix spelling errors
-	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
-	ALTER TABLE table_name RENAME TO new_table_name;	
-
-	https://www.techonthenet.com/postgresql/tables/alter_table.php	
 
 
 # Interactive - 46 -  NULL - differences between databases
@@ -113,14 +104,25 @@ ToDo
 
 
 
+# Interactive - 47 - Rename Stuff - fix spelling errors
+	ALTER TABLE venue RENAME COLUMN venueseats TO venuesize;	
+	ALTER TABLE table_name RENAME TO new_table_name;	
+
+	https://www.techonthenet.com/postgresql/tables/alter_table.php	
 
 
+
+
+
+
+ToDo
+---------------------------------------------------------------------------------------------------------------
 
 
 # Interactive - 48 - window functions
 	https://www.postgresql.org/docs/current/tutorial-window.html	
 
-# Interactive - 49 - postgresql database maintance
+# Interactive - 49 - PostgreSQL database maintenance
 	vacuum operation
 	find unused indexes
 	find slow queries
