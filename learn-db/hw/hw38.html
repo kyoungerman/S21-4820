@@ -713,11 +713,200 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 38 - key word lookup</h1>
 
-<p>some text</p>
+<p>(Note this set of information is the basis for Assignment 03 on keywords)</p>
 
-<h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
+<p>PostgreSQL includes an extensive set of tools for key word lookup.   The word lookup is efficient and takes account of items like language and root words.</p>
+
+<p>With regular SQL you have a pattern matching operator, <code>LIKE</code>.</p>
+
+<pre><code>SELECT real_name 
+	FROM name_list 
+	WHERE real_name  LIKE '%ilip%'
+; 
+
+</code></pre>
+
+<p>The <code>%</code> is wild card.  Because of the use of a wild car this kind of a query will usually result in a full table scan.  In some cases it is possible to use
+a GIST index on the field and that will make the search faster.</p>
+
+<p>PostgreSQL has an extended set of patterns that allows matching a wider set of values.  This is with the <code>SIMILAR TO</code> operator.</p>
+
+<pre><code>SELECT real_name 
+	FROM name_list 
+	WHERE real_name SIMILAR TO '(p|P)hilip%'
+; 
+
+</code></pre>
+
+<p>PostgreSQL also includes the ability to use regular expressions on text fields.  This uses POSIX regular expressions.  The Operator is the tilde <code>~</code> operator.</p>
+
+<pre><code>SELECT real_name 
+	FROM name_list 
+	WHERE real_name ~ '[pP]hilip.*'
+; 
+
+</code></pre>
+
+<p>None of these takes account of things like &ldquo;San Francisco&rdquo;  is a single &ldquo;term&rdquo; in the English language.   Also things like &ldquo;the&rdquo; are not words that need to
+be indexed.  Other languages like French have similar constructs.  PostgreSQL has an extensive set of capabilities for efficiently searching and indexing
+text data.</p>
+
+<p>Comparable tools are Lucine and Elastisearch.  Google also provides dedicated hardware for this kind of search.  All of these alternatives are very
+expensive.  Many tolls can benefit from a search like this and at a cost of close to 0 (PostgreSQL is open source) this makes for a very interning
+alternative.</p>
+
+<h2>tsvector</h2>
+
+<p>The database uses a pair of values and an index.  The first of these is a <code>tsvector</code>.  This converts text into a set of words and locations.</p>
+
+<pre><code>SELECT to_tsvector('The quick brown fox jumped over the lazy dog.');  
+</code></pre>
+
+<p>Will result in</p>
+
+<pre><code>                      to_tsvector                      
+-------------------------------------------------------
+ 'brown':3 'dog':9 'fox':4 'jump':5 'lazi':8 'quick':2
+(1 row)
+</code></pre>
+
+<p>This set of data has &ldquo;The&rdquo; eliminated the &ldquo;word&rdquo; location for each word.  The words are converted into the root words.  &ldquo;lazy&rdquo; is
+confuted to &ldquo;lazi&rdquo; the root word.</p>
+
+<h2>tsquery</h2>
+
+<p><code>tsquery</code> is the query side of this along with the <code>@@</code> operator.</p>
+
+<pre><code>SELECT to_tsvector('The quick brown fox jumped over the lazy dog')  
+    @@ to_tsquery('fox')
+;
+
+</code></pre>
+
+<p>Will return &rsquo;t&rsquo; for true.</p>
+
+<pre><code>SELECT to_tsvector('The quick brown fox jumped over the lazy dog')  
+    @@ to_tsquery('bob')
+;
+
+</code></pre>
+
+<p>Will return &lsquo;f&rsquo; for false.</p>
+
+<p>The query processing also allows for operators in a query.</p>
+
+<pre><code>SELECT to_tsvector('The quick brown fox jumped over the lazy dog')  
+    @@ to_tsquery('fox | duck')
+;
+
+</code></pre>
+
+<p>Will return &rsquo;t&rsquo; for true.</p>
+
+<p>There are and, <code>&amp;</code>, or, <code>|</code> and  not, <code>!</code> operators.</p>
+
+<h2>As a table</h2>
+
+<p>Let&rsquo;s put the tsvector data type into a table and add some data.</p>
+
+<p>Run the file hw38_07.sql.</p>
+
+<pre><code>DROP TABLE if exists indexed_docs ;
+
+CREATE TABLE indexed_docs (
+	doc_id UUID NOT NULL DEFAULT uuid_generate_v4() primary key,
+    document_title TEXT NOT NULL,
+    document_body TEXT NOT NULL,
+    document_tokens TSVECTOR 
+);
+
+INSERT INTO indexed_docs ( document_title, document_body ) values
+	( 'On Tyrany', 'A book about how to stop tyrants and how to deal with the devaluation of democracy.' ),
+	( 'How Democracies Die', 'A look at how other democracies around the world have failed.' )
+;
+
+</code></pre>
+
+<p>Note the use of the <code>TSVECTOR</code> data type.</p>
+
+<p>The insert will leave the <code>document_tokens</code> as a null field.  We will have to update the table to set
+the tokens.  Also note that this ignores the &ldquo;document_body&rdquo; field.  We will get to that in a little bit.</p>
+
+<pre><code>UPDATE indexed_docs d1  
+	SET document_tokens = to_tsvector(d1.document_title)  
+	FROM indexed_docs d2
+;  
+
+</code></pre>
+
+<p>Let&rsquo;s query for a pair of words.</p>
+
+<pre><code>SELECT doc_id, document_title 
+	FROM indexed_docs  
+	WHERE document_tokens @@ to_tsquery('die &amp; democracy')
+;  
+
+</code></pre>
+
+<p>Having to update the table after it is changed is far from ideal.   Let&rsquo;s replace this with
+a trigger so that the tokens are always updated.    Also we will add a ranking and  the <code>document_body</code>.</p>
+
+<pre><code>CREATE OR REPLACE function indexed_docs_ins_upd()
+RETURNS trigger AS $$
+DECLARE
+	l_lang text;
+BEGIN
+	l_lang = 'english';
+	NEW.document_tokens = 
+		setweight ( to_tsvector ( l_lang::regconfig, coalesce(NEW.document_title,'')), 'A' ) ||
+		setweight ( to_tsvector ( l_lang::regconfig, coalesce(NEW.document_body,'')), 'B' )
+	;
+	RETURN NEW;
+END
+$$ LANGUAGE 'plpgsql';
+
+
+DROP TRIGGER if exists  indexd_docs_trig_1 on indexed_docs;
+
+CREATE TRIGGER indexd_docs_trig_1
+	BEFORE insert or update ON indexed_docs
+	FOR EACH ROW
+	EXECUTE PROCEDURE indexed_docs_ins_upd()
+;
+
+</code></pre>
+
+<p>and we will add some data to verify that the trigger works.</p>
+
+<pre><code>INSERT INTO indexed_docs ( document_title, document_body ) values
+	( 'Kleptopia: How Dirty Money Is Conquering the World', 'How the flow of dirty money is chaing world politics'),
+	( 'The End of Democracies', 'How democracies aroudn the world are failing.' )
+;
+
+</code></pre>
+
+<p>A select on the indexed_documents will show that all 4 rows have the <code>document_tokens</code> field
+filled in.</p>
+
+<p>Now add an index to the field so that searches will be fast.</p>
+
+<pre><code>CREATE INDEX indexed_docs_tsv_1 ON indexed_docs USING GIN (document_tokens);  
+
+</code></pre>
+
+<h4>Tags: &ldquo;reverse key index&rdquo;,&ldquo;like&rdquo;,&ldquo;keyword&rdquo;</h4>
+
+<h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x from ( select count(1) as x from indexed_documents where document_token is not null ) as t1 where t1.x = 4 &ldquo;</h4>
+
+<h4>FiesToRun: hw38_07.sql</h4>
+
+<h4>FiesToRun: hw38_10.sql</h4>
+
+<h4>FiesToRun: hw38_11.sql</h4>
+
+<h4>FiesToRun: hw38_12.sql</h4>
 
 </div>
 

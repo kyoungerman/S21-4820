@@ -713,9 +713,39 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 33 - types of indexes (hash, gin)</h1>
 
-<p>some text</p>
+<p>The default type of index in most SQL databases is a B-Tree.  This is a wide tree
+that can produce sorted data based on the data type and ordering of that data.</p>
+
+<p>This is not the only kind of index.</p>
+
+<p>In some cases ordering of data is meaningless.  For example UUIDs do not have
+any order.  We will still need to have an index to look up a value but
+sorting on UUID rarely makes any sense.  A faster index for data that has
+no order is a &ldquo;hash&rdquo; index.</p>
+
+<p>An example of a hash index is:</p>
+
+<pre><code>CREATE INDEX ct_config_row_p2 on ct_config_row USING hash ( value );
+
+</code></pre>
+
+<p>Hash indexes in PostreSQL do not support unique index constraints.  In versions
+before 13 of PosgreSQL there are other limitations on how indexes are replicated
+and restored from a backup.</p>
+
+<p>Another type of index is a Generalized Inverse Index or GIN index. This is often
+used in conjunction with JSONb data types.</p>
+
+<p>In interactive homework 26 part 5 we created a column lesson_body with a data
+type of JSONb.  We can create a GIN index on this that will allow for fast
+searches of the JSON data.</p>
+
+<pre><code>CREATE INDEX ct_homework_p2 on ct_homework USING gin ( lesson_body );
+</code></pre>
+
+<h4>Tags: &ldquo;index&rdquo;,&ldquo;gin index&rdquo;,&ldquo;hash index&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

@@ -161,4 +161,25 @@ EXECUTE PROCEDURE t_ymux_auth_token_upd()`,
 	}
 }
 
+func Test_isAs(t *testing.T) {
+	if ok := isAsBody([]string{"as"}); !ok {
+		t.Errorf("Check for 'as' failed")
+	}
+	if ok := isAsBody([]string{"AS"}); !ok {
+		t.Errorf("Check for 'as' failed")
+	}
+	if ok := isAsBody([]string{"bob"}); ok { // not as
+		t.Errorf("Check for 'as' failed")
+	}
+	if ok := isAsBody([]string{"bob", "as"}); !ok {
+		t.Errorf("Check for 'as' failed")
+	}
+	if ok := isAsBody([]string{"bob", "bob", "as"}); !ok {
+		t.Errorf("Check for 'as' failed")
+	}
+	if ok := isAsBody([]string{"bob", "bob"}); ok { // not as
+		t.Errorf("Check for 'as' failed")
+	}
+}
+
 var db10 = false

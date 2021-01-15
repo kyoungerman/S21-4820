@@ -193,7 +193,23 @@ HTML= \
 	hw30.html \
 	hw31.html \
 	hw32.html \
-	hw34.html
+	hw33.html \
+	hw34.html \
+	hw35.html \
+	hw36.html \
+	hw37.html \
+	hw38.html \
+	hw39.html \
+	hw41.html \
+	hw42.html \
+	hw43.html \
+	hw44.html \
+	hw45.html \
+	hw46.html \
+	hw47.html \
+	hw48.html \
+	hw49.html \
+	hw50.html
 #endHTML
 
 MD= \
@@ -229,7 +245,23 @@ MD= \
 	hw30.md \
 	hw31.md \
 	hw32.md \
-	hw34.md
+	hw33.md \
+	hw34.md \
+	hw35.md \
+	hw36.md \
+	hw37.md \
+	hw38.md \
+	hw39.md \
+	hw41.md \
+	hw42.md \
+	hw43.md \
+	hw44.md \
+	hw45.md \
+	hw46.md \
+	hw47.md \
+	hw48.md \
+	hw49.md \
+	hw50.md
 #endMD
 
 RAW_MD= \
@@ -287,7 +319,7 @@ RAW_MD= \
 all: pre $(MD) $(HTML) gen_data.sql syllabus.html
 
 runM4Markdown_to_HTML:
-	m4 -P tmp.raw.md >tmp.md
+	m4 -P tmp.raw.md | ./add-space.sh >tmp.md
 	blackfriday-tool ./tmp.md tmp.html
 	@echo "PASS"
 .PHONEY: runM4Markdown_to_HTML
@@ -322,16 +354,16 @@ make: m1 m2 m3 m4
 m1:
 	rm -f ,*.sql gen_data.sql
 	ls *.sql >,a
-	ed ,a <ed.make1.ed
+	ed ,a <ed.make0.ed
 	ed Makefile <ed.make2.ed
 
 m2:
-	ls hw*.md | grep -v raw >,a
+	ls hw*.md | grep raw >,a
 	ed ,a <ed.make1.ed
 	ed Makefile <ed.make3.ed
 
 m3:
-	ls hw*.md | grep -v raw >,a
+	ls hw*.md | grep raw >,a
 	ed ,a <ed.make5.ed
 	ed Makefile <ed.make4.ed
 

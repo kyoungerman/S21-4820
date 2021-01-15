@@ -1,99 +1,61 @@
 
+5. Return error messages as an array of [stmt][success/error=msg]
+
+6. Have lesson_id as a required - what is the deal
+	(lesson_id changed to homework_id in the model)
+	6. Have homework_id as a required - what is the deal
+
+(partially fixed)
+bookmark is not working - fragments pulled off but lesson fails to set 2nd value for homework_no
+
+0006:
+	Tags should have a class and be much smaller than h4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 server
+(fixed)
 	1. if syntax error in SQL - fail to report it as an error. this is the "t0WHERE" concatenation thing.
+(fixed)
 	1. if syntax error in SQL - fail to prevent concatenation from juxtaposing to terms. this is the "t0WHERE" concatenation thing.
 
+(fixed)
+		- Cut and Paste - so has to have space at beginning of line?
+
+
+
+
+(fixed)
 lesson 21 has error with concatenate of select
 
 0. back button 
+	(fixed)
 	(Partially complete - works with learn-list but not in a "general" sence and can not bookmark)
 	https://stackoverflow.com/questions/25806608/how-to-detect-browser-back-button-event-cross-browser	
 	-- includes backspace key for back to previous page --
 	https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate	
 
+
+
+
+
+
+
 1. a "Next" button (better have a "prev" button also)
 2. grades on array/list
 3. =catch= "Leave w/o doing the "grade button""
-
-reload of data / to update stuff - fails to keep existing grades.  Write a function that is part of the
-data reload that will transfer grades from a previous load to the current load of data.
-
-bookmark is not working - fragments pulled off but lesson fails to set 2nd value for homework_no
-
-
-1. If rfc_6238_secret is set (not null) for an acount
-and a login tales palace then the go code is incorrect.   A jwt token will be created and returned -when it shoult not be.
-
-		// error - xyzzy23423232323 no jwt should be generated if rawDataMap["rfc_6238_secret"] is not ""
-		ymux/
-			/home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/auth_check/auth_handlers.go : 190
-
-		- Untested code, commented out!
-
-		in Go data may be, "RFC6238Secret": "", -- definitly
-
-
-			rawDataMap = {
-				"Auth2faEnabled": "no",
-				"AuthEmailConfirm": "no",
-				"AuthLoginOnRegister": "yes",
-				"RFC6238Secret": "",
-				"acct_type": "login-user",
-				"auth_token": "fc4ddf5c-a240-4aab-8c56-9982d82f13a8",
-				"email": "testlogin@gmail.com",
-				"email_confirmed": "y",
-				"pwh": "8009f839a419a57023235cacd45aacc6675561131a80524a01412c1c833bdb17d51a205c639cdf3630bcc79abb32c02c6efb4255bf39bf73806d650d5ff9867c",
-				"salt": "3738333337333832",
-				"status": "success",
-				"user_id": "7a955820-050a-405c-7e30-310da8152b6d"
-			} at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/auth_check/auth_handlers.go LineNo:1291
-
-update t_ymux_user 
-set rfc_6238_secret = 'YFKM6OARYRRVN6NH'
-where username = 'app.example.com:testlogin@gmail.com'
-;
-
-
-
-
-1. Timout is closing stuff that it should - but how long
-2. Why is stuff not re-opeining?
-2. On open verify that AtTime is set to the tick count.
-3. Add a "open/close" that can be printed out to the List Conn stuff
-
-4. Add a "statement splitter" that accounts for quotes and - splits on ';' into an array of statments.
-
-5. Return error messages as an array of [stmt][success/error=msg]
-
-6. Have lesson_id as a required - what is the deal
-
-
-
-
-
-
-
-
-
-0007:
-	file_name has wrong data in it, "oRun: "
-		{"status":"success","data":[
-			{
-				"created": "2021-01-04T21:33:40.68325+0000",
-				"file_list_id": "60efd180-7180-4adb-5bc7-8c86f0af5321",
-				"file_name": "oRun: hw26_01.sql",
-				"homework_no": 26,
-				"updated": null
-			},
-
-
-
-
-
-
-
-0006:
-	Tags should have a class and be much smaller than h4
 
 
 00001: on startup - error in pgsave.go:
@@ -156,7 +118,134 @@ where username = 'app.example.com:testlogin@gmail.com'
 
 
 
-??Fixed!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(fixed)
+reload of data / to update stuff - fails to keep existing grades.  Write a function that is part of the
+data reload that will transfer grades from a previous load to the current load of data.
+
+
+
+
+(fixed)
+1. If rfc_6238_secret is set (not null) for an acount
+and a login tales palace then the go code is incorrect.   A jwt token will be created and returned -when it shoult not be.
+
+		// error - xyzzy23423232323 no jwt should be generated if rawDataMap["rfc_6238_secret"] is not ""
+		ymux/
+			/home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/auth_check/auth_handlers.go : 190
+
+		- Untested code, commented out!
+
+		in Go data may be, "RFC6238Secret": "", -- definitly
+
+
+			rawDataMap = {
+				"Auth2faEnabled": "no",
+				"AuthEmailConfirm": "no",
+				"AuthLoginOnRegister": "yes",
+				"RFC6238Secret": "",
+				"acct_type": "login-user",
+				"auth_token": "fc4ddf5c-a240-4aab-8c56-9982d82f13a8",
+				"email": "testlogin@gmail.com",
+				"email_confirmed": "y",
+				"pwh": "8009f839a419a57023235cacd45aacc6675561131a80524a01412c1c833bdb17d51a205c639cdf3630bcc79abb32c02c6efb4255bf39bf73806d650d5ff9867c",
+				"salt": "3738333337333832",
+				"status": "success",
+				"user_id": "7a955820-050a-405c-7e30-310da8152b6d"
+			} at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/auth_check/auth_handlers.go LineNo:1291
+
+update t_ymux_user 
+set rfc_6238_secret = 'YFKM6OARYRRVN6NH'
+where username = 'app.example.com:testlogin@gmail.com'
+;
+
+
+
+
+(fixed)
+1. Timout is closing stuff that it should - but how long
+
+(fixed)
+2. Why is stuff not re-opeining?
+
+(fixed)
+2. On open verify that AtTime is set to the tick count.
+
+(fixed)
+3. Add a "open/close" that can be printed out to the List Conn stuff
+
+(fixed)
+4. Add a "statement splitter" that accounts for quotes and - splits on ';' into an array of statments.
+
+
+
+
+
+
+
+(fixed)
+0007:
+	file_name has wrong data in it, "oRun: "
+		{"status":"success","data":[
+			{
+				"created": "2021-01-04T21:33:40.68325+0000",
+				"file_list_id": "60efd180-7180-4adb-5bc7-8c86f0af5321",
+				"file_name": "oRun: hw26_01.sql",
+				"homework_no": 26,
+				"updated": null
+			},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(fixed)		
  00002:  Crash on server - cause by handle.go having an incorrect table name that is not longer in existence.  "ct_lesson_seen" non-existent table.
 	Top of HandleCrudConfig: AT: File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:512
 	  AT: File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go LineNo:550
@@ -183,13 +272,17 @@ where username = 'app.example.com:testlogin@gmail.com'
 		/home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/ymux/crud.go:1325 +0xb4
 	net/http.HandlerFunc.ServeHTTP(0xc000120680, 0xfb8220, 0xc0001f8700, 0xc000326800)
 		/usr/local/go/src/net/http/server.go:2012 +0x44
-		
+
+(fixed)		
 00003:
 	must get all UUIDs to be uuid type - t_ymux_user for example.
 
+(fixed)		
 00004: (Non fatal - anoyance)
 	data load, ./hw/get-tags.go
 	1. homework_title - should have a LR trim of blanks before data saved
+
+(fixed)		
 0005: 
 	markdown code in lesson showin in markdown instead of HTML
 

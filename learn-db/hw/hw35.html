@@ -713,9 +713,46 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 35 - views</h1>
 
-<p>some text</p>
+<p>The database can create a pre-defined select called a view.
+A view is a query that you set up that looks like a table when selected from but
+can be a join or other set of operations.  It is kind of like a query-macro.</p>
+
+<p>For example we can create a view that let&rsquo;s us list the unused indexes.</p>
+
+<p>This is the file hw35_1.sql.</p>
+
+<pre><code>CREATE OR REPLACE VIEW unused_index as
+SELECT
+    idstat.relname AS TABLE_NAME,
+    indexrelname AS INDEX_NAME,
+    idstat.idx_scan AS index_scans_count,
+    pg_size_pretty(pg_relation_size(indexrelid)) AS index_size,
+    tabstat.idx_scan AS table_reads_index_count,
+    tabstat.seq_scan AS table_reads_seq_count,
+    tabstat.seq_scan + tabstat.idx_scan AS table_reads_count,
+    n_tup_upd + n_tup_ins + n_tup_del AS table_writes_count,
+    pg_size_pretty(pg_relation_size(idstat.relid)) AS table_size
+FROM pg_stat_user_indexes AS idstat
+	JOIN pg_indexes ON indexrelname = indexname
+			AND idstat.schemaname = pg_indexes.schemaname
+	JOIN pg_stat_user_tables AS tabstat ON idstat.relid = tabstat.relid
+WHERE indexdef !~* 'unique'
+ORDER BY
+    idstat.idx_scan DESC,
+    pg_relation_size(indexrelid) DESC
+;
+
+</code></pre>
+
+<p>Then when we want the list of unused indexes we just select from the view.</p>
+
+<pre><code>SELECT * from unused_index;
+
+</code></pre>
+
+<h4>Tags: view,&ldquo;unused index&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

@@ -13,4 +13,3 @@
 
 CREATE EXTENSION "uuid-ossp";
 CREATE EXTENSION pgcrypto;
-\i ct.sql

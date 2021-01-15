@@ -285,6 +285,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 			case "":
 				pass = "no"
 			}
+			fmt.Printf("pass [%s] user_id [%s] homework_id [%s] AT:%s\n", pass, user_id, homework_id, godebug.LF())
 			if pass == "PASS" {
 				_ = points_avail
 				// insert update stuff // insert update stuff // insert update stuff // insert update stuff

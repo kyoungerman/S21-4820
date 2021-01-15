@@ -713,9 +713,50 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 48 - window functions</h1>
 
-<p>some text</p>
+<p>Window functions allow operations of a set of data.  First let&rsquo;s setup an example.</p>
+
+<pre><code>
+DROP TABLE if exists emp_sal;
+
+CREATE TABLE emp_sal (
+	emp_id serial primary key not null,
+	dept text not null,
+	salary numeric
+);
+
+INSERT INTO emp_sal ( dept, emp_id, salary ) values 
+	( 'Dev'   	,    11 ,   5200 ),
+	( 'Dev'   	,     7 ,   4200 ),
+	( 'Dev'   	,     9 ,   4500 ),
+	( 'Dev'   	,     8 ,   6000 ),
+	( 'Dev'   	,    10 ,   5200 ),
+	( 'H.R.' 	,     5 ,   3500 ),
+	( 'H.R.' 	,     2 ,   3900 ),
+	( 'sales'   ,     3 ,   4800 ),
+	( 'sales'   ,     1 ,   5000 ),
+	( 'sales'   ,     4 ,   4800 )
+;
+
+
+</code></pre>
+
+<p>A window function can be used to calculate the sum of salary across each department.
+This start with the <code>OVER</code> operator and a expression of how the data is to be grouped.</p>
+
+<pre><code>SELECT 
+		dept,
+		emp_id,
+		salary,
+		sum(salary) OVER (PARTITION BY dept)  as  dept_total
+	FROM emp_sal
+;
+
+
+</code></pre>
+
+<h4>Tags: &ldquo;alter&rdquo;,&ldquo;add column&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

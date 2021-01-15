@@ -713,9 +713,117 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 37 - encrypted/hashed passwords storage</h1>
 
-<p>some text</p>
+<p>It is a good idea to store passwords in a way that if the entire database is lost
+you do not loos anybody&rsquo;s password.  You need to hash them or encrypt them
+in the table.</p>
+
+<p>There are hash functions that are designed for this.  Of of these is<br />
+the blowfish algorithm.  It is denoted to in the encryption parameters as &lsquo;bf&rsquo;.</p>
+
+<p>First, we need to enable pgcrypto:</p>
+
+<pre><code>CREATE EXTENSION if not exists pgcrypto;
+
+</code></pre>
+
+<p>Then, we can create a table for storing user credentials:</p>
+
+<pre><code>
+DROP TABLE IF EXISTS example_users ;
+
+CREATE TABLE example_users (
+	id SERIAL PRIMARY KEY,
+	email TEXT NOT NULL UNIQUE,
+	password TEXT NOT NULL
+);
+
+
+CREATE OR REPLACE function example_users_insert()
+RETURNS trigger AS $$
+DECLARE 
+	l_salt text;
+	l_pw text;
+BEGIN
+	select gen_salt('bf')
+		into l_salt;
+	l_pw = NEW.password;
+	NEW.password = crypt(l_pw, l_salt);
+	RETURN NEW;
+END
+$$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER example_users_insert_trig
+BEFORE insert or update ON example_users
+FOR EACH ROW
+EXECUTE PROCEDURE example_users_insert();
+
+
+</code></pre>
+
+<p>When we insert into the table we can then save the hash of the password instead of the
+password itself.</p>
+
+<pre><code>INSERT INTO example_users (email, password) VALUES 
+	( 'pschlump@uwyo.edu', 'my-very-bad-password')
+;
+
+</code></pre>
+
+<p>When we want to validate that a password that has been passed in is correct
+we compare to the hashed value with:</p>
+
+<pre><code>SELECT id 
+	FROM example_users as t1
+	WHERE t1.email = 'pschlump@uwyo.edu'
+	  AND t1.password = crypt('my-very-bad-password', t1.password)
+;
+
+</code></pre>
+
+<p>This would be a good candidate to encapsulate into a stored procedure.</p>
+
+<pre><code>CREATE or REPLACE FUNCTION login_correct ( un varchar, pw varchar )
+RETURNS varchar 
+AS $$
+DECLARE
+	data text;
+BEGIN
+
+	BEGIN
+		SELECT 'VALID-USER'
+			INTO data
+			FROM example_users as t1
+			WHERE t1.email = un
+			  AND t1.password = crypt(pw, t1.password)
+			;
+		IF not found THEN
+			data = 'Incorrect username or password.';
+		END IF;
+	EXCEPTION	
+		WHEN no_data_found THEN
+			data = 'Incorrect username or password.';
+		WHEN too_many_rows THEN
+			data = 'Incorrect username or password.';
+		WHEN others THEN
+			data = 'Incorrect username or password.';
+	END;
+
+	RETURN data;
+END;
+$$ LANGUAGE plpgsql;
+
+select login_correct ( 'pschlump@uwyo.edu', 'my-very-bad-password' );
+
+select login_correct ( 'pschlump@uwyo.edu', 'my-VERY-bad-password' );
+
+
+
+</code></pre>
+
+<h4>Tags: &ldquo;password&rdquo;,&ldquo;hash password&rdquo;,&ldquo;encrypted&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

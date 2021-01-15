@@ -713,11 +713,108 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 36 - stored procedures</h1>
 
-<p>some text</p>
+<p>We have been using store procedures for a number of examples so far.    Triggers in
+PostgreSQL call stored procedures.   In PostgreSQL all stored procedures are called &ldquo;functions&rdquo;.</p>
 
-<h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
+<p>PostgreSQL allows for stored procedures in multiple languages.   The default language is PL/pgSQL
+and this us defined using the <code>LANGUAGE</code> specifier.  I usually put this at the end but it can
+be done at the top also.</p>
+
+<p>The section from $$ to $$ is the body that is saved and run when the function is called.</p>
+
+<p>There are a slew of options on how a function is run.</p>
+
+<pre><code>CREATE or REPLACE FUNCTION function_name ( parameter_list varchar )
+RETURNS varchar 
+AS $$
+DECLARE
+	data text;
+BEGIN
+
+	-- do something
+
+	RETURN data;
+END;
+$$ LANGUAGE plpgsql;
+</code></pre>
+
+<p>The easy way to call a function is with a &ldquo;select&rdquo;.
+For example:</p>
+
+<pre><code>select function_name ( 'a' );
+</code></pre>
+
+<p>Stored procedures have some advantages.  The code is run inside or near to the database.  This makes
+the cost of moving data back and forth very low.    Stored procedures are a well developed and optimized
+technology and tend to be fast.</p>
+
+<p>With PL/pgSQL as the language the data types exactly match with the database and the handling of values
+like NULL is clear and easy.</p>
+
+<p>We can check to see if a select fails to return data and for nulls in a fashion that is built into the
+language.</p>
+
+<pre><code>CREATE or REPLACE FUNCTION function_name ( parameter_list varchar )
+RETURNS varchar 
+AS $$
+DECLARE
+	data text;
+BEGIN
+
+	SELECT 'PASS'
+		INTO data
+		FROM ct_config 
+		WHERE config_id = 1;
+	IF not found THEN
+		data = 'FAIL';
+	END IF;
+
+	RETURN data;
+END;
+$$ LANGUAGE plpgsql;
+
+</code></pre>
+
+<p>In PostgreSQL a stored procedure creates a transaction at the &ldquo;BEGIN&rdquo; and ends it at the
+&ldquo;END&rdquo;.  This means that if you &ldquo;RAISE&rdquo; an error in the middle it will result in rolling back
+the entire transaction.</p>
+
+<p>Stored procedures can return rows of data.  Note the fact that the loop returns a single
+row and then restart&rsquo;s for each additional row.</p>
+
+<p>For example:</p>
+
+<pre><code>-- using table from hw13_4.sql us_state
+
+CREATE OR REPLACE FUNCTION getStateFipsCode() 
+RETURNS SETOF us_state 
+AS $$
+DECLARE
+    r us_state%rowtype;
+BEGIN
+    FOR r IN 	
+		SELECT * FROM us_state
+		WHERE gdp_growth &gt; 1.0
+    LOOP
+
+        -- can do some processing here
+
+        RETURN NEXT r; -- return current row of SELECT
+    END LOOP;
+    RETURN;
+END
+$$
+LANGUAGE 'plpgsql' ;
+
+SELECT * 
+	FROM getStateFipsCode()
+;
+
+</code></pre>
+
+<h4>Tags: &ldquo;function&rdquo;,&ldquo;stored procedure&rdquo;,&ldquo;transaction&rdquo;</h4>
 
 </div>
 

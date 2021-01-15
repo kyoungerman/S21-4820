@@ -713,9 +713,23 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 49 - PostgreSQL database maintenance</h1>
 
-<p>some text</p>
+<p>When a table has a substantial change in size the set of statistics
+that are used to create and optimize queries needs to be updated.
+This is done with the <code>vacuum</code> command.</p>
+
+<p>Also when deletes occur the data is marked as deleted but the space
+is not reclaimed.   To reclaim the space you need to run a <code>vacuum</code>
+on the table or on all tables.   Because this can be a very time
+consuming process this is often set up to run at an off-peek time.</p>
+
+<pre><code>vacuum full;
+vacuum analyze name_list;
+
+</code></pre>
+
+<h4>Tags: &ldquo;vacuum&rdquo;,&ldquo;analyze&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

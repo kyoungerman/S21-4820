@@ -713,9 +713,65 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 46 -  NULL - differences between databases</h1>
 
-<p>some text</p>
+<p>By now you have noticed that if a column allows you can have NULL values in it.
+This is a non-data value.</p>
+
+<p>The handling of NULL differers just enough between different databases to make
+code non-portable from database to database (At least it requires a lot of
+effort to port).</p>
+
+<p>First thing to no about NULL is that NULL data is not indexed.  So if you go
+looking for NULL it will result in a full table scan.</p>
+
+<p>Also NULL is not equal to anything.  There is a special pair of operators, <code>IS NULL</code> and <code>IS NOT NULL</code>
+for checking if a column or value is null.</p>
+
+<pre><code>SELECT 'found' where NULL = NULL;
+
+</code></pre>
+
+<p>will return 0 rows because NULL is not equal to anything, even itself.</p>
+
+<pre><code>SELECT 'found' where NULL is NULL;
+
+</code></pre>
+
+<p>PostgreSQL provides 2 functions for dealing with nulls.  The first is <code>nullif</code>.</p>
+
+<p>If the 2 arguments are equal then NULL is returned.</p>
+
+<pre><code>SELECT nullif(1,1);
+
+SELECT nullif(1,2);
+
+</code></pre>
+
+<p>If the 2 arguments are NOT equal then the first argument is returned.</p>
+
+<pre><code>SELECT nullif(1,2);
+
+</code></pre>
+
+<p>The second function is <code>coalesce</code>.
+This function substitutes a default value when the first argument is NULL.</p>
+
+<pre><code>SELECT coalesce(NULL,2);
+
+</code></pre>
+
+<p>If the first argument is NULL then the defalut, in this case 2, is returned.</p>
+
+<p>If the first argument is not NULL then the non-null first argument is returned.</p>
+
+<pre><code>SELECT coalesce(5,2);
+
+</code></pre>
+
+<p>Note: In the Oracle database you use the &lsquo;nvl&rsquo; function and a special table with 1 row in it called &lsquo;dual&rsquo;;</p>
+
+<h4>Tags: &ldquo;NULL&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

@@ -713,9 +713,29 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 44 - alter table to add columns, remove columns</h1>
 
-<p>some text</p>
+<p>You can alter tables to add or remove columns or to rename columns.</p>
+
+<pre><code>DROP TABLE if exists name_list2 ;
+CREATE TABLE name_list2 (
+	name_list_id UUID NOT NULL DEFAULT uuid_generate_v4() primary key,
+	real_name text check ( length(real_name) &gt;= 1 ) not null,
+	age int check ( age &gt; 0 and age &lt; 154 ) not  null,	
+	state char varying (2) not null,
+	pay numeric(10,2) 
+);
+
+</code></pre>
+
+<p>Suppose that you decide that you really need the state name and a state_2letter_code as the columns.</p>
+
+<pre><code>ALTER TABLE name_list2 rename column state to state_2letter_code;
+ALTER TABLE name_list2 add column state varchar(50);
+
+</code></pre>
+
+<h4>Tags: &ldquo;alter&rdquo;,&ldquo;add column&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

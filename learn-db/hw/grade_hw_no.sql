@@ -103,3 +103,6 @@ $$;
 
 select grade_hw_migrate( ) ;
 
+select grade_hw_no ( '7a955820-050a-405c-7e30-310da8152b6d',  'd66aae56-b399-42ef-5486-519e19c80d05', 10 );
+
+	

@@ -509,7 +509,7 @@ BEGIN
 		;
 
 	if not found then
-		l_rv = 'FAIL';
+		l_rv = 'FAIL - Missing homework id - try reloading the page an drunning again.';
 	end if;
 
 	if l_rv = 'PASS' then

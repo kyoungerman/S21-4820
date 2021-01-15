@@ -1,4 +1,4 @@
-
+ 
 DROP TABLE IF EXISTS name_list;
 DROP TABLE IF EXISTS us_state;
 
@@ -404,4 +404,30 @@ BEGIN
 	RETURN l_junk;
 END;
 $$;
+
+
+
+--
+-- To Run
+--
+--
+-- BEGIN;
+-- 	copy (select get_explain('explain (analyze) select 1;')) to '/tmp/foo.foo';
+-- 	select get_explain('explain (analyze, format xml) select 1;');
+-- ROLLBACK;
+--
+-- Important: Keep in mind that the statement is actually executed when the ANALYZE option is used. 
+-- See: https://www.postgresql.org/docs/current/sql-explain.html 
+--
+CREATE OR REPLACE FUNCTION get_explain(in qry text, out r text)
+returns setof text as $$
+BEGIN
+	-- FROM: https://stackoverflow.com/questions/36558455/postgresql-output-explain-analyze-to-file 
+	for r in execute qry loop
+		raise info '%', r;
+		return next;
+	end loop;
+	return;
+END;
+$$ language plpgsql;
 

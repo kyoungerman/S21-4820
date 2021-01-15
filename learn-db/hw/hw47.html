@@ -713,9 +713,192 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 47 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL</h1>
 
-<p>some text</p>
+<p>One of the most common alternatives to a SQL database is MongoDB.
+Front end developers like MongoDB because everting is in JSON.</p>
+
+<p>There are two reasons why I don&rsquo;t use MongoDB.</p>
+
+<ol>
+<li>Concurrency control is incredibly important.  Google reviewed
+its code base and counted the number of defects related to bad
+implementations of custom concurrency control.   The problems
+were bad enough that Google banned the use of MongoDB.</li>
+<li>Everything that can be done in MogoDB can be done just as
+fast using JSONb data in PostgreSQL.  Also with PostgreSQL
+you get a complete relational database with tables and
+indexes and spacial data and&hellip;   That other stuff just
+get thrown in.</li>
+</ol>
+
+<p>So&hellip; Let&rsquo;s look at how to use JSONb in PostgreSQL.</p>
+
+<p>First let&rsquo;s create a table.  This is the same as creating a &ldquo;collection&rdquo;
+in MongoDB.  The table will use a GIN index to index all of the
+data in the JSON data.</p>
+
+<pre><code>CREATE TABLE test_collection (
+	id serial primary key not null,
+	data JSONB
+);
+
+CREATE INDEX test_collection_gin_1 ON test_collection USING gin (data);
+
+INSERT INTO test_collection ( data ) values	
+	( '{&quot;name&quot;:&quot;bob&quot;}' )
+;
+
+</code></pre>
+
+<p>PostgreSQL has a slew of operators.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Operator</th>
+<th>Right Operand Type</th>
+<th>Description</th>
+<th>Example</th>
+<th>Example Result</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center"><code>-&gt;</code></td>
+<td>int</td>
+<td>Get JSON array element (indexed from zero, negative integers count from the end)</td>
+<td><code>'[{&quot;a&quot;:&quot;foo&quot;},{&quot;b&quot;:&quot;bar&quot;},{&quot;c&quot;:&quot;baz&quot;}]'::json-&gt;2</code></td>
+<td><code>{&quot;c&quot;:&quot;baz&quot;}</code></td>
+</tr>
+
+<tr>
+<td align="center"><code>-&gt;</code></td>
+<td>text</td>
+<td>Get JSON object field by key</td>
+<td><code>'{&quot;a&quot;: {&quot;b&quot;:&quot;foo&quot;}}'::json-&gt;'a'</code></td>
+<td><code>{&quot;b&quot;:&quot;foo&quot;}</code></td>
+</tr>
+
+<tr>
+<td align="center"><code>-&gt;&gt;</code></td>
+<td>int</td>
+<td>Get JSON array element as text</td>
+<td><code>'[1,2,3]'::json-&gt;&gt;2</code></td>
+<td><code>3</code></td>
+</tr>
+
+<tr>
+<td align="center"><code>-&gt;&gt;</code></td>
+<td>text</td>
+<td>Get JSON object field as text</td>
+<td><code>'{&quot;a&quot;:1,&quot;b&quot;:2}'::json-&gt;&gt;'b'</code></td>
+<td><code>2</code></td>
+</tr>
+
+<tr>
+<td align="center"><code>#&gt;</code></td>
+<td>text[]</td>
+<td>Get JSON object at specified path</td>
+<td><code>'{&quot;a&quot;: {&quot;b&quot;:{&quot;c&quot;: &quot;foo&quot;}}}'::json#&gt;'{a,b}'</code></td>
+<td><code>{&quot;c&quot;: &quot;foo&quot;}</code></td>
+</tr>
+
+<tr>
+<td align="center"><code>#&gt;&gt;</code></td>
+<td>text[]</td>
+<td>Get JSON object at specified path as text</td>
+<td><code>'{&quot;a&quot;:[1,2,3],&quot;b&quot;:[4,5,6]}'::json#&gt;&gt;'{a,2}'</code></td>
+<td><code>3</code></td>
+</tr>
+
+<tr>
+<td align="center"><code>@&gt;</code></td>
+<td>JSONb</td>
+<td>Does the left JSON value contain the right JSON path/value entries at the top level?</td>
+<td><code>'{&quot;a&quot;:1, &quot;b&quot;:2}'::JSONb @&gt; '{&quot;b&quot;:2}'::JSONb</code></td>
+<td></td>
+</tr>
+
+<tr>
+<td align="center"><code>&lt;@</code></td>
+<td>JSONb</td>
+<td>Are the left JSON path/value entries contained at the top level within the right JSON value?</td>
+<td><code>'{&quot;b&quot;:2}'::JSONb &lt;@ '{&quot;a&quot;:1, &quot;b&quot;:2}'::JSONb</code></td>
+<td></td>
+</tr>
+
+<tr>
+<td align="center"><code>?</code></td>
+<td>text</td>
+<td>Does the string exist as a top-level key within the JSON value?</td>
+<td><code>'{&quot;a&quot;:1, &quot;b&quot;:2}'::JSONb ? 'b'</code></td>
+<td></td>
+</tr>
+
+<tr>
+<td align="center">`?</td>
+<td>`</td>
+<td>text[]</td>
+<td>Do any of these array strings exist as top-level keys?</td>
+<td>`&lsquo;{&ldquo;a&rdquo;:1, &ldquo;b&rdquo;:2, &ldquo;c&rdquo;:3}&rsquo;::JSONb ?</td>
+</tr>
+
+<tr>
+<td align="center"><code>?&amp;</code></td>
+<td>text[]</td>
+<td>Do all of these array strings exist as top-level keys?</td>
+<td><code>'[&quot;a&quot;, &quot;b&quot;]'::JSONb ?&amp; array['a', 'b']</code></td>
+<td></td>
+</tr>
+
+<tr>
+<td align="center">`</td>
+<td></td>
+<td>`</td>
+<td>JSONb</td>
+<td>Concatenate two JSONb values into a new JSONb value</td>
+</tr>
+
+<tr>
+<td align="center"><code>-</code></td>
+<td>text</td>
+<td>Delete key/value pair or string element from left operand. Key/value pairs are matched based on their key value.</td>
+<td><code>'{&quot;a&quot;: &quot;b&quot;}'::JSONb - 'a'</code></td>
+<td></td>
+</tr>
+
+<tr>
+<td align="center"><code>-</code></td>
+<td>integer</td>
+<td>Delete the array element with specified index (Negative integers count from the end). Throws an error if top level container is not an array.</td>
+<td><code>'[&quot;a&quot;, &quot;b&quot;]'::JSONb - 1</code></td>
+<td></td>
+</tr>
+
+<tr>
+<td align="center"><code>#-</code></td>
+<td>text[]</td>
+<td>Delete the field or element with specified path (for JSON arrays, negative integers count from the end)</td>
+<td><code>'[&quot;a&quot;, {&quot;b&quot;:1}]'::JSONb #- '{1,b}'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p>For example:</p>
+
+<pre><code>SELECT * 
+	FROM test_collection 
+	WHERE data-&gt;&gt;'name' = 'bob'
+;
+
+</code></pre>
+
+<p>Should return 1 row the name equal to <code>bob</code>.</p>
+
+<h4>Tags: &ldquo;JSONb&rdquo;,&ldquo;MongoDB&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

@@ -114,7 +114,7 @@ Done
 ToDo
 ---------------------------------------------------------------------------------------------------------------
 
-# Interactive - 34 - 
+# Interactive - 34 - explain
 
 # Interactive - 50 - Geometric Data / PostGIS
 
@@ -147,7 +147,7 @@ server
 	1. if syntax error in SQL - fail to report it as an error. this is the "t0WHERE" concatenation thing.
 	1. if syntax error in SQL - fail to prevent concatenation from juxtaposing to terms. this is the "t0WHERE" concatenation thing.
 
-
+ \o /tmp/output.txt
 
 
 

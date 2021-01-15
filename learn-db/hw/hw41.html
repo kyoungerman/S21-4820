@@ -713,9 +713,28 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Homework 34 -</h1>
+<h1>Interactive - 41 - case/when - if in projected columns</h1>
 
-<p>some text</p>
+<p>You can change the return values in the projected columns.</p>
+
+<p>For example if you want to map certain values to new values in a query.
+An example with the name_list table is to create a new column that is
+an in-Wyoming column.</p>
+
+<pre><code>SELECt
+		  t1.real_name
+		, t1.state
+		, case
+			when t1.state = 'WY' then 'y'
+			when t1.state is null then 'n'
+			else 'n'
+		  end as &quot;in_wyoming&quot;
+	FROM name_list as t1
+;
+
+</code></pre>
+
+<h4>Tags: &ldquo;when&rdquo;,&ldquo;projected data&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 
