@@ -1,5 +1,18 @@
 
-m4_include(setup.m4)
+
+
+
+<style>
+.pagebreak { page-break-before: always; }
+.half { height: 200px; }
+</style>
+
+
+
+
+
+
+
 
 # Syllabus: University of Wyoming Computer Science 4280 Database 
 
@@ -43,48 +56,7 @@ There will be a midterm and a final.   They will be online.
 
 ### Lectures
 
-m4_comment([[[
-    January 2021      
-Su Mo Tu We Th Fr Sa  
-17 18 19 20 21 22 23  
-			^-------------- 1st day of clsss
-24 25 26 27 28 29 30  
-31                  
 
-   February 2021      2
-Su Mo Tu We Th Fr Sa  
-    1  2  3  4  5  6  
- 7  8  9 10 11 12 13  
-14 15 16 17 18 19 20  
-21 22 23 24 25 26 27  
-28                    
-    
-     March 2021       3
-Su Mo Tu We Th Fr Sa  
-    1  2  3  4  5  6  
- 7  8  9 10 11 12 13  
-          ^--------------------- Midterm
-14 15 16 17 18 19 20  
-21 22 23 24 25 26 27  
-28 29 30 31           
-      
-     April 2021       4
-Su Mo Tu We Th Fr Sa  
-             1  2  3  
- 4  5  6  7  8  9 10  
-11 12 13 14 15 16 17  
-18 19 20 21 22 23 24  
-25 26 27 28 29 30     
-                      
-      May 2021        5
-Su Mo Tu We Th Fr Sa  
-                   1  
- 2  3  4  5  6  7  8  
- 9 10 11 12 13 14 15  
-16 17 18 19 20 21 22  
-23 24 25 26 27 28 29  
-30 31                 
-]]])
 
 | Lecture                                                                    | Week | Date    |
 |----------------------------------------------------------------------------|:----:|:--------|
@@ -359,16 +331,4 @@ Copyright (C) University of Wyoming, 2021.
 
 <div class="pagebreak"> </div>
 
-m4_comment([[[
 
-https://stackoverflow.blog/2021/01/14/have-the-tables-turned-on-nosql/
-
-	Indexed document stores like MongoDB
-	Graph databases like Neo4j
-	Column stores like Cassandra
-	Time-series databases, which index data by time stamps, like InfluxDB. 
-	Hybrid forms that use multiple of the previous paradigms
-
-https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart
-
-]]])

@@ -33,7 +33,7 @@ are critical as they show how to use the tool and how to get your grade
 for these assignments.
 
 There are 5 Interactive discussions.  These are required.  They will be
-on zoom.  Pic a time of day to attend.  They will be held at 3 different
+on zoom.  Choose a time of day to attend.  They will be held at 3 different
 times a day - so you only need to attend one of the 3 on that a day.
 Each of the synchronous zoom discussions will be at 9:00am, 3:00pm and
 6:00pm on a Monday.  If you are unable to make one of the times let me
@@ -46,37 +46,108 @@ There will be a midterm and a final.   They will be online.
 
 ### Lectures
 
-1. Syllabus -- Class Requirements
-	- Interactive Homework
-	- Assignments
-	- Interactive Discussions (zoom)
-	- Tests
-2. Why Database
-3. My Database Background
-4. Future of Database
-5. How applications work today
-6. Jobs In Database
-7. Installing PostgreSQL and other tools (Assignment 1)
-	- PostgreSQL
-	- Python
-	- bottle
-	- python libraries
-	- JavaScript (jQuery)
-	- style sheets and fonts (Bootstrap)
-8. Global Variables Considered Harmful
-9. Midterm Review.
-10. Data Modeling ( Entity Relationship Model )
-11. ACID compliance and history of database
-12. The Rise of NoSQL - MongoDB (MongoDB v.s. PostgreSQL JSONb data type)
-13. F1 a world scale database
-14. Practical NoSQL - Redis
-15. Scaling SQL
-16. Hash Based Databases v.s. SqLite
-17. Testing with Database
-18. Blockchain as a Database
-19. Data Growth
-20. PostGIS - Geographic Information System
-21. Conclusions / Final Review
+m4_define([[[m4_comment]]],[[[]]])
+m4_comment([[[
+    January 2021      
+Su Mo Tu We Th Fr Sa  
+17 18 19 20 21 22 23  
+			^-------------- 1st day of clsss
+24 25 26 27 28 29 30  
+31                  
+
+   February 2021      2
+Su Mo Tu We Th Fr Sa  
+    1  2  3  4  5  6  
+ 7  8  9 10 11 12 13  
+14 15 16 17 18 19 20  
+21 22 23 24 25 26 27  
+28                    
+    
+     March 2021       3
+Su Mo Tu We Th Fr Sa  
+    1  2  3  4  5  6  
+ 7  8  9 10 11 12 13  
+          ^--------------------- Midterm
+14 15 16 17 18 19 20  
+21 22 23 24 25 26 27  
+28 29 30 31           
+      
+     April 2021       4
+Su Mo Tu We Th Fr Sa  
+             1  2  3  
+ 4  5  6  7  8  9 10  
+11 12 13 14 15 16 17  
+18 19 20 21 22 23 24  
+25 26 27 28 29 30     
+                      
+      May 2021        5
+Su Mo Tu We Th Fr Sa  
+                   1  
+ 2  3  4  5  6  7  8  
+ 9 10 11 12 13 14 15  
+16 17 18 19 20 21 22  
+23 24 25 26 27 28 29  
+30 31                 
+]]])
+
+| Lecture                                                                    | Week | Date    |
+|----------------------------------------------------------------------------|:----:|:--------|
+|  1. Syllabus -- Class Requirements                                         |   1  | Jan 21  |
+|  	- Interactive Homework                                                   |   1  | Jan 21  |
+|  	- Assignments                                                            |      |         |
+|  	- Interactive Discussions (zoom)                                         |      |         |
+|  	- Tests                                                                  |      |         |
+|                                                                            |      |         |  
+|  2. Why Database                                                           |   2  | Jan 25  |
+|  3. Installing PostgreSQL and other tools (Assignment 1)                   |   2  | Jan 25  | 
+|  	- PostgreSQL                                                             |      |         |
+|  	- Python                                                                 |      |         |
+|  	- bottle                                                                 |      |         |
+|  	- python libraries                                                       |      |         |
+|  	- JavaScript (jQuery)                                                    |      |         |
+|  	- style sheets and fonts (Bootstrap)                                     |      |         |
+|                                                                            |      |         |  
+|  4. My Database Background                                                 |   3  | Feb 1   |
+|  5. How applications work today                                            |   3  | Feb 1   |
+|                                                                            |      |         |  
+|  6. Future of Database                                                     |   4  | Feb 7   |
+|  7. Global Variables Considered Harmful                                    |   4  | Feb 7   |
+|                                                                            |      |         |  
+|  8. Jobs In Database                                                       |   5  | Feb 14  |
+|  9. ERD and Modeling                                                       |   5  | Feb 14  |
+|                                                                            |      |         |  
+|  10. Data Modeling ( Entity Relationship Model )                           |   6  | Feb 21  |
+|  11. ACID compliance and history of database                               |   6  | Feb 21  |
+|                                                                            |      |         |  
+|  12. The Rise of NoSQL - MongoDB (MongoDB v.s. PostgreSQL JSONb data type) |   7  | Feb 28  |
+|  13. F1 a world scale database                                             |   7  | Feb 28  |
+|                                                                            |      |         |  
+|  14. Midterm Review                                                        |   8  | Mar 1   |
+|  15. Practical NoSQL - Redis                                               |   8  | Mar 1   |
+|                                                                            |      |         |  
+|  16. Hash Based Databases v.s. SqLite                                      |   9  | Mar 7   |
+|  17. Scaling SQL                                                           |   9  | Mar 7   |
+|                                                                            |      |         |  
+|  18. Testing with Database                                                 |  10  | Mar 14  |
+|  19. Blockchain as a Database                                              |  10  | Mar 14  |
+|                                                                            |      |         |  
+|  20. Data Growth                                                           |  11  | Mar 21  |
+|  21. PostGIS - Geographic Information System                               |  11  | Mar 21  |
+|                                                                            |      |         |  
+|  22. MongoDB / NoSQL                                                       |  12  | Mar 28  |
+|  23. PostGIS - Geographic Information System                               |  12  | Mar 28  |
+|                                                                            |      |         |  
+|  24. Column stores like Cassandra                                          |  13  | Apr  5  |
+|                                                                            |      |         |  
+|  25. Time-series databases, InfluxDB                                       |  14  | Apr 12  |
+|  26. Timescale - the PosgreSQL Time Series Database                        |  14  | Apr 12  |
+|                                                                            |      |         |  
+|  26. Performance Tuning SQL (1)                                            |  15  | Apr 19  |
+|  27. Performance Tuning SQL (2)                                            |  15  | Apr 19  |
+|                                                                            |      |         |  
+|  28. Conclusions / Final Review                                            |  16  | Apr 26  |
+
+
 
 ### Class Interactive Discussions
 
@@ -118,16 +189,17 @@ Linode and load the database and other tools on that and run them remotely.
 
 1000pts total.
 
+
 | Assignments    | Pts  | Description                                | Due Date   | Duration |
 |----------------|-----:|--------------------------------------------|------------|---------:|
-| 01 - Install   |   50 | Install PosgreSQL, Redis, Python, pgAdmin  | 2021-02-01 | 2 weeks  |
-| 02 - Insert    |  200 | Parse text / generate data                 | 2021-02-15 | 2 weeks  |
-| 03 - Keyword   |  200 | Key World Search                           | 2021-03-01 | 2 weeks  |
-| 04 - App       |  300 | Issue Tracking Application                 | 2021-03-22 | 3 weeks  |
-| 05 - Data dump |   50 | Use pgdump to dump data                    | 2021-03-29 | 1 weeks  |
-| 06 - Backup    |   50 | Use tar to backup entire database          | 2021-04-05 | 1 weeks  |
-| 07 - Remote    |   50 | Setup database security                    | 2021-04-12 | 1 weeks  |
-| 08 - Tune SQL  |  100 | Find and Tune SQL                          | 2021-04-26 | 2 weeks  |
+| 01 - Install   |   50 | Install PosgreSQL, Redis, Python, pgAdmin  | 2021-02-15 | 2 weeks  |
+| 02 - Insert    |  200 | Parse text / generate data                 | 2021-03-01 | 2 weeks  |
+| 03 - Keyword   |  200 | Key World Search                           | 2021-03-22 | 2 weeks  |
+| 04 - App       |  300 | Issue Tracking Application                 | 2021-03-29 | 3 weeks  |
+| 05 - Data dump |   50 | Use pgdump to dump data                    | 2021-04-05 | 1 weeks  |
+| 06 - Backup    |   50 | Use tar to backup entire database          | 2021-04-12 | 1 weeks  |
+| 07 - Remote    |   50 | Setup database security                    | 2021-04-26 | 1 weeks  |
+| 08 - Tune SQL  |  100 | Find and Tune SQL                          | 2021-05-07 | 1+ weeks  |
 |                |      |                                            |            |          |
 | Total          | 1000 |                                            |            | 11 weeks |
 
@@ -136,7 +208,7 @@ Linode and load the database and other tools on that and run them remotely.
 
 1000 pts - Assignments
  500 pts - Interactive Homework
- 500 pts - 2 tests (midterm, final) Midterm: 2021-03-10 Final: 2021-05-11
+ 500 pts - 2 tests (midterm, final) Midterm Date: 2021-03-10 Final Date: 2021-05-11
 
 2000 pts - total
 
@@ -291,4 +363,16 @@ Copyright (C) University of Wyoming, 2021.
 
 <div class="pagebreak"> </div>
 
+m4_comment([[[
 
+https://stackoverflow.blog/2021/01/14/have-the-tables-turned-on-nosql/
+
+	Indexed document stores like MongoDB
+	Graph databases like Neo4j
+	Column stores like Cassandra
+	Time-series databases, which index data by time stamps, like InfluxDB. 
+	Hybrid forms that use multiple of the previous paradigms
+
+https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart
+
+]]])
