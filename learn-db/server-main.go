@@ -51,12 +51,13 @@ import (
 
 var Cfg = flag.String("cfg", "cfg.json", "config file for this call")
 var Cli = flag.String("cli", "", "Run as a CLI command intead of a server")
-var HostPort = flag.String("hostport", ":7001", "Host/Port to listen on") // q8s
+var HostPort = flag.String("hostport", ":8003", "Host/Port to listen on") // q8s
 var DbFlagParam = flag.String("db_flag", "", "Additional Debug Flags")
 var TLS_crt = flag.String("tls_crt", "", "TLS Signed Publick Key")
 var TLS_key = flag.String("tls_key", "", "TLS Signed Private Key")
 var Version = flag.Bool("version", false, "Report version of code and exit")
 var ChkTables = flag.Bool("chk-tables", false, "Chack table structre and exit")
+var Comment = flag.String("comment", "", "Unused comment for ps.")
 
 // xyzzy - move to a QR Related sub-module in PureImagination
 type QRGeneration struct {

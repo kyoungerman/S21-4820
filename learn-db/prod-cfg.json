@@ -1,27 +1,23 @@
 {
-	  "__comment_version": "Version 0.2.0"
-	, "__comment_copyright": "Copyright (C) Philip Schlump, 2014-2020."
-
-	, "ln_local": "/var/www/www.q8s.co/html/"
+	  "__comment_version": "Version 0.2.3"
+	, "__comment_copyright": "Copyright (C) Philip Schlump, 2014-2021."
 
 	, "db_host": "$ENV$PG_HOST"
 	, "db_user": "pschlump"
 	, "db_password": "$ENV$DB_PASS"
-	, "db_name": "leardb"
+	, "db_name": "learndb"
 	, "db_flag": ""
-	, "log_file_name": "/tmp/q8s.log"
+	, "log_file_name": "/home/pschlump/learn-db/log/learn-db.log"
 
 	, "auth_key": "$ENV$QR_TODAY_AUTH_TOKEN"
-	, "base_server_url": "http://www.excellent-answers.com"
+	, "base_server_url": "http://easy-2c-why.com"
 
 	, "auth_method":				"jwt"
-	, "y_auth_method":				"key"
 	, "auth_jwt_public_file" : 		"prod-key/ecdsa-p256-public.pem"
 	, "auth_jwt_private_file": 		"prod-key/ecdsa-p256-private.pem"
 	, "auth_jwt_key_type":       	"ES256"
 
 	, "doc_md":"./www/api-doc.html"
-	, "arial_font" :"./Fonts/Arial.ttf"
 
 	, "upload_table": "t_ymux_documents"
 	, "push_to_aws": "yes"

@@ -28,6 +28,9 @@ DROP TABLE if exists ct_val_homework cascade ;
 DROP TABLE if exists ct_file_list cascade ;
 DROP TABLE if exists ct_login cascade ;
 DROP SEQUENCE if exists ct_run_seq ;
+DROP TABLE IF EXISTS ct_tag_homework ;
+DROP TABLE IF EXISTS ct_tag ;
+DROP TABLE if exists ct_login ;
 
 -- -------------------------------------------------------- -- --------------------------------------------------------
 -- 1 to 1 to user to add additional parametric data to a user.
@@ -173,12 +176,14 @@ CREATE TABLE ct_homework (
 	, video_url					text not null
 	, video_img					text not null
 	, lesson_body 				JSONb not null 	-- body, html, text etc.
+    , lesson_tokens				TSVECTOR 
  	, updated 					timestamp
  	, created 					timestamp default current_timestamp not null
 );
 
 CREATE INDEX ct_homework_p1 on ct_homework ( homework_no );
-CREATE INDEX ct_video_p2 on ct_homework using gin ( lesson_body );
+CREATE INDEX ct_homework_p2 on ct_homework using gin ( lesson_body );
+CREATE INDEX ct_homework_p3 on ct_homework using gin ( lesson_tokens );
 CREATE UNIQUE index ct_homework_u1 on ct_homework ( homework_no );
 
 
@@ -208,6 +213,34 @@ EXECUTE PROCEDURE ct_homework_upd();
 -- 		left outer join "t_ymux_user" as t2 
 -- ;
 		
+CREATE OR REPLACE function indexed_homework_ins_upd()
+RETURNS trigger AS $$
+DECLARE
+	l_lang text;
+	l_title text;
+	l_body text;
+BEGIN
+	l_lang = 'english';	-- Probably to come from configuration later.
+	l_title = NEW.homework_title;
+	select NEW.lesson_body->>'Lesson'
+		into l_body 
+	;
+	NEW.lesson_tokens = 
+		setweight ( to_tsvector ( l_lang::regconfig, coalesce(l_title,'')), 'A' ) ||
+		setweight ( to_tsvector ( l_lang::regconfig, coalesce(l_body,'')), 'B' )
+	;
+	RETURN NEW;
+END
+$$ LANGUAGE 'plpgsql';
+
+
+DROP TRIGGER if exists  indexd_homework_trig_1 on ct_homework;
+
+CREATE TRIGGER indexd_homework_trig_1
+	BEFORE insert or update ON ct_homework
+	FOR EACH ROW
+	EXECUTE PROCEDURE indexed_homework_ins_upd()
+;
 
 -- -------------------------------------------------------- -- --------------------------------------------------------
 -- Used to create a sequential list of data.
@@ -363,6 +396,8 @@ create or replace view ct_video_per_user as
 ;
 
 
+-- -------------------------------------------------------- -- --------------------------------------------------------
+-- -------------------------------------------------------- -- --------------------------------------------------------
 \i ../hw/hw26_04.sql
 -- 05 is ct_homeowrk - built above
 \i ../hw/hw26_06.sql
@@ -389,15 +424,59 @@ INSERT INTO ct_homework (
 	, (  'Select Where'              , '3.mp4', '3.png', '{"sample":3,"lesson_text":"Some Lesson Text 3"}', '93' )
 ;
 
+
+
+
+
+-- -- -------------------------------------------------------- -- --------------------------------------------------------
+-- -- -------------------------------------------------------- -- --------------------------------------------------------
+-- 
+-- CREATE TABLE ct_login (
+-- 	  user_id					uuid not null primary key -- 1 to 1 to "t_ymux_user"."id"
+-- 	, pg_acct					char varying (20) not null
+-- 	, class_no					text default '4010-BC' not null	-- 4280 or 4010-BC - one of 2 classes
+-- 	, lang_to_use				text default 'Go' not null		-- Go or PostgreSQL
+-- 	, misc						JSONb default '{}' not null		-- Whatever I forgot
+-- );
+-- 
+-- create unique index ct_login_u1 on ct_login ( pg_acct );
+-- create index ct_login_p1 on ct_login using gin ( misc );
+-- 
+-- ALTER TABLE ct_login
+-- 	ADD CONSTRAINT ct_login_user_id_fk
+-- 	FOREIGN KEY (user_id)
+-- 	REFERENCES "t_ymux_user" ("id")
+-- ;
+-- 
+-- -- -------------------------------------------------------- -- --------------------------------------------------------
+-- -- -------------------------------------------------------- -- --------------------------------------------------------
+-- 
+-- CREATE TABLE ct_tag ( 
+-- 	tag_id uuid DEFAULT uuid_generate_v4() not null primary key,
+-- 	tag_word text not null
+-- );
+-- 
+-- CREATE UNIQUE INDEX ct_tag_p1 on ct_tag ( tag_word );
+-- 
+-- 
+-- 
+-- -- -------------------------------------------------------- -- --------------------------------------------------------
+-- -- -------------------------------------------------------- -- --------------------------------------------------------
+-- 
+-- CREATE TABLE ct_tag_homework ( 
+-- 	tag_id 		uuid not null,
+-- 	homework_id uuid not null,
+-- 	primary key ( homework_id, tag_id )
+-- );
+-- 
+-- CREATE UNIQUE INDEX ct_tag_homework_u1 on ct_tag_homework ( tag_id, homework_id );
+
+
+
+
+-- -------------------------------------------------------- -- --------------------------------------------------------
+-- -------------------------------------------------------- -- --------------------------------------------------------
 \i ../hw/gen_data.sql
-
-
-
-
-
-
-
-
 
 
 

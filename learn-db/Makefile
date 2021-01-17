@@ -44,8 +44,18 @@ gen:
 			"ct_file_list" "ct_val_homework"
 
 run: all
-	./learn-db
+	./learn-db --hostport ":7001"
 
+
+deploy0: all
+	tar -czf ../blob.tar.gz ./learn-db ./www ./hw ./data ../blob.tar.gz ./prod-key
+	scp ../blob.tar.gz pschlump@nfc-auth.com:/tmp
+	scp ./prod-cfg.json pschlump@nfc-auth.com:/home/pschlump/learn-db/cfg.json
+	scp ./db_cfg.json  pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	scp ./basic-run.sh pschlump@nfc-auth.com:/home/pschlump/learn-db/
+
+deploy: 
+	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/
 
 
 

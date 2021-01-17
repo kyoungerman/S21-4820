@@ -678,6 +678,66 @@ function testGradeCode ( event ) {
 
 
 
+// -----------------------------------------------------------------------------------------------------------------------
+function submitKeywordSearch() {
+	console.log("submitKeywordSearch");
+
+	var getdata = {
+		  "homework_id"		: $("#key_word").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_homework_per_user",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>> Keyword Search Results >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			// xyzzy - render page
+			// xyzzy - render page
+			// xyzzy - render page
+			// xyzzy - render page
+			// xyzzy - render page
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+function submitTagSearch(tag) {
+	console.log("submitTagSearch", tag);
+
+	var getdata = {
+		  "tag_word"		: tag
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_homework_by_tag",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>> tag search results >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			// xyzzy - render page
+			// xyzzy - render page
+			// xyzzy - render page
+			// xyzzy - render page
+			// xyzzy - render page
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:730", msg );
+			render5SecClearMessage ( );
+		}
+	});
+
+}
 
 
 

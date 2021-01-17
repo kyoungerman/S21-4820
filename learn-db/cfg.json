@@ -1,8 +1,6 @@
 {
 	  "__comment_version": "Version 0.2.3"
-	, "__comment_copyright": "Copyright (C) Philip Schlump, 2014-2020."
-
-	, "min_qr_before_generate": 100
+	, "__comment_copyright": "Copyright (C) Philip Schlump, 2014-2021."
 
 	, "db_host": "$ENV$PG_HOST"
 	, "db_user": "pschlump"
@@ -12,7 +10,6 @@
 	, "log_file_name": "./log/log.out"
 
 	, "auth_key": "$ENV$QR_TODAY_AUTH_TOKEN"
-	, "x_base_server_url": "http://127.0.0.1:7001"
 	, "base_server_url": "http://192.168.0.23:7001"
 
 	, "auth_method":				"jwt"
