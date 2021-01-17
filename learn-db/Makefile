@@ -53,9 +53,10 @@ deploy0: all
 	scp ./prod-cfg.json pschlump@nfc-auth.com:/home/pschlump/learn-db/cfg.json
 	scp ./db_cfg.json  pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	scp ./basic-run.sh pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/
 
 deploy: 
-	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	scp ./hw/gen_data.sql pschlump@nfc-auth.com:/home/pschlump/learn-db/
 
 
 

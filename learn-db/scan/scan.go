@@ -78,6 +78,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default:
 				buffer.WriteByte(ch)
@@ -134,6 +135,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default: // end of ID
 				st = 0
@@ -206,6 +208,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default: // end of ID
 				st = 0
@@ -268,6 +271,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default: // end of ID
 				st = 0
@@ -463,11 +467,29 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 
 }
 
+var canAs = true
+
 func isAsBody(id_list []string) bool {
 	if db2 {
-		fmt.Printf("Words are: %s\n", godebug.SVar(id_list))
+		fmt.Printf("%sWords are: %s%s\n", MiscLib.ColorCyan, godebug.SVar(id_list), MiscLib.ColorReset)
+	}
+	if len(id_list) > 0 && strings.ToLower(id_list[len(id_list)-1]) == "select" {
+		canAs = false
+		return false
+	}
+	if !canAs {
+		return false
 	}
 	if len(id_list) > 0 && strings.ToLower(id_list[len(id_list)-1]) == "as" {
+		if len(id_list) > 2 && strings.ToLower(id_list[len(id_list)-3]) == "view" {
+			if db2 {
+				fmt.Printf("%sview %s\n", MiscLib.ColorYellow, MiscLib.ColorReset)
+			}
+			return false
+		}
+		if db2 {
+			fmt.Printf("%sReturn True!%s\n", MiscLib.ColorYellow, MiscLib.ColorReset)
+		}
 		return true
 	}
 	return false

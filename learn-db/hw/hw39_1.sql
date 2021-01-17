@@ -1,3 +1,5 @@
+DROP materialized view count_by_state_of_names ;
+
 CREATE materialized view count_by_state_of_names as
 	SELECT count(1) as count_by_state,
 		state

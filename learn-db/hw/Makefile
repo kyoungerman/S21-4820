@@ -125,6 +125,7 @@ PY= \
 	hw38_12.sql \
 	hw39_1.sql \
 	hw39_2.sql \
+	hw39_3.sql \
 	hw41_01.sql \
 	hw42_01.sql \
 	hw42_02.sql \

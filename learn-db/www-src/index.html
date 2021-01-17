@@ -55,7 +55,7 @@
 					<!-- ==================================================================================================== -->
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
-					<a class="dropdown-item auto-bind" href="#learnList" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#learn-list" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
 					<!-- <a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradeList" > Search Tags </a>	 -->
 					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch" > Search Tags </a>	
 					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderKeywordSearch" > Keyword Search </a>	
@@ -150,21 +150,25 @@ function URLStrToHash(query) {
 function paintFragment() {
 	var s = window.location.href;
 	var sa = s.split("#");
-console.log ( 'sa=', sa );
+	// console.log ( 'sa=', sa );
 	s = ( sa.length > 1 ) ? sa[1] : "";
-console.log ( 's=', s );
+	// console.log ( 's=', s );
 	sa = s.split(",");
 console.log ( 'sa=', sa );
 	var s2 = ( sa.length > 1 ) ? sa[1] : "";
 	s = sa[0];
-console.log ( 's=', s );
+// console.log ( 's=', s );
 	if ( s !== "" ) {
 		switch ( s ) {
 		case "learn-list":
 			renderLearnList();
 		break;
 		case "lesson":
-			renderLesson();
+			if ( s2 != "" ) {
+				renderLessonParam(NULL,"tagxyzzy",s2);
+			} else {
+				renderLearnList();
+			}
 		break;
 		default:
 		break;
@@ -359,7 +363,7 @@ function postRenderLearnList () {
 			var x_rowCfg = {
 				cols: [
 						{ Name: "has_been_seen", fx: ActionFunc },
-						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,lessonParam\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
 						{ Name: "when_seen", defaultIfEmpty: " "},
 				]
 			};
@@ -428,7 +432,7 @@ function postRenderGradeList () {
 			var x_rowCfg = {
 				cols: [
 						{ Name: "has_been_seen", fx: ActionFunc },
-						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,lessonParam\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
 						{ Name: "when_seen", defaultIfEmpty: " "},
 						{ Name: "pts", fx: PointsFunc },
 				]
@@ -454,17 +458,16 @@ function postRenderGradeList () {
 
 
 // -----------------------------------------------------------------------------------------------------------------------
-function preRenderLesson () {
-	console.log ( "pre - Lesson" );
-	history.pushState({page:"lesson"}, "Lesson", "#lesson");
+function preRenderLesson ( data ) {
+	console.log ( "pre - Lesson", data );
+	if ( data && data.homework_id ) {
+		history.pushState({page:"lesson"}, "Lesson", "#lesson,"+data.homework_id);
+	} else {
+		history.pushState({page:"lesson"}, "Lesson", "#learn-list,465");
+	}
 }
 function postRenderLesson ( fd ) {
 	console.log ( "post - Lesson", fd, window.g_data );
-
-	//	$.get ( "/lesson/l01.html", function ( data ) {
-	//		$("#lesson_text").html ( data );
-	//		console.log ( "pre - Lesson - fetch of partial" );
-	//		} );
 
 	$("#lesson_text").html ( window.g_data.lesson_body );			// line 745
 	window.g_data = {};
@@ -473,20 +476,20 @@ function postRenderLesson ( fd ) {
 
 
 // -----------------------------------------------------------------------------------------------------------------------
-function renderLessonParam_old(event,tag){
-	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
-	console.log("renderLessonPram:",tag);
-
-	// Pull data for this user
-	// render page
-
-	window.g_data["lesson_name_2"] = tag;
-	renderLesson( {
-		  "lesson_title":" a Lesson Title : "+tag
-		, "lesson_text": "body of the lesson"
-		, "tag": tag
-	} );
-}
+//function renderLessonParam_old(event,tag){
+//	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+//	console.log("renderLessonPram:",tag);
+//
+//	// Pull data for this user
+//	// render page
+//
+//	window.g_data["lesson_name_2"] = tag;
+//	renderLesson( {
+//		  "lesson_title":" a Lesson Title : "+tag
+//		, "lesson_text": "body of the lesson"
+//		, "tag": tag
+//	} );
+//}
 
 function loadFile ( event, fn ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
@@ -553,19 +556,20 @@ function renderLessonParam(event,tag,homework_id){
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 	console.log("renderLessonPram_2:",tag,homework_id);
 
-/*
-CREATE TABLE ct_homework (
-	  homework_id				m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
-	, homework_title			text not null
-	, homework_no					text not null
-	, points_avail				int not null default 10
-	, video_url					text not null
-	, video_img					text not null
-	, lesson_body 				JSONb not null 	-- body, html, text etc.
- 	, updated 					timestamp
- 	, created 					timestamp default current_timestamp not null
-);
-*/
+	/*
+	CREATE TABLE ct_homework (
+		  homework_id				m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
+		, homework_title			text not null
+		, homework_no					text not null
+		, points_avail				int not null default 10
+		, video_url					text not null
+		, video_img					text not null
+		, lesson_body 				JSONb not null 	-- body, html, text etc.
+		, updated 					timestamp
+		, created 					timestamp default current_timestamp not null
+	);
+	*/
+
 	var getdata = {
 		  "homework_id"		: homework_id
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000

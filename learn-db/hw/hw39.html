@@ -737,9 +737,32 @@ when the foreign data is slow or only periodically changes.</p>
 
 </code></pre>
 
+<p>First let&rsquo;s refresh the data in name_list so that we know what is in it.</p>
+
+<p>Run File <code>hw39_2.sql</code>:</p>
+
+<pre><code>DELETE FROM name_list ;
+
+INSERT INTO name_list ( real_name, age, state, pay ) values
+	( 'Bob True',            22, 'WY', 31000 ),
+	( 'Jane True',           20, 'WY', 28000 ),
+	( 'Tom Ace',             31, 'NJ', 82500 ),
+	( 'Steve Pen',           33, 'NJ', 89400 ),
+	( 'Laura Jean Alkinoos', 34, 'PA', 120000 ),
+	( 'Philip Schlump',      62, 'WY', 101200 ),
+	( 'Liz Trubune',         30, 'WY', 48000 ),
+	( 'Lary Smith',          58, 'NJ', 48000 ),
+	( 'Dave Dave',           21, 'NJ', 48000 ),
+	( 'Laura Ann Alkinoos',  34, 'PA', 48000 )
+;
+
+</code></pre>
+
 <p>Now a materialize view that rolls up the count of the number of names in each state.</p>
 
-<pre><code>CREATE materialized view count_by_state_of_names as
+<pre><code>DROP materialized view count_by_state_of_names ;
+
+CREATE materialized view count_by_state_of_names as
 	SELECT count(1) as count_by_state,
 		state
 	FROM name_list
@@ -752,7 +775,8 @@ CREATE INDEX count_by_state_of_names_p2 on count_by_state_of_names ( state );
 
 <p>Now let&rsquo;s select the data:</p>
 
-<pre><code>SELECT * from count_by_state_of_names ;
+<pre><code>
+SELECT * from count_by_state_of_names ;
 
 </code></pre>
 
@@ -761,6 +785,8 @@ CREATE INDEX count_by_state_of_names_p2 on count_by_state_of_names ( state );
 <h4>Tags: &ldquo;materialized view&rdquo;</h4>
 
 <h4>Validate: &ldquo;CountRows&rdquo;,&ldquo;{%22Nr%22%3A[3]}&rdquo;</h4>
+
+<h4>FilesToRun: hw39_2.sql</h4>
 
 </div>
 

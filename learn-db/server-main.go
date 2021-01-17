@@ -142,7 +142,9 @@ func main() {
 		os.Exit(1)
 	}
 	ReadConnectinSetup("./db_cfg.json")
-	fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
+	if DbOn["List.Conn"] {
+		fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
+	}
 
 	// fmt.Printf("Config: %s\n", godebug.SVarI(G_ConnPool))
 	// os.Exit(1)
