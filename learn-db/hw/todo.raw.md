@@ -82,6 +82,8 @@ Done
 
 # Interactive - 39 - materialized views
 
+# Interactive - 40 - refresh materialized view
+
 # Interactive - 41 - case/when - if in projected columns
 
 # Interactive - 42 - foreign data wrapper
@@ -115,6 +117,7 @@ ToDo
 ---------------------------------------------------------------------------------------------------------------
 
 # Interactive - 34 - explain
+
 
 # Interactive - 50 - Geometric Data / PostGIS
 

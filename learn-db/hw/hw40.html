@@ -713,75 +713,20 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Interactive - 42 - foreign data wrapper</h1>
+<h1>Interactive - 40 - refresh materialized view</h1>
 
-<p>PostgreSQL can access data outside of the database.  This is called a foreign data wrapper (FDW).   There are all sorts of foreign data
-wrappers.  You can access data in other databases like Oracle or MySQL.  You can access
-data in NoSQL databases like MongoDB.     For a full list (of over 30 different kinds of data you can access)
-<a href="https://wiki.postgresql.org/wiki/Foreign_data_wrappers">https://wiki.postgresql.org/wiki/Foreign_data_wrappers</a> .</p>
+<p>Last time we created a materialized view, <code>count_by_state_of_names</code>.</p>
 
-<p>Also you can use files like comma separated value (CSV) files through the FDW.  There is a file_fdw data wrapper!</p>
+<p>This time let&rsquo;s refresh it with new data.</p>
 
-<p>To set this up you need to create the extension in PostgreSQL.</p>
-
-<pre><code>CREATE EXTENSION if not exists file_fdw;
-CREATE SERVER import FOREIGN DATA WRAPPER file_fdw;
+<pre><code>REFRESH MATERIALIZED VIEW count_by_state_of_names;
 
 </code></pre>
 
-<p>Then we can use data on the PostgreSQL server and access it.   There is a file with data on our server at <code>/home/uw4280/hw42_data.csv</code>.</p>
+<p>Materialized views don&rsquo;t change when the underlying data changes.<br />
+You have to refresh them.</p>
 
-<p>The data in the file is:</p>
-
-<pre><code>abc,def
-ghi,jkl
-abc,jkl
-
-</code></pre>
-
-<p>We can create a table that matches with this and imports the data.</p>
-
-<pre><code>CREATE FOREIGN TABLE table1_import (
-	col1 text,
-	col2 text
-) SERVER import OPTIONS ( filename '/home/uw4280/hw42_03.csv', format 'csv' );
-
-</code></pre>
-
-<p>Now we can use standard selects to access the data.</p>
-
-<pre><code>
-SELECT * from table1_import;
-
-SELECT * from table1_import where col1 = 'abc';
-
-
-</code></pre>
-
-<p>The limitation on the selects and the table is that it will do a full table scan (slow)
-each time you access the data.  If you want to create indexes on it you need to use
-a materialized view or create a new table with the data in it.  Then create indexes
-and other data objects based on that table.</p>
-
-<p>You can use FDW to access other PostgreSQL databases and other databases in different
-machines.</p>
-
-<p>Another way to access a different database is to use <code>dblink</code> in a query.  This is
-more efficient, but can only be used to access database in the same running instance
-of PotreSQL.</p>
-
-<p>This is an example of using <code>dblink</code> - you don&rsquo;t need to run it.  It is just an example.</p>
-
-<pre><code>SELECT * 
-FROM   table1 as t1 
-LEFT   JOIN (
-   SELECT *
-   FROM dblink('dbname=database2','SELECT t3.id, t3.code FROM table2 as t3') AS t2(id int, code text)
-) AS t4 ON t4.column = t1.column
-;
-</code></pre>
-
-<h4>Tags: &ldquo;foreign data wrapper&rdquo;,&ldquo;csv&rdquo;,&ldquo;fdw&rdquo;,&ldquo;import data&rdquo;</h4>
+<h4>Tags: &ldquo;materialized view&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 

@@ -1,4 +1,4 @@
-SELECt
+SELECT
 		  t1.real_name
 		, t1.state
 		, case

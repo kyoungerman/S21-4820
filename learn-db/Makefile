@@ -57,6 +57,7 @@ deploy0: all
 
 deploy: 
 	scp ./hw/gen_data.sql pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	scp ./hw/*.csv pschlump@nfc-auth.com:/home/pschlump/learn-db/
 
 
 

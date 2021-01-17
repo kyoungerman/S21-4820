@@ -481,7 +481,8 @@ func isAsBody(id_list []string) bool {
 		return false
 	}
 	if len(id_list) > 0 && strings.ToLower(id_list[len(id_list)-1]) == "as" {
-		if len(id_list) > 2 && strings.ToLower(id_list[len(id_list)-3]) == "view" {
+		// if len(id_list) > 2 && strings.ToLower(id_list[len(id_list)-3]) == "view" {
+		if len(id_list) > 2 && isPrevWord(id_list[0:len(id_list)-2], "view") {
 			if db2 {
 				fmt.Printf("%sview %s\n", MiscLib.ColorYellow, MiscLib.ColorReset)
 			}
@@ -491,6 +492,16 @@ func isAsBody(id_list []string) bool {
 			fmt.Printf("%sReturn True!%s\n", MiscLib.ColorYellow, MiscLib.ColorReset)
 		}
 		return true
+	}
+	return false
+}
+
+func isPrevWord(id_list []string, word string) bool {
+	for ii := len(id_list) - 1; ii >= 0; ii-- {
+		w := id_list[ii]
+		if strings.ToLower(w) == strings.ToLower(word) {
+			return true
+		}
 	}
 	return false
 }
