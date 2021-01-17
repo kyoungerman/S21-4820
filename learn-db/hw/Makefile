@@ -101,6 +101,7 @@ PY= \
 	hw32_5.sql \
 	hw33_1.sql \
 	hw33_2.sql \
+	hw34_18.sql \
 	hw35_1.sql \
 	hw35_2.sql \
 	hw36_3.sql \

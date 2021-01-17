@@ -56,7 +56,9 @@
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
 					<a class="dropdown-item auto-bind" href="#learnList" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
-					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradeList" > Grades on Lessons </a>	
+					<!-- <a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradeList" > Search Tags </a>	 -->
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch" > Search Tags </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderKeywordSearch" > Keyword Search </a>	
 				</div>
 			</li>
 			<!-- ==================================================================================================== -->
@@ -119,7 +121,7 @@
 
 	</div>
 
-<!-- Found at line 122 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
+<!-- Found at line 124 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
 
 <script type="text/html" id="dom-template-Register">
 <div>
@@ -267,6 +269,27 @@
 </div>
 </script>
 
+<script type="text/html" id="dom-template-KeywordSearch">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Keyword Search</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="username">Words to Search For</label>
+							<input type="text" class="form-control" id="keyword" name="keyword"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitKeywordSearch">Search</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
 <script type="text/html" id="dom-template-X2faPin">
 <div>
 	<div class="row">
@@ -280,6 +303,23 @@
 							<input type="text" class="form-control" id="pin2fa" name="pin2fa"/>
 						</div>
 						<button type="button" class="btn btn-primary bind-click" data-click="submitValidate2faPin">Finish Login Now</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-TagSearch">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Search Tags</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div id="paint_tags"></div>
 					</form>
 				</div>
 			</div>
@@ -584,7 +624,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0359"></script>
+<script src="/js/cfg.js?_ran_=0338"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -655,7 +695,9 @@ setAppData();
 		genRenderFuncs ( "LearnList" );
 		genRenderFuncs ( "DisplayRegistrationQR" );
 		genRenderFuncs ( "SampleUpload" );
+		genRenderFuncs ( "KeywordSearch" );
 		genRenderFuncs ( "X2faPin" );
+		genRenderFuncs ( "TagSearch" );
 		genRenderFuncs ( "CreateDevUnPwAcct" );
 		genRenderFuncs ( "TitleMainPage" );
 		genRenderFuncs ( "ChangePassword" );
@@ -1123,15 +1165,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00359"></script>
-<script src="/js/table.js?_ran_=00359"></script>
+<script src="/js/doc-index.js?_ran_=00338"></script>
+<script src="/js/table.js?_ran_=00338"></script>
 
-<script src="/js/doc-form25.js?_ran_=0359"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0338"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0359 - 2019-12-18T00:00:00");
+console.log ( "Version 0338 - 2019-12-18T00:00:00");
 </script>
 
 </body>
