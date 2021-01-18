@@ -776,23 +776,46 @@ function testGradeCode ( event ) {
 // -----------------------------------------------------------------------------------------------------------------------
 function submitKeywordSearch() {
 	console.log("submitKeywordSearch");
+	//	<input type="text" class="form-control" id="keyword" name="keyword"/>
+	// <button type="button" class="btn btn-primary bind-click" data-click="submitKeywordSearch">Search</button>
 
 	var getdata = {
-		  "homework_id"		: $("#key_word").val()
+		  "keyword"			: $("#keyword").val()
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
 		type: 'GET',
-		url: "/api/v1/ct_homework_per_user",
+		url: "/api/v1/ct_homework_by_keyword",
 		data: getdata,
 		success: function (data) {
 			console.log ( ">>>>>>> Keyword Search Results >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
-			// xyzzy - render page
-			// xyzzy - render page
-			// xyzzy - render page
-			// xyzzy - render page
-			// xyzzy - render page
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
@@ -805,34 +828,34 @@ function submitKeywordSearch() {
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
-function submitTagSearch(tag) {
-	console.log("submitTagSearch", tag);
-
-	var getdata = {
-		  "tag_word"		: tag
-		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
-	};
-	$.ajax({
-		type: 'GET',
-		url: "/api/v1/ct_homework_by_tag",
-		data: getdata,
-		success: function (data) {
-			console.log ( ">>>>>>> tag search results >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
-			// xyzzy - render page
-			// xyzzy - render page
-			// xyzzy - render page
-			// xyzzy - render page
-			// xyzzy - render page
-		},
-		error: function(resp) {
-			console.log ( "error AJAX", resp );
-			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:730", msg );
-			render5SecClearMessage ( );
-		}
-	});
-
-}
+// function submitTagSearch(tag) {
+// 	console.log("submitTagSearch", tag);
+// 
+// 	var getdata = {
+// 		  "tag_word"		: tag
+// 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+// 	};
+// 	$.ajax({
+// 		type: 'GET',
+// 		url: "/api/v1/ct_homework_by_tag",
+// 		data: getdata,
+// 		success: function (data) {
+// 			console.log ( ">>>>>>> tag search results >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+// 			// xyzzy - render page
+// 			// xyzzy - render page
+// 			// xyzzy - render page
+// 			// xyzzy - render page
+// 			// xyzzy - render page
+// 		},
+// 		error: function(resp) {
+// 			console.log ( "error AJAX", resp );
+// 			var msg = resp.statusText;
+// 			renderError ( "xyzzy-title:doc-index.js:730", msg );
+// 			render5SecClearMessage ( );
+// 		}
+// 	});
+// 
+// }
 
 
 
