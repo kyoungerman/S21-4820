@@ -269,7 +269,7 @@ var QueryConfig = []ymux.CrudQueryConfig{
 			TableNameList: []string{"t_ymux_user", "ct_homework", "ct_homework_seen", "ct_tag", "ct_tag_homework"},
 			ParameterList: []ymux.ParamListItem{
 				{ReqVar: "user_id", ParamName: "$1"},
-				{ReqVar: "tag_word", ParamName: "$2"},
+				{ReqVar: "tag_id", ParamName: "$2"},
 			},
 		},
 		QueryString: `
@@ -305,8 +305,8 @@ var QueryConfig = []ymux.CrudQueryConfig{
 					select 'found'
 					from ct_tag as s3
 						join ct_tag_homework as s2 on ( s3.tag_id = s2.tag_id )
-					where s2.homework_id = s1.homework_id
-					  and s3.tag_word = $2
+					where s2.homework_id = t1.homework_id
+					  and s2.tag_id = $2
 				    )
 				order by 12 asc
 		`,
@@ -452,6 +452,36 @@ var QueryConfig = []ymux.CrudQueryConfig{
 						where t3.user_id = $1
 					)
 				order by 12 asc
+		`,
+	},
+	{
+		CrudBaseConfig: ymux.CrudBaseConfig{
+			URIPath:       "/api/v1/ct_tag_list",
+			AuthKey:       false,
+			JWTKey:        true,
+			NoDoc:         true,
+			TableNameList: []string{"t_ymux_user", "ct_homework", "ct_tag", "ct_tag_homework"},
+			ParameterList: []ymux.ParamListItem{
+				{ReqVar: "user_id", ParamName: "$1"},
+			},
+		},
+		/*
+			-- CREATE TABLE ct_tag (
+			-- 	tag_id uuid DEFAULT uuid_generate_v4() not null primary key,
+			-- 	tag_word text not null
+			-- );
+		*/
+		QueryString: `
+			select
+					  t3.tag_id
+					, t3.tag_word
+				from ct_tag as t3
+				where exists (
+						select 1 as "found"
+						from ct_login as t3
+						where t3.user_id = $1
+					)
+				order by 2 asc
 		`,
 	},
 }

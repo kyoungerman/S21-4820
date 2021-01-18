@@ -99,9 +99,11 @@
     </div>
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
+			<!--
             <li class="nav-item show-anon">
 				<a class="nav-link bind-click" href="#" id="register" name="register" data-click="renderRegister">Register</a>
             </li>
+			-->
             <li class="nav-item show-anon">
 				<a class="nav-link bind-click" href="#" id="login" name="login" data-click="renderLoginPage">Login</a>
             </li>
@@ -372,20 +374,109 @@ function postRenderLearnList () {
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
 		}
 	});
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
+function preRenderTagSearch () {
+	console.log ( "pre - TagSearch" );
+}
+function postRenderTagSearch () {
+	// <div id="paint_tags"></div>
+	window.g_data = {};
+	console.log ( "post - TagSearch" );
+
+	var url = "/api/v1/ct_tag_list";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Tag"} ]
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "tag_word", rowTmpl: "<a href=\"#learnList\" onclick='renderTagSearchParam(event,\"%{tag_id%}\")'>%{tag_word%}</a>" }
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+function renderTagSearchParam(event,tag_id) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log ( "tag_id = ", tag_id );
+			// URIPath:       "/api/v1/ct_homework_by_tag",
+	window.g_data = {};
+
+	var url = "/api/v1/ct_homework_by_tag";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+		, "tag_id"			: tag_id
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+
 
 function preRenderGradeList () {
 	console.log ( "pre - GradeList" );

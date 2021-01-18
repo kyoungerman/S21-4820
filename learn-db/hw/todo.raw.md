@@ -96,7 +96,6 @@ Done
 
 # Interactive - 46 -  NULL - differences between databases
 
-# Interactive - 47 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
 
 # Interactive - 48 - window functions
 
@@ -118,6 +117,7 @@ ToDo
 
 # Interactive - 34 - explain
 
+# Interactive - 47 - NoSQL databases ( mongoDB ) v.s. JSONb in PostreSQL
 
 # Interactive - 50 - Geometric Data / PostGIS
 
