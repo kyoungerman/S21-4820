@@ -1,87 +1,11 @@
 
-1. c_get_config has incorrect number of paramters
-2. t_ymux_user_log
-
-5. Return error messages as an array of [stmt][success/error=msg]
-
-6. Have lesson_id as a required - what is the deal
-	(lesson_id changed to homework_id in the model)
-	6. Have homework_id as a required - what is the deal
-
-(partially fixed)
-bookmark is not working - fragments pulled off but lesson fails to set 2nd value for homework_no
-
-0006:
-	Tags should have a class and be much smaller than h4
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-(fixed)
-00009:
-	in ./scan/ the function lookin at "as" and "view" at the bottom will fail if we have a more complex view.
-
-
-
-
-
-
-
-
-server
-(fixed)
-	1. if syntax error in SQL - fail to report it as an error. this is the "t0WHERE" concatenation thing.
-(fixed)
-	1. if syntax error in SQL - fail to prevent concatenation from juxtaposing to terms. this is the "t0WHERE" concatenation thing.
-
-(fixed)
-		- Cut and Paste - so has to have space at beginning of line?
-
-
-
-
-(fixed)
-lesson 21 has error with concatenate of select
-
-0. back button 
-	(fixed)
-	(Partially complete - works with learn-list but not in a "general" sence and can not bookmark)
-	https://stackoverflow.com/questions/25806608/how-to-detect-browser-back-button-event-cross-browser	
-	-- includes backspace key for back to previous page --
-	https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate	
-
-
-
-
-
-
-
-1. a "Next" button (better have a "prev" button also)
-2. grades on array/list
-3. =catch= "Leave w/o doing the "grade button""
-
-
+(later - ignore)
 00001: on startup - error in pgsave.go:
 	AuthRealm ->*<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:69
 	AuthRealm ->app.example.com<- at:File: /home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/PgSave/pgsave.go LineNo:265
@@ -112,12 +36,191 @@ lesson 21 has error with concatenate of select
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(fixed)
+5. Return error messages as an array of [stmt][success/error=msg]
+
+
+(fixed)
+2. grades on array/list
+
+(fixed enough)
+(partially fixed)
+bookmark is not working - fragments pulled off but lesson fails to set 2nd value for homework_no
+
+
+
+(fixed)
+6. Have lesson_id as a required - what is the deal
+	(lesson_id changed to homework_id in the model)
+	6. Have homework_id as a required - what is the deal
+
+
+(fixed)
+1. c_get_config has incorrect number of paramters
+(fixed)
+2. t_ymux_user_log
+
+
+(later)
+1. a "Next" button (better have a "prev" button also)
+
+(later)
+3. =catch= "Leave w/o doing the "grade button""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(fixed)
+00009:
+	in ./scan/ the function lookin at "as" and "view" at the bottom will fail if we have a more complex view.
+
+server
+(fixed)
+	1. if syntax error in SQL - fail to report it as an error. this is the "t0WHERE" concatenation thing.
+(fixed)
+	1. if syntax error in SQL - fail to prevent concatenation from juxtaposing to terms. this is the "t0WHERE" concatenation thing.
+
+
+
+(fixed)
+		- Cut and Paste - so has to have space at beginning of line?
+(fixed)
+lesson 21 has error with concatenate of select
+
+
+
 (fixed)
 scanner - will drop last character from input if no ';' at end of statment.
 
+0. back button 
+	(fixed)
+	(Partially complete - works with learn-list but not in a "general" sence and can not bookmark)
+	https://stackoverflow.com/questions/25806608/how-to-detect-browser-back-button-event-cross-browser	
+	-- includes backspace key for back to previous page --
+	https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate	
 
 
 
+
+
+
+
+(fixed)
+*** on page refreson on lesson (or bookmark) need 2nd part of lesson set.
+*** 2. both functions
+		submitTagSearch(tag) 
+		submitKeywordSearch() 
+	need to have tables rendered
+*** 5. Finish UI - search tags
+*** 6. Finish UI - search keywords
+*** 7. Remove the "Register" link at top - pre-create users
 
 
 

@@ -55,10 +55,13 @@ deploy0: all
 	scp ./basic-run.sh pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	scp ./hw/*.csv pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	tar -czf ../blob.tar.gz ./www ./hw ./prod-key
+	scp ../blob.tar.gz pschlump@nfc-auth.com:/tmp
 
 deploy: 
 	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	scp ./hw/gen_data.sql pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	tar -czf ../blob.tar.gz ./www ./hw ./mt
+	scp ../blob.tar.gz pschlump@nfc-auth.com:/tmp
 
 
 
