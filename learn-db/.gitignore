@@ -1,4 +1,5 @@
 www/old.1
+.marker.*
 prod-key/
 gen-ec512-keys.sh
 gen-rsa-keys.sh

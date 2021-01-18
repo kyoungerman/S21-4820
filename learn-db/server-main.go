@@ -533,10 +533,10 @@ func main() {
 			httpServer = &http.Server{
 				Addr:              hp,
 				Handler:           loggingHandler,
-				ReadTimeout:       1 * time.Second,
-				WriteTimeout:      1 * time.Second,
+				ReadTimeout:       5 * time.Second,
+				WriteTimeout:      5 * time.Second,
 				IdleTimeout:       90 * time.Second,
-				ReadHeaderTimeout: 2 * time.Second,
+				ReadHeaderTimeout: 10 * time.Second,
 				TLSConfig:         cfg,
 				TLSNextProto:      make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
 			}
@@ -544,10 +544,10 @@ func main() {
 			httpServer = &http.Server{
 				Addr:              hp,
 				Handler:           loggingHandler,
-				ReadTimeout:       1 * time.Second,
-				WriteTimeout:      1 * time.Second,
+				ReadTimeout:       5 * time.Second,
+				WriteTimeout:      5 * time.Second,
 				IdleTimeout:       90 * time.Second,
-				ReadHeaderTimeout: 2 * time.Second,
+				ReadHeaderTimeout: 10 * time.Second,
 			}
 		}
 

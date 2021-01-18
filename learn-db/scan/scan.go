@@ -452,6 +452,9 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 		}
 	}
 
+	if ch != ';' {
+		buffer.WriteByte(ch)
+	}
 	// process end of stuff at this point based on state!
 	stmt := strings.Trim(buffer.String(), " \t\n\r\f")
 	if stmt != "" {

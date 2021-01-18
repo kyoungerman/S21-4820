@@ -48,16 +48,17 @@ run: all
 
 
 deploy0: all
-	tar -czf ../blob.tar.gz ./learn-db ./www ./hw ./data ../blob.tar.gz ./prod-key
+	tar -czf ../blob.tar.gz ./learn-db ./www ./hw ./data ./prod-key
 	scp ../blob.tar.gz pschlump@nfc-auth.com:/tmp
 	scp ./prod-cfg.json pschlump@nfc-auth.com:/home/pschlump/learn-db/cfg.json
 	scp ./db_cfg.json  pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	scp ./basic-run.sh pschlump@nfc-auth.com:/home/pschlump/learn-db/
-	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	scp ./hw/*.csv pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	tar -czf ../blob.tar.gz ./www ./hw ./prod-key
 
 deploy: 
+	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	scp ./hw/gen_data.sql pschlump@nfc-auth.com:/home/pschlump/learn-db/
-	scp ./hw/*.csv pschlump@nfc-auth.com:/home/pschlump/learn-db/
 
 
 
