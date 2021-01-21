@@ -51,12 +51,13 @@ import (
 
 var Cfg = flag.String("cfg", "cfg.json", "config file for this call")
 var Cli = flag.String("cli", "", "Run as a CLI command intead of a server")
-var HostPort = flag.String("hostport", ":7001", "Host/Port to listen on") // q8s
+var HostPort = flag.String("hostport", ":8003", "Host/Port to listen on") // q8s
 var DbFlagParam = flag.String("db_flag", "", "Additional Debug Flags")
 var TLS_crt = flag.String("tls_crt", "", "TLS Signed Publick Key")
 var TLS_key = flag.String("tls_key", "", "TLS Signed Private Key")
 var Version = flag.Bool("version", false, "Report version of code and exit")
 var ChkTables = flag.Bool("chk-tables", false, "Chack table structre and exit")
+var Comment = flag.String("comment", "", "Unused comment for ps.")
 
 // xyzzy - move to a QR Related sub-module in PureImagination
 type QRGeneration struct {
@@ -141,7 +142,9 @@ func main() {
 		os.Exit(1)
 	}
 	ReadConnectinSetup("./db_cfg.json")
-	fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
+	if DbOn["List.Conn"] {
+		fmt.Printf("List Conn: ->%s<-\n", godebug.SVarI(G_ConnPool))
+	}
 
 	// fmt.Printf("Config: %s\n", godebug.SVarI(G_ConnPool))
 	// os.Exit(1)
@@ -530,10 +533,10 @@ func main() {
 			httpServer = &http.Server{
 				Addr:              hp,
 				Handler:           loggingHandler,
-				ReadTimeout:       1 * time.Second,
-				WriteTimeout:      1 * time.Second,
+				ReadTimeout:       5 * time.Second,
+				WriteTimeout:      5 * time.Second,
 				IdleTimeout:       90 * time.Second,
-				ReadHeaderTimeout: 2 * time.Second,
+				ReadHeaderTimeout: 10 * time.Second,
 				TLSConfig:         cfg,
 				TLSNextProto:      make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
 			}
@@ -541,10 +544,10 @@ func main() {
 			httpServer = &http.Server{
 				Addr:              hp,
 				Handler:           loggingHandler,
-				ReadTimeout:       1 * time.Second,
-				WriteTimeout:      1 * time.Second,
+				ReadTimeout:       5 * time.Second,
+				WriteTimeout:      5 * time.Second,
 				IdleTimeout:       90 * time.Second,
-				ReadHeaderTimeout: 2 * time.Second,
+				ReadHeaderTimeout: 10 * time.Second,
 			}
 		}
 

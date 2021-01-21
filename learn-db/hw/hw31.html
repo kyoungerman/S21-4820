@@ -723,7 +723,9 @@ on the primary key and results in an error if a attempt to insert a 2nd row occu
 
 <p>In this example we just have <code>applicaiton_name</code> as the single configuration item.</p>
 
-<pre><code>CREATE TABLE ct_config (
+<pre><code>DROP TABLE if exists ct_config ;
+
+CREATE TABLE ct_config (
 	config_id serial primary key check ( config_id = 1 ),
 	application_name text
 );

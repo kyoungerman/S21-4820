@@ -713,14 +713,12 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Interactive - 44 - alter table to add columns, remove columns</h1>
+<h1>Interactive - 45 - alter table to add columns, remove columns</h1>
 
 <p>Using the same table, name_list2 lets add a constraint to the us_state table.</p>
 
 <pre><code>ALTER TABLE name_list2
-	ADD CONSTRAINT name_list_state_fk
-	FOREIGN KEY (state_2letter_code)
-	REFERENCES us_state (state)
+	ADD column state_nick_name text
 ;
 
 </code></pre>

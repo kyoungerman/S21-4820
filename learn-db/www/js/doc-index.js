@@ -1,101 +1,4 @@
 
-//					<a class="dropdown-item" href="#" id="auth-update-info" > Update Info </a>	
-//					<a class="dropdown-item" href="#" id="auth-new-account" > New Account</a>	
-//					<a class="dropdown-item" href="#" id="auth-new-dev-account" > New Device Account</a>	
-//					<a class="dropdown-item" href="#" id="auth-new-token-account" > New Token Account</a>	
-
-//					<a class="dropdown-item" href="#" id="admin-change-password" > Change Others Password</a>			
-//					<a class="dropdown-item" href="#" id="admin-account-expire" > Set/Update Account Expiration </a>			
-//					<a class="dropdown-item" href="#" id="admin-delete-account" > Delete Account </a>			
-//					<a class="dropdown-item" href="#" id="admin-invite-registration" > Invite Registration (Create Key) </a>			
-//					<a class="dropdown-item" href="#" id="admin-grant-revoke" > Grant / Revoke Privileges </a>			
-/*
-	// xyzzy - could use SetApp/EndApp
-	// mux.SetApp ( "/auth/", "AuthApp" )
-	mux.Handle("/qrr/{.img_qr_fn:str}", http.HandlerFunc(HandleQRCodeRawGenerate)).Method("GET").NoDoc()
-	mux.Handle("/qrg/{.img_qr_fn:str}", http.HandlerFunc(HandleQRCodeGenerate)).Method("GET").NoDoc()
-
-	// See:  mux.Handle("/api/v2/token", http.HandlerFunc(mux.CreateJwtToken("/api/v2/token"))).Method("GET", "POST").Inputs([]*ymux.MuxInput{
-	mux.Handle("/api/v2/login", http.HandlerFunc(HandleLogin)).Method("GET", "POST").DocTag("<h2>/api/v2/login").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "username", Required: true, Lable: "Username", MinLen: 1, Type: "s", AltName: []string{"email"}},
-		{Name: "password", Required: true, Lable: "Password", MinLen: 10, Type: "s"},
-	})
-	mux.Handle("/api/v2/token", http.HandlerFunc(HandleDevUnPwLogin)).Method("GET", "POST").DocTag("<h2>/api/v2/token").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "username", Required: true, Lable: "Username", MinLen: 3, MaxLen: 40, Type: "s"},
-		{Name: "password", Required: true, Lable: "Password", MinLen: 14, MaxLen: 150, Type: "s"},
-	})
-	mux.Handle("/api/v2/register", http.HandlerFunc(HandleRegister)).Method("GET", "POST").DocTag("<h2>/api/v2/register").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "real_name", Required: true, Lable: "Real Name", MinLen: 1, Type: "s"},
-		{Name: "username", Required: true, Lable: "Username", MinLen: 1, Type: "s", AltName: []string{"email"}},
-		{Name: "password", Required: true, Lable: "Password", MinLen: 10, Type: "s"},
-		{Name: "again", Required: true, Lable: "Confirm", MinLen: 10, Type: "s"},
-		{Name: "email", Required: false, Lable: "Email", Type: "s", Validate: "email", AltName: []string{"username"}},
-	})
-	mux.Handle("/api/v2/create-dev-un-pw", http.HandlerFunc(HandleRegisterDevUnPw)).Method("GET", "POST").AuthRequired().DocTag("<h2>/api/v2/create-dev-un-pw").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "app_name", Required: true, Lable: "Device or Applicaiton Name", MinLen: 1, Type: "s"},
-		{Name: "loginname", Required: true, Lable: "Username", MinLen: 3, Type: "s", AltName: []string{"email"}},
-	})
-	mux.Handle("/api/v2/delete-child-account", http.HandlerFunc(HandleDeleteDevUnPw)).Method("GET", "POST").AuthRequired().DocTag("<h2>/api/v2/delete-dev-un-pw").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "acct_user_id", Required: true, Lable: "ID of Device UN/PW Account", MinLen: 30, Type: "u"},
-	})
-	mux.Handle("/api/v2/list-sub-acct", http.HandlerFunc(HandleListSubAcct)).Method("GET").AuthRequired().DocTag("<h2>/api/v2/list-sub-acct").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{})
-
-	// Token User
-	mux.Handle("/api/v2/create-token-user", http.HandlerFunc(HandleRegisterTokenUser)).Method("GET", "POST").AuthRequired().DocTag("<h2>/api/v2/create-token-user").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "app_name", Required: true, Lable: "Device or Applicaiton Name", MinLen: 1, Type: "s"},
-	})
-
-	// xyzzyTokenUser - Token User - Create - Handle at this point
-	mux.Handle("/api/v2/confirm-email", http.HandlerFunc(HandleConfirmEmail)).Method("GET", "POST").DocTag("<h2>/api/v2/confirm-email").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "token", Required: true, Lable: "Token", MinLen: 1, Type: "s"}, // Type: "uuid" -- UUID Validation?
-	})
-	mux.Handle("/api/v2/change-password", http.HandlerFunc(HandleChangePassword)).Method("GET", "POST").AuthRequired().DocTag("<h2>/api/v2/change-password").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "old_pw", Required: true, Lable: "Current Password", MinLen: 1, Type: "s"},
-		{Name: "new_password", Required: true, Lable: "New Password", MinLen: 10, Type: "s"},
-		{Name: "confirm", Required: true, Lable: "Confirm New Password", MinLen: 10, Type: "s"},
-	})
-	// func HandleRecoverPassword_pt1(www http.ResponseWriter, req *http.Request) {
-	mux.Handle("/api/v2/recover-password-pt1", http.HandlerFunc(HandleRecoverPassword_pt1)).Method("GET", "POST").DocTag("<h2>/api/v2/recover-password-pt1").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "email", Required: true, Lable: "Token", MinLen: 5, Type: "s", Validate: "email"},
-	})
-	// func HandleRecoverPassword_pt2(www http.ResponseWriter, req *http.Request) {
-	mux.Handle("/api/v2/recover-password-pt2", http.HandlerFunc(HandleRecoverPassword_pt2)).Method("GET", "POST").DocTag("<h2>/api/v2/recover-password-pt2").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "token", Required: true, Lable: "Token", MinLen: 1, Type: "s"},
-	})
-	// func HandleRecoverPassword_pt3(www http.ResponseWriter, req *http.Request) {
-	mux.Handle("/api/v2/recover-password-pt3", http.HandlerFunc(HandleRecoverPassword_pt3)).Method("GET", "POST").DocTag("<h2>/api/v2/recover-password-pt3").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "token", Required: true, Lable: "Token", MinLen: 1, Type: "s"},
-		{Name: "password", Required: true, Lable: "New Password", MinLen: 10, Type: "s"},
-		{Name: "confirm", Required: true, Lable: "Confirm New Password", MinLen: 10, Type: "s"},
-	})
-	mux.Handle("/api/v2/status_login", http.HandlerFunc(HandleStatus)).AuthRequired().DocTag("<h2>/api/v2/status_login").NoDoc(setDocFlag)
-	mux.Handle("/api/v2/logout", http.HandlerFunc(HandleLogout)).AuthRequired().DocTag("<h2>/api/v2/logout").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "auth_token", Required: true, Lable: "Token", MinLen: 1, Type: "s"},
-	})
-	mux.Handle("/api/v2/2fa-validate-pin", http.HandlerFunc(Handle2FAValidatePin)).DocTag("<h2>/api/v2/2fa-validate-pin").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "pin2fa", Required: true, Lable: "2FA Login PIN", MinLen: 6, MaxLen: 10, Type: "ds"},
-	})
-
-	// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-	// Sub-Accounts (Device Token Accounts
-	// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-	// /api/v2/list-sub-account
-
-	// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-	// Client validation of input calls
-	// ------------------------------------------------------------------------------------------------------------------------------------------------------------
-	mux.Handle("/api/v2/is-email-used", http.HandlerFunc(HandleIsEmailUsed)).DocTag("<h2>/api/v2/is-email-used").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "email", Required: true, Lable: "Email Token", MinLen: 5, Type: "s", Validate: "email"},
-	})
-	mux.Handle("/api/v2/is-username-used", http.HandlerFunc(HandleIsUsernameUsed)).DocTag("<h2>/api/v2/is-username-used").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "username", Required: true, Lable: "Email Token", MinLen: 5, Type: "s"},
-	})
-	mux.Handle("/api/v2/is-password-valid", http.HandlerFunc(HandleIsPasswordValid)).DocTag("<h2>/api/v2/is-password-valid").NoDoc(setDocFlag).Inputs([]*ymux.MuxInput{
-		{Name: "password", Required: true, Lable: "Email Token", MinLen: 1, Type: "s"},
-	})
-
-*/
-
 // glboal constant applicaiton name
 window.g_data = {
 	  "app_name": "Demo Auth"
@@ -128,9 +31,9 @@ function tss(tmpl, ns, fx) {
 			var s = "";
 			var a = t.split("|");
 			for ( var i = 0; i < a.length; i++ ) {
-console.log ( "ts1: a["+i+"] =["+a[i]+"]" );
+// console.log ( "ts1: a["+i+"] =["+a[i]+"]" );
 				pl = a[i].split(",");
-console.log ( "ts1: pl[0] =["+pl[0]+"]"+"  typeof for this =="+typeof fx[pl[0]] );
+// console.log ( "ts1: pl[0] =["+pl[0]+"]"+"  typeof for this =="+typeof fx[pl[0]] );
 				if ( typeof fx [ pl[0] ] == "function" ) {
 					var f = fx[ pl[0] ];
 					s = f(s,ns,pl);									// Now call each function as a pass thru-filter
@@ -493,13 +396,13 @@ function SetupJWTBerrer() {
 		,dataFilter: function(data, type) {
 			var prefix = ['//', ')]}\'', 'while(1);', 'while(true);', 'for(;;);'], i, l, pos;
 
-			console.log ( "dataFilter: data type", type );
+			// console.log ( "dataFilter: data type", type );
 
 			if (type && type != 'json' && type != 'jsonp') {
 				return data;
 			}
 
-			console.log ( "dataFilter: raw data before remove of prefix.", data );
+			// console.log ( "dataFilter: raw data before remove of prefix.", data );
 
 			var dl = data.length;	 // data length 
 			for (i = 0, l = prefix.length; i < l; i++) {
@@ -510,7 +413,7 @@ function SetupJWTBerrer() {
 				}
 			}
 
-			console.log ( "dataFilter: data after remove of prefix.", data );
+			// console.log ( "dataFilter: data after remove of prefix.", data );
 
 			return data;
 		}

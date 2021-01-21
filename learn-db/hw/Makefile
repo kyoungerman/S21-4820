@@ -101,6 +101,7 @@ PY= \
 	hw32_5.sql \
 	hw33_1.sql \
 	hw33_2.sql \
+	hw34_18.sql \
 	hw35_1.sql \
 	hw35_2.sql \
 	hw36_3.sql \
@@ -124,6 +125,8 @@ PY= \
 	hw38_12.sql \
 	hw39_1.sql \
 	hw39_2.sql \
+	hw39_3.sql \
+	hw40_1.sql \
 	hw41_01.sql \
 	hw42_01.sql \
 	hw42_02.sql \
@@ -200,6 +203,7 @@ HTML= \
 	hw37.html \
 	hw38.html \
 	hw39.html \
+	hw40.html \
 	hw41.html \
 	hw42.html \
 	hw43.html \
@@ -252,6 +256,7 @@ MD= \
 	hw37.md \
 	hw38.md \
 	hw39.md \
+	hw40.md \
 	hw41.md \
 	hw42.md \
 	hw43.md \
@@ -304,6 +309,7 @@ RAW_MD= \
 	hw37.raw.md \
 	hw38.raw.md \
 	hw39.raw.md \
+	hw40.raw.md \
 	hw41.raw.md \
 	hw42.raw.md \
 	hw43.raw.md \

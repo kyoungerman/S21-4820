@@ -715,6 +715,8 @@ ol {
 
 <h1>Interactive - 26 - 1 to 1 relationship                (pk to pk)</h1>
 
+<p>This exercise creates a bunch of tables, triggers indexes.  Run each of the files.</p>
+
 <p>The application uses a small set of user authorization tables from a wrapper application.
 We have to create the tables and the tables that match with in the application.</p>
 
@@ -728,7 +730,7 @@ to have.</p>
 
 <p>The Tables are &ldquo;t_ymux_user&rdquo; , &ldquo;ct_homework_ans&rdquo;  and  &ldquo;t_ymux_user_log&rdquo; .</p>
 
-<p>Run the file hw26_01.sql</p>
+<p>Run the file <code>hw26_01.sql</code></p>
 
 <pre><code>DROP TABLE if exists &quot;t_ymux_user&quot; cascade ;
 
@@ -779,7 +781,7 @@ CREATE TRIGGER t_ymux_user_trig
 
 </code></pre>
 
-<p>Run the file hw26_02.sql</p>
+<p>Run the file <code>hw26_02.sql</code></p>
 
 <pre><code>
 -- -------------------------------------------------------- -- --------------------------------------------------------
@@ -820,7 +822,7 @@ CREATE TRIGGER t_ymux_auth_token_trig
 
 </code></pre>
 
-<p>Run the file hw26_03.sql</p>
+<p>Run the file <code>hw26_03.sql</code></p>
 
 <pre><code>CREATE SEQUENCE t_log_seq
   INCREMENT 1
@@ -873,7 +875,7 @@ ct_homework_ans.</p>
 
 <h2>ct_login</h2>
 
-<p>Run the file hw26_04.sql</p>
+<p>Run the file <code>hw26_04.sql</code></p>
 
 <pre><code>DROP TABLE if exists ct_login ;
 
@@ -898,7 +900,7 @@ ALTER TABLE ct_login
 
 <h2>ct_homeowrk</h2>
 
-<p>Run the file hw26_05.sql</p>
+<p>Run the file <code>hw26_05.sql</code></p>
 
 <pre><code>DROP TABLE if exists ct_homework cascade;
 
@@ -918,7 +920,7 @@ CREATE INDEX ct_homework_p1 on ct_homework ( homework_no );
 
 <h2>ct_homeowrk_ans</h2>
 
-<p>Run the file hw26_06.sql</p>
+<p>Run the file <code>hw26_06.sql</code></p>
 
 <pre><code>DROP TABLE if exists ct_homework_ans ;
 CREATE TABLE ct_homework_ans (
@@ -970,7 +972,7 @@ CREATE TRIGGER ct_homework_ans_trig
 
 <h2>Triggers that depend on multiple tables</h2>
 
-<p>Run the file hw26_07.sql</p>
+<p>Run the file <code>hw26_07.sql</code></p>
 
 <pre><code>CREATE OR REPLACE function ct_homework_ins()
 RETURNS trigger AS $$
@@ -1066,7 +1068,7 @@ CREATE TRIGGER ct_login_trig
 
 <h2>Homework tags</h2>
 
-<p>Run the file hw26_09.sql and hw26_10.sql</p>
+<p>Run the file <code>hw26_09.sql</code> and <code>hw26_10.sql</code></p>
 
 <pre><code>
 DROP TABLE IF EXISTS ct_tag ;
@@ -1095,7 +1097,7 @@ CREATE UNIQUE INDEX ct_tag_homework_u1 on ct_tag_homework ( tag_id, homework_id 
 
 <h2>Setup default data</h2>
 
-<p>Run the file hw26_11.sql to setup data for these tables.</p>
+<p>Run the file <code>hw26_11.sql</code> to setup data for these tables.</p>
 
 <pre><code>select setup_data_26();
 

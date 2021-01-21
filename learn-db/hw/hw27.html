@@ -716,7 +716,7 @@ ol {
 <h1>Interactive - 27 - 1 to 0 or 1 relationship           (fk, unique)</h1>
 
 <p>Now that we have our tables let&rsquo;s look at the relationship between
-<code>&quot;t_ymx_user&quot;</code> and &ldquo;ct_login&rdquo;.   This is our 1 to 0 or 1 relationship.</p>
+<code>&quot;t_ymux_user&quot;</code> and <code>ct_login</code>.   This is our 1 to 0 or 1 relationship.</p>
 
 <p>It is provided by the primary key on ct_login being required but not
 having a default value where a key is generated.   This is combined
@@ -729,6 +729,8 @@ with the foreign key constraint to <code>&quot;t_ymux_user&quot;</code>.</p>
 </code></pre>
 
 <p>You should get an error.   The error indicates that you violated a foreign key and will look similar to:</p>
+
+<p>If you ran it in psql or pgAmdmin your error would look like:</p>
 
 <pre><code>ERROR:  insert or update on table &quot;ct_homework_ans&quot; violates foreign key constraint &quot;user_id_fk&quot;
 DETAIL:  Key (user_id)=(ce1d8fdd-aa04-4bb4-9ef7-72655ff63b95) is not present in table &quot;ct_login&quot;.
@@ -746,6 +748,19 @@ CONTEXT:  SQL statement &quot;insert into ct_homework_ans (
 			  and t2.homework_id = t1.homework_id
 		)&quot;
 PL/pgSQL function ct_login_ins() line 3 at SQL statement
+</code></pre>
+
+<p>In this tool you get back:</p>
+
+<pre><code>{
+    &quot;Status&quot;: &quot;error&quot;,
+    &quot;MsgSet&quot;: [
+        {
+            &quot;Msg&quot;: &quot;pq: insert or update on table \&quot;ct_homework_ans\&quot; violates foreign key constraint \&quot;user_id_fk\&quot;&quot;,
+            &quot;Stmt&quot;: &quot;insert into ct_login ( user_id, pg_acct ) values ( uuid_generate_v4(), 'x' )&quot;
+        }
+    ]
+}
 </code></pre>
 
 <h4>Tags: 1:0,&ldquo;1 to 0&rdquo;,&ldquo;1:0 relationship&rdquo;,&ldquo;1:1&rdquo;</h4>

@@ -3,7 +3,7 @@
 <svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
 	<!-- Copyright (C) University of Wyoming, 2021. -->
 
-	<title>Interactive - 44 - alter table to add columns, remove columns</title>
+	<title>Interactive - 45 - alter table to add columns, remove columns</title>
 
 	<g id='columnGroup'>
 		<rect x='1' y='1' width='1800' height='750' fill='white'/>
@@ -12,7 +12,7 @@
 			<tspan x='30' dy='1.7em' font-size='84px' fill="gold">  University of Wyoming</tspan>
 			<tspan x='80' dy='1em' fill="black">	4280 Computer Science</tspan>
 			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
-			<tspan x='80' dy='2em' fill="black">	Interactive - 44 - alter table to</tspan>
+			<tspan x='80' dy='2em' fill="black">	Interactive - 45 - alter table to</tspan>
 			<tspan x='80' dy='1em' fill="black">	 add columns, remove columns</tspan>
 		</text>
 	</g>

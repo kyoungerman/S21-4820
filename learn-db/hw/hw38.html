@@ -811,7 +811,7 @@ confuted to &ldquo;lazi&rdquo; the root word.</p>
 
 <p>Let&rsquo;s put the tsvector data type into a table and add some data.</p>
 
-<p>Run the file hw38_07.sql.</p>
+<p>Run the file <code>hw38_07.sql</code>.</p>
 
 <pre><code>DROP TABLE if exists indexed_docs ;
 
@@ -853,6 +853,8 @@ the tokens.  Also note that this ignores the &ldquo;document_body&rdquo; field. 
 <p>Having to update the table after it is changed is far from ideal.   Let&rsquo;s replace this with
 a trigger so that the tokens are always updated.    Also we will add a ranking and  the <code>document_body</code>.</p>
 
+<p>Run the file <code>hw38_10.sql</code>:</p>
+
 <pre><code>CREATE OR REPLACE function indexed_docs_ins_upd()
 RETURNS trigger AS $$
 DECLARE
@@ -880,6 +882,8 @@ CREATE TRIGGER indexd_docs_trig_1
 
 <p>and we will add some data to verify that the trigger works.</p>
 
+<p>Run the file <code>hw38_11.sql</code>:</p>
+
 <pre><code>INSERT INTO indexed_docs ( document_title, document_body ) values
 	( 'Kleptopia: How Dirty Money Is Conquering the World', 'How the flow of dirty money is chaing world politics'),
 	( 'The End of Democracies', 'How democracies aroudn the world are failing.' )
@@ -892,7 +896,9 @@ filled in.</p>
 
 <p>Now add an index to the field so that searches will be fast.</p>
 
-<pre><code>CREATE INDEX indexed_docs_tsv_1 ON indexed_docs USING GIN (document_tokens);  
+<p>Run the file <code>hw38_12.sql</code>:</p>
+
+<pre><code>CREATE INDEX if not exists indexed_docs_tsv_1 ON indexed_docs USING GIN (document_tokens);  
 
 </code></pre>
 
@@ -900,13 +906,13 @@ filled in.</p>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x from ( select count(1) as x from indexed_documents where document_token is not null ) as t1 where t1.x = 4 &ldquo;</h4>
 
-<h4>FiesToRun: hw38_07.sql</h4>
+<h4>FilesToRun: hw38_07.sql</h4>
 
-<h4>FiesToRun: hw38_10.sql</h4>
+<h4>FilesToRun: hw38_10.sql</h4>
 
-<h4>FiesToRun: hw38_11.sql</h4>
+<h4>FilesToRun: hw38_11.sql</h4>
 
-<h4>FiesToRun: hw38_12.sql</h4>
+<h4>FilesToRun: hw38_12.sql</h4>
 
 </div>
 

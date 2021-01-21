@@ -78,6 +78,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default:
 				buffer.WriteByte(ch)
@@ -134,6 +135,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default: // end of ID
 				st = 0
@@ -206,6 +208,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default: // end of ID
 				st = 0
@@ -268,6 +271,7 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 				}
 				buffer.Reset()
 				ch = in[pos]
+				canAs = true
 				pos++
 			default: // end of ID
 				st = 0
@@ -448,6 +452,9 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 		}
 	}
 
+	if ch != ';' {
+		buffer.WriteByte(ch)
+	}
 	// process end of stuff at this point based on state!
 	stmt := strings.Trim(buffer.String(), " \t\n\r\f")
 	if stmt != "" {
@@ -463,12 +470,41 @@ func ScanPostgreSQLText(in string) (stmt_list []string, e_line_no int, e_msg str
 
 }
 
+var canAs = true
+
 func isAsBody(id_list []string) bool {
 	if db2 {
-		fmt.Printf("Words are: %s\n", godebug.SVar(id_list))
+		fmt.Printf("%sWords are: %s%s\n", MiscLib.ColorCyan, godebug.SVar(id_list), MiscLib.ColorReset)
+	}
+	if len(id_list) > 0 && strings.ToLower(id_list[len(id_list)-1]) == "select" {
+		canAs = false
+		return false
+	}
+	if !canAs {
+		return false
 	}
 	if len(id_list) > 0 && strings.ToLower(id_list[len(id_list)-1]) == "as" {
+		// if len(id_list) > 2 && strings.ToLower(id_list[len(id_list)-3]) == "view" {
+		if len(id_list) > 2 && isPrevWord(id_list[0:len(id_list)-2], "view") {
+			if db2 {
+				fmt.Printf("%sview %s\n", MiscLib.ColorYellow, MiscLib.ColorReset)
+			}
+			return false
+		}
+		if db2 {
+			fmt.Printf("%sReturn True!%s\n", MiscLib.ColorYellow, MiscLib.ColorReset)
+		}
 		return true
+	}
+	return false
+}
+
+func isPrevWord(id_list []string, word string) bool {
+	for ii := len(id_list) - 1; ii >= 0; ii-- {
+		w := id_list[ii]
+		if strings.ToLower(w) == strings.ToLower(word) {
+			return true
+		}
 	}
 	return false
 }

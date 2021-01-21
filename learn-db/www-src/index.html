@@ -55,35 +55,11 @@
 					<!-- ==================================================================================================== -->
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
-					<a class="dropdown-item auto-bind" href="#learnList" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
-					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderGradeList" > Grades on Lessons </a>	
+					<a class="dropdown-item auto-bind" href="#learn-list" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch" > Search Tags </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderKeywordSearch" > Keyword Search </a>	
 				</div>
 			</li>
-			<!-- ==================================================================================================== -->
-			<!-- Admin Menu  -->
-			<!-- ==================================================================================================== -->
-			<!--
-			<li class="nav-item dropdown show-logged-in">
-				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account/Admin</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item auto-bind" href="#" id="auth-change-password" data-click="renderChangePassword" > Change Password</a>			
-					<a class="dropdown-item auto-bind" href="#" id="authNewDevAccount" data-click="renderCreateDevUnPwAcct" > New Device Account</a>	
-					<a class="dropdown-item auto-bind" href="#" id="sampleUpload" data-click="renderSampleUpload" > Sample Upload </a>	
-					<a class="dropdown-item" href="#" id="auth-update-info" > Update Info </a>	
-					<a class="dropdown-item" href="#" id="auth-new-account" > New Account</a>	
-					<a class="dropdown-item" href="#" id="auth-new-token-account" > New Token Account</a>	
-					<a class="dropdown-item" href="#" id="admin-change-password" > Change Others Password</a>			
-					<a class="dropdown-item" href="#" id="admin-list-accounts" > List Accounts </a>			
-					<a class="dropdown-item" href="#" id="admin-account-expire" > Set/Update Account Expiration </a>			
-					<a class="dropdown-item" href="#" id="admin-delete-account" > Delete Account </a>			
-					<a class="dropdown-item" href="#" id="admin-invite-registration" > Invite Registration (Create Key) </a>			
-					<a class="dropdown-item" href="#" id="admin-grant-revoke" > Grant / Revoke Privileges </a>			
-				</div>
-			</li>
-            <li class="nav-item show-logged-in">
-                <a class="nav-link" href="#" id="form50-render">List Your Stuff</a>
-            </li>
-			-->
             <li class="nav-item show-anon">
                 <a class="nav-link" href="#" id="getStatus">Status</a>	
             </li>
@@ -97,9 +73,6 @@
     </div>
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item show-anon">
-				<a class="nav-link bind-click" href="#" id="register" name="register" data-click="renderRegister">Register</a>
-            </li>
             <li class="nav-item show-anon">
 				<a class="nav-link bind-click" href="#" id="login" name="login" data-click="renderLoginPage">Login</a>
             </li>
@@ -148,21 +121,25 @@ function URLStrToHash(query) {
 function paintFragment() {
 	var s = window.location.href;
 	var sa = s.split("#");
-console.log ( 'sa=', sa );
+	// console.log ( 'sa=', sa );
 	s = ( sa.length > 1 ) ? sa[1] : "";
-console.log ( 's=', s );
+	// console.log ( 's=', s );
 	sa = s.split(",");
-console.log ( 'sa=', sa );
+	// console.log ( 'sa=', sa );
 	var s2 = ( sa.length > 1 ) ? sa[1] : "";
 	s = sa[0];
-console.log ( 's=', s );
+	// console.log ( 's=', s );
 	if ( s !== "" ) {
 		switch ( s ) {
 		case "learn-list":
 			renderLearnList();
 		break;
 		case "lesson":
-			renderLesson();
+			if ( s2 != "" ) {
+				renderLessonParam(NULL,"tagxyzzy",s2);
+			} else {
+				renderLearnList();
+			}
 		break;
 		default:
 		break;
@@ -336,68 +313,7 @@ function postRenderLearnList () {
 		url: url,
 		data: getdata,
 		success: function (data) {
-			console.log ( "success AJAX", data );
-			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
-
-			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
-				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
-				// disabled changes apearsnce to gray out... don't know how to fix
-				// Use image instead of checkbox?
-				fullRow["xx"] = xx;
-				return qt ( [ '',
-					'       <td>\n',
-					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
-					'       </td>\n',
-				].join(""), fullRow );
-			};
-
-			var x_hdrCfg = {
-				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
-			};
-			var x_rowCfg = {
-				cols: [
-						{ Name: "has_been_seen", fx: ActionFunc },
-						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,lessonParam\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
-						{ Name: "when_seen", defaultIfEmpty: " "},
-				]
-			};
-
-			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
-		},
-		error: function(resp) {
-			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
-				render5SecClearMessage ( );
-			}
-		}
-	});
-}
-
-// -----------------------------------------------------------------------------------------------------------------------
-
-function preRenderGradeList () {
-	console.log ( "pre - GradeList" );
-}
-function postRenderGradeList () {
-	window.g_data = {};
-	console.log ( "post - GradeList" );
-
-	var url = "/api/v1/ct_homework_per_user";
-	var getdata = {
-		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
-	};
-	$.ajax({
-		type: 'GET',
-		url: url,
-		data: getdata,
-		success: function (data) {
-			console.log ( "success AJAX", data );
+			// console.log ( "success AJAX", data );
 			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
 
 			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
@@ -414,19 +330,24 @@ function postRenderGradeList () {
 			function PointsFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
 				return qt ( [ '',
 					'       <td>\n',
-					`			%{pts%} out of %{points_avail%} pts\n`,
+					`			%{pts%}\n`,
 					'       </td>\n',
 				].join(""), fullRow );
 			};
 
 
 			var x_hdrCfg = {
-				ColNames: 	[ { Name:"Viewed?"}, { Name:"Lessons" }, { Name:"Completion Date" }, { Name: "Points" }	],
+				ColNames: 	[
+					{ Name:"Viewed?"},
+					{ Name:"Lessons" },
+					{ Name:"Completion Date" },
+					{ Name:"Pts" } 
+				],
 			};
 			var x_rowCfg = {
 				cols: [
 						{ Name: "has_been_seen", fx: ActionFunc },
-						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,lessonParam\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
 						{ Name: "when_seen", defaultIfEmpty: " "},
 						{ Name: "pts", fx: PointsFunc },
 				]
@@ -436,33 +357,117 @@ function postRenderGradeList () {
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
-			if ( erro ) {
-				erro(resp);
-			} else {
-				var msg = resp.statusText;
-				renderError ( "xyzzy-www-src/index.html:419", msg );
-				render5SecClearMessage ( );
-			}
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
 		}
 	});
 }
 
+// -----------------------------------------------------------------------------------------------------------------------
+function preRenderTagSearch () {
+	console.log ( "pre - TagSearch" );
+}
+function postRenderTagSearch () {
+	// <div id="paint_tags"></div>
+	window.g_data = {};
+	console.log ( "post - TagSearch" );
 
+	var url = "/api/v1/ct_tag_list";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			// console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Tag"} ]
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "tag_word", rowTmpl: "<a href=\"#learnList\" onclick='renderTagSearchParam(event,\"%{tag_id%}\")'>%{tag_word%}</a>" }
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+function renderTagSearchParam(event,tag_id) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log ( "tag_id = ", tag_id );
+			// URIPath:       "/api/v1/ct_homework_by_tag",
+	window.g_data = {};
+
+	var url = "/api/v1/ct_homework_by_tag";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+		, "tag_id"			: tag_id
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			// console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			// console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
 
 // -----------------------------------------------------------------------------------------------------------------------
-function preRenderLesson () {
-	console.log ( "pre - Lesson" );
-	history.pushState({page:"lesson"}, "Lesson", "#lesson");
+function preRenderLesson ( data ) {
+	console.log ( "pre - Lesson", data );
+	if ( data && data.homework_id ) {
+		history.pushState({page:"lesson"}, "Lesson", "#lesson,"+data.homework_id);
+	} else {
+		history.pushState({page:"lesson"}, "Lesson", "#learn-list,465");
+	}
 }
 function postRenderLesson ( fd ) {
 	console.log ( "post - Lesson", fd, window.g_data );
-
-	//	$.get ( "/lesson/l01.html", function ( data ) {
-	//		$("#lesson_text").html ( data );
-	//		console.log ( "pre - Lesson - fetch of partial" );
-	//		} );
 
 	$("#lesson_text").html ( window.g_data.lesson_body );			// line 745
 	window.g_data = {};
@@ -470,21 +475,6 @@ function postRenderLesson ( fd ) {
 
 
 
-// -----------------------------------------------------------------------------------------------------------------------
-function renderLessonParam_old(event,tag){
-	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
-	console.log("renderLessonPram:",tag);
-
-	// Pull data for this user
-	// render page
-
-	window.g_data["lesson_name_2"] = tag;
-	renderLesson( {
-		  "lesson_title":" a Lesson Title : "+tag
-		, "lesson_text": "body of the lesson"
-		, "tag": tag
-	} );
-}
 
 function loadFile ( event, fn ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
@@ -500,7 +490,7 @@ function loadFile ( event, fn ) {
 			$("#stmt").val(data);
 		},
 		error: function(resp) {
-			console.log ( "error AJAX", resp );
+			// console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
 			renderError ( `Failed to get: ${fn}`, msg );
 			render5SecClearMessage ( );
@@ -524,7 +514,7 @@ function renderFileListParams(homework_no){
 			if ( data && data.data && data.data.length ) {
 				mx = data.data.length;
 			}
-			console.log ( "vvvvvvvvv mx = ", mx, data );
+			// console.log ( "vvvvvvvvv mx = ", mx, data );
 			if ( mx > 0 ) {
 				var ss = [];
 				for ( var ii = 0; ii < mx; ii++ ) {
@@ -551,19 +541,20 @@ function renderLessonParam(event,tag,homework_id){
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 	console.log("renderLessonPram_2:",tag,homework_id);
 
-/*
-CREATE TABLE ct_homework (
-	  homework_id				m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
-	, homework_title			text not null
-	, homework_no					text not null
-	, points_avail				int not null default 10
-	, video_url					text not null
-	, video_img					text not null
-	, lesson_body 				JSONb not null 	-- body, html, text etc.
- 	, updated 					timestamp
- 	, created 					timestamp default current_timestamp not null
-);
-*/
+	/*
+	CREATE TABLE ct_homework (
+		  homework_id				m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
+		, homework_title			text not null
+		, homework_no					text not null
+		, points_avail				int not null default 10
+		, video_url					text not null
+		, video_img					text not null
+		, lesson_body 				JSONb not null 	-- body, html, text etc.
+		, updated 					timestamp
+		, created 					timestamp default current_timestamp not null
+	);
+	*/
+
 	var getdata = {
 		  "homework_id"		: homework_id
 		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
@@ -573,15 +564,16 @@ CREATE TABLE ct_homework (
 		url: "/api/v1/ct_homework",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			// console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
 			var parsedJSON = JSON.parse ( data.data[0].lesson_body );
-			console.log ( "    before renderLesson parsedJSON=", parsedJSON );
+			// console.log ( "    before renderLesson parsedJSON=", parsedJSON );
 			window.g_data = parsedJSON;
 			renderLesson( {
 				  "homework_title": data.data[0].homework_title
 				, "homework_text": "Hi There" // parsedJSON.Lesson
 				, "homework_id": data.data[0].homework_id
 				, "homework_no": data.data[0].homework_no
+				, "homework_no_00": ( ( data.data[0].homework_no < 10 ) ? ( "0"+data.data[0].homework_no ) : data.data[0].homework_no )
 				, "video_url": data.data[0].video_url
 				, "video_img": data.data[0].video_img
 				, "tag": tag
@@ -591,8 +583,6 @@ CREATE TABLE ct_homework (
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
-			// $("#output-dbg").text( "Error!"+JSON.stringify(resp) );
-			// alert("got error status="+resp.status+" "+resp.statusText);
 			var msg = resp.statusText;
 			renderError ( "xyzzy-title:doc-index.js:79", msg );
 			render5SecClearMessage ( );
@@ -660,7 +650,7 @@ function testGradeCode ( event ) {
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>> grade it >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			// console.log ( ">>>>>>> grade it >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
 			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
 		},
 		error: function(resp) {
@@ -676,6 +666,59 @@ function testGradeCode ( event ) {
 
 
 
+// -----------------------------------------------------------------------------------------------------------------------
+function submitKeywordSearch() {
+	console.log("submitKeywordSearch");
+	//	<input type="text" class="form-control" id="keyword" name="keyword"/>
+	// <button type="button" class="btn btn-primary bind-click" data-click="submitKeywordSearch">Search</button>
+
+	var getdata = {
+		  "keyword"			: $("#keyword").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_homework_by_keyword",
+		data: getdata,
+		success: function (data) {
+			// console.log ( ">>>>>>> Keyword Search Results >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+
+}
 
 
 
