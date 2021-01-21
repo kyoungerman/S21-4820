@@ -431,14 +431,32 @@
 								<input type="hidden" name="homework_no" id="homework_no" value="{{homework_no}}">
 							<h3> Input </h3>
 
-								<!-- <button type="button" class="btn btn-primary bind-click" data-click="descTable" style="float:right;margin-right:10px;margin-bottom:3px;">Desc</button> -->
-
 								<div class="dropdown" style="float:right;margin-right:10px;margin-bottom:3px;">
 									<button id=list-of-files-button" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										Files
 									</button>
 									<div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
 								</div>
+								<div style="float:right;margin-right:10px;margin-bottom:3px;">
+									<div class="dropdown show">
+									  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+										Describe Table
+									  </a>
+
+									  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+											 <form class="px-4 py-3">
+												<div class="form-group">
+												  <label for="table_name">Table Name</label>
+												  <input type="table_name" class="form-control" style="padding-left:4px;padding-right:4px;" id="table_name" placeholder="TableName">
+												</div>
+												<button type="button" class="btn btn-primary bind-click" data-click="submitDescribe">Run Describe</button>
+											</form>
+
+									  </div>
+									</div>
+								</div>
+
 
 								<div class="form-group">
 									<label for="input_box">SQL Input</label>
@@ -450,6 +468,7 @@
 
 							<h3> Output </h3>
 								<div id="output_box" style="width:100%;min-height:200px;border:1px solid #ced4da;margin-bottom:10px;"></div>
+								<div id="output_table"></div>
 						</form>
 					</div>
 				</div>
@@ -602,7 +621,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0471"></script>
+<script src="/js/cfg.js?_ran_=0497"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -1015,6 +1034,62 @@ function renderLessonParam(event,tag,homework_id){
 }
 
 
+// <!-- <button type="button" class="btn btn-primary bind-click" data-click="submitDescribe">Describe</button> -->
+
+function SQLEncode( s ) {
+	return s;
+}
+
+function submitDescribe(event) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitDescribe");
+
+	var getdata = {
+		  "table_name"		: $("#table_name").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/user-desc-table",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
+			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
+				// console.log ( "614" );
+				for ( var kk = 0, my = data.MsgSet.length; kk < my; kk++ ) {
+					// console.log ( "616" );
+					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length ) {
+						var tab = data.MsgSet[kk].Data;
+						// console.log ( "619", tab );
+						
+						var x_hdrCfg = { ColNames:[] };
+						var x_rowCfg = { cols:[] };
+
+						for ( var key in tab[0] ) {
+							x_hdrCfg.ColNames.push ( { Name: key } );
+							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+						}
+					
+						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
+
+					}
+				}
+			}
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+
+
+
 // <button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
 function submitRunItCode( event ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
@@ -1034,6 +1109,27 @@ function submitRunItCode( event ) {
 		success: function (data) {
 			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
 			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
+			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
+				// console.log ( "614" );
+				for ( var kk = 0, my = data.MsgSet.length; kk < my; kk++ ) {
+					// console.log ( "616" );
+					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length ) {
+						var tab = data.MsgSet[kk].Data;
+						// console.log ( "619", tab );
+						
+						var x_hdrCfg = { ColNames:[] };
+						var x_rowCfg = { cols:[] };
+
+						for ( var key in tab[0] ) {
+							x_hdrCfg.ColNames.push ( { Name: key } );
+							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+						}
+					
+						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
+
+					}
+				}
+			}
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
@@ -1042,7 +1138,6 @@ function submitRunItCode( event ) {
 			render5SecClearMessage ( );
 		}
 	});
-
 }
 
 
@@ -1209,15 +1304,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00471"></script>
-<script src="/js/table.js?_ran_=00471"></script>
+<script src="/js/doc-index.js?_ran_=00497"></script>
+<script src="/js/table.js?_ran_=00497"></script>
 
-<script src="/js/doc-form25.js?_ran_=0471"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0497"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0471 - 2019-12-18T00:00:00");
+console.log ( "Version 0497 - 2019-12-18T00:00:00");
 </script>
 
 </body>

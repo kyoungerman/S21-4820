@@ -50,19 +50,40 @@ run: all
 deploy0: all
 	tar -czf ../blob.tar.gz ./learn-db ./www ./hw ./data ./prod-key
 	scp ../blob.tar.gz pschlump@nfc-auth.com:/tmp
+	echo
 	scp ./prod-cfg.json pschlump@nfc-auth.com:/home/pschlump/learn-db/cfg.json
-	scp ./db_cfg.json  pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	scp ./basic-run.sh pschlump@nfc-auth.com:/home/pschlump/learn-db/
-	scp ./hw/*.csv pschlump@nfc-auth.com:/home/pschlump/learn-db/
-	tar -czf ../blob.tar.gz ./www ./hw ./prod-key
-	scp ../blob.tar.gz pschlump@nfc-auth.com:/tmp
+	echo
+	scp ./db_cfg.json  pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./www      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./data     			pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./hw      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
+	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./mt      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
 
-deploy: 
-	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/
-	scp ./hw/gen_data.sql pschlump@nfc-auth.com:/home/pschlump/learn-db/
-	tar -czf ../blob.tar.gz ./www ./hw ./mt
-	scp ../blob.tar.gz pschlump@nfc-auth.com:/tmp
+deploy:  
+	-ssh pschlump@nfc-auth.com "mv learn-db/,learn-db learn-db/,learn-db.1 ; mv learn-db/learn-db learn-db/,learn-db"
+	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/learn-db
+.PHONY: deploy
 
+
+#deploy_74: mk_doc
+#	~/go/src/gitlab.com/pschlump/PureImaginationServer/bin/cmp-prod.sh q8s-service.linux
+#	echo ssh pschlump@192.154.97.74 "mkdir -p ~q8s/q8s/server"
+#	echo ssh pschlump@192.154.97.74 "mkdir -p ~q8s/q8s/server/www"
+#	echo ssh pschlump@192.154.97.74 "mkdir -p ~q8s/q8s/server/Fonts"
+#	-echo ssh pschlump@192.154.97.74 "mv ~q8s/q8s/server/q8s-service.linux ,aaaaa"
+#	echo scp *.linux pschlump@192.154.97.74:/home/q8s/q8s/server
+#	check-json-syntax prod-cfg.json
+#	scp prod-cfg.json pschlump@192.154.97.74:/home/q8s/q8s/server
+#	scp run-prod.sh pschlump@192.154.97.74:/home/q8s/q8s/server
+#	scp prod-cfg.js pschlump@192.154.97.74:/home/q8s/q8s/server
+#	scp *.sql pschlump@192.154.97.74:/home/q8s/q8s/server
+#	echo scp prod-cfg.js pschlump@192.154.97.74:/home/q8s/q8s/server/www/js/cfg.js
+#	rsync -r -a -v -e "ssh -l pschlump"    --delete --exclude www/qr 		./www      			pschlump@192.154.97.74:/home/q8s/q8s/server
+#	echo rsync -r -a -v -e "ssh -l pschlump"    --delete 					./Fonts    			pschlump@192.154.97.74:/home/q8s/q8s/server
+#	scp *.png pschlump@192.154.97.74:/home/q8s/q8s/server
+#	echo "deploy-to-prod: " ${GIT_COMMIT} `date` >>build-log.txt 
+#.PHONY: deploy_74
 
 
 FR=./tmpl/md/
@@ -71,7 +92,7 @@ mk_doc: ./www/api-doc.html
 .PHONY: mk_doc
 
 ./www/api-doc.html: ./tmpl/api-doc.md
-	markdown-cli --input=./tmpl/api-doc.md --output=,api-doc.html
+	blackfriday-tool ./tmpl/api-doc.md ,api-doc.html
 	cat ${FR}/css/pre ${FR}/css/markdown.css ${FR}/css/post ./tmpl/md/md.css ${FR}/css/hpre ,api-doc.html ${FR}/css/hpost >/tmp/api-doc.html
 	mv /tmp/api-doc.html ./www/api-doc.html
 

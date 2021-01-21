@@ -290,6 +290,7 @@ func main() {
 		6. Grade it (Report validation results)
 	*/
 	mux.Handle("/api/v1/run-sql-in-db", http.HandlerFunc(HandleRunSQLInDatabase)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
+	mux.Handle("/api/v1/user-desc-table", http.HandlerFunc(HandleDescTable)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
 
 	// For the list of end-points (URI Paths) see ./handle.go
 	ymux.HandleTables(mux, &(gCfg.BaseConfigType))

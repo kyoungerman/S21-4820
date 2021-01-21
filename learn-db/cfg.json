@@ -14,8 +14,10 @@
 	, "base_server_url": "http://192.168.0.23:7001"
 
 	, "auth_method":				"jwt"
-	, "auth_jwt_public_file" : 		"test-key/ecdsa-p256-public.pem"
-	, "auth_jwt_private_file": 		"test-key/ecdsa-p256-private.pem"
+	, "x_auth_jwt_public_file" : 		"test-key/ecdsa-p256-public.pem"
+	, "x_auth_jwt_private_file": 		"test-key/ecdsa-p256-private.pem"
+	, "auth_jwt_public_file" : 		"prod-key/ecdsa-p256-public.pem"
+	, "auth_jwt_private_file": 		"prod-key/ecdsa-p256-private.pem"
 	, "auth_jwt_key_type":       	"ES256"
 
 	, "doc_md":"./www/api-doc.html"

@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+
+	<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+	<!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+
+    <title>Lessons</title>
+<style>
+.some-style {
+	
+}
+.fixed-width-200 {
+	width: 200px;
+	margin-top: 5px;
+}
+.colorGray {
+	color: #bbb;
+}
+.form-inline-checkbox {
+	width: 30px;
+	display: inline-block;
+	margin-top: -5px;
+}
+.form-inline-checkbox:disabled {
+	background-color: green;
+}
+.form-inline-chebox-label {
+	position: relative;
+	top: -13px;
+}
+.button-table td {
+	padding: 10px;
+	
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item dropdown show-logged-in">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Lesson Items</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Main Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item auto-bind" href="#learn-list" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch" > Search Tags </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderKeywordSearch" > Keyword Search </a>	
+				</div>
+			</li>
+            <li class="nav-item show-anon">
+                <a class="nav-link" href="#" id="getStatus">Status</a>	
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Lessons</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item show-anon">
+				<a class="nav-link bind-click" href="#" id="login" name="login" data-click="renderLoginPage">Login</a>
+            </li>
+            <li class="nav-item show-logged-in">
+				<a class="nav-link bind-click" href="#" id="logout" name="logout" data-click="renderLogout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="top-of-page">
+
+		<h1 id="speical-title">&nbsp;</h1>
+
+		<div class="content container" id="msg"></div>
+		<div class="content container" id="body"></div>
+
+	</div>
+
+<!-- Found at line 95 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
+
+<script type="text/html" id="dom-template-Register">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Register for {{app_name}}</h2></div>
+				<div class="card-body">
+					<form id="form01" action="/api/v2/register" method="POST" class="bind-submit-funcs">
+						<div class="form-group">
+							<label for="real_name">Your Name</label>
+							<input type="text" class="form-control" id="real_name" name="real_name"/>
+						</div>
+						<div class="form-group">
+							<label for="real_name">Registration key</label>
+							<input type="text" class="form-control" id="registration_token" name="registration_token"/>
+						</div>
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" class="form-control" id="username" name="username"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password"/>
+						</div>
+						<div class="form-group">
+							<label for="again">Password Again</label>
+							<input type="password" class="form-control" id="again" name="again"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitRegister">Register Now</button>
+						<a class="btn btn-primary bind-click" data-click="forgottenPassword">Forgotton Password</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-Pin2fa">
+	<div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card bg-default">
+					<div class="card-header"><h2>Two Factor PIN</h2></div>
+					<div class="card-body">
+						<form id="form01" data-global='{ "username" : g_username, "user_id" : g_user_id }' action="/api/v2/2fa-validate-pin" method="POST">
+							<div class="form-group">
+								<label for="pin2fa">Pin From Your Device</label>
+								<input type="text" class="form-control" id="pin2fa" name="pin2fa"/>
+							</div>
+							<button type="button" class="btn btn-primary bind-click" data-click="submitPin2fa">Log In</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="dom-template-RecoverForgottenPassword">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Recover Forgotton Password</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" class="form-control" id="email" name="email"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitRecoverPasswordPt1">Recover/Reset Forgotton Password</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-LearnList">
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Lesson List</h2></div>
+				<div class="card-body">
+					<div id="table-paint">
+						<form id="form01" action="/api/v1/lesson-list" method="POST" class="bind-submit-table">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-DisplayRegistrationQR">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Register for {{app_name}}</span></h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<img class="qr-code" src="{{qr_url}}">
+						<button type="button" class="btn btn-primary bind-click" data-click="submit2faSetupComplete">Two Facor Authenticator : Setup Complete</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-SampleUpload">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Document Upload Sample</h2></div>
+				<div class="card-body">
+					<form id="form01" action="/api/upload-document" method="POST" class="bind-submit-funcs">
+						<div class="form-group">
+							<label for="username">Title / Description</label>
+							<input type="text" class="form-control" id="note" name="note"/>
+						</div>
+						<div class="form-group">
+							<div class="custom-file">
+								<label id="file-label" for="file-id" class="custom-file-label">Upload Test Document</label>
+								<input type="file" class="custom-file-input" id="file-id" name="file">
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitSampleUpload">Add Document</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p id="upload-status"></p>
+	<p id="progress"></p>
+	<pre id="result"></pre>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-KeywordSearch">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Keyword Search</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="username">Words to Search For</label>
+							<input type="text" class="form-control" id="keyword" name="keyword"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitKeywordSearch">Search</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-X2faPin">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Enter 6-Digit Authenticator Pin For {{app_name}}</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="pin2fa">Two Factor Authentication PIN</label>
+							<input type="text" class="form-control" id="pin2fa" name="pin2fa"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitValidate2faPin">Finish Login Now</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-TagSearch">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Search Tags</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div id="paint_tags"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-CreateDevUnPwAcct">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Create Device Account For {{app_name}}</h2></div>
+				<div class="card-body">
+					<form id="form08" action="/api/v2/create-dev-un-pw" method="POST" class="bind-submit-funcs auto-submit">
+						<input type="hidden" name="_ran_" id="_ran_">
+						<input type="hidden" name="__method__" value="POST">
+						<div class="form-group">
+							<label for="real_name">Device Name (Or Device Identifier)</label>
+							<input type="text" class="form-control" id="app_name" name="app_name"/>
+						</div>
+						<div class="form-group">
+							<label for="username">Device Username</label>
+							<input type="text" class="form-control" id="loginname" name="loginname"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click"
+							data-click="submitDevUnPwCreate"
+							data-formid="#fomr08"
+							data-succTitle="Device Account Created"
+							data-succMsg="You have successfully created an account for a device to login with."
+							data-errTitle="Failed to Create Device Account"
+							data-errMsg="Unable to Create Account: {%msg%} {%id%}"
+						>Create Account</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-TitleMainPage">
+<div>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-8">
+		  <div class="card mb-8 box-shadow bg-primary" style="height:200px;">
+				<div class="card-body">
+				  <p class="card-text"><h1> {{class_name}} Lessons </h1></p>
+				  <div class="d-flex justify-content-between align-items-center">
+					A set of lessons for {{class_note}} for the {{class_no}} class. <br>
+				  </div>
+				</div>
+		  </div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-ChangePassword">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Chagne your Password</h2></div>
+				<div class="card-body">
+					<form id="form07" action="/api/v2/change-password" method="POST" class="bind-submit-funcs">
+						<input type="hidden" name="_ran_" id="_ran_">
+						<input type="hidden" name="__method__" value="POST">
+						<div class="form-group">
+							<label for="password">Old Password</label>
+							<input type="password" class="form-control" id="old_pw" name="old_pw"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="new_password" name="new_password"/>
+						</div>
+						<div class="form-group">
+							<label for="again">Password Again</label>
+							<input type="password" class="form-control" id="confirm" name="confirm"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitChangePassword">Chagne Password Now</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-Logout">
+<span></span>
+</script>
+
+<script type="text/html" id="dom-template-Lesson">
+<style>
+.video-js {
+	width: 100%;
+	height: 678px;
+}
+</style>
+
+
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Lesson: {{homework_title}}</h2></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--
+			fmt.Printf("[%s](http://uw-s20-2015.s3.amazonaws.com/%s)<br>\n", s2[0], s2[3])
+-->
+
+<video id="my-video" class="video-js" controls preload="auto" width="1640" height="1264" poster="/img/{{video_img}}" data-setup="{}">
+	<source src="https://uw-s20-2015.s3.amazonaws.com/ihw{{homework_no_00}}.mp4" type="video/mp4" />
+	<p class="vjs-no-js">
+	  To view this video please enable JavaScript, and consider upgrading to a web browser that
+	  <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+	</p>
+</video>
+
+
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-body">
+					<div id="table-paint">
+						<form id="form01" action="/api/v1/homework" method="POST" class="bind-submit-table">
+							<h3> Desc </h3>
+								<div id="homework_text"> xxxxxxxxxxxxxxxxx {{homework_text}} </div>
+								<input type="hidden" name="homework_id" id="homework_id" value="{{homework_id}}">
+								<input type="hidden" name="homework_no" id="homework_no" value="{{homework_no}}">
+							<h3> Input </h3>
+
+								<!-- <button type="button" class="btn btn-primary bind-click" data-click="descTable" style="float:right;margin-right:10px;margin-bottom:3px;">Desc</button> -->
+
+								<div class="dropdown" style="float:right;margin-right:10px;margin-bottom:3px;">
+									<button id=list-of-files-button" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Files
+									</button>
+									<div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
+								</div>
+
+								<div class="form-group">
+									<label for="input_box">SQL Input</label>
+									<textarea class="form-control" id="stmt" style="width:100%;" rows="15" name="stmt" ></textarea>
+								</div>
+
+								<button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
+								<button type="button" class="btn btn-primary bind-click" data-click="testGradeCode">Test/Grade Code</button>
+
+							<h3> Output </h3>
+								<div id="output_box" style="width:100%;min-height:200px;border:1px solid #ced4da;margin-bottom:10px;"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-GradeList">
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2> Grades on completed interactie homework</h2></div>
+				<div class="card-body">
+					<div id="table-paint">
+						<form id="form01" action="/api/v1/grade-list" method="POST" class="bind-submit-table">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-LoginPage">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Login</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" class="form-control" id="username" name="username"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitLogin">Log In</button>
+						<a class="btn btn-primary bind-click" data-click="forgottenPassword">Forgotton Password</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script>
+
+function URLStrToHash(query) {
+	var rv = {};
+	var decode = function (s) { return decodeURIComponent(s.replace(/^\?/,"").replace(/\+/g, " ")); };
+
+	var p1 = query.replace(/([^&=]+)=?([^&]*)/g,function(j,n,v){
+		n = decode(n);
+		v = decode(v);
+		if ( typeof(rv[n]) === "undefined" ) {
+			rv[n] = ( typeof v === "undefined" ) ? "" : v;
+		} else if ( typeof(rv[n]) === "string" ) {
+			var x = rv[n];
+			rv[n] = [];
+			rv[n].push ( x );
+			rv[n].push ( v );
+		} else {
+			rv[n].push ( v );
+		}
+		return "";
+	});
+	return rv;
+}
+
+function paintFragment() {
+	var s = window.location.href;
+	var sa = s.split("#");
+	// console.log ( 'sa=', sa );
+	s = ( sa.length > 1 ) ? sa[1] : "";
+	// console.log ( 's=', s );
+	sa = s.split(",");
+	// console.log ( 'sa=', sa );
+	var s2 = ( sa.length > 1 ) ? sa[1] : "";
+	s = sa[0];
+	// console.log ( 's=', s );
+	if ( s !== "" ) {
+		switch ( s ) {
+		case "learn-list":
+			renderLearnList();
+		break;
+		case "lesson":
+			if ( s2 != "" ) {
+				renderLessonParam(NULL,"tagxyzzy",s2);
+			} else {
+				renderLearnList();
+			}
+		break;
+		default:
+		break;
+		}
+	}
+}
+
+var g_origin = window.location.origin;
+if ( ! g_origin ) {			// Probablyl running on Opera
+	g_origin = window.location.protocol + "//" + window.location.host;
+}
+
+var g_param = URLStrToHash ( window.location.search );
+
+console.log ( window.location.search );
+console.log ( g_param );
+
+window.g_app_data = {};
+
+function setAppData() {
+	//		use URl /index.html - give dropdown for class		
+	//				/4280.html - use URL 
+	//				/4010.html - use URL 
+	switch ( window.location.pathname ) {
+	default:
+	case "/":
+	case "/index.html":
+		window.g_app_data["class_name"] = "UW Class";
+		window.g_app_data["class_note"] = "UW class";
+		window.g_app_data["class_no"] = "a";
+		window.g_app_data["show_dropdown"] = "yes";
+		window.g_app_data["lang_to_use"] = "";
+	break;
+	case "/4280.html":
+		window.g_app_data["class_name"] = "4280";
+		window.g_app_data["class_note"] = "using SQL";
+		window.g_app_data["class_no"] = "4280";
+		window.g_app_data["show_dropdown"] = "no";
+		window.g_app_data["lang_to_use"] = "PostgreSQL";
+	break;
+	case "/4010.html":
+		window.g_app_data["class_name"] = "4010 BlockChain";
+		window.g_app_data["class_note"] = "learning Go";
+		window.g_app_data["class_no"] = "4010 BockChain";
+		window.g_app_data["show_dropdown"] = "no";
+		window.g_app_data["lang_to_use"] = "Go";
+	break;
+	}
+}
+
+setAppData();
+
+</script>
+<script src="/js/cfg.js?_ran_=0471"></script>
+<script>
+	// $(".show-logged-in").hide();
+	var theOddOnes = document.getElementsByClassName("show-logged-in");
+	for(var i=0; i<theOddOnes.length; i++)
+	{
+		// console.log(theOddOnes[i].innerHTML);
+		theOddOnes[i].style.display = 'none';
+	}
+	// document.getElementsByClassName("show-logged-in").style.display = 'none';
+	// document.getElementById('myElement').style.display = 'block'; // show
+	// document.getElementById('myElement').style.display = 'none'; // hide
+</script>
+
+<script src="/js/jquery-3.5.1.js"></script>
+<script src="/js/popper-1.14.7.js"></script>
+<script src="/js/mustache.js" type="text/javascript"></script>
+<script src="/js/jquery.mustache.js" type="text/javascript"></script>
+<script>
+
+	// generate the function for rendering the named template.
+	function genRenderFuncs( fn ) {
+		window["render"+fn] = function( data ) {
+			console.log ( "in render"+fn );
+			renderClearMessage();
+			var yt = {};
+			var xt = ( data ) ? data : {};
+			if ( window.g_data ) {
+				// $.extend ( xt, window.g_data )
+				$.extend ( yt, window.g_data );
+			}
+			if ( window.g_app_data ) {
+				// $.extend ( xt, window.g_data )
+				$.extend ( yt, window.g_app_data );
+			}
+			$.extend ( yt, xt );
+			if ( window["preRender"+fn] ) {
+				console.log ( "preRender"+fn );
+				callFunc ( "preRender"+fn, yt );
+			}
+			$("#body").html("").mustache("dom-template-"+fn, yt )
+			if ( window["postRender"+fn] ) {
+				console.log ( "postRender"+fn );
+				callFunc ( "postRender"+fn, yt );
+			}
+		}
+	}
+
+	// Call a function if it exists, else error
+	function callFunc ( name, param ) {
+		console.log ( "Looking For Function", name);
+		if ( name ) {
+			if ( typeof window[name] === "function" ) {
+				console.log ( "Will Call Function", name, param );
+				var fx = window[name];
+				fx( param );
+			} else {
+				console.log ( "Error - missing function:", name );
+				throw "Missing function";
+			}
+		} else {
+			console.log ( "Called callFunc with undefined, probabl missing data-click in HTML template" );
+		}
+	}
+
+		genRenderFuncs ( "Register" );
+		genRenderFuncs ( "Pin2fa" );
+		genRenderFuncs ( "RecoverForgottenPassword" );
+		genRenderFuncs ( "LearnList" );
+		genRenderFuncs ( "DisplayRegistrationQR" );
+		genRenderFuncs ( "SampleUpload" );
+		genRenderFuncs ( "KeywordSearch" );
+		genRenderFuncs ( "X2faPin" );
+		genRenderFuncs ( "TagSearch" );
+		genRenderFuncs ( "CreateDevUnPwAcct" );
+		genRenderFuncs ( "TitleMainPage" );
+		genRenderFuncs ( "ChangePassword" );
+		genRenderFuncs ( "Logout" );
+		genRenderFuncs ( "Lesson" );
+		genRenderFuncs ( "GradeList" );
+		genRenderFuncs ( "LoginPage" );
+
+(function ($) {
+	$(function () { 
+		$.Mustache.options.warnOnMissingTemplates = true; // Configure jquery-Mustache to warn on missing templates (to aid debugging)
+		$.Mustache.addFromDom();
+		if ( g_param["register_key"] && g_param.register_key.length > 0 ) {
+			console.log ( "Put up the registration page with this filled out", g_param.register_key );
+			renderRegister();
+			$("#registration_token").val( g_param.register_key );
+		} else {
+			renderTitleMainPage(   );
+		}
+		$("#body").on('click','.bind-click',function(){
+			var fx = $(this).data("click");
+			var fd = $(this).data("param");
+			fd = ( fd ) ? { "param": fd } : {};
+			console.log ( "fd=", fd );	
+			callFunc ( fx, fd );
+		});
+	});
+})(jQuery);
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLoginPage () {
+	console.log ( "pre" );
+}
+function postRenderLoginPage () {
+	window.g_data = {};
+	console.log ( "post" );
+}
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+function preRenderLearnList () {
+	console.log ( "pre - LearnList" );
+	history.pushState({page:"learn-list"}, "List of Interactive Homework", "#learn-list");
+}
+function postRenderLearnList () {
+	window.g_data = {};
+	console.log ( "post - LearnList" );
+
+	var url = "/api/v1/ct_homework_per_user";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			// console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+			function PointsFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				return qt ( [ '',
+					'       <td>\n',
+					`			%{pts%}\n`,
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+
+			var x_hdrCfg = {
+				ColNames: 	[
+					{ Name:"Viewed?"},
+					{ Name:"Lessons" },
+					{ Name:"Completion Date" },
+					{ Name:"Pts" } 
+				],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+						{ Name: "pts", fx: PointsFunc },
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+function preRenderTagSearch () {
+	console.log ( "pre - TagSearch" );
+}
+function postRenderTagSearch () {
+	// <div id="paint_tags"></div>
+	window.g_data = {};
+	console.log ( "post - TagSearch" );
+
+	var url = "/api/v1/ct_tag_list";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			// console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Tag"} ]
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "tag_word", rowTmpl: "<a href=\"#learnList\" onclick='renderTagSearchParam(event,\"%{tag_id%}\")'>%{tag_word%}</a>" }
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+function renderTagSearchParam(event,tag_id) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log ( "tag_id = ", tag_id );
+			// URIPath:       "/api/v1/ct_homework_by_tag",
+	window.g_data = {};
+
+	var url = "/api/v1/ct_homework_by_tag";
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+		, "tag_id"			: tag_id
+	};
+	$.ajax({
+		type: 'GET',
+		url: url,
+		data: getdata,
+		success: function (data) {
+			// console.log ( "success AJAX", data );
+			// $("#output-dbg").text( JSON.stringify(data, null, 4) );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+		},
+		error: function(resp) {
+			// console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+function preRenderLesson ( data ) {
+	console.log ( "pre - Lesson", data );
+	if ( data && data.homework_id ) {
+		history.pushState({page:"lesson"}, "Lesson", "#lesson,"+data.homework_id);
+	} else {
+		history.pushState({page:"lesson"}, "Lesson", "#learn-list,465");
+	}
+}
+function postRenderLesson ( fd ) {
+	console.log ( "post - Lesson", fd, window.g_data );
+
+	$("#lesson_text").html ( window.g_data.lesson_body );			// line 745
+	window.g_data = {};
+}
+
+
+
+
+function loadFile ( event, fn ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("loadFile:",fn);
+	var getdata = {
+		  "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/files/"+fn,
+		data: getdata,
+		success: function (data) {
+			$("#stmt").val(data);
+		},
+		error: function(resp) {
+			// console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( `Failed to get: ${fn}`, msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+function renderFileListParams(homework_no){
+	console.log("renderFileListParams:",homework_no);
+	var getdata = {
+		  "homework_no"		: homework_no
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_file_list",
+		data: getdata,
+		success: function (data) {
+			// <div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			var mx = 0;
+			if ( data && data.data && data.data.length ) {
+				mx = data.data.length;
+			}
+			// console.log ( "vvvvvvvvv mx = ", mx, data );
+			if ( mx > 0 ) {
+				var ss = [];
+				for ( var ii = 0; ii < mx; ii++ ) {
+					var fn = data.data[ii].file_name ;
+					ss.push ( `<a class="dropdown-item bind-click" href="#" onclick="loadFile(event,'${fn}');" >${fn}</a>` )
+				}
+				console.log ( ss.join("\n") );
+				$("#list-of-file").html( ss.join("\n") );
+			} else {
+				$("#list-of-file").html("-- no files to run --");
+			}
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "Failed to get list of files", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+// mt/LearnList.html - 
+function renderLessonParam(event,tag,homework_id){
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("renderLessonPram_2:",tag,homework_id);
+
+	/*
+	CREATE TABLE ct_homework (
+		  homework_id				m4_uuid_type() DEFAULT uuid_generate_v4() not null primary key
+		, homework_title			text not null
+		, homework_no					text not null
+		, points_avail				int not null default 10
+		, video_url					text not null
+		, video_img					text not null
+		, lesson_body 				JSONb not null 	-- body, html, text etc.
+		, updated 					timestamp
+		, created 					timestamp default current_timestamp not null
+	);
+	*/
+
+	var getdata = {
+		  "homework_id"		: homework_id
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	}
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_homework",
+		data: getdata,
+		success: function (data) {
+			// console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			var parsedJSON = JSON.parse ( data.data[0].lesson_body );
+			// console.log ( "    before renderLesson parsedJSON=", parsedJSON );
+			window.g_data = parsedJSON;
+			renderLesson( {
+				  "homework_title": data.data[0].homework_title
+				, "homework_text": "Hi There" // parsedJSON.Lesson
+				, "homework_id": data.data[0].homework_id
+				, "homework_no": data.data[0].homework_no
+				, "homework_no_00": ( ( data.data[0].homework_no < 10 ) ? ( "0"+data.data[0].homework_no ) : data.data[0].homework_no )
+				, "video_url": data.data[0].video_url
+				, "video_img": data.data[0].video_img
+				, "tag": tag
+			} );
+			$("#homework_text").html( parsedJSON.Lesson );
+			renderFileListParams(data.data[0].homework_no);
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+
+// <button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
+function submitRunItCode( event ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitRunItCode");
+
+	var getdata = {
+		  "homework_id"		: $("#homework_id").val()
+		, "homework_no"		: $("#homework_no").val()
+		, "stmt"			: $("#stmt").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/run-sql-in-db",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+
+}
+
+
+/*
+select * from ct_val_homework;
+                val_id                | homework_no |    val_type    |                                       val_data                                        | 
+--------------------------------------+-------------+----------------+---------------------------------------------------------------------------------------+
+ 7eca9faf-575d-4716-7485-3824ee87dc25 |           1 | te: SQL-Select | select validate_hw01()                                                                |
+ c6bd189f-e90c-4c2e-7710-5c339eba8954 |           2 | te: SQL-Select | select 'PASS' from name_list where name = 'Philip Schlump'                            |
+ 5f03ddb2-3620-4dac-4170-1b374bcad6a3 |          13 | te: SQL-Select | select 'PASS' from ( select count(1) as cnt from us_state ) as foo where foo.cnt = 53 |
+ 16228a7b-f417-4990-78bf-224514c390c7 |          26 | te: SQL-Select | select select setup_data_26()                                                         |
+
+*/
+// <button type="button" class="btn btn-primary bind-click" data-click="testGradeCode">Test/Grade Code</button>
+function testGradeCode ( event ) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("testGradeCode");
+
+	var getdata = {
+		  "homework_id"		: $("#homework_id").val()
+		, "homework_no"		: $("#homework_no").val()
+		, "stmt"			: $("#stmt").val()
+		, "grade_it"		: "yes"
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/run-sql-in-db",
+		data: getdata,
+		success: function (data) {
+			// console.log ( ">>>>>>> grade it >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+
+}
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+function submitKeywordSearch() {
+	console.log("submitKeywordSearch");
+	//	<input type="text" class="form-control" id="keyword" name="keyword"/>
+	// <button type="button" class="btn btn-primary bind-click" data-click="submitKeywordSearch">Search</button>
+
+	var getdata = {
+		  "keyword"			: $("#keyword").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/ct_homework_by_keyword",
+		data: getdata,
+		success: function (data) {
+			// console.log ( ">>>>>>> Keyword Search Results >>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+
+			function ActionFunc ( idCol, fullRow, fullTableData, rowNum, colNum, colName ) {
+				var xx = ( fullRow.has_been_seen === 'y' ) ? "checked" : "";
+				// disabled changes apearsnce to gray out... don't know how to fix
+				// Use image instead of checkbox?
+				fullRow["xx"] = xx;
+				return qt ( [ '',
+					'       <td>\n',
+					'			<input type="checkbox" %{xx%} class="form-control form-inline-checkbox" id="%{homework_title%}" title="%{homework_title%}"/>\n',
+					'       </td>\n',
+				].join(""), fullRow );
+			};
+
+			var x_hdrCfg = {
+				ColNames: 	[ { Name:"Viewed?"}, 		{ Name:"Lessons" }, 		{ Name:"Completion Date" } 	],
+			};
+			var x_rowCfg = {
+				cols: [
+						{ Name: "has_been_seen", fx: ActionFunc },
+						{ Name: "video_title", rowTmpl: "<a href=\"#learnList,%{homework_id%}\" onclick='renderLessonParam(event,\"%{homework_title%}\",\"%{homework_id%}\")'>%{homework_title%}</a>" },
+						{ Name: "when_seen", defaultIfEmpty: " "},
+				]
+			};
+
+			renderTableTo ( "#form01", data.data, x_hdrCfg, x_rowCfg );
+
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+function postRegistrationSetup( data ) {
+	console.log ( "postRegistrationSetup", data, window.location.pathname );
+	/*
+		curl -H 'Accept: application/json' "http://localhost:7001/api/v1/ct_login?user_id=${user_id}&__method__=POST&pg_acct=acct$2&class_no=$3&lang_to_use=$4" 
+	
+		window.location.pathname == / 				== index.html - display dropdown.
+		window.location.pathname == /4280.html 		== 4280.html
+		window.location.pathname == /4010.html 		== 4010.html
+
+	*/
+}
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+	// history.
+	window.onpopstate = function(event){
+		// console.log ( ">>>>>>>>> PopState called", JSON.stringify(event.state) );
+		if ( event && event.state && event.state.page ) {
+			switch ( event.state.page ) {
+			case "learn-list":
+				renderLearnList();
+			break;
+			default:
+			break;
+			}
+		}
+	};
+});
+
+// -----------------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+	$(".auto-bind").click(function( event ){
+		if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+		callFunc ( $(this).data("click") );
+	});
+});
+
+$(document).ready(function(){
+	setTimeout(function(){
+		try {
+			paintFragment();
+		}
+		catch(err) {
+			console.log( err.message );
+		}	
+	}, 200);
+});
+
+</script>
+
+<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+
+<script src="/js/doc-index.js?_ran_=00471"></script>
+<script src="/js/table.js?_ran_=00471"></script>
+
+<script src="/js/doc-form25.js?_ran_=0471"></script> <!-- login form / registration form -->
+
+<script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
+
+<script>
+console.log ( "Version 0471 - 2019-12-18T00:00:00");
+</script>
+
+</body>
+</html>

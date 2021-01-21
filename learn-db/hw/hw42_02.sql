@@ -1,3 +1,5 @@
+DROP FOREIGN TABLE if exits table1_import ;
+
 CREATE FOREIGN TABLE table1_import (
 	col1 text,
 	col2 text

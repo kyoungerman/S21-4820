@@ -705,6 +705,35 @@ TODO
 TODO
 
 
+## /api/status
+
+TODO
+
+## /api/v1/create-document
+
+TODO
+
+## /api/v1/statusxyzzy1
+
+TODO
+
+## /api/v2/list-registration-tokens
+
+TODO
+
+## /api/v2/re-validate-login
+
+TODO
+
+## /api/v2/admin-set-password
+
+TODO
+
+## /api/v2/create-registration-token
+
+TODO
+
+
 
 
 

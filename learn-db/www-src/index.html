@@ -591,6 +591,62 @@ function renderLessonParam(event,tag,homework_id){
 }
 
 
+// <!-- <button type="button" class="btn btn-primary bind-click" data-click="submitDescribe">Describe</button> -->
+
+function SQLEncode( s ) {
+	return s;
+}
+
+function submitDescribe(event) {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	console.log("submitDescribe");
+
+	var getdata = {
+		  "table_name"		: $("#table_name").val()
+		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+	};
+	console.log ( "getdata=", getdata );
+	$.ajax({
+		type: 'GET',
+		url: "/api/v1/user-desc-table",
+		data: getdata,
+		success: function (data) {
+			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
+			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
+				// console.log ( "614" );
+				for ( var kk = 0, my = data.MsgSet.length; kk < my; kk++ ) {
+					// console.log ( "616" );
+					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length ) {
+						var tab = data.MsgSet[kk].Data;
+						// console.log ( "619", tab );
+						
+						var x_hdrCfg = { ColNames:[] };
+						var x_rowCfg = { cols:[] };
+
+						for ( var key in tab[0] ) {
+							x_hdrCfg.ColNames.push ( { Name: key } );
+							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+						}
+					
+						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
+
+					}
+				}
+			}
+		},
+		error: function(resp) {
+			console.log ( "error AJAX", resp );
+			var msg = resp.statusText;
+			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			render5SecClearMessage ( );
+		}
+	});
+}
+
+
+
+
 // <button type="button" class="btn btn-primary bind-click" data-click="submitRunItCode">Run It Now</button>
 function submitRunItCode( event ) {
 	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
@@ -610,6 +666,27 @@ function submitRunItCode( event ) {
 		success: function (data) {
 			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
 			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
+			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
+				// console.log ( "614" );
+				for ( var kk = 0, my = data.MsgSet.length; kk < my; kk++ ) {
+					// console.log ( "616" );
+					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length ) {
+						var tab = data.MsgSet[kk].Data;
+						// console.log ( "619", tab );
+						
+						var x_hdrCfg = { ColNames:[] };
+						var x_rowCfg = { cols:[] };
+
+						for ( var key in tab[0] ) {
+							x_hdrCfg.ColNames.push ( { Name: key } );
+							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+						}
+					
+						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
+
+					}
+				}
+			}
 		},
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
@@ -618,7 +695,6 @@ function submitRunItCode( event ) {
 			render5SecClearMessage ( );
 		}
 	});
-
 }
 
 

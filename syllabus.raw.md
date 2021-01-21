@@ -1,8 +1,5 @@
 
-<style>
-.pagebreak { page-break-before: always; }
-.half { height: 200px; }
-</style>
+m4_include(setup.m4)
 
 # Syllabus: University of Wyoming Computer Science 4280 Database 
 
@@ -46,7 +43,6 @@ There will be a midterm and a final.   They will be online.
 
 ### Lectures
 
-m4_define([[[m4_comment]]],[[[]]])
 m4_comment([[[
     January 2021      
 Su Mo Tu We Th Fr Sa  

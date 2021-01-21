@@ -32,6 +32,29 @@ var StoredProcConfig = []ymux.CrudStoredProcConfig{
 // Table based end points
 var TableConfig = []ymux.CrudConfig{
 	/*
+		CREATE TABLE ct_login (
+			  user_id					uuid not null primary key -- 1 to 1 to t_ymux_user."id"
+			, pg_acct					char varying (20) not null
+		);
+	*/
+	{
+		CrudBaseConfig: ymux.CrudBaseConfig{
+			URIPath:   "/api/v1/ct_login",
+			AuthKey:   false,
+			JWTKey:    true,
+			NoDoc:     true,
+			AuthPrivs: []string{"role:user"},
+		},
+		MethodsAllowed: []string{"GET", "POST", "PUT", "DELETE"},
+		TableName:      "ct_login",
+		InsertCols:     []string{"user_id", "pg_acct"},
+		InsertPkCol:    "user_id",
+		UpdateCols:     []string{"user_id", "pg_acct"},
+		UpdatePkCol:    "user_id",
+		WhereCols:      []string{"user_id", "pg_acct"},
+	},
+
+	/*
 		create table ct_homework_seen (
 			  id						char varying (40) DEFAULT uuid_generate_v4() not null primary key
 			, user_id					char varying (40)  not null
@@ -482,6 +505,49 @@ var QueryConfig = []ymux.CrudQueryConfig{
 						where t3.user_id = $1
 					)
 				order by 2 asc
+		`,
+	},
+	/*
+	 */
+	{
+		CrudBaseConfig: ymux.CrudBaseConfig{
+			URIPath:       "/api/v1/desc-table",
+			AuthKey:       false,
+			JWTKey:        true,
+			NoDoc:         true,
+			TableNameList: []string{"ct_login"},
+			ParameterList: []ymux.ParamListItem{
+				{ReqVar: "user_id", ParamName: "$1"},
+				{ReqVar: "table_name", ParamName: "$2"},
+			},
+		},
+		/*
+			-- CREATE TABLE ct_tag (
+			-- 	tag_id uuid DEFAULT uuid_generate_v4() not null primary key,
+			-- 	tag_word text not null
+			-- );
+		*/
+		QueryString: `
+			SELECT
+					pg_attribute.attname AS column_name,
+					pg_catalog.format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type
+				FROM
+					pg_catalog.pg_attribute
+					INNER JOIN
+						pg_catalog.pg_class ON pg_class.oid = pg_attribute.attrelid
+					INNER JOIN
+						pg_catalog.pg_namespace ON pg_namespace.oid = pg_class.relnamespace
+				WHERE pg_attribute.attnum > 0
+					AND NOT pg_attribute.attisdropped
+					AND pg_namespace.nspname = 'public'
+					AND pg_class.relname = $1
+					and exists (
+						select 1 as "found"
+						from ct_login as t3
+						where t3.user_id = $1
+					)
+				ORDER BY
+					attnum ASC
 		`,
 	},
 }

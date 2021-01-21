@@ -1,3 +1,5 @@
+drop TABLE if exists test_collection ;
+
 CREATE TABLE test_collection (
 	id serial primary key not null,
 	data JSONB

@@ -738,7 +738,9 @@ get thrown in.</li>
 in MongoDB.  The table will use a GIN index to index all of the
 data in the JSON data.</p>
 
-<pre><code>CREATE TABLE test_collection (
+<pre><code>drop TABLE if exists test_collection ;
+
+CREATE TABLE test_collection (
 	id serial primary key not null,
 	data JSONB
 );

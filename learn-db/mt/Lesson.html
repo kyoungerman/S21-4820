@@ -42,14 +42,32 @@
 								<input type="hidden" name="homework_no" id="homework_no" value="{{homework_no}}">
 							<h3> Input </h3>
 
-								<!-- <button type="button" class="btn btn-primary bind-click" data-click="descTable" style="float:right;margin-right:10px;margin-bottom:3px;">Desc</button> -->
-
 								<div class="dropdown" style="float:right;margin-right:10px;margin-bottom:3px;">
 									<button id=list-of-files-button" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										Files
 									</button>
 									<div id="list-of-file" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
 								</div>
+								<div style="float:right;margin-right:10px;margin-bottom:3px;">
+									<div class="dropdown show">
+									  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+										Describe Table
+									  </a>
+
+									  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+											 <form class="px-4 py-3">
+												<div class="form-group">
+												  <label for="table_name">Table Name</label>
+												  <input type="table_name" class="form-control" style="padding-left:4px;padding-right:4px;" id="table_name" placeholder="TableName">
+												</div>
+												<button type="button" class="btn btn-primary bind-click" data-click="submitDescribe">Run Describe</button>
+											</form>
+
+									  </div>
+									</div>
+								</div>
+
 
 								<div class="form-group">
 									<label for="input_box">SQL Input</label>
@@ -61,6 +79,7 @@
 
 							<h3> Output </h3>
 								<div id="output_box" style="width:100%;min-height:200px;border:1px solid #ced4da;margin-bottom:10px;"></div>
+								<div id="output_table"></div>
 						</form>
 					</div>
 				</div>

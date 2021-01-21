@@ -1,5 +1,6 @@
 get-tags
 ,*
+*.dat
 *.o
 __pycache__
 academic-calendar.pdf

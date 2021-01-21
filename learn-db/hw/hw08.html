@@ -747,7 +747,8 @@ They will not work for this.</p>
 <p>First we are going to rename the table, so we can save
 it for later. (Familiar, we did this last time)</p>
 
-<pre><code>ALTER TABLE name_list
+<pre><code>drop table if exists old_name_list;
+ALTER TABLE name_list
 	RENAME TO old_name_list;
 
 </code></pre>

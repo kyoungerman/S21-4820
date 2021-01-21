@@ -1,17 +1,9 @@
 
+(sasha)
+(started)
+2. Upload videos to YouTube on 4280 Interactive 1..33							!!!!! Get HELP !!!!!
 
 
-(Tuesday)
-Plan
-	1. change JWT tokens on local to prod
-	2. Script to create an account w/ password
-	3. Create all the accounts
-	4. A "template" t0000 user - that has had SQL run
-	5. create database .... template	
-	6. db_*.json file w/ accounts
-
-1. Upload videos - fix to go to S3 - verity URLs of videos.
-2. Upload videos to YouTube on 4280 Interactive 1..33
 
 3. Finish 34
 
@@ -19,15 +11,7 @@ Plan
 
 DO 47 and 50, finish upload.
 
-
-Class:
-	1. List of email 
-	2. Create accounts
-	3. Create database from template
-
-In Tool:
-	4. Describe of table in tool
-	5. Render of HTML table when select data.
+Figure out if something wrong with 30
 
 
 
@@ -37,6 +21,31 @@ In Tool:
 
 
 
+
+
+
+
+
+
+(24th of Jan - do this)
+!!! Nightly backup of ./learndb -> Amazon S3!
+	hourly incremental dump? of grade table -> out to a file
+	hourly monetering 
+
+
+	pg_dump -s databasenamel 
+	save in local .git
+	tar up git
+	compress
+	send to S3
+
+
+
+
+(feb 1)
+Load Issues into Issue Tracker https/easy-2c-why.com/issue/index.html
+
+Add data for students
 
 
 
@@ -66,3 +75,32 @@ REST in GO : https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standa
 	- use table render to do it
 	- call function submitTagSearch(tag) when click on tag
 3. Nee grade on table rendered now 10/10, etc.
+	2. Create accounts
+	3. Create database from template
+
+(Tuesday)
+Plan
+	*1. change JWT tokens on local to prod
+		*2. Script to create an account w/ password
+		*3. Create all the accounts
+	*2. A "template" t0000 user - that has had SQL run
+		*5. create database .... template	
+	*6. db_*.json file w/ accounts
+
+	*1. test script to validate that login works 
+
+	*2. test 1 account from front end
+	*3. verify that connect to correct database
+
+	
+
+*1. Upload videos - fix to go to S3 - verity URLs of videos.
+Class:
+	*1. List of email 
+
+
+done:
+	In Tool:
+		5. Render of HTML table when select data.
+		4. Describe of table in tool
+
