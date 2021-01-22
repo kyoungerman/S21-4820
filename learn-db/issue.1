@@ -1,5 +1,56 @@
 
 
+Fri Jan 22 11:47:48 MST 2021
+
+	Good Morning Professor,
+
+	I am in your 4820 class and I am looking for the interactive homework and I can only see 5-50. Where can I find the first four? Thank you, and I am very much looking forward to this class.
+
+	------
+
+	Bad query and join - elmininated all the homework that sojmebody else had done.
+
+	------
+
+	Resolution: -- changed query to get correct data.
+
+
+Thu Jan 21 14:06:50 MST 2021
+
+	4280 class
+
+	The software for the learning tools is bran new.  I was still adding features on  Wed, 20th.   So this is probably not the last time that we are going to have it crash.
+
+	One of the assignments in this class is to build a simple issue tracking system and
+	the "data" for it is things like this outage.   So... This is my raw assessment of
+	the outrage and what caused it and how it was fixed.
+
+	------ 
+	 
+	Notification of system-down at 10:13am: https://easy-2c-why.com/status
+
+	A quick check via webpage confirmed that the system was down and repointing a 502 error.  Issue confirmed.
+
+	Looking in log files revealed that an error back from "Twillo" resulted in a
+	buffer underflow condition and a core dump.
+
+	An examination of the relevant code failed to indicate the cause for the
+	buffer underflow.   A trial program to send the message was written.
+	The program revealed that the error was "401 Unauthorized".
+
+	A quick check of the authentication key for Twillow revealed that the application
+	was still running the "demo" key and not the played for key.  The key was
+	updated and the application re-started.   This occurred around 1:00pm.
+
+	Mitigation plan.  Change the code so that the access to Twillow is in a new Go thread and it will not hang the main processing in the code.   Implement a backup notification system using SendGrid (email) in case the primary (SMS) notification
+	fails.   Implement a "status" monitoring page outside of the current system.
+
+	------
+
+	In any case - the issue has been resolved for the moment. 
+	I apologize for the inconvenience.
+	I also have a plan going forward to make the software better.
+
 
 
 

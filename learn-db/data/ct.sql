@@ -790,6 +790,32 @@ $$;
 
 select grade_hw_migrate( ) ;
 
--- select grade_hw_no ( '7a955820-050a-405c-7e30-310da8152b6d',  'd66aae56-b399-42ef-5486-519e19c80d05', 10 );
 
+
+
+-- -------------------------------------------------------------------------------------------------------------------------
+
+delete from ct_homework_grade 
+	where user_id = '7a955820-050a-405c-7e30-310da8152b6d'
+	  and homework_id = '19f7c20b-a053-4172-6763-ef82cc7fd761'
+;
+
+select grade_hw_no ( '7a955820-050a-405c-7e30-310da8152b6d', '19f7c20b-a053-4172-6763-ef82cc7fd761', 10 );
+
+select * from ct_homework_grade	
+	where homework_id = '19f7c20b-a053-4172-6763-ef82cc7fd761'
+;
+	
+
+
+
+delete from ct_homework_grade 
+	where user_id = '7a955820-050a-405c-7e30-310da8152b6d'
+;
+
+select grade_hw_no ( '7a955820-050a-405c-7e30-310da8152b6d', '19f7c20b-a053-4172-6763-ef82cc7fd761', 10 );
+
+select * from ct_homework_grade	
+	where homework_id = '19f7c20b-a053-4172-6763-ef82cc7fd761'
+;
 	

@@ -1,5 +1,8 @@
 package scan
 
+// Copyright (C) Philip Schlump, 2015-2021.
+// MIT Licensed - See LICENSE.md file
+
 import (
 	"fmt"
 	"testing"

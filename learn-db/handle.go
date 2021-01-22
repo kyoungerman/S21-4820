@@ -274,12 +274,7 @@ var QueryConfig = []ymux.CrudQueryConfig{
 					, coalesce(greatest(t3.pts,0),null,0,greatest(t3.pts,0)) as pts
 				from ct_homework as t1
 					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
-					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
-				where exists (
-						select 1 as "found"
-						from ct_login as t3
-						where t3.user_id = $1
-					)
+					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id and t3.user_id = $1 )
 				order by 12 asc
 		`,
 	},
@@ -318,13 +313,8 @@ var QueryConfig = []ymux.CrudQueryConfig{
 					, coalesce(greatest(t3.pts,0),null,0,greatest(t3.pts,0)) as pts
 				from ct_homework as t1
 					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
-					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
+					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id and t3.user_id = $1 )
 				where exists (
-						select 1 as "found"
-						from ct_login as t3
-						where t3.user_id = $1
-					)
-				 and exists (
 					select 'found'
 					from ct_tag as s3
 						join ct_tag_homework as s2 on ( s3.tag_id = s2.tag_id )
@@ -369,12 +359,7 @@ var QueryConfig = []ymux.CrudQueryConfig{
 					, coalesce(greatest(t3.pts,0),null,0,greatest(t3.pts,0)) as pts
 				from ct_homework as t1
 					left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
-					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
-				where exists (
-						select 1 as "found"
-						from ct_login as t3
-						where t3.user_id = $1
-					)
+					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id and t3.user_id = $1 )
 				 and lesson_tokens @@ $2
 				order by 12 asc
 		`,
@@ -468,12 +453,7 @@ var QueryConfig = []ymux.CrudQueryConfig{
 					, t3.pass
 					, t3.pts
 				from ct_homework as t1
-					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
-				where exists (
-						select 1 as "found"
-						from ct_login as t3
-						where t3.user_id = $1
-					)
+					left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id and t3.user_id = $1 )
 				order by 12 asc
 		`,
 	},

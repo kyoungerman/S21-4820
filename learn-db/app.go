@@ -1,14 +1,13 @@
 package main
 
+// Copyright (C) University of Wyoming, 2021.
+
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
-	"regexp"
-	"strings"
 
-	"github.com/Univ-Wyo-Education/S21-4280/learn-db/scan"
 	"github.com/pschlump/Go-FTL/server/sizlib"
 	"github.com/pschlump/MiscLib"
 	"github.com/pschlump/godebug"
@@ -283,6 +282,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 					}
 				}
 			case "":
+				fmt.Printf("%sinvalid val_type [%s] AT:%s%s\n", MiscLib.ColorRed, val_type, godebug.LF(), MiscLib.ColorReset)
 				pass = "no"
 			}
 			fmt.Printf("pass [%s] user_id [%s] homework_id [%s] AT:%s\n", pass, user_id, homework_id, godebug.LF())
@@ -440,62 +440,4 @@ func HandleDescTable(www http.ResponseWriter, req *http.Request) {
 	www.WriteHeader(200) // Status Success
 	fmt.Fprintf(www, "%s", rv)
 
-}
-
-// username, err := GetUsernameFromId(user_id)
-func GetUsernameFromId(user_id string) (username string, err error) {
-	qry := `SELECT username FROM t_ymux_user WHERE id = $1`
-	data := sizlib.SelData(DB, qry, user_id)
-	if data == nil || len(data) == 0 {
-		err = fmt.Errorf("Error(190532): Missing - no databases:")
-		return
-	}
-	username = data[0]["username"].(string)
-	//for _, dd := range data {
-	//	db = append(db, dd["datname"].(string))
-	//}
-	return
-}
-
-func SplitIntoStmt(stmt string) (rv []string) {
-
-	rv, _, _, err := scan.ScanPostgreSQLText(stmt)
-	if err != nil {
-		// xyzzy
-	}
-
-	return
-
-}
-
-func IsXXX(stmt, word string) (rv bool) {
-	re := regexp.MustCompile("[ \t\n\r\f]+")
-
-	split := re.Split(stmt, -1)
-	set := []string{}
-
-	for i := range split {
-		if split[i] != "" {
-			set = append(set, split[i])
-		}
-	}
-
-	rv = len(set) > 0 && strings.ToLower(set[0]) == word
-	return
-}
-
-func IsSelect(stmt string) (rv bool) {
-	return IsXXX(stmt, "select") || IsXXX(stmt, "with")
-}
-
-func IsUpdate(stmt string) (rv bool) {
-	return IsXXX(stmt, "update")
-}
-
-func IsDelete(stmt string) (rv bool) {
-	return IsXXX(stmt, "delete")
-}
-
-func IsInsert(stmt string) (rv bool) {
-	return IsXXX(stmt, "insert")
 }
