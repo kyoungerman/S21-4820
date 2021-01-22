@@ -715,7 +715,98 @@ ol {
 
 <h1>Interactive - 34 - explain</h1>
 
-<p>some text</p>
+<p>First you have to understand that different queries will work and perform in different
+ways.  The biggest thing is the query hitting an index.  That is not the only thing.</p>
+
+<pre><code>select
+          t1.homework_id
+        , t1.homework_no
+        , case
+            when t3.pts = 0 then 'n'
+            when t3.pts is null then 'n'
+            else 'y'
+          end as &quot;has_been_seen&quot;
+        , t1.homework_no::int as i_homework_no
+        , coalesce(t3.tries,NULL,0,t3.tries) as tries
+    from ct_homework as t1
+        left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
+        left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
+    where exists (
+            select 1 as &quot;found&quot;
+            from ct_login as t3
+            where t3.user_id = '7a955820-050a-405c-7e30-310da8152b6d'
+        )
+     and ( t3.user_id = '7a955820-050a-405c-7e30-310da8152b6d'
+        or t3.user_id is null )
+    order by 12 asc
+;
+
+</code></pre>
+
+<p>v.s.</p>
+
+<pre><code>select
+          t1.homework_id
+        , t1.homework_no
+        , case
+            when t3.pts = 0 then 'n'
+            when t3.pts is null then 'n'
+            else 'y'
+          end as &quot;has_been_seen&quot;
+        , t1.homework_no::int as i_homework_no
+        , coalesce(t3.tries,NULL,0,t3.tries) as tries
+    from ct_homework as t1
+        left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
+        left outer join ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id 
+            and t3.user_id = '7a955820-050a-405c-7e30-310da8152b6d' )
+    where exists (
+            select 1 as &quot;found&quot;
+            from ct_login as t3
+            where t3.user_id = '7a955820-050a-405c-7e30-310da8152b6d'
+        )
+     order by 4 asc
+;
+
+</code></pre>
+
+<p>both produce the same results.  The first one will construct the set of data from the
+join and then filter it for the user.  An index will not be used because of the <code>or</code> and
+the <code>null</code>.</p>
+
+<p>The 2nd one pre-filters the table <code>ct_homework_graded</code> for just the single user.  Since this is
+an equal condition an index will be used and this smaller set of data then is then
+used in the join.</p>
+
+<p>A better implementation of the 2nd form is:</p>
+
+<pre><code>with per_user_ct_homework_grade as (
+		select * 
+		from ct_homework_grade as t4
+		where t4.user_id ='7a955820-050a-405c-7e30-310da8152b6d' 
+	)
+select
+          t1.homework_id
+        , t1.homework_no
+        , case
+            when t3.pts = 0 then 'n'
+            when t3.pts is null then 'n'
+            else 'y'
+          end as &quot;has_been_seen&quot;
+        , t1.homework_no::int as i_homework_no
+        , coalesce(t3.tries,NULL,0,t3.tries) as tries
+    from ct_homework as t1
+        left outer join ct_homework_seen as t2 on ( t1.homework_id = t2.homework_id )
+        left outer join per_user_ct_homework_grade as t3 on ( t1.homework_id = t3.homework_id )
+     order by 4 asc
+;
+
+</code></pre>
+
+<p>This removes the now unnecessary query to check that it is a valid user id (on ct_login)
+and uses a <code>with</code> to set up the per-user set of data.</p>
+
+<p>The question is now how to figure out what the query planner is doing and what queries
+need to be optimized.</p>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
 
