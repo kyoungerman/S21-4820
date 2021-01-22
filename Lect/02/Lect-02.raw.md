@@ -3,13 +3,13 @@ m4_include(../lect-setup.m4)
 
 # Lecture 02 - Installing PosgreSQL
 
-First - why PogresSQL.
+## First - why PostgreSQL.
 
-What makes ACID important - what is it.
+## What makes ACID important - what is it.
 
 
 
-## Install PogreSQL and pgAdmin
+## Install PostgreSQL and pgAdmin
 
 
 ### Windows
