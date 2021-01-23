@@ -32,7 +32,7 @@ Syllabus of Class
 Plan:
 
 Create a multi-user one-db per user database at:
-	https://uw4280.easy-2c-why.com ->
+	https://uw4820.easy-2c-why.com ->
 		Server.
 
 

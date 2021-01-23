@@ -1,4 +1,4 @@
-module github.com/Univ-Wyo-Education/S21-4280/learn-db/hw
+module github.com/Univ-Wyo-Education/S21-4820/learn-db/hw
 
 go 1.15
 

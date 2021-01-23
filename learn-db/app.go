@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/pschlump/Go-FTL/server/sizlib"
@@ -267,23 +268,31 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 				}
 			case "CountRows":
 				var cnt CountRowsType
-				err := json.Unmarshal([]byte(val_data), &cnt)
+				decodedValue, err := url.QueryUnescape(val_data)
 				if err != nil {
-					pass = "no"
-					// xyzzy
+					pass = "PASS"
+					fmt.Fprintf(os.Stderr, "%surl.QueryUnescape Error[%s] AT:%s%s\n", MiscLib.ColorRed, err, godebug.LF(), MiscLib.ColorReset)
 				} else {
-					for _, xx := range sRv.MsgSet {
-						if xx.Data != nil {
-							l := len(xx.Data)
-							if godebug.InArrayInt(l, cnt.Nr) != -1 {
-								pass = "PASS"
+					err := json.Unmarshal([]byte(decodedValue), &cnt)
+					fmt.Printf("%sdata to json.Unmarshal -->>%s<<-- ->>%s<-- err = %s%s\n", MiscLib.ColorYellow, val_data, decodedValue, err, MiscLib.ColorReset)
+					if err != nil {
+						pass = "PASS"
+						fmt.Fprintf(os.Stderr, "%sJSON Error[%s] AT:%s%s\n", MiscLib.ColorRed, err, godebug.LF(), MiscLib.ColorReset)
+					} else {
+						for _, xx := range sRv.MsgSet {
+							if xx.Data != nil {
+								l := len(xx.Data)
+								if godebug.InArrayInt(l, cnt.Nr) != -1 {
+									pass = "PASS"
+								}
 							}
 						}
 					}
 				}
 			case "":
 				fmt.Printf("%sinvalid val_type [%s] AT:%s%s\n", MiscLib.ColorRed, val_type, godebug.LF(), MiscLib.ColorReset)
-				pass = "no"
+				// pass = "no 2"
+				pass = "PASS"
 			}
 			fmt.Printf("pass [%s] user_id [%s] homework_id [%s] AT:%s\n", pass, user_id, homework_id, godebug.LF())
 			if pass == "PASS" {

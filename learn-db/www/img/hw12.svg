@@ -10,7 +10,7 @@
 
 		<text x='30' y='30' font-size='64px' font-weight='bold' fill='brown'>
 			<tspan x='30' dy='1.7em' font-size='84px' fill="gold">  University of Wyoming</tspan>
-			<tspan x='80' dy='1em' fill="black">	4280 Computer Science</tspan>
+			<tspan x='80' dy='1em' fill="black">	4820 Computer Science</tspan>
 			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
 			<tspan x='80' dy='2em' fill="black">	Interactive - 12 - fix our</tspan>
 			<tspan x='80' dy='1em' fill="black">	 duplicate data</tspan>

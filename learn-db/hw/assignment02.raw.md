@@ -39,7 +39,7 @@ for the homework.
 ## Running finished program
 
 Checkout a current copy of the 
-[https://github.com/Univ-Wyo-Education/S21-4280/learn-db/hw](https://github.com/Univ-Wyo-Education/S21-4280/learn-db/hw)
+[https://github.com/Univ-Wyo-Education/S21-4820/learn-db/hw](https://github.com/Univ-Wyo-Education/S21-4820/learn-db/hw)
 directory.   Run your program on all the `hw*.raw.md` files.
 
 

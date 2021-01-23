@@ -48,7 +48,7 @@ import (
 	"gitlab.com/pschlump/PureImaginationServer/ymux"
 )
 
-var dest = "/home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/www/files"
+var dest = "/home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4820/learn-db/www/files"
 
 func main() {
 	flag.Parse() // Parse CLI arguments to this, --cfg <name>.json
@@ -133,7 +133,7 @@ func readFile(fn string) (n_err int) {
 
 		<text x='30' y='30' font-size='64px' font-weight='bold' fill='brown'>
 			<tspan x='30' dy='1.7em' font-size='84px' fill="gold">  University of Wyoming</tspan>
-			<tspan x='80' dy='1em' fill="black">	4280 Computer Science</tspan>
+			<tspan x='80' dy='1em' fill="black">	4820 Computer Science</tspan>
 			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
 			<tspan x='80' dy='2em' fill="black">	%s</tspan>
 			<tspan x='80' dy='1em' fill="black">	%s</tspan>

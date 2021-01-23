@@ -729,7 +729,7 @@ CREATE SERVER import FOREIGN DATA WRAPPER file_fdw;
 
 </code></pre>
 
-<p>Then we can use data on the PostgreSQL server and access it.   There is a file with data on our server at <code>/home/uw4280/hw42_data.csv</code>.</p>
+<p>Then we can use data on the PostgreSQL server and access it.   There is a file with data on our server at <code>/home/uw4820/hw42_data.csv</code>.</p>
 
 <p>The data in the file is:</p>
 
@@ -746,7 +746,7 @@ abc,jkl
 CREATE FOREIGN TABLE table1_import (
 	col1 text,
 	col2 text
-) SERVER import OPTIONS ( filename '/home/uw4280/hw42_03.csv', format 'csv' );
+) SERVER import OPTIONS ( filename '/home/uw4820/hw42_03.csv', format 'csv' );
 
 </code></pre>
 

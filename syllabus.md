@@ -14,7 +14,7 @@
 
 
 
-# Syllabus: University of Wyoming Computer Science 4280 Database 
+# Syllabus: University of Wyoming Computer Science 4820 Database 
 
 ## Spring 2021
 
@@ -27,7 +27,7 @@ and pschlump@gmail.com (personal email).
 If you call me to set up an appointment, you will need to send me a SMS message
 first so that I enter your name into my contact list.  I get 10+ robo-calls a day and
 I will not answer a random number.  Text me with your name and that you are a student
-in 4280 class.
+in 4820 class.
 
 ### Overview
 
