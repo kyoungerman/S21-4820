@@ -3,6 +3,14 @@ package scan
 // Copyright (C) Philip Schlump, 2015-2021.
 // MIT Licensed - See LICENSE.md file
 
+/*
+Plan:
+	Add a R.R. Tracks language that allows for partial parsing?
+	Acually go get the grammar for SQL and use that?
+	Find all the "as" and find out how do it?
+	Test with real code?
+*/
+
 import (
 	"bytes"
 	"fmt"
