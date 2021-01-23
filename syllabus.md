@@ -125,6 +125,13 @@ There will be a midterm and a final.   They will be online.
 4. Future of Database - Mar 15
 5. SQL or NoSQL - Mar 29
 
+### Textbook
+
+Practical SQL: A Beginner's Guide to Storytelling with Data, by 
+by Anthony DeBarros  .
+
+
+
 
 
 

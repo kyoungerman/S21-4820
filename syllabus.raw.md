@@ -153,6 +153,13 @@ Su Mo Tu We Th Fr Sa
 4. Future of Database - Mar 15
 5. SQL or NoSQL - Mar 29
 
+### Textbook
+
+Practical SQL: A Beginner's Guide to Storytelling with Data, by 
+by Anthony DeBarros  .
+
+
+
 
 
 

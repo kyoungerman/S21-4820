@@ -121,6 +121,13 @@ ToDo
 
 # Interactive - 50 - Geometric Data / PostGIS
 
+1. On "testing" use examles from our app learnd-db
+2. send email with the "book" in it
+
+
+
+
+
 
 
 
@@ -133,22 +140,23 @@ ToDo
 ---------------------------------------------------------------------------------------------------------------
 
 1. Application 
-	0. back button 
+	*0. back button 
 		(Partially complete - works with learn-list but not in a "general" sence and can not bookmark)
 		https://stackoverflow.com/questions/25806608/how-to-detect-browser-back-button-event-cross-browser	
 		-- includes backspace key for back to previous page --
 		https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate	
 
-	1. a "Next" button (better have a "prev" button also)
-	2. grades on array/list
-	3. =catch= "Leave w/o doing the "grade button""
-1. Class stuff, 34, 50
-2. Start push-up of videos (edit YouTube links into videos)
+	no: 1. a "Next" button (better have a "prev" button also)
+	no: 2. grades on array/list
+	no: 3. =catch= "Leave w/o doing the "grade button""
 
 
 server
 	1. if syntax error in SQL - fail to report it as an error. this is the "t0WHERE" concatenation thing.
 	1. if syntax error in SQL - fail to prevent concatenation from juxtaposing to terms. this is the "t0WHERE" concatenation thing.
+
+
+
 
  \o /tmp/output.txt
 
@@ -494,3 +502,5 @@ OWNER [Your username];
 	# Interactive - 47 - null, NULL, case coalesce nullif
 	See:https://www.postgresqltutorial.com/ 
 
+1. Class stuff, 34, 50
+2. Start push-up of videos (edit YouTube links into videos)
