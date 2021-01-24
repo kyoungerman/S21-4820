@@ -12,6 +12,7 @@ import (
 	"github.com/pschlump/Go-FTL/server/sizlib"
 	"github.com/pschlump/MiscLib"
 	"github.com/pschlump/godebug"
+	"gitlab.com/pschlump/PureImaginationServer/auth_check"
 	"gitlab.com/pschlump/PureImaginationServer/ymux"
 )
 
@@ -346,7 +347,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 		//		insert/update this hw to reflect points_avail - into ct_homework_grade - if update, increment tries, set pass & pts
 	}
 
-	www.Header().Set("Content-Type", "application/json")
+	auth_check.SetJsonHdr(www, req)
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
 	www.WriteHeader(200) // Status Success
 	fmt.Fprintf(www, "%s", rv)
@@ -444,7 +445,7 @@ func HandleDescTable(www http.ResponseWriter, req *http.Request) {
 	rv = godebug.SVarI(sRv)
 	fmt.Fprintf(os.Stderr, "%sOutput From Describe ->%s<- AT:%s%s\n", MiscLib.ColorGreen, rv, godebug.LF(), MiscLib.ColorReset)
 
-	www.Header().Set("Content-Type", "application/json")
+	auth_check.SetJsonHdr(www, req)
 	fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
 	www.WriteHeader(200) // Status Success
 	fmt.Fprintf(www, "%s", rv)

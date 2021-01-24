@@ -58,10 +58,10 @@ deploy0: all
 	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./www      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./data     			pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./mt      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
-
-deploy:  
 	-ssh pschlump@nfc-auth.com "mv learn-db/,learn-db learn-db/,learn-db.1 ; mv learn-db/learn-db learn-db/,learn-db"
 	scp ./learn-db pschlump@nfc-auth.com:/home/pschlump/learn-db/learn-db
+
+deploy:  
 	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./hw      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
 .PHONY: deploy
 

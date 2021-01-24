@@ -30,11 +30,9 @@ import (
 	"gitlab.com/pschlump/PureImaginationServer/CliResponseWriter"
 	pgsave "gitlab.com/pschlump/PureImaginationServer/PgSave"
 	"gitlab.com/pschlump/PureImaginationServer/ReadConfig"
-	"gitlab.com/pschlump/PureImaginationServer/UploadFile"
 	"gitlab.com/pschlump/PureImaginationServer/apache_logger"
 	"gitlab.com/pschlump/PureImaginationServer/auth_check"
 	"gitlab.com/pschlump/PureImaginationServer/awss3"
-	"gitlab.com/pschlump/PureImaginationServer/base"
 	"gitlab.com/pschlump/PureImaginationServer/email"
 	"gitlab.com/pschlump/PureImaginationServer/ethProc"
 	"gitlab.com/pschlump/PureImaginationServer/get"
@@ -79,8 +77,6 @@ type GlobalConfigData struct {
 	pstate.PstateConfigType
 
 	QRGeneration
-
-	UploadFile.UploadFileCfg
 
 	ExpiredConnectionThreshold int `json:"expired_connection_threshold" defauilt:"50000"`
 }
@@ -254,41 +250,18 @@ func main() {
 	}
 
 	// ------------------------------------------------------------------------------
-	// Configure Upload File
-	// ------------------------------------------------------------------------------
-	UploadFile.Setup(&(gCfg.UploadFileCfg), DbOn, logFilePtr, awsSession)
-
-	// ------------------------------------------------------------------------------
 	// Setup HTTP End Points
 	// ------------------------------------------------------------------------------
 	mux := ymux.NewServeMux(logFilePtr, &(gCfg.BaseConfigType))
 	mux.BaseServerUrl = gCfg.QRGeneration.BaseServerUrl // {{.scheme}}
 
-	mux.Handle("/api/v1/status", http.HandlerFunc(HandleStatus)).DocTag("<h2>/api/v1/status")
-	mux.Handle("/api/status", http.HandlerFunc(HandleStatus)).DocTag("<h2>/api/status")
-	mux.Handle("/status", http.HandlerFunc(HandleStatus)).Method("GET", "POST").DocTag("<h2>/status")
+	mux.Handle("/api/v1/status", http.HandlerFunc(auth_check.HandleStatus)).DocTag("<h2>/api/v1/status")
+	mux.Handle("/api/status", http.HandlerFunc(auth_check.HandleStatus)).DocTag("<h2>/api/status")
+	mux.Handle("/status", http.HandlerFunc(auth_check.HandleStatus)).Method("GET", "POST").DocTag("<h2>/status")
 	mux.Handle("/api/v1/config", http.HandlerFunc(HandleConfig)).Method("GET").AuthRequired().DocTag("<h2>/api/v1/config")
 	mux.Handle("/api/v1/kick", http.HandlerFunc(HandleKick)).Method("GET", "POST").AuthRequired().DocTag("<h2>/api/v1/kick")
 	mux.Handle("/api/v1/exit-server", http.HandlerFunc(HandleExitServer)).Method("GET", "POST").AuthRequired().DocTag("<h2>/api/v1/exit-server")
-	mux.Handle("/api/v1/gen-qr-url", http.HandlerFunc(HandleGenQRURL)).Method("GET").DocTag("<h2>/api/v1/gen-qr-url")
-	mux.Handle("/api/v1/parse-qr-url", http.HandlerFunc(HandleParseQRURL)).Method("GET").DocTag("<h2>/api/v1/parse-qr-url")
 
-	mux.Handle("/upload", http.HandlerFunc(UploadFile.UploadFileClosure(gCfg.UploadPath))).NoDoc()
-	mux.Handle("/api/v1/create-document", http.HandlerFunc(HandleCreateDocument)).Method("GET", "POST").DocTag("<h2>/api/v1/create-document")
-
-	// ----------------------------------------------------------------------------------------------------------------------------------------------
-	// ----------------------------------------------------------------------------------------------------------------------------------------------
-	//if DbOn["test-http-end-points"] {
-	//}
-	/*
-		-- backeend /api/v1/run-sql-in-db?lesson_id=XCXC
-		5. do create table
-		- Create the back  end "post" to test it.
-
-		-- back end /api/v1/validate-sql-in-dblesson_id=XCXC
-		5. Add call to run validaiton code
-		6. Grade it (Report validation results)
-	*/
 	mux.Handle("/api/v1/run-sql-in-db", http.HandlerFunc(HandleRunSQLInDatabase)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
 	mux.Handle("/api/v1/user-desc-table", http.HandlerFunc(HandleDescTable)).DocTag("<h2>/api/v1/statusxyzzy1").AuthRequired()
 
@@ -357,7 +330,7 @@ func main() {
 	// ------------------------------------------------------------------------------
 	// Main Processing
 	// ------------------------------------------------------------------------------
-	go QrDispatch()
+	go TimedDispatch()
 
 	// ticker on channel - send once a minute
 	go func(n int) {
@@ -427,25 +400,12 @@ func main() {
 		}
 		switch *Cli {
 		case "/api/v1/status":
-			HandleStatus(www, req)
+			auth_check.HandleStatus(www, req)
 		case "/api/v1/kick":
 			HandleKick(www, req)
 		case "/api/v1/exit-server":
 			fmt.Printf("Exit server\n")
 
-		case "/api/v1/gen-qr-url":
-			HandleGenQRURL(www, req)
-		case "/api/v1/parse-qr-url":
-			HandleParseQRURL(www, req)
-
-		case "/api/v2/conv-60-to-10":
-			HandleConv60To10(www, req)
-		case "/api/v2/conv-10-to-60":
-			HandleConv10To60(www, req)
-
-		//		case "/api/v2/token":
-		//			x := mux.CreateJwtToken("/api/v2/token")
-		//			x(www, req)
 		case "/desc.html":
 			x := mux.Desc()
 			x(www, req)
@@ -453,38 +413,14 @@ func main() {
 			x := mux.GenerateAnalytics()
 			x(www, req)
 
-		case "/api/v2/dec":
-			HandleDecodeQR(www, req)
-		case "/api/v2/set":
-			HandleSetQR(www, req)
-		case "/api/v2/set-data":
-			HandleSetDataQR(www, req)
-		case "/api/v2/bulk-load":
-			HandleBulkLoadQR(www, req)
-
-			// xyzzy
-			// mux.Handle("/api/v2/assign-qr", http.HandlerFunc(HandleAssignQR)).Method("GET", "POST").AuthRequired().DocTag("<h2>/api/v2/assign-qr").Inputs([]*ymux.MuxInput{
-
-		// mux.Handle("/{.qr50:re:^......*$}", http.HandlerFunc(HandleQR307)).Method("GET").Func(isId).NoDoc()                      // xyzzy v2
-
 		default:
-			if len(*Cli) > 2 {
-				id := req.URL.Path[1:]
-				ymux.SetValue(www, req, "qr60", id)
-				if base.IsBase60QRId(id) {
-					HandleQR307(www, req)
-				} else {
-					fmt.Printf("Status: 404, Bad ID [%s]\n", id)
-				}
+			fn := "./www/" + *Cli
+			s, err := ioutil.ReadFile(fn)
+			if err != nil {
+				fmt.Printf("Status: 404, Request [%s]\n", *Cli)
 			} else {
-				fn := "./www/" + *Cli
-				s, err := ioutil.ReadFile(fn)
-				if err != nil {
-					fmt.Printf("Status: 404, Request [%s]\n", *Cli)
-				} else {
-					fmt.Printf("Status: 200\n")
-					fmt.Printf("%s\n", s)
-				}
+				fmt.Printf("Status: 200\n")
+				fmt.Printf("%s\n", s)
 			}
 		}
 		www.Flush()
@@ -594,8 +530,8 @@ func main() {
 	wg.Wait()
 }
 
-// QrDispatch waits for a "kick" or a timeout and calls QrGenerate forever.
-func QrDispatch() {
+// TimedDispatch waits for a "kick" or a timeout and calls QrGenerate forever.
+func TimedDispatch() {
 	for {
 		select {
 		case <-ch:
@@ -604,7 +540,8 @@ func QrDispatch() {
 			// QrGenerate()
 
 		case <-timeout:
-			fmt.Printf("%sTimeout\n%s", MiscLib.ColorYellow, MiscLib.ColorReset)
+			ts := time.Now().Format("2006-01-02 15:04:05")
+			fmt.Printf("%sTimeout at %s\n%s", MiscLib.ColorYellow, ts, MiscLib.ColorReset)
 			CloseExpiredConnections(gCfg.ExpiredConnectionThreshold, n_ticks)
 			// QrGenerate()
 		}
@@ -613,19 +550,6 @@ func QrDispatch() {
 
 func GetCurTick() int {
 	return n_ticks
-}
-
-// mux.Handle("/api/v1/create-document", http.HandlerFunc(HandleCreateDocument)).Method("GET", "POST").DocTag("<h2>/api/v1/create-document")
-func HandleCreateDocument(www http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(os.Stderr, "\n%sGot to auth_check.HandleCreateDocument, %s%s\n\n", MiscLib.ColorGreen, godebug.LF(), MiscLib.ColorReset)
-	fmt.Fprintf(logFilePtr, "\nGot to auth_check.HandleCreateDocument, %s\n\n", godebug.LF())
-	www.Header().Set("Content-Type", "application/json; charset=utf-8")
-	www.WriteHeader(http.StatusOK) // 200
-
-	// could create row in d.b. at this time
-
-	fmt.Fprintf(www, `{"status":"success", "item_id":%q, "event_id":%q}`, ymux.GenUUID(), ymux.GenUUID())
-	return
 }
 
 /* vim: set noai ts=4 sw=4: */

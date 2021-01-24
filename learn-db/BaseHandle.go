@@ -1,5 +1,9 @@
 package main
 
+// Copyright (C) Philip Schlump 2016.
+// MIT Licensed
+// Source pulled from PureImagination Demo Server
+
 import (
 	"context"
 	"fmt"
@@ -8,33 +12,18 @@ import (
 	"time"
 
 	"github.com/pschlump/godebug"
+	"gitlab.com/pschlump/PureImaginationServer/auth_check"
 	"gitlab.com/pschlump/PureImaginationServer/ymux"
 )
-
-// HandleStatus - server to respond with a working message if up.
-func HandleStatus(www http.ResponseWriter, req *http.Request) {
-	var add string
-	add = ""
-	found, id := ymux.GetVar("id", www, req)
-	if found {
-		if id == "dump-request" {
-			add = fmt.Sprintf(`, "request": %s `, godebug.SVarI(req))
-		}
-	}
-	pid := os.Getpid()
-	setJsonHdr(www)
-	www.WriteHeader(http.StatusOK) // 200
-	fmt.Fprintf(www, `{"status":"success", "version":%q, "pid":%v %s}`+"\n", GitCommit, pid, add)
-	return
-}
 
 // HandleExitServer - graceful server shutdown.
 func HandleExitServer(www http.ResponseWriter, req *http.Request) {
 	if !ymux.IsAuthKeyValid(www, req, &(gCfg.BaseConfigType)) {
+		// if !ymux.IsAuthKeyValid(www, req, gCfg) {
 		return
 	}
 	pid := os.Getpid()
-	setJsonHdr(www)
+	auth_check.SetJsonHdr(www, req)
 
 	www.WriteHeader(http.StatusOK) // 200
 	fmt.Fprintf(www, `{"status":"success", "version":%q, "pid":%v}`+"\n", GitCommit, pid)
@@ -58,7 +47,7 @@ func HandleConfig(www http.ResponseWriter, req *http.Request) {
 	if !ymux.IsAuthKeyValid(www, req, &(gCfg.BaseConfigType)) {
 		return
 	}
-	setJsonHdr(www)
+	auth_check.SetJsonHdr(www, req)
 	www.WriteHeader(http.StatusOK) // 200
 	fmt.Fprintf(www, godebug.SVarI(gCfg))
 }
@@ -66,7 +55,7 @@ func HandleConfig(www http.ResponseWriter, req *http.Request) {
 // HandleKick - server to respond with a working message if up.
 func HandleKick(www http.ResponseWriter, req *http.Request) {
 	ch <- "kick" // on control-channel - send "kick"
-	setJsonHdr(www)
+	auth_check.SetJsonHdr(www, req)
 	www.WriteHeader(http.StatusOK) // 200
 	fmt.Fprintf(www, `{"status":"success","kick_sent":true}`+"\n")
 	return
