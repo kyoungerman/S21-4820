@@ -713,19 +713,189 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Lecture 02 - Installing PosgreSQL</h1>
+<h1>Lecture 02 - Installing PostreSQL</h1>
 
-<h2>First - why PostgreSQL.</h2>
-
-<h2>What makes ACID important - what is it.</h2>
-
-<h2>Install PostgreSQL and pgAdmin</h2>
-
-<h3>Windows</h3>
-
-<h3>Mac</h3>
+<h2>Install PostgreSQL</h2>
 
 <h3>Linux</h3>
+
+<p>I am using Ubuntu 20.04 for this.  We are starting out with Linux because most
+installs of PotgreSQL are on Linux.   Because of the &ldquo;working model&rdquo; memory
+management in Windows a relational database server runs better on a non-Windows
+system.  Usually this is Linux.   FreeBSD/OpenBSD also work (but use a different
+install process).  MacOS (Os X) is also good - but is rarely seen as a production
+database environment.</p>
+
+<p>You can run PostgreSQL in a Docker Container - but I don&rsquo;t recommend it in a production
+context.  Docker is only suitable for use with a database in a development environment.
+(That means that you can use Docker for this class and it will work - but don&rsquo;t
+plan on deploying a production database on top of docker - the performance is
+horrible)</p>
+
+<p>If you are using a different version of Linux then the install process will be different.</p>
+
+<p>We are going to use PotgreSQL as our primary database in the class.  You will need a copy
+of it running where you can access the entire database.  This could be on a virtual machine
+on your box or on Digital Ocean ($5.00 a month) or Linode ($5 to $20 a month) or on a
+free micro system on AWS if you qualify for one or on a $15-20 AWS EC3 small system.</p>
+
+<p>If you choose a virtual or remote system my recommendation would be to install Ubuntu on
+it.</p>
+
+<h3>Step 1</h3>
+
+<p>After you have gotten your Linux system up and running you should refresh
+the local package index.</p>
+
+<pre><code>$ sudo apt update
+</code></pre>
+
+<p>Now install the PotgreSQL software:</p>
+
+<pre><code>$ sudo apt install postgresql postgresql-contrib
+</code></pre>
+
+<p><code>sudo</code> will prompt you for your login password.  You will need to have an account that is
+configured to be able to do sudo.  You should not do this from the root account.
+Generally spiking I set up a system, generate public/private keys for SSH login,
+create a user account, set it to be capable of sudo, verify that I can login
+from my local account to the user account using the public/private keys,
+then turn off login on the root account.  Double check that I can login without
+getting a password prompt from my local system.  Then I start installs like this.</p>
+
+<h3>Step 2 - Configure basic &ldquo;roles&rdquo;</h3>
+
+<p>Security in most databases, PostgreSQL, Oralce, MySQL are all based on &lsquo;roles&rsquo; - these are groups of users that have similar
+properties for how they access the database.  This is similar to Unix/Linux groups.</p>
+
+<p>When you installed PostgreSQL it created a Linux user.   This is a non-root user that
+&ldquo;owns&rdquo; all of the data and files in the database.  This Linux user, called postgres, is assocaited
+with the &lsquo;postgres&rsquo; role in the database.</p>
+
+<p>Normally you can&rsquo;t just login to the &lsquo;postgres&rsquo; user.  You have to access it via the <code>root</code> account.</p>
+
+<pre><code>$ sudo -i -u postgres
+</code></pre>
+
+<p>Now you can access the database using <code>psql</code></p>
+
+<pre><code>$ psql
+</code></pre>
+
+<p>You can now use the database.  Note that you are in a special privilaed account in the database
+and you can break things from this account.</p>
+
+<p>To exit out of the PostgreSQL prompt, type:</p>
+
+<pre><code>\q
+</code></pre>
+
+<p>This will bring you back to the Linux shell prompt.
+To get back to your login account you can send the shell and end of file (EOF) by entering a Contro-D
+or</p>
+
+<pre><code>$ exit 0
+</code></pre>
+
+<h3>Step 3 — Creating a New Role</h3>
+
+<p>When you are logged in as the postgres Linux account, you can create a new role by typing:</p>
+
+<pre><code>$ createuser --interactive
+</code></pre>
+
+<p>This runs a number of commands in the database to create a user.  It is best to match the
+username to your login Linux user.</p>
+
+<p>A run of this for my user, <code>pschlump</code> looks like:</p>
+
+<pre><code>Enter name of role to add: pschlump
+Shall the new role be a superuser? (y/n) y
+</code></pre>
+
+<p>At this point you should be able to use <code>psql</code> to access the database from your user.</p>
+
+<h3>Step 4 — Creating Additional Databases</h3>
+
+<p>In the PostgreSQL and MySQL/MaraiaDB workd a &lsquo;database&rsquo; is storage and a set of tables
+that works together.  In the Oracle world the &lsquo;database&rsquo; is an installed system.
+For us a &lsquo;database&rsquo; is what we connect to so that we can see our tables.</p>
+
+<p>In the interactive system each of you is using a &lsquo;database&rsquo; in a single instance
+of PostgreSQL.</p>
+
+<p>When PostgreSQL created a user with <code>createuser</code> it created a database with the
+same name that is owned by that login user.   For a user to login it has to have
+some database to connect to.</p>
+
+<p>This implies that when I create a PostgreSQL user <code>pschlump</code> it will have a <code>pschlump</code>
+database.  A user can connect to other databases that it owns.</p>
+
+<p>From the postgres Linux account:</p>
+
+<pre><code>createdb studentdb
+</code></pre>
+
+<p>Will create a database.</p>
+
+<p>Usually by this point I want to create a database without access to the <code>postgres</code>
+Linux login.  This means that I do it via <code>psql</code>.</p>
+
+<pre><code>$ psql
+pschlump=# create database newuser;
+pschlump=# create user newuser with encrypted password 'mypass';
+pschlump=# grant all privileges on database newuser to newuser;
+</code></pre>
+
+<p>This creates a new database user and associates it with a new
+database.</p>
+
+<p>If you want <code>psql</code> to connect to a different user from your
+account:</p>
+
+<pre><code>psql -d newuser
+newuser=# \conninfo
+newuser=# \q
+</code></pre>
+
+<p>Thie output should look like:</p>
+
+<pre><code>You are connected to database &quot;newuser&quot; as user &quot;newuser&quot; via socket in &quot;/var/run/postgresql&quot; at port &quot;5432&quot;.
+</code></pre>
+
+<h2>Windows install</h2>
+
+<p>You can install PostgreSQL directly on Windows 10 if you are running an x86 based 64 bit
+processor.  I recommend the following YouTube video on how to do this.
+<a href="https://www.youtube.com/watch?v=w32xHj2nMSc">https://www.youtube.com/watch?v=w32xHj2nMSc</a></p>
+
+<p>Given the choice I will setup a virtual machine running Linux and install PostgreSQL in
+the virtual environment.</p>
+
+<h2>MacOS (OS X)</h2>
+
+<p>PostgreSQL runs and works nicely on Mac OS.  There is a package version of PostgreSQL
+that you can install from a .dmg and it puts a cute little Icon up on the top of
+the screen - that has start/stop for the database.   After I install it
+I want to access it via the command line (Using iTerm 2.x).   I always have to
+go and find where it installed it so that I can add that to my path.</p>
+
+<pre><code>$ find /Applications -name psql
+</code></pre>
+
+<p>When it finds the database then in your .bashrc (old) or now .zshrc file add
+that path to the PATH variable.</p>
+
+<p>Login to the <code>postgres</code> login user using</p>
+
+<pre><code>$ sudo -i -u postgres
+$ createuser --interactive
+</code></pre>
+
+<p>Then follow the Linux instructions to create a user.  You many encounter difficulties
+if your username has a blank in it.</p>
+
+<p>Copyright &copy; University of Wyoming 2021.</p>
 
 </div>
 
