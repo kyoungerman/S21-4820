@@ -3,11 +3,14 @@ m4_include(../lect-setup.m4)
 
 # Lecture 02 - Installing PostgreSQL
 
-[Install PostgreSQL Using Virtual Machine - https://youtu.be/Ec69hu2RqiI](https://youtu.be/Ec69hu2RqiI)<br>
+[What is a Database - https://youtu.be/Ec69hu2RqiI](https://youtu.be/Ec69hu2RqiI)<br>
+[Install PosgreSQL using Viratual System - https://youtu.be/A0-GrSAubEc](https://youtu.be/A0-GrSAubEc)<br>
 
 From Amazon S3 - for download (same as youtube videos)
 
-[Install PostgreSQL Using Virtual Machine](http://uw-s20-2015.s3.amazonaws.com/4280-L02-what-is-a-database.mp4)<br>
+[What is a Database](http://uw-s20-2015.s3.amazonaws.com/4280-L02-what-is-a-database.mp4)<br>
+[Install PosgreSQL using Viratual System](http://uw-s20-2015.s3.amazonaws.com/4820-L02-install.mp4)<br>
+
 
 ## Install PostgreSQL 
 
