@@ -1,14 +1,20 @@
 
 m4_include(../lect-setup.m4)
 
-# Lecture 02 - Installing PostreSQL
+# Lecture 02 - Installing PostgreSQL
+
+[Install PostgreSQL Using Virtual Machine - https://youtu.be/Ec69hu2RqiI](https://youtu.be/Ec69hu2RqiI)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[Install PostgreSQL Using Virtual Machine](http://uw-s20-2015.s3.amazonaws.com/4280-L02-what-is-a-database.mp4)<br>
 
 ## Install PostgreSQL 
 
 ### Linux
 
 I am using Ubuntu 20.04 for this.  We are starting out with Linux because most
-installs of PotgreSQL are on Linux.   Because of the "working model" memory 
+installs of PostgreSQL are on Linux.   Because of the "working model" memory 
 management in Windows a relational database server runs better on a non-Windows
 system.  Usually this is Linux.   FreeBSD/OpenBSD also work (but use a different
 install process).  MacOS (Os X) is also good - but is rarely seen as a production
@@ -22,7 +28,7 @@ horrible)
 
 If you are using a different version of Linux then the install process will be different.
 
-We are going to use PotgreSQL as our primary database in the class.  You will need a copy
+We are going to use PostgreSQL as our primary database in the class.  You will need a copy
 of it running where you can access the entire database.  This could be on a virtual machine
 on your box or on Digital Ocean ($5.00 a month) or Linode ($5 to $20 a month) or on a
 free micro system on AWS if you qualify for one or on a $15-20 AWS EC3 small system.
@@ -40,7 +46,7 @@ the local package index.
 $ sudo apt update
 ```
 
-Now install the PotgreSQL software:
+Now install the PostgreSQL software:
 
 ```
 $ sudo apt install postgresql postgresql-contrib

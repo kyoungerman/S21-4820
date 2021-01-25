@@ -1,4 +1,6 @@
 ,*
+Video/
+.DS_Store
 note
 py-bottle
 blob.tar.gz
