@@ -34,6 +34,11 @@ PY= \
 	hw06_2.sql \
 	hw06_3.sql \
 	hw06_4.sql \
+	hw07_1.sql \
+	hw07_2.sql \
+	hw07_3.sql \
+	hw07_4.sql \
+	hw07_5.sql \
 	hw08_1.sql \
 	hw08_2.sql \
 	hw08_3.sql \

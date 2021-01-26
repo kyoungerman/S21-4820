@@ -725,8 +725,10 @@ that values are in a correct range or value.</p>
 <p>First we are going to rename the table - so we can save
 it for later.</p>
 
-<pre><code>ALTER TABLE name_list
+<pre><code>DROP TABLE if exists old_name_list;
+ALTER TABLE name_list
 	RENAME TO old_name_list;
+
 </code></pre>
 
 <p>Now we will re-create the table with the check constraint.</p>
@@ -737,6 +739,7 @@ it for later.</p>
 	state char varying (2)
 );
 
+
 </code></pre>
 
 <p>Now copy the data back.</p>
@@ -744,12 +747,14 @@ it for later.</p>
 <pre><code>insert into name_list ( real_name, age, state ) 
 	select real_name, age, state 
 	from old_name_list;
+
 </code></pre>
 
 <p>Verify data amount.  Check how many rows.</p>
 
 <pre><code>select count(1) from name_list;
 select count(1) from old_name_list;
+
 </code></pre>
 
 <p>Provided that the counts are the same let&rsquo;s clean up the temporary table with the old data.</p>
@@ -760,6 +765,7 @@ select count(1) from old_name_list;
 <p>And let&rsquo;s look at the data.</p>
 
 <pre><code>select * from name_list;
+
 </code></pre>
 
 <p>You should see 10 rows.  The duplicate should be removed.</p>
