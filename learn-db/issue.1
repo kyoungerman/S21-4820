@@ -1,4 +1,16 @@
 
+Mon Jan 25 20:02:01 MST 2021
+	There are cases when errors are not reported.
+		select * from XX when the table XX dose not exist for example
+
+	If 0 rows are reported on a select - should still paint an empty table!
+
+
+Mon Jan 25 18:30:38 MST 2021
+	If an account creation fails in the middle, then the code boluxes up - and will not create the
+	account and leaves the partially created acccount around.
+
+
 Sun Jan 24 06:11:14 MST 2021
 	/wp-login.php
 

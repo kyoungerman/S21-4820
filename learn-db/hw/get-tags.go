@@ -102,6 +102,11 @@ func readFile(fn string) (n_err int) {
 	if err != nil {
 		nno = 0
 	}
+	svgTxt, err := ioutil.ReadFile("CS4280Graphic15.svg")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to read svg file, %s\n", err)
+		os.Exit(1)
+	}
 	for scanner.Scan() {
 		line_no++
 		line := scanner.Text()
@@ -121,26 +126,7 @@ func readFile(fn string) (n_err int) {
 			// }
 			ioutil.WriteFile(
 				fmt.Sprintf(`../www/img/hw%s.svg`, no),
-				[]byte(fmt.Sprintf(`<?xml version='1.0' standalone='no'?>
-<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
-<svg width='100%%' height='100%%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
-	<!-- Copyright (C) University of Wyoming, 2021. -->
-
-	<title>%s</title>
-
-	<g id='columnGroup'>
-		<rect x='1' y='1' width='1800' height='750' fill='white'/>
-
-		<text x='30' y='30' font-size='64px' font-weight='bold' fill='brown'>
-			<tspan x='30' dy='1.7em' font-size='84px' fill="gold">  University of Wyoming</tspan>
-			<tspan x='80' dy='1em' fill="black">	4820 Computer Science</tspan>
-			<tspan x='80' dy='1em' fill="black">	Introduction to Databse</tspan>
-			<tspan x='80' dy='2em' fill="black">	%s</tspan>
-			<tspan x='80' dy='1em' fill="black">	%s</tspan>
-		</text>
-	</g>
-</svg>
-`, title, title35, titleRem)), 0644)
+				[]byte(fmt.Sprintf(string(svgTxt), title, title35, titleRem)), 0644)
 			fmt.Printf("insert into ct_homework ( homework_id, homework_title, homework_no, video_url, video_img, lesson_body ) values ( '%s', '%s', '%d', '%s', '%s', '%s' );\n",
 				u1,                              // UUID
 				sqlEncode(rmDoubleQuote(title)), // Title

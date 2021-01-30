@@ -1,5 +1,9 @@
 package main
 
+// Copyright (C) Philip Schlump 2016.
+// MIT Licensed
+// Source pulled from PureImagination Demo Server
+
 import (
 	"encoding/json"
 	"fmt"
