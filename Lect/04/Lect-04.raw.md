@@ -4,6 +4,11 @@ m4_include(../lect-setup.m4)
 
 #  How applications work today                                            
 
+[Why is Philip Schlump teaching Database - https://youtu.be/8WMsBlqvZJM](https://youtu.be/8WMsBlqvZJM)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[Why is Philip Schlump teaching Database](http://uw-s20-2015.s3.amazonaws.com/4820-L04-why-is-philip-teaching-database.mp4)<br>
 
 An overview of:
 
