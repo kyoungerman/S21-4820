@@ -1,4 +1,8 @@
 
+# Copyright (C) Philip Schlump 2016.
+# MIT Licensed
+# Source pulled from PureImagination Demo Server
+
 # /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db
 all: sql mk_doc
 	check-json-syntax --ignore-tab-warning ./cfg.json

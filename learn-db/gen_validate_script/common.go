@@ -1,5 +1,9 @@
 package main
 
+// Copyright (C) Philip Schlump 2015-2019.
+// MIT Licensed
+// Source pulled from PureImagination Demo Server
+
 import (
 	"database/sql"
 	"fmt"
