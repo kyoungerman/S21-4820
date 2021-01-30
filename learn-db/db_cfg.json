@@ -53,6 +53,7 @@
 "app.example.com:myraiken@uwyo.edu":		{ "DatabaseName": "sa52" },
 "app.example.com:pschlump1@uwyo.edu":		{ "DatabaseName": "sa53" },
 "app.example.com:pschlump2@uwyo.edu":		{ "DatabaseName": "sa54" },
+"app.example.com:rolson14@uwyo.edu":		{ "DatabaseName": "sa55" },
 
 	"app.example.com:testlogin@gmail.com": {
 		"DatabaseName" :"bobo0001"

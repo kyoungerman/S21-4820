@@ -61,6 +61,7 @@ deploy0: all
 	scp ./db_cfg.json  pschlump@nfc-auth.com:/home/pschlump/learn-db/
 
 deploy:  
+	scp ./db_cfg.json  pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./hw      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
 	rsync -r -a -v -e "ssh -l pschlump"    --delete 		./www      			pschlump@nfc-auth.com:/home/pschlump/learn-db/
 .PHONY: deploy
