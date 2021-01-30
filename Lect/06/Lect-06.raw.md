@@ -3,6 +3,12 @@ m4_include(../lect-setup.m4)
 
 # Lecture 06 -  Global Variables Considered Harmful                                    
 
+[Global Variables Considered Harmful - https://youtu.be/GICexGOs3Iw](https://youtu.be/GICexGOs3Iw)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[Global Variables Considered Harmful](http://uw-s20-2015.s3.amazonaws.com/4820-L06-Global-Variables-Considered-Harmful.mp4)<br>
+
 In the world of computer programming the term "considered harmful" 
 really relates to a letter to the ACM in the late 1960's referring
 to "GOTO's Considered Harmful".  This letter by Dr Edward Dijkstra,
