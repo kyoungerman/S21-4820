@@ -12,6 +12,14 @@
 
 # Lecture 05 -  Future of Database          
 
+[Future of Database pt1 of 2 - https://youtu.be/hOufTSA1rfc](https://youtu.be/hOufTSA1rfc)<br>
+[Future of Database pt2 of 2 - https://youtu.be/GNqtOXXHCQc](https://youtu.be/GNqtOXXHCQc)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[Future of Database pt1 of 2](http://uw-s20-2015.s3.amazonaws.com/4820-L05-pt1-Future-of-Database.mp4)<br>
+[Future of Database pt2 of 2](http://uw-s20-2015.s3.amazonaws.com/4820-L05-pt2-Future-of-Database.mp4)<br>
+
 1. Distributed Data
 2. Blockchain
 3. NoSQL
