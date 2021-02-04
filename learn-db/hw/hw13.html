@@ -717,7 +717,7 @@ ol {
 
 <p>Let&rsquo;s try getting rid of our 2 tables.   Our first attempt to do this will fail.</p>
 
-<pre><code>drop table us_state;
+<pre><code>drop table if exists us_state;
 </code></pre>
 
 <p>We have a dependency via foreign constraint on us_state.  That is name_list.</p>
@@ -726,15 +726,15 @@ ol {
 &ldquo;cascade&rdquo; is powerful but dangerous.  In PosgreSQL it will drop the table
 and associated constraints.  In Oracle it cascades to the tables referenced!</p>
 
-<pre><code>DROP table name_list;
-DROP table us_state;
+<pre><code>DROP table if exists name_list;
+DROP table if exists us_state;
 
 </code></pre>
 
 <p>Now use the supplied script to re-create the tables.  There will be some additional
 columns when you do this that we will use in future homework exercises.</p>
 
-<p>The file is hw13_4.sql - run the entire file.  The file is show below.   After you
+<p>The files are hw13_4.sql, hw13_5.sql - run the entire file.  The file is show below.   After you
 have run the file do the select to see a table of the states.</p>
 
 <pre><code>
@@ -755,6 +755,7 @@ CREATE TABLE us_state (
 );
 
 CREATE UNIQUE INDEX us_state_uidx1 on us_state ( state );
+
 
 
 INSERT INTO us_state
@@ -784,7 +785,11 @@ INSERT INTO us_state
 	( 'Michigan',              'MI',     '26' ,      9986857,        22,      56539,     7,         2.7,   468.4  ),
 	( 'Minnesota',             'MN',     '27' ,      5639632,        14,      79617,     9,         2.2,   331.4  ),
 	( 'Mississippi',           'MS',     '28' ,      2976149,        31,      46914,     6,         1.0,   101.6  ),
-	( 'Missouri',              'MO',     '29' ,      6137428,        18,      68898,     8,         2.3,   282.2  ),
+	( 'Missouri',              'MO',     '29' ,      6137428,        18,      68898,     8,         2.3,   282.2  )
+;
+
+INSERT INTO us_state
+    ( state_name,             state,  FIPS_code,  population, area_rank, area_sq_mi, fed_area, gdp_growth, gdp ) values
 	( 'Montana',               'MT',     '30' ,      1068778,         4,     145556,     9,         0.9,    44.8  ),
 	( 'Nebraska',              'NE',     '31' ,      1934408,        15,      76878,    10,         1.5,   112.2  ),
 	( 'Nevada',                'NV',     '32' ,      3080156,         7,     109806,    12,         3.2,   146.2  ),
@@ -811,7 +816,8 @@ INSERT INTO us_state
 	( 'Washington',            'WA',     '53' ,      7614893,        20,      66582,    12,         5.7,   506.7  ),
 	( 'West Virginia',         'WV',     '54' ,      1792147,        41,      24087,     5,         2.4,    71.3  ),
 	( 'Wisconsin',             'WI',     '55' ,      5822434,        25,      54314,     7,         2.5,   299.8  ),
-	( 'Wyoming',               'WY',     '56' ,       578759,         9,      97105,    10,         0.3,    38.4  );
+	( 'Wyoming',               'WY',     '56' ,       578759,         9,      97105,    10,         0.3,    38.4  )
+;
 
 
 CREATE TABLE name_list (
@@ -857,6 +863,12 @@ INSERT INTO name_list ( real_name, age, state, pay ) values
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; from ( select count(1) as cnt from us_state ) as foo where foo.cnt = 53&rdquo;</h4>
 
 <h4>FilesToRun: hw13_4.sql</h4>
+
+<h4>FilesToRun: hw13_5.sql</h4>
+
+<h4>FilesToRun: hw13_6.sql</h4>
+
+<h4>FilesToRun: hw13_7.sql</h4>
 
 </div>
 

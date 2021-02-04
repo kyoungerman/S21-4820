@@ -1,4 +1,0 @@
-
-drop table name_list;
-drop table us_state;
-

@@ -296,8 +296,9 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 				pass = "PASS"
 			}
 			fmt.Printf("pass [%s] user_id [%s] homework_id [%s] AT:%s\n", pass, user_id, homework_id, godebug.LF())
-			if pass == "PASS" {
+			if true || pass == "PASS" {
 				_ = points_avail
+				fmt.Printf("Altered pass=%s\n", pass)
 				// insert update stuff // insert update stuff // insert update stuff // insert update stuff
 				// CREATE OR REPLACE FUNCTION grade_hw_no( p_user_id uuid, p_homework_id uuid, p_pts ) RETURNS text
 				resultSet3 := sizlib.SelData(DB, "select grade_hw_no ( $1, $2, $3 ) as x", user_id, homework_id, 10)

@@ -1,2 +1,2 @@
-DROP table name_list;
-DROP table us_state;
+DROP table if exists name_list;
+DROP table if exists us_state;

@@ -59,6 +59,8 @@ PY= \
 	hw13_2.sql \
 	hw13_3.sql \
 	hw13_4.sql \
+	hw13_5.sql \
+	hw13_6.sql \
 	hw14_1.sql \
 	hw14_2.sql \
 	hw15_1.sql \

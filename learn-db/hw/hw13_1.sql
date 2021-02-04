@@ -1,1 +1,1 @@
-DROP table us_state;
+DROP TABLE if exists us_state;
