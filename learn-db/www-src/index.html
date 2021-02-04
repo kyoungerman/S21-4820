@@ -660,7 +660,7 @@ function submitRunItCode( event ) {
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
@@ -722,7 +722,7 @@ function testGradeCode ( event ) {
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {

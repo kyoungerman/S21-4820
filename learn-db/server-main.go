@@ -33,6 +33,7 @@ import (
 	"gitlab.com/pschlump/PureImaginationServer/apache_logger"
 	"gitlab.com/pschlump/PureImaginationServer/auth_check"
 	"gitlab.com/pschlump/PureImaginationServer/awss3"
+	"gitlab.com/pschlump/PureImaginationServer/cors"
 	"gitlab.com/pschlump/PureImaginationServer/email"
 	"gitlab.com/pschlump/PureImaginationServer/ethProc"
 	"gitlab.com/pschlump/PureImaginationServer/get"
@@ -254,6 +255,11 @@ func main() {
 	// ------------------------------------------------------------------------------
 	mux := ymux.NewServeMux(logFilePtr, &(gCfg.BaseConfigType))
 	mux.BaseServerUrl = gCfg.QRGeneration.BaseServerUrl // {{.scheme}}
+
+	if false {
+		// mux.Handle("/api/v1/", http.HandlerFunc(cors.CreateHandleCORS(cors.AnySite))).Method('OPTIONS').DocTag("<h2>/api/v1/statusxyzzy1")
+		cors.SetupMux("/api/v1", mux)
+	}
 
 	mux.Handle("/api/v1/status", http.HandlerFunc(auth_check.HandleStatus)).DocTag("<h2>/api/v1/status")
 	mux.Handle("/api/status", http.HandlerFunc(auth_check.HandleStatus)).DocTag("<h2>/api/status")

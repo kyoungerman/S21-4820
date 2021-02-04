@@ -12,6 +12,8 @@ require (
 	github.com/pschlump/MiscLib v1.0.0
 	github.com/pschlump/godebug v1.0.1
 	github.com/pschlump/textTemplate v1.12.2
-	gitlab.com/pschlump/PureImaginationServer v0.1.26
+	gitlab.com/pschlump/PureImaginationServer v0.1.27
 	golang.org/x/image v0.0.0-20201208152932-35266b937fa6 // indirect
 )
+
+replace gitlab.com/pschlump/PureImaginationServer v0.1.27 => ../../../../gitlab.com/pschlump/PureImaginationServer
