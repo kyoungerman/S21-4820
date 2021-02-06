@@ -55,9 +55,10 @@
 					<!-- ==================================================================================================== -->
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
-					<a class="dropdown-item auto-bind" href="#learn-list" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
-					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch" > Search Tags </a>	
+					<a class="dropdown-item auto-bind" href="#learn-list" id="m_learnList" data-click="renderLearnList"     > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch"     > Search Tags </a>	
 					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderKeywordSearch" > Keyword Search </a>	
+					<a class="dropdown-item auto-bind" href="#showStatus" id="m_learnList" data-click="renderStatus"        > Server Status </a>	
 				</div>
 			</li>
             <li class="nav-item show-anon">
@@ -656,7 +657,7 @@ function submitRunItCode( event ) {
 		  "homework_id"		: $("#homework_id").val()
 		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
-		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+		// , "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
@@ -718,7 +719,7 @@ function testGradeCode ( event ) {
 		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
 		, "grade_it"		: "yes"
-		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+		// , "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({

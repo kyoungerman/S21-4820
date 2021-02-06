@@ -249,7 +249,7 @@ $("#logout").click(LoggOut);
 
 
 function submitIt ( event, data, action, succ, erro ) {
-	if ( event ) { event.preventDefault(); }
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 
 	// xyzzy - add in _ran_ to data
 
@@ -281,13 +281,22 @@ $("#getStatus").click(function(event){
 	);
 });
 
+function renderStatus ( event )  {
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
+	submitIt ( event, {}, "/api/v1/status",
+		function(data) {
+			$("#body").html( "<pre>"+JSON.stringify(data)+"</pre>" );
+		}
+	);
+}
+
 
 // ------------------------------------------------------------------------------------------------------------------------------------
 //					<a class="dropdown-item" href="#" id="auth-change-password" > Change Password</a>			
 // ------------------------------------------------------------------------------------------------------------------------------------
 
 function submitChangePassword(event) {
-	if ( event ) { event.preventDefault(); }
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 	console.log ( "call to: submitChangePassword()" );
 //	var data = {
 //	   	  "old_pw"			: $("#old_password").val()
@@ -322,7 +331,7 @@ function submitChangePassword(event) {
 // ------------------------------------------------------------------------------------------------------------------------------------
 
 function submitDevUnPwCreate(event) {
-	if ( event ) { event.preventDefault(); }
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 	console.log ( "call to: submitDevUnPwCreate()" );
 	$("#_ran_").val( ( Math.random() * 10000000 ) % 10000000 );
 	var frm = $( "#form08" );
@@ -348,7 +357,7 @@ function submitDevUnPwCreate(event) {
 // xyzzy82
 
 function submitListAccounts(event) {
-	if ( event ) { event.preventDefault(); }
+	if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); }
 	console.log ( "call to: submitListAccounts()" );
 	var url = "/api/v2/list-sub-acct";
 	var rv = ( Math.random() * 10000000 ) % 10000000;

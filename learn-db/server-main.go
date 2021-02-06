@@ -2,9 +2,9 @@ package main
 
 // Copyright (C) Philip Schlump 2016-2020.
 
+// https://fabianlee.org/2017/05/21/golang-running-a-go-binary-as-a-systemd-service-on-ubuntu-16-04/
+
 // xyzzy88 - un/pw/register - add a quick table.
-// Xyzzy800 - should generate .svg of QR also?
-// Xyzzy404 old patch code to tweak the file name!
 
 import (
 	"context"
@@ -57,8 +57,8 @@ var TLS_key = flag.String("tls_key", "", "TLS Signed Private Key")
 var Version = flag.Bool("version", false, "Report version of code and exit")
 var ChkTables = flag.Bool("chk-tables", false, "Chack table structre and exit")
 var Comment = flag.String("comment", "", "Unused comment for ps.")
+var CdTo = flag.String("CdTo", "", "Change Directory To.")
 
-// xyzzy - move to a QR Related sub-module in PureImagination
 type QRGeneration struct {
 	// Data used in generating / processing the QR codes
 	LnLocal             string `json:"ln_local" default:"./www/"`
@@ -118,6 +118,14 @@ func main() {
 	} else if len(fns) != 0 {
 		fmt.Printf("Extra arguments are not supported [%s]\n", fns)
 		os.Exit(1)
+	}
+
+	if *CdTo != "" {
+		err := os.Chdir(*CdTo)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Uable to chagne to %s directory, error:%s\n", *CdTo, err)
+			os.Exit(1)
+		}
 	}
 
 	if *Version {

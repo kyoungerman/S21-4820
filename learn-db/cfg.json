@@ -7,7 +7,7 @@
 	, "db_password": "$ENV$DB_PASS"
 	, "db_name": "learndb"
 	, "x_db_flag": "HandleLogin,bulk-load,prevent-send-email,HandleChangePassword,HandleRecoverPassword,HandleRegister,QRStuff,CheckAuth,Upload.01,awss3-show-size,push-to-aws,echo.connect.pg"
-	, "db_flag": "HandleLogin,bulk-load,prevent-send-email,HandleChangePassword,HandleRecoverPassword,HandleRegister,CheckAuth,auth_check.StdoutRunning"
+	, "db_flag": "HandleLogin,bulk-load,prevent-send-email,HandleChangePassword,HandleRecoverPassword,HandleRegister,CheckAuth,auth_check.StdoutRunning,GetVar,GetVar.POST"
 	, "log_file_name": "./log/log.out"
 
 	, "auth_key": "$ENV$QR_TODAY_AUTH_TOKEN"

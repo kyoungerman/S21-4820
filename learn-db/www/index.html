@@ -55,9 +55,10 @@
 					<!-- ==================================================================================================== -->
 					<!-- Main Menu  -->
 					<!-- ==================================================================================================== -->
-					<a class="dropdown-item auto-bind" href="#learn-list" id="m_learnList" data-click="renderLearnList" > Lesson List </a>	
-					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch" > Search Tags </a>	
+					<a class="dropdown-item auto-bind" href="#learn-list" id="m_learnList" data-click="renderLearnList"     > Lesson List </a>	
+					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderTagSearch"     > Search Tags </a>	
 					<a class="dropdown-item auto-bind" href="#showGrades" id="m_learnList" data-click="renderKeywordSearch" > Keyword Search </a>	
+					<a class="dropdown-item auto-bind" href="#showStatus" id="m_learnList" data-click="renderStatus"        > Server Status </a>	
 				</div>
 			</li>
             <li class="nav-item show-anon">
@@ -92,7 +93,7 @@
 
 	</div>
 
-<!-- Found at line 95 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
+<!-- Found at line 96 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
 
 <script type="text/html" id="dom-template-Register">
 <div>
@@ -621,7 +622,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0497"></script>
+<script src="/js/cfg.js?_ran_=0113"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -1099,11 +1100,11 @@ function submitRunItCode( event ) {
 		  "homework_id"		: $("#homework_id").val()
 		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
-		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+		// , "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
@@ -1161,11 +1162,11 @@ function testGradeCode ( event ) {
 		, "homework_no"		: $("#homework_no").val()
 		, "stmt"			: $("#stmt").val()
 		, "grade_it"		: "yes"
-		, "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
+		// , "_ran_" 			: ( Math.random() * 10000000 ) % 10000000
 	};
 	console.log ( "getdata=", getdata );
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
@@ -1304,15 +1305,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00497"></script>
-<script src="/js/table.js?_ran_=00497"></script>
+<script src="/js/doc-index.js?_ran_=00113"></script>
+<script src="/js/table.js?_ran_=00113"></script>
 
-<script src="/js/doc-form25.js?_ran_=0497"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0113"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0497 - 2019-12-18T00:00:00");
+console.log ( "Version 0113 - 2019-12-18T00:00:00");
 </script>
 
 </body>
