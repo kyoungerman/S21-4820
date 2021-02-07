@@ -12,6 +12,14 @@
 
 # Lecture 07 - Jobs In Database     
 
+[Jobs in Database pt1 - https://youtu.be/iPsnYy0sTe0](https://youtu.be/iPsnYy0sTe0)<br>
+[Jobs in Database pt2 - https://youtu.be/NHs0W4dbwdU](https://youtu.be/NHs0W4dbwdU)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[Jobs in Database pt1](http://uw-s20-2015.s3.amazonaws.com/4820-L07-pt1-jobs-in-database.mp4)<br>
+[Jobs in Database pt2](http://uw-s20-2015.s3.amazonaws.com/4820-L07-pt2-jobs-in-database.mp4)<br>
+
 ## Profile of different jobs in Database
 
 | Count | pct   | Pay [1] | Description |
