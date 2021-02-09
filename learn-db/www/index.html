@@ -622,7 +622,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0113"></script>
+<script src="/js/cfg.js?_ran_=0121"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -802,8 +802,12 @@ function postRenderLearnList () {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:362", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -843,8 +847,12 @@ function postRenderTagSearch () {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:403", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -895,8 +903,12 @@ function renderTagSearchParam(event,tag_id) {
 		error: function(resp) {
 			// console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:455", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -1028,8 +1040,12 @@ function renderLessonParam(event,tag,homework_id){
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:589", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -1082,8 +1098,12 @@ function submitDescribe(event) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:641", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -1135,8 +1155,12 @@ function submitRunItCode( event ) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:695", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -1176,8 +1200,12 @@ function testGradeCode ( event ) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:736", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 
@@ -1233,8 +1261,12 @@ function submitKeywordSearch() {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:792", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 
@@ -1305,15 +1337,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00113"></script>
-<script src="/js/table.js?_ran_=00113"></script>
+<script src="/js/doc-index.js?_ran_=00121"></script>
+<script src="/js/table.js?_ran_=00121"></script>
 
-<script src="/js/doc-form25.js?_ran_=0113"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0121"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0113 - 2019-12-18T00:00:00");
+console.log ( "Version 0121 - 2019-12-18T00:00:00");
 </script>
 
 </body>

@@ -359,8 +359,12 @@ function postRenderLearnList () {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:362", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -400,8 +404,12 @@ function postRenderTagSearch () {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:403", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -452,8 +460,12 @@ function renderTagSearchParam(event,tag_id) {
 		error: function(resp) {
 			// console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:455", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -585,8 +597,12 @@ function renderLessonParam(event,tag,homework_id){
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:589", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -639,8 +655,12 @@ function submitDescribe(event) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:641", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -692,8 +712,12 @@ function submitRunItCode( event ) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:695", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -733,8 +757,12 @@ function testGradeCode ( event ) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:736", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 
@@ -790,8 +818,12 @@ function submitKeywordSearch() {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:792", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 
