@@ -642,8 +642,9 @@ function submitDescribe(event) {
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
 							x_hdrCfg.ColNames.push ( { Name: key } );
-							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
 					
 						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
@@ -690,19 +691,22 @@ function submitRunItCode( event ) {
 			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
 				// console.log ( "614" );
 				for ( var kk = 0, my = data.MsgSet.length; kk < my; kk++ ) {
-					// console.log ( "616" );
-					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length ) {
+					// console.log ( "693" );
+					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length && data.MsgSet[kk].Data.length > 0) {
 						var tab = data.MsgSet[kk].Data;
-						// console.log ( "619", tab );
+						// console.log ( "AT: 699, tab is the set of data.", tab );
 						
 						var x_hdrCfg = { ColNames:[] };
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
 							x_hdrCfg.ColNames.push ( { Name: key } );
-							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
-					
+				
+						// console.log ( "AT: 709, x_hdrCfg =", x_hdrCfg, " x_rowCfg= ", x_rowCfg );
+
 						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
 
 					}

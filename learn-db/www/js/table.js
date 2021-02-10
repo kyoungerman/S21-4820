@@ -202,6 +202,11 @@ function renderTableTo ( toId, data, hdrCfg, p_rowCfg ) {
 			var colName = rowCfg.Name;
 			var fx1 = rowCfg.fx;
 			var colData = row[colName];
+			if ( rowCfg.RawName ) {
+				row[rowCfg.Name] = row[rowCfg.RawName];
+				colData = row[rowCfg.RawName];
+				// console.log ( "RawName", rowCfg.RawName, "name", rowCfg.Name );
+			}
 			if ( ! colData ) {
 				colData = "";
 				if ( rowCfg.defaltValue ) {

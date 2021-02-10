@@ -622,7 +622,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0121"></script>
+<script src="/js/cfg.js?_ran_=0154"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -1085,8 +1085,9 @@ function submitDescribe(event) {
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
 							x_hdrCfg.ColNames.push ( { Name: key } );
-							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
 					
 						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
@@ -1133,19 +1134,22 @@ function submitRunItCode( event ) {
 			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
 				// console.log ( "614" );
 				for ( var kk = 0, my = data.MsgSet.length; kk < my; kk++ ) {
-					// console.log ( "616" );
-					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length ) {
+					// console.log ( "693" );
+					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length && data.MsgSet[kk].Data.length > 0) {
 						var tab = data.MsgSet[kk].Data;
-						// console.log ( "619", tab );
+						// console.log ( "AT: 699, tab is the set of data.", tab );
 						
 						var x_hdrCfg = { ColNames:[] };
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
 							x_hdrCfg.ColNames.push ( { Name: key } );
-							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
-					
+				
+						// console.log ( "AT: 709, x_hdrCfg =", x_hdrCfg, " x_rowCfg= ", x_rowCfg );
+
 						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
 
 					}
@@ -1337,15 +1341,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00121"></script>
-<script src="/js/table.js?_ran_=00121"></script>
+<script src="/js/doc-index.js?_ran_=00154"></script>
+<script src="/js/table.js?_ran_=00154"></script>
 
-<script src="/js/doc-form25.js?_ran_=0121"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0154"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0121 - 2019-12-18T00:00:00");
+console.log ( "Version 0154 - 2019-12-18T00:00:00");
 </script>
 
 </body>
