@@ -359,8 +359,12 @@ function postRenderLearnList () {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:362", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -400,8 +404,12 @@ function postRenderTagSearch () {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:403", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -452,8 +460,12 @@ function renderTagSearchParam(event,tag_id) {
 		error: function(resp) {
 			// console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:455", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -585,8 +597,12 @@ function renderLessonParam(event,tag,homework_id){
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:589", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -626,8 +642,9 @@ function submitDescribe(event) {
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
 							x_hdrCfg.ColNames.push ( { Name: key } );
-							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
 					
 						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
@@ -639,8 +656,12 @@ function submitDescribe(event) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:641", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -670,19 +691,22 @@ function submitRunItCode( event ) {
 			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
 				// console.log ( "614" );
 				for ( var kk = 0, my = data.MsgSet.length; kk < my; kk++ ) {
-					// console.log ( "616" );
-					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length ) {
+					// console.log ( "693" );
+					if ( data.MsgSet[kk].Data && data.MsgSet[kk].Data.length && data.MsgSet[kk].Data.length > 0) {
 						var tab = data.MsgSet[kk].Data;
-						// console.log ( "619", tab );
+						// console.log ( "AT: 699, tab is the set of data.", tab );
 						
 						var x_hdrCfg = { ColNames:[] };
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
 							x_hdrCfg.ColNames.push ( { Name: key } );
-							x_rowCfg.cols.push ( { Name: key, rowTmpl: "%{"+key+"%}" } );
+							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
-					
+				
+						// console.log ( "AT: 709, x_hdrCfg =", x_hdrCfg, " x_rowCfg= ", x_rowCfg );
+
 						renderTableTo ( "#output_table", tab, x_hdrCfg, x_rowCfg );
 
 					}
@@ -692,8 +716,12 @@ function submitRunItCode( event ) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:695", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 }
@@ -733,8 +761,12 @@ function testGradeCode ( event ) {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:736", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 
@@ -790,8 +822,12 @@ function submitKeywordSearch() {
 		error: function(resp) {
 			console.log ( "error AJAX", resp );
 			var msg = resp.statusText;
-			renderError ( "xyzzy-title:doc-index.js:79", msg );
+			renderError ( "xyzzy-title:index.html:792", msg );
 			render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 		}
 	});
 

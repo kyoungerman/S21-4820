@@ -123,8 +123,12 @@ function submitItData ( event, data, action, succ, erro ) {
 				erro(resp);
 			} else {
 				var msg = resp.statusText;
-				renderError ( "xyzzy-title:doc-index.js:79", msg );
+				renderError ( "xyzzy-title:doc-index.js:126", msg );
 				render5SecClearMessage ( );
+				if ( msg === "Unauthorized" ) {
+					LoggOut();
+					renderLoginPage() ;
+				}
 			}
 		}
 	});
