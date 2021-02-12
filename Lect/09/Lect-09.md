@@ -12,6 +12,11 @@
 
 # ACID compliance and history of database                               
 
+[ACID and very brief History of Database - https://youtu.be/yhigMyo9kt0](https://youtu.be/yhigMyo9kt0)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[ACID and very brief History of Database](http://uw-s20-2015.s3.amazonaws.com/4820-L09-ACID-compliance.mp4)<br>
 
 Early computers were based on coding and doing complex calculations.  This lasted up until the 1960s
 when the first database management system was created.
