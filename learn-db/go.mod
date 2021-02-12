@@ -8,7 +8,7 @@ require (
 	github.com/fogleman/gg v1.3.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/pschlump/Go-FTL v0.7.6
-	github.com/pschlump/HashStrings v0.1.1
+	github.com/pschlump/HashStrings v0.1.3
 	github.com/pschlump/MiscLib v1.0.0
 	github.com/pschlump/godebug v1.0.1
 	github.com/pschlump/textTemplate v1.12.2

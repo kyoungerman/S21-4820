@@ -732,7 +732,10 @@ to have.</p>
 
 <p>Run the file <code>hw26_01.sql</code></p>
 
-<pre><code>DROP TABLE if exists &quot;t_ymux_user&quot; cascade ;
+<pre><code>CREATE EXTENSION if not exists &quot;uuid-ossp&quot;;
+CREATE EXTENSION if not exists pgcrypto;
+
+DROP TABLE if exists &quot;t_ymux_user&quot; cascade ;
 
 CREATE TABLE &quot;t_ymux_user&quot; (
 	  &quot;id&quot;					uuid DEFAULT uuid_generate_v4() not null primary key
@@ -788,7 +791,8 @@ CREATE TRIGGER t_ymux_user_trig
 -- Note the &quot;auth_token&quot; is the &quot;ID&quot; for this row. (Primnary Key)
 -- -------------------------------------------------------- -- --------------------------------------------------------
 
-drop TABLE if exists &quot;t_ymux_auth_token&quot; ;
+drop TABLE if exists &quot;t_ymux_auth_token&quot; cascade ;
+
 CREATE TABLE &quot;t_ymux_auth_token&quot; (
 	  &quot;id&quot;					uuid DEFAULT uuid_generate_v4() not null primary key
 	, &quot;user_id&quot;				uuid not null
@@ -831,7 +835,7 @@ CREATE TRIGGER t_ymux_auth_token_trig
   START 1
   CACHE 1;
 
-DROP TABLE if exists &quot;t_ymux_user_log&quot; ;
+DROP TABLE if exists &quot;t_ymux_user_log&quot; cascade ;
 
 CREATE TABLE &quot;t_ymux_user_log&quot; (
 	  &quot;id&quot;					uuid DEFAULT uuid_generate_v4() not null primary key
@@ -877,7 +881,7 @@ ct_homework_ans.</p>
 
 <p>Run the file <code>hw26_04.sql</code></p>
 
-<pre><code>DROP TABLE if exists ct_login ;
+<pre><code>DROP TABLE if exists ct_login cascade ;
 
 CREATE TABLE ct_login (
 	  user_id					uuid not null primary key -- 1 to 1 to &quot;t_ymux_user&quot;.&quot;id&quot;
@@ -907,7 +911,7 @@ ALTER TABLE ct_login
 CREATE TABLE ct_homework (
 	  homework_id				uuid DEFAULT uuid_generate_v4() not null primary key
 	, homework_title			text not null
-	, lesson_no					text not null
+	, homework_no					text not null
 	, points_avail				int not null default 10
 	, video_url					text not null
 	, video_img					text not null
@@ -922,7 +926,8 @@ CREATE INDEX ct_homework_p1 on ct_homework ( homework_no );
 
 <p>Run the file <code>hw26_06.sql</code></p>
 
-<pre><code>DROP TABLE if exists ct_homework_ans ;
+<pre><code>DROP TABLE if exists ct_homework_ans cascade ;
+
 CREATE TABLE ct_homework_ans (
 	  homework_ans_id			uuid DEFAULT uuid_generate_v4() not null primary key
 	, homework_id				uuid not null
@@ -1071,7 +1076,7 @@ CREATE TRIGGER ct_login_trig
 <p>Run the file <code>hw26_09.sql</code> and <code>hw26_10.sql</code></p>
 
 <pre><code>
-DROP TABLE IF EXISTS ct_tag ;
+DROP TABLE IF EXISTS ct_tag cascade ;
 
 CREATE TABLE ct_tag ( 
 	tag_id uuid DEFAULT uuid_generate_v4() not null primary key,
@@ -1082,7 +1087,7 @@ CREATE UNIQUE INDEX ct_tag_p1 on ct_tag ( tag_word );
 
 
 
-DROP TABLE IF EXISTS ct_tag_homework ;
+DROP TABLE IF EXISTS ct_tag_homework cascade ;
 
 CREATE TABLE ct_tag_homework ( 
 	tag_id 		uuid not null,

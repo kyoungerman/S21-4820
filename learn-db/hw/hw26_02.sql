@@ -3,7 +3,8 @@
 -- Note the "auth_token" is the "ID" for this row. (Primnary Key)
 -- -------------------------------------------------------- -- --------------------------------------------------------
 
-drop TABLE if exists "t_ymux_auth_token" ;
+drop TABLE if exists "t_ymux_auth_token" cascade ;
+
 CREATE TABLE "t_ymux_auth_token" (
 	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key
 	, "user_id"				uuid not null

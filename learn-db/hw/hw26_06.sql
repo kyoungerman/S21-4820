@@ -1,4 +1,5 @@
-DROP TABLE if exists ct_homework_ans ;
+DROP TABLE if exists ct_homework_ans cascade ;
+
 CREATE TABLE ct_homework_ans (
 	  homework_ans_id			uuid DEFAULT uuid_generate_v4() not null primary key
 	, homework_id				uuid not null

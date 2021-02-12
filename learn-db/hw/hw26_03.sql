@@ -5,7 +5,7 @@ CREATE SEQUENCE t_log_seq
   START 1
   CACHE 1;
 
-DROP TABLE if exists "t_ymux_user_log" ;
+DROP TABLE if exists "t_ymux_user_log" cascade ;
 
 CREATE TABLE "t_ymux_user_log" (
 	  "id"					uuid DEFAULT uuid_generate_v4() not null primary key

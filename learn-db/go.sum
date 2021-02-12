@@ -162,6 +162,8 @@ github.com/pschlump/HashStr v0.0.0-20180925204545-f0f66b60e7c5/go.mod h1:HFTaLeX
 github.com/pschlump/HashStrings v0.1.0/go.mod h1:K5Y3Z3iaokVoEdQddOF1/FBy0UOCvLeyEPB/AS/FV/c=
 github.com/pschlump/HashStrings v0.1.1 h1:1YEWASZ8GEc3QYbXU2vwQFyUIC59SqHflqXS7DkM6go=
 github.com/pschlump/HashStrings v0.1.1/go.mod h1:K5Y3Z3iaokVoEdQddOF1/FBy0UOCvLeyEPB/AS/FV/c=
+github.com/pschlump/HashStrings v0.1.3 h1:7YtLYC0P08wwsoUgJpfg8j2RLWHffrbBy7sq5Jp7Ing=
+github.com/pschlump/HashStrings v0.1.3/go.mod h1:K5Y3Z3iaokVoEdQddOF1/FBy0UOCvLeyEPB/AS/FV/c=
 github.com/pschlump/MiscLib v0.0.0-20171012162159-e4e6a3a34d5f/go.mod h1:5xTdUkCWL2ER+MgvBAgx7ShwN7ZPUY1RMqT3vnFjCdg=
 github.com/pschlump/MiscLib v1.0.0 h1:YVcB78dGbmysnhAI18M+i5ioBVYcCrYNsHq3FYwdJps=
 github.com/pschlump/MiscLib v1.0.0/go.mod h1:33BegrXglROGxpDvBSciKSCc1oEKj6oRgJWD5ZEX+ZI=

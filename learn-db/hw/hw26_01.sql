@@ -1,3 +1,6 @@
+CREATE EXTENSION if not exists "uuid-ossp";
+CREATE EXTENSION if not exists pgcrypto;
+
 DROP TABLE if exists "t_ymux_user" cascade ;
 
 CREATE TABLE "t_ymux_user" (

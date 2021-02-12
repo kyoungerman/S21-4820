@@ -78,7 +78,7 @@
 				<a class="nav-link bind-click" href="#" id="login" name="login" data-click="renderLoginPage">Login</a>
             </li>
             <li class="nav-item show-logged-in">
-				<a class="nav-link bind-click" href="#" id="logout" name="logout" data-click="renderLogout">Logout</a>
+				<a class="nav-link bind-click" href="#" id="logout" name="logout" data-click="renderLogout">Logout</a><span id="user_real_name"></span>
             </li>
         </ul>
     </div>
@@ -384,7 +384,7 @@
 </script>
 
 <script type="text/html" id="dom-template-Logout">
-<span></span>
+<span>You Are Logged Out</span>
 </script>
 
 <script type="text/html" id="dom-template-Lesson">
@@ -514,7 +514,9 @@
 							<input type="password" class="form-control" id="password" name="password"/>
 						</div>
 						<button type="button" class="btn btn-primary bind-click" data-click="submitLogin">Log In</button>
+						<!--
 						<a class="btn btn-primary bind-click" data-click="forgottenPassword">Forgotton Password</a>
+						-->
 					</form>
 				</div>
 			</div>
@@ -622,7 +624,7 @@ function setAppData() {
 setAppData();
 
 </script>
-<script src="/js/cfg.js?_ran_=0154"></script>
+<script src="/js/cfg.js?_ran_=0171"></script>
 <script>
 	// $(".show-logged-in").hide();
 	var theOddOnes = document.getElementsByClassName("show-logged-in");
@@ -1020,7 +1022,7 @@ function renderLessonParam(event,tag,homework_id){
 		url: "/api/v1/ct_homework",
 		data: getdata,
 		success: function (data) {
-			// console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
+			// console.log ( ">>>>>>>>>>renderLessonParam>>>>>>>>>>>>>>>>>>>> before renderLesson data=", data );
 			var parsedJSON = JSON.parse ( data.data[0].lesson_body );
 			// console.log ( "    before renderLesson parsedJSON=", parsedJSON );
 			window.g_data = parsedJSON;
@@ -1071,7 +1073,7 @@ function submitDescribe(event) {
 		url: "/api/v1/user-desc-table",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			console.log ( ">>>>>>>>submitDescribe>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
 			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
 			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
 				// console.log ( "614" );
@@ -1085,7 +1087,7 @@ function submitDescribe(event) {
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
-							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");		// Clean UP Collumn Names (blanks etc)
 							x_hdrCfg.ColNames.push ( { Name: key } );
 							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
@@ -1129,7 +1131,7 @@ function submitRunItCode( event ) {
 		url: "/api/v1/run-sql-in-db",
 		data: getdata,
 		success: function (data) {
-			console.log ( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> before raw render data=", data );
+			console.log ( ">>>>>>>>>>>>>>submitRunItCode>>>>>>>>>>>>>>>> before raw render data=", data );
 			$("#output_box").html( "<pre>"+JSON.stringify(data, undefined, 4 )+"</pre>" );
 			if ( data.Status === "success" && data.MsgSet && data.MsgSet.length ) {
 				// console.log ( "614" );
@@ -1143,7 +1145,7 @@ function submitRunItCode( event ) {
 						var x_rowCfg = { cols:[] };
 
 						for ( var key in tab[0] ) {
-							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");
+							var colkey = key.replace(/[^A-Za-z0-9_|.,]/g, "_");		// Clean UP Collumn Names (blanks etc)
 							x_hdrCfg.ColNames.push ( { Name: key } );
 							x_rowCfg.cols.push ( { Name: colkey, RawName: key, rowTmpl: "%{"+colkey+"%}" } );
 						}
@@ -1341,15 +1343,15 @@ $(document).ready(function(){
 <script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
 <script src="/js/bootstrap-datepicker.min.js"></script>
 
-<script src="/js/doc-index.js?_ran_=00154"></script>
-<script src="/js/table.js?_ran_=00154"></script>
+<script src="/js/doc-index.js?_ran_=00171"></script>
+<script src="/js/table.js?_ran_=00171"></script>
 
-<script src="/js/doc-form25.js?_ran_=0154"></script> <!-- login form / registration form -->
+<script src="/js/doc-form25.js?_ran_=0171"></script> <!-- login form / registration form -->
 
 <script src="https://vjs.zencdn.net/7.10.2/video.js"></script>
 
 <script>
-console.log ( "Version 0154 - 2019-12-18T00:00:00");
+console.log ( "Version 0171 - 2019-12-18T00:00:00");
 </script>
 
 </body>

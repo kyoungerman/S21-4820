@@ -1,4 +1,4 @@
-DROP TABLE if exists ct_login ;
+DROP TABLE if exists ct_login cascade ;
 
 CREATE TABLE ct_login (
 	  user_id					uuid not null primary key -- 1 to 1 to "t_ymux_user"."id"

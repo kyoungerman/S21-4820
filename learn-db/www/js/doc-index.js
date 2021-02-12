@@ -176,6 +176,12 @@ function isLoggedInStartupCheck() {
 	var rv = false;
 	if ( window.localStorage ) {
 		var x = localStorage.jwt_token;
+		if ( x && x.length > 0 && x === "undefined" ) {
+			window.localStorage.removeItem ( "jwt_token" );
+			// window.localStorage.removeStorage ( "jwt_token" );
+			x = undefined;
+			console.log ( "Removed a 'undefined' from local storage" );
+		}
 		if ( x && x.length > 0 && x !== "undefined" ) {
 			jwt_token = x;
 			LoggInDone (jwt_token);
@@ -225,6 +231,14 @@ LoggOut = function ( event, undefined ) {
 	xsrf_token = "" ;
 	jwt_token = "" ;
 	localStorage.setItem("jwt_token",undefined);
+	window.localStorage.removeItem ( "jwt_token" );
+	//	window.localStorage.removeStorage ( "jwt_token" );
+	//	var x = localStorage.jwt_token;
+	//	if ( x && x.length > 0 && x === "undefined" ) {
+	//		window.localStorage.removeStorage ( "jwt_token" );
+	//		x = undefined;
+	//		console.log ( "Removed a 'undefined' from local storage' );
+	//	}
 	$("#login").html("Login");
 	$("#login").click(doLogin);
 	$(".show-anon").show();

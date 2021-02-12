@@ -1,5 +1,5 @@
 
-DROP TABLE IF EXISTS ct_tag ;
+DROP TABLE IF EXISTS ct_tag cascade ;
 
 CREATE TABLE ct_tag ( 
 	tag_id uuid DEFAULT uuid_generate_v4() not null primary key,
