@@ -65,13 +65,13 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_2fa",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "id"},
 			{ColumnName: "user_id"},
 			{ColumnName: "user_hash"},
 			{ColumnName: "device_desc"},
 			{ColumnName: "last_used"},
 			{ColumnName: "updated"},
 			{ColumnName: "created"},
+			{ColumnName: "id"},
 		},
 	})
 	if err != nil {
@@ -93,11 +93,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_2fa_dev_otk",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "id"},
 			{ColumnName: "user_id"},
 			{ColumnName: "one_time_key"},
 			{ColumnName: "updated"},
 			{ColumnName: "created"},
-			{ColumnName: "id"},
 		},
 	})
 	if err != nil {
@@ -174,14 +174,14 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		TableName: "t_ymux_config",
 		Columns: []ymux.PGColumn{
 			{ColumnName: "id"},
-			{ColumnName: "value"},
-			{ColumnName: "b_value"},
 			{ColumnName: "created"},
+			{ColumnName: "b_value"},
+			{ColumnName: "updated"},
 			{ColumnName: "realm"},
 			{ColumnName: "name"},
 			{ColumnName: "ty"},
+			{ColumnName: "value"},
 			{ColumnName: "i_value"},
-			{ColumnName: "updated"},
 		},
 	})
 	if err != nil {
@@ -216,24 +216,24 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_documents",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "document_hash"},
-			{ColumnName: "file_name"},
-			{ColumnName: "blockno"},
-			{ColumnName: "note"},
-			{ColumnName: "id"},
 			{ColumnName: "hash"},
-			{ColumnName: "txid"},
 			{ColumnName: "blockhash"},
-			{ColumnName: "updated"},
-			{ColumnName: "created"},
-			{ColumnName: "orig_file_name"},
-			{ColumnName: "orig_file_extension"},
-			{ColumnName: "signature"},
-			{ColumnName: "user_id"},
+			{ColumnName: "id"},
 			{ColumnName: "document_file_name"},
+			{ColumnName: "orig_file_extension"},
+			{ColumnName: "txid"},
+			{ColumnName: "blockno"},
+			{ColumnName: "blockerr"},
+			{ColumnName: "note"},
+			{ColumnName: "updated"},
+			{ColumnName: "user_id"},
+			{ColumnName: "file_name"},
+			{ColumnName: "orig_file_name"},
+			{ColumnName: "signature"},
+			{ColumnName: "created"},
+			{ColumnName: "document_hash"},
 			{ColumnName: "url_file_name"},
 			{ColumnName: "ethstatus"},
-			{ColumnName: "blockerr"},
 		},
 	})
 	if err != nil {
@@ -274,12 +274,12 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_priv",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "priv_name"},
 			{ColumnName: "desc"},
 			{ColumnName: "visible"},
 			{ColumnName: "updated"},
-			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -301,11 +301,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_registration_token",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "updated"},
-			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "user_id"},
 			{ColumnName: "token"},
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -378,7 +378,10 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		"default_title": true,
 		"email": true,
 		"email_confirmed": true,
+		"enc_email_hash": true,
+		"enc_user_hash": true,
 		"id": true,
+		"key_salt": true,
 		"org_user_id": true,
 		"parent_user_id": true,
 		"password": true,
@@ -400,32 +403,35 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_user",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "email"},
-			{ColumnName: "email_confirmed"},
-			{ColumnName: "rfc_6238_secret"},
-			{ColumnName: "roles_privs"},
-			{ColumnName: "org_user_id"},
-			{ColumnName: "created"},
 			{ColumnName: "userinfo"},
-			{ColumnName: "updated"},
-			{ColumnName: "username"},
-			{ColumnName: "password"},
-			{ColumnName: "realm"},
-			{ColumnName: "real_name"},
-			{ColumnName: "recovery_token"},
 			{ColumnName: "recovery_expire"},
-			{ColumnName: "salt"},
-			{ColumnName: "setup_2fa_token"},
-			{ColumnName: "default_image"},
-			{ColumnName: "config"},
-			{ColumnName: "auth_token"},
-			{ColumnName: "acct_expire"},
-			{ColumnName: "id"},
-			{ColumnName: "setup_2fa_complete"},
-			{ColumnName: "default_title"},
-			{ColumnName: "user_role"},
+			{ColumnName: "created"},
+			{ColumnName: "password"},
 			{ColumnName: "acct_type"},
 			{ColumnName: "parent_user_id"},
+			{ColumnName: "auth_token"},
+			{ColumnName: "updated"},
+			{ColumnName: "setup_2fa_complete"},
+			{ColumnName: "realm"},
+			{ColumnName: "default_title"},
+			{ColumnName: "acct_expire"},
+			{ColumnName: "enc_user_hash"},
+			{ColumnName: "salt"},
+			{ColumnName: "default_image"},
+			{ColumnName: "id"},
+			{ColumnName: "email_confirmed"},
+			{ColumnName: "org_user_id"},
+			{ColumnName: "email"},
+			{ColumnName: "real_name"},
+			{ColumnName: "rfc_6238_secret"},
+			{ColumnName: "recovery_token"},
+			{ColumnName: "user_role"},
+			{ColumnName: "enc_email_hash"},
+			{ColumnName: "setup_2fa_token"},
+			{ColumnName: "roles_privs"},
+			{ColumnName: "config"},
+			{ColumnName: "key_salt"},
+			{ColumnName: "username"},
 		},
 	})
 	if err != nil {
@@ -440,6 +446,7 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 		"activity_name": true,
 		"created": true,
 		"id": true,
+		"seq": true,
 		"updated": true,
 		"user_id": true
 	} */
@@ -447,11 +454,12 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "t_ymux_user_log",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "activity_name"},
 			{ColumnName: "updated"},
 			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "user_id"},
-			{ColumnName: "activity_name"},
+			{ColumnName: "seq"},
 		},
 	})
 	if err != nil {
@@ -463,14 +471,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 
 	// Table: ct_homework
 	/* {
-		"created": true,
 		"homework_id": true,
 		"homework_no": true,
 		"homework_title": true,
 		"lesson_body": true,
-		"lesson_tokens": true,
 		"points_avail": true,
-		"updated": true,
 		"video_img": true,
 		"video_url": true
 	} */
@@ -478,16 +483,13 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_homework",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "lesson_body"},
 			{ColumnName: "homework_id"},
+			{ColumnName: "homework_title"},
 			{ColumnName: "homework_no"},
 			{ColumnName: "points_avail"},
-			{ColumnName: "updated"},
-			{ColumnName: "homework_title"},
 			{ColumnName: "video_url"},
 			{ColumnName: "video_img"},
-			{ColumnName: "lesson_body"},
-			{ColumnName: "created"},
-			{ColumnName: "lesson_tokens"},
 		},
 	})
 	if err != nil {
@@ -500,7 +502,6 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	// Table: ct_login
 	/* {
 		"class_no": true,
-		"id": true,
 		"lang_to_use": true,
 		"misc": true,
 		"pg_acct": true,
@@ -510,12 +511,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_login",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "user_id"},
 			{ColumnName: "pg_acct"},
 			{ColumnName: "class_no"},
 			{ColumnName: "lang_to_use"},
 			{ColumnName: "misc"},
-			{ColumnName: "id"},
-			{ColumnName: "user_id"},
 		},
 	})
 	if err != nil {
@@ -541,15 +541,15 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_homework_seen",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "homework_no"},
+			{ColumnName: "user_id"},
+			{ColumnName: "when_seen"},
 			{ColumnName: "watch_count"},
 			{ColumnName: "when_start"},
-			{ColumnName: "created"},
 			{ColumnName: "id"},
-			{ColumnName: "user_id"},
-			{ColumnName: "updated"},
-			{ColumnName: "homework_no"},
 			{ColumnName: "homework_id"},
-			{ColumnName: "when_seen"},
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -574,14 +574,14 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_homework_grade",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "homework_id"},
+			{ColumnName: "tries"},
 			{ColumnName: "pass"},
 			{ColumnName: "pts"},
 			{ColumnName: "updated"},
 			{ColumnName: "created"},
 			{ColumnName: "homework_no"},
 			{ColumnName: "user_id"},
-			{ColumnName: "homework_id"},
-			{ColumnName: "tries"},
 		},
 	})
 	if err != nil {
@@ -634,12 +634,12 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_homework_validation",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
 			{ColumnName: "id"},
 			{ColumnName: "lesson_id"},
 			{ColumnName: "seq"},
 			{ColumnName: "qdata"},
-			{ColumnName: "updated"},
-			{ColumnName: "created"},
 		},
 	})
 	if err != nil {
@@ -661,11 +661,11 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_file_list",
 		Columns: []ymux.PGColumn{
+			{ColumnName: "created"},
+			{ColumnName: "file_list_id"},
 			{ColumnName: "homework_no"},
 			{ColumnName: "file_name"},
 			{ColumnName: "updated"},
-			{ColumnName: "created"},
-			{ColumnName: "file_list_id"},
 		},
 	})
 	if err != nil {
@@ -688,12 +688,12 @@ func ValidateTablesDDL(exitOnError ...bool) (good, bad []string) {
 	err = ymux.PGCheckTableColumns(ymux.PGTable{
 		TableName: "ct_val_homework",
 		Columns: []ymux.PGColumn{
-			{ColumnName: "updated"},
-			{ColumnName: "created"},
 			{ColumnName: "val_id"},
 			{ColumnName: "homework_no"},
 			{ColumnName: "val_type"},
 			{ColumnName: "val_data"},
+			{ColumnName: "updated"},
+			{ColumnName: "created"},
 		},
 	})
 	if err != nil {

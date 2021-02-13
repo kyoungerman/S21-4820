@@ -36,6 +36,9 @@ function submitLogin ( event ) {
 		user_id = data.user_id; // sample: -- see bottom of file: www/js/pdoc-form02.js
 		g_user_id = data.user_id; // sample: -- see bottom of file: www/js/pdoc-form02.js
 		g_username = $("#username").val();
+		if ( data["real_name"] ) {
+			$("#user_real_name").text(": "+data["real_name"]);
+		}
 		if ( data.Auth2faEnabled === "Yes" ) {
 			renderX2faPin();
 		} else {
