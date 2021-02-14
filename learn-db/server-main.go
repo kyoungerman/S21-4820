@@ -6,6 +6,8 @@ package main
 
 // xyzzy88 - un/pw/register - add a quick table.
 
+// xyzzy501101 ./server-main --tool encrypt-unencrypted-accounts
+
 import (
 	"context"
 	"crypto/tls"
@@ -246,9 +248,31 @@ func main() {
 
 	// -------------------------------------------- TODO xyzzy - Temp Comment Out -------------------------------------------------------
 	// -------------------------------------------- TODO xyzzy - Temp Comment Out -------------------------------------------------------
+	// -------------------------------------------- TODO xyzzy - Temp Comment Out -------------------------------------------------------
+	// -------------------------------------------- TODO xyzzy - Temp Comment Out -------------------------------------------------------
+	// -------------------------------------------- TODO xyzzy - Temp Comment Out -------------------------------------------------------
 	if false {
 		fmt.Printf("AT: %s gCfg = --->>>\n%s<<<---\n", godebug.LF(), godebug.SVarI(gCfg))
 		pgsave.PgSaveStruct(&gCfg)
+	}
+
+	// ------------------------------------------------------------------------------
+	// Announce if Encrypted
+	// ------------------------------------------------------------------------------
+	// Cfg.LogFileEncryptionKey string `json:"log_file_encryption_key" default:"$ENV$LOG_ENCRYPTION_KEY"`
+	// Cfg.DB_Enc_Key string `json:"DB_Enc_Key" default:"$ENV$DB_ENC_KEY"`
+	// Cfg.DB_IV_Data string `json:"DB_IV_Data" default:"$ENV$DB_ENC_IV_DATA"`
+
+	if gCfg.LogFileEncryptionKey != "" {
+		fmt.Printf("\n%sLog File Encryption is enabled.%s\n", MiscLib.ColorBlueOnWhite, MiscLib.ColorReset)
+	}
+	if gCfg.DB_Enc_Key != "" {
+		fmt.Printf("\n%sDatabase User Info Encryption is enabled.%s\n", MiscLib.ColorBlueOnWhite, MiscLib.ColorReset)
+		if gCfg.DB_IV_Data == "" {
+
+			fmt.Printf("%sError - missing IV in : User Info Encryption is enabled.%s\n", MiscLib.ColorRed, MiscLib.ColorReset)
+		}
+		fmt.Printf("\n")
 	}
 
 	// ------------------------------------------------------------------------------

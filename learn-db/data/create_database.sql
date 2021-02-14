@@ -1,3 +1,3 @@
 create database learndb owner pschlump;
-\i learndb
+\c learndb
 \i setup.sql

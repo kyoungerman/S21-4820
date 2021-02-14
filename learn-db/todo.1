@@ -19,17 +19,69 @@ Add a "eye" to see password.
 
 
 
+2. Change the format for enc_user_hash - to be base64 for output
+3. Use a set of common routines for encryption.
+
+1. ./server-main --tool encrypt-unencrypted-accounts
+
+1. Setup a "log/output" faclitiy that	
+	1. has "config" if encrytped
+	2. adds %(password) %(username) %(encrypted)s %(email) %(json) %(json:pw_txt,un) 
+		%(name)
+		-> output //name:encrypted//1234jk34k343424j2l3423j42l34
+
+2. Use stored-prod info 
+	/home/pschlump/go/src/gitlab.com/pschlump/PureImaginationServer/auth_check/validate_stored_proc.go
+	do do the store procdure call - with names
+
+	CallStoredProc ( DB, "c_login", 
+		"key": gCfg.EncKey,
+		"enc_user_hash": EncIt(...),
+		"username": unRealm
+	)
+	Returns map[string]inteface() -> 
+
+	var usedStoredProcConfig = []ymux.CrudStoredProcConfig{
+		// FUNCTION c_login_user ( p_username varchar )
+		{
+			StoredProcedureName: "c_login_user",
+			CrudBaseConfig: ymux.CrudBaseConfig{
+				URIPath:       "n/a",
+				TableNameList: []string{"t_ymux_auth_token", "t_ymux_config", "t_ymux_priv", "t_ymux_role", "t_ymux_role_priv", "t_ymux_user", "t_ymux_user_log"},
+				ParameterList: []ymux.ParamListItem{
+					{ReqVar: "username", ParamName: "p_username"},
+				},
+			},
+		},
+		{
+			StoredProcedureName: "c_login_user_enc",
+			CrudBaseConfig: ymux.CrudBaseConfig{
+				URIPath:       "n/a",
+				TableNameList: []string{"t_ymux_auth_token", "t_ymux_config", "t_ymux_priv", "t_ymux_role", "t_ymux_role_priv", "t_ymux_user", "t_ymux_user_log"},
+				ParameterList: []ymux.ParamListItem{
+					{ReqVar: "username", ParamName: "p_username"},
+					{ReqVar: "key", ParamName: "p_key"},                     // 13
+					{ReqVar: "enc_user_hash", ParamName: "p_enc_user_hash"}, // 14
+				},
+			},
+		},
 
 
 
 
+Roles/Privs
+	- need a set of "admin" screens that		
+		- List out roles
+		- List users with roles	+ privs
+		- List permissions per role	
+		- Allow update of roles/privs	
+		- Allow auto-creation of roles based on registration-token, or none
+		- Allow auto-creation of roles based on URL for registration
+		- Allow for hierarcial root/manager/admin/user structure
+		- have "with grant" capability, so a manager can have a set of "with grants" that they can grant to others.
 
 
-
-
-
-
-
+		
 
 
 
@@ -133,3 +185,4 @@ done:
 2. Upload videos to YouTube on 4280 Interactive 1..33							!!!!! Get HELP !!!!!
 
 Figure out if something wrong with 30
+1. If failed to find encrypted data - then search for un-encrypted? - transparent downgrade
