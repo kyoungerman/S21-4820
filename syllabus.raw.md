@@ -147,7 +147,7 @@ Su Mo Tu We Th Fr Sa
 
 ### Class Interactive Discussions
 
-1. Application Supply Chain - Feb 15
+1. Application Supply Chain - Feb 15	-- OOPS
 2. Security - Feb 22
 3. Backup and the Law - Mar 8
 4. Future of Database - Mar 15

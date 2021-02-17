@@ -208,6 +208,7 @@ func main() {
 
 	ymux.SetupCrud(logFilePtr, DbOn)
 	auth_check.Setup(&(gCfg.BaseConfigType), DbOn, logFilePtr, gCfg.QRGeneration.BaseServerUrl, GitCommit) // func Setup(gcfg *ymux.BaseConfigType, dbf map[string]bool, f *os.File, base string, istls bool, gitCommit string) {
+	// auth_check.SetupCall()
 	pstate.Setup(&(gCfg.BaseConfigType), DbOn, logFilePtr, GitCommit, &(gCfg.PstateConfigType))
 	email.SetupEmail(&(gCfg.BaseConfigType), DbOn, logFilePtr)
 
