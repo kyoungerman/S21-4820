@@ -399,7 +399,7 @@ def update_note():
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
-# /api/upd-severity
+# /api/update-severity
 # @get('/api/v1/update-severity')
 @app.route('/api/v1/update-severity', method=['OPTIONS', 'GET'])
 def upd_severity():

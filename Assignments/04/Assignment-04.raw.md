@@ -167,7 +167,7 @@ $ ./a04-server.py
 In an 2nd terminal window:
 
 ```
-$ python3 test_api /api/v1/status /api/v1/db-version /api/v1/issue-list
+$ python3 test_api.py /api/v1/status /api/v1/db-version /api/v1/issue-list
 ```
 
 It should run and tell you if 
@@ -177,6 +177,58 @@ It should run and tell you if
 1. The API end point worked and returned correct data.
 
 
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/get-config | GET | |
+
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/issue-list | GET | |
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/create-issue | GET, POST | |
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/delete-issue | GET, POST | |
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/update-issue | GET, POST | |
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/get-issue-detail | GET | |
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/add-note-to-issue, POST | GET | |
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/delete-note | GET, POST | |
+
+
+
+| Endpoint       | Method   | Description                                               |
+|----------------|----------|-----------------------------------------------------------|
+| /api/v1/update-severity | GET, POST | |
 
 
 
@@ -184,7 +236,13 @@ It should run and tell you if
 
 1. Your data model.  This is the .sql file with the create table statements in it.
 2. Your modified version of a04-server.py with your implementation of the server in it.
-1. Your data cleanup script.
+3. Your data cleanup script.
+4. Your tests in the test_apil.py program for these endpoints:
+	`/api/v1/add-note-to-issue`,
+	`/api/v1/delete-note`,
+	`/api/v1/update-severity`
+
+
 
 
 
