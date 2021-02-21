@@ -105,4 +105,12 @@ let me know and we will walk through the ugly details.
 Now you can test this by running the python code that reads in and creates the connection to the database.
 
 
+```
+$ python3 config.py         
+Connecting to the PostgreSQL database...
+```
+
+With the correct configuration of you environment variables it should connect.
+
+
 

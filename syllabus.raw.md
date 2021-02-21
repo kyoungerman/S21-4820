@@ -147,8 +147,8 @@ Su Mo Tu We Th Fr Sa
 
 ### Class Interactive Discussions
 
-1. Application Supply Chain - Feb 15	-- OOPS
-2. Security - Feb 22
+1. Application Supply Chain - Feb 15	-- OOPS -- Reschedule --
+2. Security - Feb 22					-- Done --
 3. Backup and the Law - Mar 8
 4. Future of Database - Mar 15
 5. SQL or NoSQL - Mar 29
@@ -196,7 +196,7 @@ Linode and load the database and other tools on that and run them remotely.
 | Assignments    | Pts  | Description                                | Due Date   | Duration |
 |----------------|-----:|--------------------------------------------|------------|---------:|
 | 01 - Install   |   50 | Install PosgreSQL, Redis, Python, pgAdmin  | 2021-02-15 | 2 weeks  |
-| 02 - Insert    |  200 | Parse text / generate data                 | 2021-03-01 | 2 weeks  |
+| 02 - Insert    |  200 | Parse text / generate data                 | 2021-03-01 | 2 weeks  | !!!!do-it!!!
 | 03 - Keyword   |  200 | Key World Search                           | 2021-03-22 | 2 weeks  |
 | 04 - App       |  300 | Issue Tracking Application                 | 2021-03-29 | 3 weeks  |
 | 05 - Data dump |   50 | Use pgdump to dump data                    | 2021-04-05 | 1 weeks  |

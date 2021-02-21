@@ -1,6 +1,7 @@
 #!/home/pschlump/anaconda3/bin/python
 
 from configparser import ConfigParser
+import psycopg2
 import os
 
 # get env
@@ -32,3 +33,36 @@ def config(filename='database.ini', section='postgresql'):
         raise Exception('Section {0} not found in the {1} file'.format(section, filename))
 
     return db
+
+
+
+
+
+db_conn = None
+db_connection_info = None
+
+def test_connect():
+    """ Connect to the PostgreSQL database server """
+    global db_conn
+    global db_connection_info
+    db_conn = None
+    param = None
+    try:
+        db_connection_info = config() # read database connection parameters
+        # print ( "db_connetion_info = {}".format(db_connection_info ) )
+
+        # connect to the PostgreSQL server
+        print('Connecting to the PostgreSQL database...')
+        db_conn = psycopg2.connect(**db_connection_info)
+		
+        cur = db_conn.cursor()              
+        cur.execute('SELECT 123 as "x"')
+        t = cur.fetchone()
+        # print ( "t={}".format(t) )
+        cur.close()
+       
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
+if __name__ == '__main__':
+    test_connect()
