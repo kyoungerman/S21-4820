@@ -1,7 +1,9 @@
 #!/use/bin//python3
 #!/home/pschlump/anaconda3/bin/python
 
-from bottle import get, route, static_file, run, error, response, request, abort, put, delete, post
+import bottle
+# from bottle import get, route, static_file, run, error, response, request, abort, put, delete, post, app
+from bottle import error, response, request, abort 
 import psycopg2
 import datetime
 import os
@@ -16,6 +18,25 @@ cwd = ""
 # Xyzzy - pull from config file the "base_root"  add current run directory if not '/' path
 # root_dir = '/home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/py-bottle/www'
 root_dir = './www'
+app = bottle.app()
+
+
+class EnableCors(object):
+    name = 'enable_cors'
+    api = 2
+
+    def apply(self, fn, context):
+        def _enable_cors(*args, **kwargs):
+            # set CORS headers
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
+            if bottle.request.method != 'OPTIONS':
+                # actual request; reply with the actual response
+                return fn(*args, **kwargs)
+
+        return _enable_cors
 
 
 #################################################################################################################################
@@ -221,12 +242,27 @@ def run_delete ( stmt, data ) :
 # Routes 
 #################################################################################################################################
 
-@get('/api/v1/hello')
+# @get('/api/v1/hello')
+@app.route('/api/v1/hello', method=['OPTIONS', 'GET'])
 def hello():
     response.content_type = "application/json"
     return "{\"msg\":\"hello world\"}"
 
-@get('/api/v1/status')
+# @get('/api/v1/global-data.js')
+@app.route('/api/v1/global-data.js', method=['OPTIONS', 'GET'])
+def global_data():
+    response.content_type = "text/javascript;charset=UTF-8"
+    s1 = run_select ( "SELECT * FROM i_state", {})
+    s2 = run_select ( "SELECT * FROM i_severity", {})
+    return "var g_state = {s1};\n\nvar g_severity = {s2};\n\n".format( s1 = s1, s2 = s2 );
+    
+
+
+
+
+
+# @get('/api/v1/status')
+@app.route('/api/v1/status', method=['OPTIONS', 'GET'])
 def status():
     response.content_type = "application/json"
     cur = None
@@ -244,8 +280,13 @@ def status():
         if cur is not None:
             cur.close()
 
+# @get('/status')
+@app.route('/status', method=['OPTIONS', 'GET'])
+def status_2():
+    return status()
 
-@get('/api/v1/db-version')
+# @get('/api/v1/db-version')
+@app.route('/api/v1/db-version', method=['OPTIONS', 'GET'])
 def db_version():
     response.content_type = "application/json"
     global db_version_str
@@ -254,7 +295,8 @@ def db_version():
     db_conn.commit()
     return db_version_str
 
-@get('/api/v1/search-keyword')
+# @get('/api/v1/search-keyword')
+@app.route('/api/v1/search-keyword', method=['OPTIONS', 'GET'])
 def search_keyword():
     response.content_type = "application/json"
     dict = parse_qs(request.query_string)
@@ -280,26 +322,35 @@ def search_keyword():
     return run_select ( "SELECT * FROM i_issue_st_sv where words @@ to_tsquery('{}'::regconfig,%(kw)s)".format(lang), { "kw":kw[0] } )
 
 
-@get('/api/v1/get-config')
+# @get('/api/v1/search-date-range')
+# @app.route('/api/v1/search-date-range', method=['OPTIONS', 'GET'])
+# xyzzy - TODO
+
+
+# @get('/api/v1/get-config')
+@app.route('/api/v1/get-config', method=['OPTIONS', 'GET'])
 def get_config():
     response.content_type = "application/json"
     return run_select ( "SELECT * FROM i_config", {})
 
 # /api/issue-list
-@get('/api/v1/issue-list')
+# @get('/api/v1/issue-list')
+@app.route('/api/v1/issue-list', method=['OPTIONS', 'GET'])
 def issue_list():
-    response.content_type = "application/json"
-    return run_select ( "SELECT * FROM i_issue_st_sv", {} )
+    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
 
 
+# xyzzyA04
 # /api/create-issue
-@get('/api/v1/create-issue')
+# @get('/api/v1/create-issue')
+@app.route('/api/v1/create-issue', method=['OPTIONS', 'GET'])
 def create_issue():
     global db_conn
     response.content_type = "application/json"
     dict = parse_qs(request.query_string)
     if not required_param(dict,["title","body"]):
         return
+    # xyzzy - PUT body params, POST
     title = dict["title"][0]
     body = dict["body"][0]
     if "severity_id" in dict :
@@ -320,8 +371,10 @@ def create_issue():
     db_conn.commit()
     return s
 
+# xyzzyA04
 # /api/delete-issue
-@get('/api/v1/delete-issue')
+# @get('/api/v1/delete-issue')
+@app.route('/api/v1/delete-issue', method=['OPTIONS', 'GET'])
 def delete_issue():
     global db_conn
     response.content_type = "application/json"
@@ -329,21 +382,27 @@ def delete_issue():
     if not required_param(dict,["issue_id"]):
         return
     issue_id = dict["issue_id"][0]
-    # Delete any notes first - to get past the FK
-    s = run_delete ( "delete from i_note where issue_id = %(issue_id)s ", { "issue_id":issue_id, "id":issue_id } )
-    # print ( "delete i_note = {}".format(s) )
-    s = run_delete ( "delete from i_issue where id = %(issue_id)s ", { "issue_id":issue_id, "id":issue_id } )
+    if False:
+        # Delete any notes first - to get past the FK
+        s = run_delete ( "delete from i_note where issue_id = %(issue_id)s ", { "issue_id":issue_id } )
+        # print ( "delete i_note = {}".format(s) )
+        s = run_delete ( "delete from i_issue where id = %(issue_id)s ", { "issue_id":issue_id } )
+    else:
+        s = run_delete ( "update i_issue set state_id = ( select id from i_state where state = 'Deleted' )  where id = %(issue_id)s ", { "issue_id":issue_id } )
     db_conn.commit()
     return s
 
+# xyzzyA04
 # /api/update-issue
-@get('/api/v1/update-issue')
+# @get('/api/v1/update-issue')
+@app.route('/api/v1/update-issue', method=['OPTIONS', 'GET'])
 def update_issue():
     global db_conn
     response.content_type = "application/json"
     dict = parse_qs(request.query_string)
     if not required_param(dict,["title","body","issue_id"]):
         return
+    # xyzzy - PUT body params, POST
     title = dict["title"][0]
     body = dict["body"][0]
     issue_id = dict["issue_id"][0]
@@ -367,8 +426,10 @@ def update_issue():
     return s
 
 
+# xyzzyA04
 # /api/v1/get-issue-details - get an issue with all of its notes
-@get('/api/v1/get-issue-detail')
+# @get('/api/v1/get-issue-detail')
+@app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET'])
 def get_issue_detail():
     response.content_type = "application/json"
 
@@ -399,14 +460,17 @@ def get_issue_detail():
     return "{"+"\"status\":\"success\",\"n_rows\":1,\"data\":{}".format(ss)+"}"
     
 
+# xyzzyA04
 # /api/add-note-to-issue
-@get('/api/v1/add-note-to-issue')
-def add_note_to_issue():
+# @get('/api/v1/add-note-to-issue')
+@app.route('/api/v1/add-note-to-issue', method=['OPTIONS', 'GET'])
+def create_note():
     global db_conn
     response.content_type = "application/json"
     dict = parse_qs(request.query_string)
     if not required_param(dict,["title","body","issue_id"]):
         return
+    # xyzzy - PUT body params, POST
     # print ( "dict={}".format(dict))
     title = dict["title"][0]
     body = dict["body"][0]
@@ -419,14 +483,17 @@ def add_note_to_issue():
     db_conn.commit()
     return s
 
+# xyzzyA04
 # /api/upd-note
-@get('/api/v1/update-note')
-def upd_note():
+# @get('/api/v1/update-note')
+@app.route('/api/v1/delete-note', method=['OPTIONS', 'GET'])
+def update_note():
     global db_conn
     response.content_type = "application/json"
     dict = parse_qs(request.query_string)
     if not required_param(dict,["title","body","note_id"]) :
         return
+    # xyzzy - PUT body params, POST
     title = dict["title"][0]
     body = dict["body"][0]
     note_id = dict["note_id"][0]
@@ -435,8 +502,10 @@ def upd_note():
     return s
 
 
+# xyzzyA04
 # /api/upd-severity
-@get('/api/v1/update-severity')
+# @get('/api/v1/update-severity')
+@app.route('/api/v1/update-severity', method=['OPTIONS', 'GET'])
 def upd_severity():
     global db_conn
     response.content_type = "application/json"
@@ -450,7 +519,8 @@ def upd_severity():
     return s
 
 # /api/upd-state
-@get('/api/v1/update-state')
+# @get('/api/v1/update-state')
+@app.route('/api/v1/update-state', method=['OPTIONS', 'GET'])
 def upd_state():
     global db_conn
     response.content_type = "application/json"
@@ -464,18 +534,53 @@ def upd_state():
     return s
 
 
-@get('/api/v1/get-state')
+# xyzzyA04
+# @get('/api/v1/get-state')
+@app.route('/api/v1/get-state', method=['OPTIONS', 'GET'])
 def get_state():
     response.content_type = "application/json"
     return run_select ( "SELECT * FROM i_state", {})
 
-@get('/api/v1/get-severity')
+# xyzzyA04
+# @get('/api/v1/get-severity')
+@app.route('/api/v1/get-severity', method=['OPTIONS', 'GET'])
 def get_severity():
     response.content_type = "application/json"
     return run_select ( "SELECT * FROM i_severity", {})
 
 
 
+# xyzzyA04
+@app.route('/api/v1/note', method=['OPTIONS', 'DELETE'])
+def delete_note():
+    response.content_type = "application/json"
+    dict = parse_qs(request.query_string)
+    if not required_param(dict,["note_id"]) :
+        return
+    note_id = lower(dict["note_id"][0])
+    return run_delete ( "DELETE FROM i_note WHERE id = %(id)s", { "id": note_id })
+
+# xyzzyA04
+@app.route('/api/v1/note', method=['OPTIONS', 'PUT'])
+def update_note():
+    response.content_type = "application/json"
+    dict = parse_qs(request.query_string)
+    if not required_param(dict,["note_id", "title", "body"]) :
+        return
+    note_id = lower(dict["note_id"][0])
+    title = lower(dict["title"][0])
+    body = lower(dict["body"][0])
+    return run_update ( "UPDATE i_note SET title = %(title)s, body = %(body)s WHERE id = %(id)s", { "id": note_id })
+
+# xyzzyA04
+@app.route('/api/v1/get-note', method=['OPTIONS', 'GET'])
+def update_note():
+    response.content_type = "application/json"
+    dict = parse_qs(request.query_string)
+    if not required_param(dict,["note_id"]) :
+        return
+    note_id = lower(dict["note_id"][0])
+    return run_select ( "SELECT * FROM i_note WHERE id = %(id)s", { "id": note_id })
 
 
 
@@ -484,44 +589,97 @@ def get_severity():
 # RESTful Interface to issue, note
 #################################################################################################################################
 
+# xyzzyA04
+# Issue ---------------------------------------------------------------------------
 # on get - if __method__=X then do X instead
-@get('/api/v1/issue')
+# @get('/api/v1/issue')
+@app.route('/api/v1/issue', method=['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'])
+def issue_get():
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+        if "__method__" in dict:
+            method = lower(dict["__method__"][0])
+            if method == "post":
+                return create_issue()
+            elif method == "delete":
+                return delete_issue()
+            elif method == "put":
+                return update_issue()
+        return issue_list()
+    if request.method == 'POST':
+        return create_issue()
+    if request.method == 'PUT':
+        return update_issue()
+    if request.method == 'DELETE':
+        return delete_issue()
+    return issue_list()
+
+"""
+# @post('/api/v1/issue')
+@app.route('/api/v1/issue', method=['OPTIONS', 'POST'])
+def issue_post():
+    return create_issue()
+
+# @put('/api/v1/issue')
+@app.route('/api/v1/issue', method=['OPTIONS', 'PUT'])
+def issue_post():
+    return update_issue()
+
+# @delete('/api/v1/issue')
+@app.route('/api/v1/issue', method=['OPTIONS', 'DELETE'])
+def issue_post():
+    return delete_issue()
+"""
+
+
+
+# Note ---------------------------------------------------------------------------
+
+# xyzzyA04
+# @get('/api/v1/note')
+@app.route('/api/v1/note', method=['OPTIONS', 'GET'])
 def issue_get():
     dict = parse_qs(request.query_string)
     if "__method__" in dict:
         method = lower(dict["__method__"][0])
         if method == "post":
-            return create_issue()
+            return create_note()
         elif method == "delete":
-            return delete_issue()
+            return delete_note()
         elif method == "put":
-            return update_issue()
-    return issue_list()
+            return update_note()
+    return note_list()
 
-@post('/api/v1/issue')
-def issue_post():
-    return create_issue()
-
-@put('/api/v1/issue')
-def issue_post():
-    return update_issue()
-
-@delete('/api/v1/issue')
-def issue_post():
-    return delete_issue()
-
-
-
-@put('/api/v1/note')
+# xyzzyA04
+# @put('/api/v1/note')
+@app.route('/api/v1/note', method=['OPTIONS', 'PUT'])
 def note_put():
-    return upd_note()
+    return update_note()
+
+# xyzzyA04
+# @post('/api/v1/note')
+@app.route('/api/v1/note', method=['OPTIONS', 'POST'])
+def note_post():
+    return create_note()
 
 
-@get('/api/v1/state')
+# State ---------------------------------------------------------------------------
+# @get('/api/v1/get-state')
+
+# xyzzyA04
+# @get('/api/v1/state')
+@app.route('/api/v1/state', method=['OPTIONS', 'GET'])
 def state_get():
     return get_state()
 
-@get('/api/v1/severity')
+
+
+# Severity ---------------------------------------------------------------------------
+# @get('/api/v1/get-severity')
+
+# xyzzyA04
+# @get('/api/v1/severity')
+@app.route('/api/v1/severity', method=['OPTIONS', 'GET'])
 def severity_get():
     return get_severity()
 
@@ -535,17 +693,19 @@ def severity_get():
 # File Server
 #################################################################################################################################
 
-@route('/')
+@app.route('/')
 def server_index_html():
     global root_dir
-    return static_file("/index.html", root=root_dir)
+    global app
+    return app.static_file("/index.html", root=root_dir)
 
-@route('/<filepath:path>')
+@app.route('/<filepath:path>')
 def server_static(filepath):
     global root_dir
-    return static_file(filepath, root=root_dir)
+    global app
+    return app.static_file(filepath, root=root_dir)
 
-@error(404)
+@app.error(404)
 def error404(error):
     return '404 error - nothing here, sorry'
 
@@ -553,6 +713,7 @@ def error404(error):
 
 
 app_config = None
+
 
 if __name__ == '__main__':
     try:
@@ -565,7 +726,11 @@ if __name__ == '__main__':
             # print ( "root_dir={}".format(root_dir) )
         root_dir = os.path.normpath(root_dir)
         # print ( "root_dir={}".format(root_dir) )
-        run(host='127.0.0.1', port=12128, debug=True)
+
+        # run(host='127.0.0.1', port=12128, debug=True)
+        app.install(EnableCors())
+        app.run(port=12128, host='0.0.0.0', debug=True)
+
         disconnect()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)

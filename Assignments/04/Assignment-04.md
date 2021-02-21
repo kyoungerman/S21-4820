@@ -1,6 +1,10 @@
 
 
-m4_include(../../Lect/lect-setup.m4)
+<style>
+.pagebreak { page-break-before: always; }
+.half { height: 200px; }
+</style>
+
 
 # Assignment 04 - Using a database.
 
@@ -75,17 +79,15 @@ If you look in the file `./database.ini` there are configuration items to allow 
 to connect to your database.
 
 ```
-m4_include(database.ini)
-```
-
-m4_comment([[[
-
 [postgresql]
 host=127.0.0.1
 database=ENV$DATABASE
 user=ENV$DBUSER
 password=ENV$PGPASSWORD
-]]])
+
+```
+
+
 
 These items are, `host=` - this is the IP address of the host.  Under the assumption that you 
 are running this on your Linux virtual machine then the IP address of the local machine, 127.0.0.1
