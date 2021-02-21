@@ -273,7 +273,7 @@ def status():
         # print ( "server status t={}".format(t) )
         cur.close()
         db_conn.commit()
-        return "{"+"\"server_status\":\"Server-OK\",\"database_status\":\"{}\"".format(t[0])+"}"
+        return "{"+"\"status\":\"success\",\"server_status\":\"Server-OK\",\"database_status\":\"{}\"".format(t[0])+"}"
     except (Exception, psycopg2.DatabaseError) as error:
         return "{"+"\"status\":\"error\",\"msg\":\"{}\"".format(error)+"}"
     finally:
