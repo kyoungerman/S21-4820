@@ -12,6 +12,18 @@
 
 # Lecture 10 - Midterm Reveiw
 
+[Midterm Review Pt1 Intro -  https://youtu.be/nIl1uEHIlSQ]( https://youtu.be/nIl1uEHIlSQ)<br>
+[Midterm Review Pt2 Q2 -  https://youtu.be/qcHjrvrnQA4]( https://youtu.be/qcHjrvrnQA4)<br>
+[Midterm Review Pt3 Q3 and Q4 -  https://youtu.be/FwTXmUI18ww]( https://youtu.be/FwTXmUI18ww)<br>
+[Midterm Review Pt4 Q4 and Q5 -  https://youtu.be/gfZrF8UE0k0]( https://youtu.be/gfZrF8UE0k0)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[Midterm Review Pt1 Intro](http://uw-s20-2015.s3.amazonaws.com/4820-L10-pt1-Midterm-Review.mp4)<br>
+[Midterm Review Pt2 Q2](http://uw-s20-2015.s3.amazonaws.com/4820-L10-pt2-Midterm-Review.mp4)<br>
+[Midterm Review Pt3 Q3 and Q4](http://uw-s20-2015.s3.amazonaws.com/4820-L10-pt3-Midterm-Review.mp4)<br>
+[Midterm Review Pt4 Q4 and Q5](http://uw-s20-2015.s3.amazonaws.com/4820-L10-pt4-Midterm-Review.mp4)<br>
+
 *!Important!* This is the lecture for the midterm review.  The midterm covers the first 9 lectures and the interactive homework.
 It also covers chapters 1 to 7 in the book.
 
