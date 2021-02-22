@@ -1,37 +1,23 @@
 #!/home/pschlump/anaconda3/bin/python
 #!/use/bin//python3
 
-# TODO - implement it.
+# TODO 
+# 1. Read in a config file - for http://localhost:12128
+# 2. Do tests - hard coded
+# 3. Do Get tests
+# 4. Compare JSON data for criteria
+# 5. Hard code compare results
+# 6. Add command line - for what tests to run.
 
 """
-Better: https://www.geeksforgeeks.org/get-post-requests-using-python/
-
-From: https://stackoverflow.com/questions/21078888/how-do-i-make-http-post-requests-with-grequests
-
-import grequests
-
-urls = ['http://localhost/test', 'http://localhost/test']
-
-params = {'a':'b', 'c':'d'}
-rs = (grequests.post(u, data=params) for u in urls)
-grequests.map(rs)
-
+See: https://www.geeksforgeeks.org/get-post-requests-using-python/
 """
 
 
 # importing the requests library 
 import requests 
 
-def get1():
-
-    # api-endpoint 
-    URL = "http://localhost:12128/api/v1/status"
-
-    # location given here 
-    location = "Wyoming, Lramie"
-
-    # defining a params dict for the parameters to be sent to the API 
-    PARAMS = {'address':location} 
+def get1( URL, PARAMS ):
 
     # sending get request and saving the response as response object 
     r = requests.get(url = URL, params = PARAMS) 
@@ -48,35 +34,19 @@ def get1():
 
 
 
-def post():
-
-    # defining the api-endpoint 
-    API_ENDPOINT = "http://pastebin.com/api/api_post.php"
-
-    # your API key here 
-    API_KEY = "XXXXXXXXXXXXXXXXX"
-
-    # your source code here 
-    source_code = ''' 
-    print("Hello, world!") 
-    a = 1 
-    b = 2 
-    print(a + b) 
-    '''
-
-    # data to be sent to api 
-    data = {'api_dev_key':API_KEY, 
-                    'api_option':'paste', 
-                    'api_paste_code':source_code, 
-                    'api_paste_format':'python'} 
+def post1( URL, PARAMS ):
 
     # sending post request and saving response as response object 
-    r = requests.post(url = API_ENDPOINT, data = data) 
+    r = requests.post(url = URL, data = PARAMS) 
 
     # extracting response text 
     pastebin_url = r.text 
-    print("The pastebin URL is:%s"%pastebin_url) 
+    print("The pastebin URL is:%s" % pastebin_url) 
 
 
-get1()
+
+
+
+
+get1( "http://localhost:12128/api/v1/status", {} )
 
