@@ -177,28 +177,26 @@ It should run and tell you if
 1. The API end point worked and returned correct data.
 
 
-| Endpoint       | Method   | Description                                               |
-|----------------|----------|-----------------------------------------------------------|
-| /api/v1/get-config | GET | |
-
-
-
 
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
-| /api/v1/issue-list | GET | |
-
-
-
-| Endpoint       | Method   | Description                                               |
-|----------------|----------|-----------------------------------------------------------|
-| /api/v1/create-issue | GET, POST | |
+| /api/v1/create-issue | GET, POST |                                                    |
+|   |  |  perfom an insert into i_issue with parameters from the GET or POST.             |
+|   |  | The paramters should require 'body' and 'title' but allow for                  |
+|   |  | defaults for "severity_id" and "issue_id" .  These should default              |
+|   |  | to '1' for the first ID in the set of ids.                                     |
+|   |  | For "issue_id" it should default to a new UUID if not specified.              |
+|   |  | Use `run_insert` do to the insert and remember to commit the                   |
+|   |  | change to the database.  The return from `run_insert` will                     |
+|   |  | have the status/success and ID to return to the client                         |
+|   |  | application.                                                                   |
 
 
 
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
-| /api/v1/delete-issue | GET, POST | |
+| /api/v1/delete-issue | GET, POST |                                                    |
+|  |   | Use a passed 'issue_id' to do a delete from it i_issue table.                  |
 
 
 

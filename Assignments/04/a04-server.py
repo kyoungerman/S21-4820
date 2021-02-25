@@ -1,9 +1,9 @@
-#!/use/bin//python3
 #!/home/pschlump/anaconda3/bin/python
+#!/use/bin//python3
 
 import bottle
 # from bottle import get, route, static_file, run, error, response, request, abort, put, delete, post, app
-from bottle import error, response, request, abort 
+from bottle import error, response, request, abort, static_file
 import psycopg2
 import datetime
 import os
@@ -12,15 +12,13 @@ from urllib.parse import parse_qs
 import json
 import uuid
         
-# Xyzzy510 - error with "error" with quote marks in it. 
-
 cwd = ""
-# Xyzzy - pull from config file the "base_root"  add current run directory if not '/' path
-# root_dir = '/home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/py-bottle/www'
 root_dir = './www'
 app = bottle.app()
 
 
+#################################################################################################################################
+#################################################################################################################################
 class EnableCors(object):
     name = 'enable_cors'
     api = 2
@@ -128,7 +126,6 @@ def run_select ( stmt, data ):
     except (Exception, psycopg2.DatabaseError) as error:
         print ( "Database Error {}".format(error) )
         return "{"+"\"status\":\"error\",\"msg\":\"{}\"".format(error)+"}"
-        # Xyzzy510 - error with "error" with quote marks in it. 
     finally:
         if cur is not None:
             cur.close()
@@ -177,7 +174,6 @@ def run_select_raw ( stmt, data ):
         }
         db_conn.commit()
         return datarv
-        # Xyzzy510 - error with "error" with quote marks in it. 
     finally:
         if cur is not None:
             cur.close()
@@ -194,7 +190,6 @@ def run_insert ( stmt, data ) :
 
     except (Exception, psycopg2.DatabaseError) as error:
         return "{"+"\"status\":\"error\",\"msg\":\"{}\"".format(error)+"}"
-        # Xyzzy510 - error with "error" with quote marks in it. 
     finally:
         if cur is not None:
             cur.close()
@@ -212,7 +207,6 @@ def run_update ( stmt, data ) :
 
     except (Exception, psycopg2.DatabaseError) as error:
         return "{"+"\"status\":\"error\",\"msg\":\"{}\"".format(error)+"}"
-        # Xyzzy510 - error with "error" with quote marks in it. 
     finally:
         if cur is not None:
             cur.close()
@@ -229,7 +223,6 @@ def run_delete ( stmt, data ) :
 
     except (Exception, psycopg2.DatabaseError) as error:
         return "{"+"\"status\":\"error\",\"msg\":\"{}\"".format(error)+"}"
-        # Xyzzy510 - error with "error" with quote marks in it. 
     finally:
         if cur is not None:
             cur.close()
@@ -322,9 +315,6 @@ def search_keyword():
     return run_select ( "SELECT * FROM i_issue_st_sv where words @@ to_tsquery('{}'::regconfig,%(kw)s)".format(lang), { "kw":kw[0] } )
 
 
-#--------------------------------------------------------------------------------------------------------
-# Assignment 04
-#--------------------------------------------------------------------------------------------------------
 # @get('/api/v1/get-config')
 @app.route('/api/v1/get-config', method=['OPTIONS', 'GET'])
 def get_config():
@@ -333,6 +323,15 @@ def get_config():
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
+#--------------------------------------------------------------------------------------------------------
+#   use `run_select ( "SELECT * FROM i_issue_st_sv", {})`    
+#  to select back the set of issues  in the database         
+#  that are not `Deleted`.   Create the view i_issue_st_sv   
+#  to join from i_issue to i_state and i_severity so that    
+#  both the state_id and the state are returned.  Sort the   
+#  data into descending severity_id, and descending creation 
+#  and update  dates.   The view i_issue_st_sv should be     
+#  added to your data model that you turn in.                
 #--------------------------------------------------------------------------------------------------------
 # /api/issue-list
 # @get('/api/v1/issue-list')
@@ -344,27 +343,40 @@ def issue_list():
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
+#  perfom an insert into i_issue with parameters from the GET or POST.             
+# The paramters should require 'body' and 'title' but allow for                  
+# defaults for "severity_id" and "issue_id" .  These should default              
+# to '1' for the first ID in the set of ids.                                     
+# For "issue_id" it should default to a new UUID if not specified.              
+# Use `run_insert` do to the insert and remember to commit the                   
+# change to the database.  The return from `run_insert` will                    
+# have the status/success and ID to return to the client                       
+# application.                                                                
+#--------------------------------------------------------------------------------------------------------
 # /api/create-issue
 # @get('/api/v1/create-issue')
-@app.route('/api/v1/create-issue', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/create-issue', method=['OPTIONS', 'GET', 'POST'])
 def create_issue():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
+# Use a passed 'issue_id' to do a delete from it i_issue table.                  
+#--------------------------------------------------------------------------------------------------------
 # /api/delete-issue
 # @get('/api/v1/delete-issue')
-@app.route('/api/v1/delete-issue', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/delete-issue', method=['OPTIONS', 'GET', 'POST'])
 def delete_issue():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 # /api/update-issue
 # @get('/api/v1/update-issue')
-@app.route('/api/v1/update-issue', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/update-issue', method=['OPTIONS', 'GET', 'POST'])
 def update_issue():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
 
@@ -372,36 +384,40 @@ def update_issue():
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 # /api/v1/get-issue-details - get an issue with all of its notes
 # @get('/api/v1/get-issue-detail')
-@app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET', 'POST'])
 def get_issue_detail():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
     
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 # /api/add-note-to-issue
 # @get('/api/v1/add-note-to-issue')
-@app.route('/api/v1/add-note-to-issue', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/add-note-to-issue', method=['OPTIONS', 'GET', 'POST'])
 def create_note():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 # /api/upd-note
 # @get('/api/v1/update-note')
-@app.route('/api/v1/delete-note', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/delete-note', method=['OPTIONS', 'GET', 'POST'])
 def update_note():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
 #--------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 # /api/update-severity
 # @get('/api/v1/update-severity')
-@app.route('/api/v1/update-severity', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/update-severity', method=['OPTIONS', 'GET', 'POST'])
 def upd_severity():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
 
@@ -411,11 +427,17 @@ def upd_severity():
 
 # /api/upd-state
 # @get('/api/v1/update-state')
-@app.route('/api/v1/update-state', method=['OPTIONS', 'GET'])
+@app.route('/api/v1/update-state', method=['OPTIONS', 'GET', 'POST'])
 def upd_state():
     global db_conn
     response.content_type = "application/json"
-    dict = parse_qs(request.query_string)
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
     if not required_param(dict,["state_id","issue_id"]):
         return
     state_id = dict["state_id"][0]
@@ -474,7 +496,6 @@ def update_note():
 # RESTful Interface to issue, note
 #################################################################################################################################
 
-# Issue ---------------------------------------------------------------------------
 # on get - if __method__=X then do X instead
 # @get('/api/v1/issue')
 @app.route('/api/v1/issue', method=['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'])
@@ -575,14 +596,12 @@ def severity_get():
 @app.route('/')
 def server_index_html():
     global root_dir
-    global app
-    return app.static_file("/index.html", root=root_dir)
+    return static_file("/index.html", root=root_dir)
 
 @app.route('/<filepath:path>')
 def server_static(filepath):
     global root_dir
-    global app
-    return app.static_file(filepath, root=root_dir)
+    return static_file(filepath, root=root_dir)
 
 @app.error(404)
 def error404(error):
@@ -591,24 +610,32 @@ def error404(error):
 
 
 
-app_config = None
 
+
+#################################################################################################################################
+# Main Program
+#################################################################################################################################
+
+app_config = None
 
 if __name__ == '__main__':
     try:
         app_config = config(filename='app_config.ini', section='app')
         connect()
+
+        root_dir = app_config["static_files"]
+        xhost = app_config["host"]
+        xport = app_config["port"]
+
         cwd = os.getcwd()
         if root_dir[0] != '/' :
             # root_dir = cwd + "/" + root_dir 
             root_dir = os.path.join(cwd, root_dir)
             # print ( "root_dir={}".format(root_dir) )
         root_dir = os.path.normpath(root_dir)
-        # print ( "root_dir={}".format(root_dir) )
 
-        # run(host='127.0.0.1', port=12128, debug=True)
         app.install(EnableCors())
-        app.run(port=12128, host='0.0.0.0', debug=True)
+        app.run(port=xport, host=xhost, debug=True) # app.run(port=12128, host='0.0.0.0', debug=True)
 
         disconnect()
     except (Exception, psycopg2.DatabaseError) as error:
