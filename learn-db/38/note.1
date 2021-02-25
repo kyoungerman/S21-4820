@@ -1,0 +1,37 @@
+https://stackoverflow.com/questions/7682102/putting-explain-results-into-a-tablea
+
+It's possible to read the results of explain into a variable within plpgsql, and since the output can be in XML one can wrap EXPLAIN in a stored function to yield the top-level costs using xpath:
+
+CREATE OR REPLACE FUNCTION estimate_cost(IN query text, 
+OUT startup numeric,
+OUT totalcost numeric, 
+OUT planrows numeric, 
+OUT planwidth numeric)
+AS
+$BODY$
+DECLARE
+    query_explain  text;
+    explanation       xml;
+    nsarray text[][];
+BEGIN
+nsarray := ARRAY[ARRAY['x', 'http://www.postgresql.org/2009/explain']];
+query_explain :=e'EXPLAIN(FORMAT XML) ' || query;
+EXECUTE query_explain INTO explanation;
+startup := (xpath('/x:explain/x:Query/x:Plan/x:Startup-Cost/text()', explanation, nsarray))[1];
+totalcost := (xpath('/x:explain/x:Query/x:Plan/x:Total-Cost/text()', explanation, nsarray))[1];
+planrows := (xpath('/x:explain/x:Query/x:Plan/x:Plan-Rows/text()', explanation, nsarray))[1];
+planwidth := (xpath('/x:explain/x:Query/x:Plan/x:Plan-Width/text()', explanation, nsarray))[1];
+RETURN;
+END;
+$BODY$
+LANGUAGE plpgsql;
+Hence the example from the question becomes:
+
+SELECT totalcost
+FROM estimate_cost('SELECT COUNT(*) 
+      FROM Mytable
+     WHERE value>17');
+Share
+Improve this answer
+Follow
+answered Oct 7 '11 at 12:06
