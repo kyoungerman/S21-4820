@@ -728,12 +728,21 @@ when the foreign data is slow or only periodically changes.</p>
 
 <p>Let&rsquo;s use our table with some names in it. (From Interactive Homework 08)</p>
 
-<pre><code>create table name_list (
+<p>Run File <code>hw39_0.sql</code>:</p>
+
+<pre><code>CREATE EXTENSION if not exists &quot;uuid-ossp&quot;;
+CREATE EXTENSION if not exists pgcrypto;
+
+CREATE TABLE name_list if not exists (
 	name_list_id UUID NOT NULL DEFAULT uuid_generate_v4() primary key,
-	real_name text,
-	age int check ( age &gt; 0 and age &lt; 154 ),	
-	state char varying (2)
+	real_name text check ( length(real_name) &gt;= 1 ) not null,
+	age int check ( age &gt; 0 and age &lt; 154 ) not  null,	
+	state char varying (2) not null,
+	pay numeric(10,2) 
 );
+
+CREATE INDEX if not exists name_list_idx1 on name_list ( real_name );
+CREATE INDEX if not exists user_real_name_ci_idx1 ON name_list ((lower(real_name)));
 
 </code></pre>
 
@@ -773,6 +782,12 @@ CREATE INDEX count_by_state_of_names_p2 on count_by_state_of_names ( state );
 
 </code></pre>
 
+<p>To refresh a materialized view you use (you need to do a refresh to populate the view for the first time also):</p>
+
+<pre><code>REFRESH MATERIALIZED VIEW count_by_state_of_names;
+
+</code></pre>
+
 <p>Now let&rsquo;s select the data:</p>
 
 <pre><code>
@@ -785,6 +800,8 @@ SELECT * from count_by_state_of_names ;
 <h4>Tags: &ldquo;materialized view&rdquo;</h4>
 
 <h4>Validate: &ldquo;CountRows&rdquo;,&ldquo;{%22Nr%22%3A[3]}&rdquo;</h4>
+
+<h4>FilesToRun: hw39_0.sql</h4>
 
 <h4>FilesToRun: hw39_2.sql</h4>
 

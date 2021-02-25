@@ -487,7 +487,10 @@ func isAsBody(id_list []string) bool {
 	if db2 {
 		fmt.Printf("%sWords are: %s%s\n", MiscLib.ColorCyan, godebug.SVar(id_list), MiscLib.ColorReset)
 	}
-	if len(id_list) > 0 && strings.ToLower(id_list[len(id_list)-1]) == "select" {
+	if len(id_list) > 0 &&
+		(strings.ToLower(id_list[len(id_list)-1]) == "select" ||
+			strings.ToLower(id_list[len(id_list)-1]) == "explain" ||
+			strings.ToLower(id_list[len(id_list)-1]) == "with") {
 		canAs = false
 		return false
 	}

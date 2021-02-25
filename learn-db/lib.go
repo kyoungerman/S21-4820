@@ -56,7 +56,11 @@ func IsXXX(stmt, word string) (rv bool) {
 }
 
 func IsSelect(stmt string) (rv bool) {
-	return IsXXX(stmt, "select") || IsXXX(stmt, "with")
+	return IsXXX(stmt, "select") || IsXXX(stmt, "with") || IsXXX(stmt, "explain")
+}
+
+func IsExplain(stmt string) (rv bool) {
+	return IsXXX(stmt, "explain")
 }
 
 func IsUpdate(stmt string) (rv bool) {

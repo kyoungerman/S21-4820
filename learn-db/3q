@@ -156,7 +156,7 @@ $$ LANGUAGE 'plpgsql'`,
 				`CREATE TRIGGER t_ymux_auth_token_trig
 BEFORE update ON "t_ymux_auth_token"
 FOR EACH ROW
-EXECUTE PROCEDURE t_ymux_auth_token_upd()`,
+EXECUTE PROCEDURE t_ymux_auth_token_upd();`,
 			},
 		},
 	}

@@ -8,6 +8,7 @@ PY= \
 	ass_4_1.sql \
 	city_copy.sql \
 	city.sql \
+	err91.sql \
 	grade_hw_no.sql \
 	hw01_0.setup.sql \
 	hw01_1.sql \
@@ -134,9 +135,11 @@ PY= \
 	hw38_10.sql \
 	hw38_11.sql \
 	hw38_12.sql \
+	hw39_0.sql \
 	hw39_1.sql \
 	hw39_2.sql \
 	hw39_3.sql \
+	hw39_5.sql \
 	hw40_1.sql \
 	hw41_01.sql \
 	hw42_01.sql \
