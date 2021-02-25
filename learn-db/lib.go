@@ -11,6 +11,7 @@ import (
 
 	"github.com/Univ-Wyo-Education/S21-4280/learn-db/scan"
 	"github.com/pschlump/Go-FTL/server/sizlib"
+	"github.com/pschlump/uuid"
 )
 
 // username, err := GetUsernameFromId(user_id)
@@ -73,4 +74,9 @@ func IsDelete(stmt string) (rv bool) {
 
 func IsInsert(stmt string) (rv bool) {
 	return IsXXX(stmt, "insert")
+}
+
+func GenUUIDAsString() string {
+	newUUID, _ := uuid.NewV4()
+	return newUUID.String()
 }

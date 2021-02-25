@@ -121,14 +121,20 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 
 	for _, stmtX := range stmt_set {
 		if IsSelect(stmtX) {
-			if len(userdata) == 0 {
-				fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-				// resultSet, err = ymux.SQLQueryDB(UserDB, stmtX)
-				resultSet = sizlib.SelData(UserDB, stmtX)
+			if IsExplain(stmtX) {
+				uu := GenUUIDAsString()
+				sizlib.SelData(UserDB, "SELECT f_explain ( $1, $2 )", uu, stmtX)
+				resultSet = sizlib.SelData(UserDB, "SELECT query_plan FROM temp_a WHERE id = $1 ORDER BY seq", uu)
 			} else {
-				fmt.Fprintf(os.Stderr, "%s >>>>>>>>>>>>> Select <<<<<<<<<<<<<< AT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
-				// resultSet, err = ymux.SQLQueryDB(UserDB, stmtX, userdata...) // Xyzzy - add data as JSON array (Bind variables)
-				resultSet = sizlib.SelData(UserDB, stmtX, userdata...)
+				if len(userdata) == 0 {
+					fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+					// resultSet, err = ymux.SQLQueryDB(UserDB, stmtX)
+					resultSet = sizlib.SelData(UserDB, stmtX)
+				} else {
+					fmt.Fprintf(os.Stderr, "%s >>>>>>>>>>>>> Select <<<<<<<<<<<<<< AT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
+					// resultSet, err = ymux.SQLQueryDB(UserDB, stmtX, userdata...) // Xyzzy - add data as JSON array (Bind variables)
+					resultSet = sizlib.SelData(UserDB, stmtX, userdata...)
+				}
 			}
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
