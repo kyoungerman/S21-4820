@@ -777,9 +777,11 @@ the <code>null</code>.</p>
 an equal condition an index will be used and this smaller set of data then is then
 used in the join.</p>
 
-<p>A better implementation of the 2nd form is:</p>
+<p>First setup the tables and data for this  by running <code>hw34_5.sql</code>.</p>
 
-<pre><code>with per_user_ct_homework_grade as (
+<p>A better implementation of the 2nd form is (run file <code>hw34_3.sql</code>):</p>
+
+<pre><code>explain analyze with per_user_ct_homework_grade as (
 		select * 
 		from ct_homework_grade as t4
 		where t4.user_id ='7a955820-050a-405c-7e30-310da8152b6d' 
@@ -809,6 +811,10 @@ and uses a <code>with</code> to set up the per-user set of data.</p>
 need to be optimized.</p>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
+
+<h4>FilesToRun: hw34_5.sql</h4>
+
+<h4>FilesToRun: hw34_3.sql</h4>
 
 </div>
 

@@ -1,0 +1,301 @@
+package ymux
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"strings"
+
+	"github.com/pschlump/MiscLib"
+	"github.com/pschlump/godebug"
+)
+
+var cliOpts []string
+var cli *string
+
+//var DbFlag map[string]bool
+//
+//func init() {
+//	DbFlag = make(map[string]bool)
+//}
+
+func SetCliOpts(cc *string, ss []string) {
+	cli = cc
+	cliOpts = ss
+}
+
+func SetDbFlag(d map[string]bool) {
+	DbFlag = d
+}
+
+// Get value and if not found use the default value.
+func GetVarDflt(name string, www http.ResponseWriter, req *http.Request, dflt string) (found bool, value string) {
+	found, value = GetVar(name, www, req)
+	if !found {
+		value = dflt
+	}
+	return
+}
+
+func GetNameList(www http.ResponseWriter, req *http.Request) (names []string) {
+	method := req.Method
+	haveName := make(map[string]bool)
+
+	names = GetNameListFromSave(www, req)
+	for _, name := range names {
+		haveName[name] = true
+	}
+
+	if method == "POST" || method == "PUT" {
+		contentType := req.Header.Get("Content-type")
+		if contentType == "" {
+			contentType = "application/x-www-form-urlencoded"
+		}
+		contentType = strings.ToLower(contentType)
+
+		if strings.HasPrefix(contentType, "application/json") {
+			// application/json
+			defer req.Body.Close()
+			body, err := ioutil.ReadAll(req.Body)
+			p := make(map[string]interface{})
+			err = json.Unmarshal(body, &p) // { "abc":"val" }
+			if err == nil {                // SUCCESS!! == nil!
+				for name := range p {
+					if !haveName[name] {
+						names = append(names, name)
+					}
+					haveName[name] = true
+				}
+			}
+			// 2nd try
+			type NvPair struct {
+				Name  string
+				Value string
+			}
+			arr := make([]NvPair, 0, 5) // [ { "name": "val" }, { "name1": "val1" }
+			err = json.Unmarshal(body, &arr)
+			if err == nil {
+				for _, nv := range arr {
+					if !haveName[nv.Name] {
+						names = append(names, nv.Name)
+					}
+					haveName[nv.Name] = true
+				}
+			}
+			return
+		} else if strings.HasPrefix(contentType, "application/x-www-form-urlencoded") {
+			req.PostFormValue("x") // Get it to  do the parse of the form if not already done.
+			for name := range req.PostForm {
+				if !haveName[name] {
+					names = append(names, name)
+				}
+				haveName[name] = true
+			}
+		}
+
+		qq := req.URL.Query()
+		// strArr, ok := qq[name]
+		for name := range qq {
+			if !haveName[name] {
+				names = append(names, name)
+			}
+			haveName[name] = true
+		}
+	} else if method == "GET" || method == "DELETE" {
+		qq := req.URL.Query()
+		for name := range qq {
+			if !haveName[name] {
+				names = append(names, name)
+			}
+			haveName[name] = true
+		}
+	}
+
+	return
+}
+
+// GetVar returns a variable by name from GET or POST data.
+func GetVar(name string, www http.ResponseWriter, req *http.Request) (found bool, value string) {
+
+	// func GetVarueFromSave(www http.ResponseWriter, req *http.Request, name string) (found bool, val string) {
+	found, value = GetValueFromSave(www, req, name)
+	if found {
+		return
+	}
+
+	if cli != nil && *cli != "" {
+		if cliOpts != nil {
+			for ii := 0; ii < len(cliOpts); ii += 2 {
+				if cliOpts[ii] == name {
+					if ii+1 < len(cliOpts) {
+						// fmt.Printf("GetVar - match return ->%s<- cliOpts=%s, at:%s\n", cliOpts[ii+1], cliOpts, godebug.LF())
+						return true, cliOpts[ii+1]
+					} else {
+						fmt.Printf("CLI: Missing option after name [%s] at:%s\n", name, godebug.LF())
+						return true, ""
+					}
+				}
+			}
+		}
+	}
+
+	method := req.Method
+
+	godebug.DbPf(DbFlag["GetVar"], "GetVar name=%s req.Method %s AT:%s\n", name, method, godebug.LF())
+
+	if method == "POST" || method == "PUT" {
+		// xyzzy - check if application/json or what method.
+		contentType := req.Header.Get("Content-type")
+		if contentType == "" {
+			contentType = "application/x-www-form-urlencoded"
+		}
+		contentType = strings.ToLower(contentType)
+
+		urlQueryPull := func() (found bool, value string) {
+			godebug.DbPf(DbFlag["GetVar"], "AT:%s\n", godebug.LF())
+			qq := req.URL.Query()
+			strArr, ok := qq[name]
+			godebug.DbPf(DbFlag["GetVar"],"AT:%s strArr = %s ok = %v\n", godebug.LF(), godebug.SVar(strArr), ok)
+			if ok {
+				godebug.DbPf(DbFlag["GetVar"], "AT:%s\n", godebug.LF())
+				if len(strArr) > 0 {
+					godebug.DbPf(DbFlag["GetVar"], "AT:%s\n", godebug.LF())
+					value = strArr[0]
+					found = true
+				} else {
+					godebug.DbPf(DbFlag["GetVar"], "Multiple values for [%s] AT:%s\n", name, godebug.LF())
+					found = false
+				}
+			}
+			return
+		}
+
+		// TODO multipart/form-data
+
+		if strings.HasPrefix(contentType, "application/json") {
+			// application/json
+			defer req.Body.Close()
+			body, err := ioutil.ReadAll(req.Body)
+			p := make(map[string]interface{})
+			err = json.Unmarshal(body, &p) // { "abc":"val" }
+			if err == nil {                // SUCCESS!! == nil!
+				for name, value := range p {
+					if v, ok := value.(string); ok {
+						SetValue(www, req, name, v)
+					} else {
+						ss := fmt.Sprintf("%s", value)
+						SetValue(www, req, name, ss)
+					}
+				}
+				if ok, tmp := true, p[name]; ok {
+					found = ok
+					if v, ok := tmp.(string); ok {
+						value = v
+					} else {
+						value = fmt.Sprintf("%s", value)
+					}
+				} else {
+					return urlQueryPull()
+				}
+				return
+			}
+			err1 := err
+			// 2nd try
+			type NvPair struct {
+				Name  string
+				Value string
+			}
+			arr := make([]NvPair, 0, 5) // [ { "name": "val" }, { "name1": "val1" }
+			err = json.Unmarshal(body, &arr)
+			if err != nil {
+				fmt.Fprintf(logFilePtr, "Invalid JSON data -->>%s<<-- err1=%s err2=%s\n", body, err1, err)
+				return urlQueryPull()
+			}
+			for _, nv := range arr {
+				SetValue(www, req, nv.Name, nv.Value)
+				if name == nv.Name {
+					found, value = true, nv.Value
+				}
+			}
+			if !found {
+				return urlQueryPull()
+			}
+			return
+
+		} else if strings.HasPrefix(contentType, "application/x-www-form-urlencoded") {
+				godebug.DbPf(DbFlag["GetVar.POST"],"%s!!! POST !!!, x-www-form-urlencoded, AT:%s%s\n", MiscLib.ColorRed, godebug.LF(), MiscLib.ColorReset)
+			// application/x-www-form-urlencoded
+			if str := req.PostFormValue(name); str != "" { // xyzzy - actually have to check if exists
+				found, value = true, str
+					godebug.DbPf(DbFlag["GetVar.POST"],"%s!!! POST !!!, name ->%s<- value ->%s<-, AT:%s%s\n", MiscLib.ColorRed, name, value, godebug.LF(), MiscLib.ColorReset)
+				return
+			}
+			return urlQueryPull()
+
+			/*
+				if DbFlag["GetVar"] {
+					fmt.Printf("AT:%s\n", godebug.LF())
+				}
+				qq := req.URL.Query()
+				strArr, ok := qq[name]
+				if DbFlag["GetVar"] {
+					fmt.Printf("AT:%s strArr = %s ok = %v\n", godebug.LF(), godebug.SVar(strArr), ok)
+				}
+				if ok {
+					if DbFlag["GetVar"] {
+						fmt.Printf("AT:%s\n", godebug.LF())
+					}
+					if len(strArr) > 0 {
+						if DbFlag["GetVar"] {
+							fmt.Printf("AT:%s\n", godebug.LF())
+						}
+						value = strArr[0]
+						found = true
+					} else {
+						if DbFlag["GetVar"] {
+							fmt.Printf("AT:%s\n", godebug.LF())
+						}
+						fmt.Fprintf(os.Stderr, "Multiple values for [%s]\n", name)
+						found = false
+					}
+				}
+			*/
+
+		}
+	} else if method == "GET" || method == "DELETE" {
+		godebug.DbPf(DbFlag["GetVar"], "AT:%s\n", godebug.LF())
+		qq := req.URL.Query()
+		strArr, ok := qq[name]
+		godebug.DbPf(DbFlag["GetVar"], "AT:%s strArr = %s ok = %v, parsed Query qq=%s, req.URL=%s\n", godebug.LF(), godebug.SVar(strArr), ok, qq, req.URL)
+		if ok {
+			godebug.DbPf(DbFlag["GetVar"], "AT:%s\n", godebug.LF())
+			if len(strArr) > 0 {
+				godebug.DbPf(DbFlag["GetVar"], "AT:%s\n", godebug.LF())
+				value = strArr[0]
+				found = true
+			} else {
+				godebug.DbPf(DbFlag["GetVar"], "Multiple values for [%s] AT:%s\n", name, godebug.LF())
+				found = false
+			}
+		}
+	} else {
+		www.WriteHeader(418) // Ha Ha - I Am A Tea Pot
+	}
+	return
+}
+
+func GenQryFromCli() (rv string) {
+	com := ""
+	for ii := 0; ii < len(cliOpts); ii += 2 {
+		if ii+1 < len(cliOpts) {
+			rv = rv + com + cliOpts[ii] + "=" + cliOpts[ii+1] // xyzzy? URL Encode 2nd value?
+		} else {
+			rv = rv + com + cliOpts[ii] + "="
+		}
+		com = "&"
+	}
+	return
+}
+
+/* vim: set noai ts=4 sw=4: */

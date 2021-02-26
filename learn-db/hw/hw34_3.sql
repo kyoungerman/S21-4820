@@ -1,4 +1,4 @@
-with per_user_ct_homework_grade as (
+explain analyze with per_user_ct_homework_grade as (
 		select * 
 		from ct_homework_grade as t4
 		where t4.user_id ='7a955820-050a-405c-7e30-310da8152b6d' 

@@ -124,7 +124,7 @@ func HandleRunSQLInDatabase(www http.ResponseWriter, req *http.Request) {
 			if IsExplain(stmtX) {
 				uu := GenUUIDAsString()
 				sizlib.SelData(UserDB, "SELECT f_explain ( $1, $2 )", uu, stmtX)
-				resultSet = sizlib.SelData(UserDB, "SELECT query_plan FROM temp_a WHERE id = $1 ORDER BY seq", uu)
+				resultSet = sizlib.SelData(UserDB, "SELECT '<pre>'||query_plan||'</pre>' as \"QUery Plan\" FROM temp_a WHERE id = $1 ORDER BY seq", uu)
 			} else {
 				if len(userdata) == 0 {
 					fmt.Fprintf(os.Stderr, "%sAT: %s%s\n", MiscLib.ColorCyan, godebug.LF(), MiscLib.ColorReset)
