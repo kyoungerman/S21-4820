@@ -1,0 +1,38 @@
+Python 3.8.3 (default, Jul  2 2020, 16:21:59) 
+[GCC 7.3.0] :: Anaconda, Inc. on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import csv
+>>> a = "abc",def,"123 45"
+  File "<stdin>", line 1
+    a = "abc",def,"123 45"
+              ^
+SyntaxError: invalid syntax
+>>> a = '"abc",def,"123 45"'
+>>> a
+'"abc",def,"123 45"'
+>>> csv.reader(a)
+<_csv.reader object at 0x7f70978517b0>
+>>> print ( csv.reader(a) )
+<_csv.reader object at 0x7f7098c89580>
+>>> x = csv.reader(a)
+>>> list(x)
+[['abc'], ['', ''], ['d'], ['e'], ['f'], ['', ''], ['123 45']]
+>>> x = csv.reader(a, delimeter=',')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'delimeter' is an invalid keyword argument for this function
+>>> x = csv.reader(a, delimiter=',')
+>>> list(x)
+[['abc'], ['', ''], ['d'], ['e'], ['f'], ['', ''], ['123 45']]
+>>> a = 'abc,def,"123 45"'
+>>> x = csv.reader(a, delimiter=',')
+>>> list(x)
+[['a'], ['b'], ['c'], ['', ''], ['d'], ['e'], ['f'], ['', ''], ['123 45']]
+>>> x = csv.reader([a], delimiter=',')
+>>> list(x)
+[['abc', 'def', '123 45']]
+>>> a = 'abc,"def","123 45"'
+>>> x = csv.reader([a], delimiter=',')
+>>> list(x)
+[['abc', 'def', '123 45']]
+

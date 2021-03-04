@@ -344,6 +344,7 @@ all: pre $(MD) $(HTML) gen_data.sql syllabus.html
 runM4Markdown_to_HTML:
 	m4 -P tmp.raw.md | ./add-space.sh >tmp.md
 	blackfriday-tool ./tmp.md tmp.html
+	ed tmp.html <xxVb.ed
 	@echo "PASS"
 .PHONEY: runM4Markdown_to_HTML
 
@@ -366,6 +367,7 @@ gen_data.sql: $(RAW_MD) Makefile get-tags.go $(PY)
 	echo cat ./${DIR}/md.css $@ >/tmp/$@
 	cat ./${DIR}/css/pre ./${DIR}/css/markdown.css ./${DIR}/css/post ./${DIR}/md.css ./${DIR}/css/hpre $@ ./${DIR}/css/hpost >/tmp/$@
 	mv /tmp/$@ ./$@
+	ed ./$@ <xxVb.ed
 	echo "file://${PP}/$@" >>open.1
 
 run_all:

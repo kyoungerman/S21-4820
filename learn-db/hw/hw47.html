@@ -736,7 +736,7 @@ get thrown in.</li>
 
 <p>First let&rsquo;s create a table.  This is the same as creating a &ldquo;collection&rdquo;
 in MongoDB.  The table will use a GIN index to index all of the
-data in the JSON data.</p>
+data in the JSON data.  (Run file <code>hw47_1.sql</code>)</p>
 
 <pre><code>drop TABLE if exists test_collection ;
 
@@ -840,11 +840,11 @@ INSERT INTO test_collection ( data ) values
 </tr>
 
 <tr>
-<td align="center">`?</td>
-<td>`</td>
+<td align="center"><code>?|</code>`</td>
 <td>text[]</td>
 <td>Do any of these array strings exist as top-level keys?</td>
-<td>`&lsquo;{&ldquo;a&rdquo;:1, &ldquo;b&rdquo;:2, &ldquo;c&rdquo;:3}&rsquo;::JSONb ?</td>
+<td><code>'{&quot;a&quot;:1, &quot;b&quot;:2, &quot;c&quot;:3}'::JSONb ?| array['b', 'c']</code></td>
+<td></td>
 </tr>
 
 <tr>
@@ -856,11 +856,11 @@ INSERT INTO test_collection ( data ) values
 </tr>
 
 <tr>
-<td align="center">`</td>
-<td></td>
-<td>`</td>
+<td align="center"><code>||</code></td>
 <td>JSONb</td>
 <td>Concatenate two JSONb values into a new JSONb value</td>
+<td><code>'[&quot;a&quot;, &quot;b&quot;]'::JSONb || '[&quot;c&quot;, &quot;d&quot;]'::JSONb</code></td>
+<td></td>
 </tr>
 
 <tr>
@@ -903,6 +903,8 @@ INSERT INTO test_collection ( data ) values
 <h4>Tags: &ldquo;JSONb&rdquo;,&ldquo;MongoDB&rdquo;</h4>
 
 <h4>Validate: SQL-Select,&ldquo;select &lsquo;PASS&rsquo; as x&rdquo;</h4>
+
+<h4>FilesToRun: hw47_1.sql</h4>
 
 </div>
 
