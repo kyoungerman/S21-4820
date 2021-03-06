@@ -911,7 +911,7 @@ pschlump=# \i sample-issues.sql
 
 <p>In an 2nd terminal window:</p>
 
-<pre><code>$ python3 test_api /api/v1/status /api/v1/db-version /api/v1/issue-list
+<pre><code>$ python3 test_api.py /api/v1/status /api/v1/db-version /api/v1/issue-list
 </code></pre>
 
 <p>It should run and tell you if</p>
@@ -922,12 +922,256 @@ pschlump=# \i sample-issues.sql
 <li>The API end point worked and returned correct data.</li>
 </ol>
 
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>/api/v1/create-issue</td>
+<td>GET, POST</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>perfom an insert into i_issue with parameters from the GET or POST.</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>The paramters should require &lsquo;body&rsquo; and &lsquo;title&rsquo; but allow for</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>defaults for &ldquo;severity_id&rdquo; and &ldquo;issue_id&rdquo; .  These should default</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>to &lsquo;1&rsquo; for the first ID in the set of ids.</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>For &ldquo;issue_id&rdquo; it should default to a new UUID if not specified.</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>Use <code>run_insert</code> do to the insert and remember to commit the</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>change to the database.  The return from <code>run_insert</code> will</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>have the status/success and ID to return to the client</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>application.</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>/api/v1/delete-issue</td>
+<td>GET, POST</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>Use a passed &lsquo;issue_id&rsquo; to do a delete from it i_issue table.</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>/api/v1/update-issue</td>
+<td>GET, POST</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>Use a passed &lsquo;issue_id&rsquo; the primary key to update the body and or the</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>title of an issue.</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>/api/v1/get-issue-detail</td>
+<td>GET</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>The default issue get allows returning a list of issues.  This will take</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>the issue_id and return the same format for the data but for a single issue</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>with all of the associated notes for this issue in order of when the notes</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>where created.  This is sorted by i_note.seq.</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>/api/v1/add-note-to-issue, POST</td>
+<td>GET</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>Insert into i_note with issue_id so as to assocaite the issue with a note.</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>/api/v1/delete-note</td>
+<td>GET, POST</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>Delete the specified note from the issue based on note_id and issue_id</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>/api/v1/update-severity</td>
+<td>GET, POST</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>Update the severity_id in i_issue given the issue_id and the severity_id.</td>
+</tr>
+</tbody>
+</table>
+
 <h2>Turn In</h2>
 
 <ol>
-<li>Your data model.  This is the .sql file with the create table statements in it.</li>
+<li>Your data model.  This is the .sql file with the create table statements in it that you built from the ERD.</li>
 <li>Your modified version of a04-server.py with your implementation of the server in it.</li>
 <li>Your data cleanup script.</li>
+<li>Your tests in the test_api.py program for these endpoints:
+<code>/api/v1/add-note-to-issue</code>,
+<code>/api/v1/delete-note</code>,
+<code>/api/v1/update-severity</code></li>
 </ol>
 
 <p>Copyright &copy; University of Wyoming, 2021.</p>
