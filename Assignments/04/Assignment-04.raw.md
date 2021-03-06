@@ -181,11 +181,11 @@ It should run and tell you if
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
 | /api/v1/create-issue | GET, POST |                                                    |
-|   |  |  perfom an insert into i_issue with parameters from the GET or POST.             |
+|   |  |  perfom an insert into i_issue with parameters from the GET or POST.           |
 |   |  | The paramters should require 'body' and 'title' but allow for                  |
 |   |  | defaults for "severity_id" and "issue_id" .  These should default              |
 |   |  | to '1' for the first ID in the set of ids.                                     |
-|   |  | For "issue_id" it should default to a new UUID if not specified.              |
+|   |  | For "issue_id" it should default to a new UUID if not specified.               |
 |   |  | Use `run_insert` do to the insert and remember to commit the                   |
 |   |  | change to the database.  The return from `run_insert` will                     |
 |   |  | have the status/success and ID to return to the client                         |
@@ -203,42 +203,54 @@ It should run and tell you if
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
 | /api/v1/update-issue | GET, POST | |
+|  |   | Use a passed 'issue_id' the primary key to update the body and or the          |
+|  |   | title of an issue.                                                             |
 
 
 
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
 | /api/v1/get-issue-detail | GET | |
+| | | The default issue get allows returning a list of issues.  This will take          |
+| | | the issue_id and return the same format for the data but for a single issue       |
+| | | with all of the associated notes for this issue in order of when the notes        |
+| | | where created.  This is sorted by i_note.seq.                                     |
 
 
 
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
 | /api/v1/add-note-to-issue, POST | GET | |
+| | | Insert into i_note with issue_id so as to assocaite the issue with a note.        |
 
 
 
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
 | /api/v1/delete-note | GET, POST | |
+| | | Delete the specified note from the issue based on note_id and issue_id            |
 
 
 
 | Endpoint       | Method   | Description                                               |
 |----------------|----------|-----------------------------------------------------------|
 | /api/v1/update-severity | GET, POST | |
+| | | Update the severity_id in i_issue given the issue_id and the severity_id.        |
 
 
 
 ## Turn In
 
-1. Your data model.  This is the .sql file with the create table statements in it.
+1. Your data model.  This is the .sql file with the create table statements in it that you built from the ERD.
 2. Your modified version of a04-server.py with your implementation of the server in it.
 3. Your data cleanup script.
-4. Your tests in the test_apil.py program for these endpoints:
+4. Your tests in the test_api.py program for these endpoints:
 	`/api/v1/add-note-to-issue`,
 	`/api/v1/delete-note`,
 	`/api/v1/update-severity`
+
+
+
 
 
 

@@ -16,6 +16,7 @@ See: https://www.geeksforgeeks.org/get-post-requests-using-python/
 
 # importing the requests library 
 import requests 
+import json 
 
 def get1( URL, PARAMS ):
 
@@ -29,6 +30,7 @@ def get1( URL, PARAMS ):
 
     print("Status:%s\n" % (stat)) 
 
+    return data
 
 
 
@@ -46,10 +48,55 @@ def post1( URL, PARAMS ):
 
 
 
+n_err = 0
 
 
 # @app.route('/status', method=['OPTIONS', 'GET'])
-get1( "http://localhost:12128/api/v1/status", {} )
+data = get1( "http://localhost:12128/api/v1/status", {} )
+
+
+#@app.route('/api/v1/issue-list', method=['OPTIONS', 'GET'])
+data = get1( "http://localhost:12128/api/v1/issue-list", {} )
+print ( "issue-list: {}".format(json.dumps(data)) )
+
+if data['n_rows'] == len(data['data']):
+    print ( "Test length of data passed." )
+else:
+    n_err = n_err + 1
+    print ( "FAIL" )
+
+
+#@app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET'])
+data = get1( "http://localhost:12128/api/v1/get-issue-detail?issue_id=adcc6ae9-a1db-456a-aa49-427a7111c93e", {} )
+print ( "issue-detail: {}".format(json.dumps(data)) )
+
+if data['n_rows'] == len(data['data']):
+    print ( "Test length of data passed. line:74" )
+else:
+    n_err = n_err + 1
+    print ( "FAIL" )
+
+
+if data['n_rows'] == 1:
+    print ( "Test length of data incorrect. line:81" )
+else:
+    n_err = n_err + 1
+    print ( "FAIL" )
+
+
+if data['data'][0]['n_rows_note'] == len(data['data'][0]['note']):
+    print ( "Test length of note passed." )
+else:
+    n_err = n_err + 1
+    print ( "FAIL" )
+
+if data['data'][0]['n_rows_note'] == 2:
+    print ( "Test length of data incorrect." )
+else:
+    n_err = n_err + 1
+    print ( "FAIL" )
+
+
 
 
 #@app.route('/api/v1/hello', method=['OPTIONS', 'GET'])
@@ -61,7 +108,6 @@ get1( "http://localhost:12128/api/v1/status", {} )
 #@app.route('/api/v1/create-issue', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/delete-issue', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/update-issue', method=['OPTIONS', 'GET']) # POST
-#@app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET'])
 #@app.route('/api/v1/add-note-to-issue', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/delete-note', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/update-severity', method=['OPTIONS', 'GET']) # POST
@@ -83,3 +129,10 @@ get1( "http://localhost:12128/api/v1/status", {} )
 #@app.route('/api/v1/note', method=['OPTIONS', 'POST'])
 #@app.route('/api/v1/state', method=['OPTIONS', 'GET'])
 #@app.route('/api/v1/severity', method=['OPTIONS', 'GET'])
+
+if n_err > 0 :
+    print ( "FAILED" )
+else:
+    print ( "PASS" )
+
+
