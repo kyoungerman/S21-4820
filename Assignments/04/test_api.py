@@ -18,6 +18,7 @@ See: https://www.geeksforgeeks.org/get-post-requests-using-python/
 import requests 
 import json 
 
+#################################################################################
 def get1( URL, PARAMS ):
 
     # sending get request and saving the response as response object 
@@ -36,6 +37,7 @@ def get1( URL, PARAMS ):
 
 
 
+#################################################################################
 def post1( URL, PARAMS ):
 
     # sending post request and saving response as response object 
@@ -48,13 +50,16 @@ def post1( URL, PARAMS ):
 
 
 
+#################################################################################
 n_err = 0
 
 
+#################################################################################
 # @app.route('/status', method=['OPTIONS', 'GET'])
 data = get1( "http://localhost:12128/api/v1/status", {} )
 
 
+#################################################################################
 #@app.route('/api/v1/issue-list', method=['OPTIONS', 'GET'])
 data = get1( "http://localhost:12128/api/v1/issue-list", {} )
 print ( "issue-list: {}".format(json.dumps(data)) )
@@ -66,6 +71,7 @@ else:
     print ( "FAIL" )
 
 
+#################################################################################
 #@app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET'])
 data = get1( "http://localhost:12128/api/v1/get-issue-detail?issue_id=adcc6ae9-a1db-456a-aa49-427a7111c93e", {} )
 print ( "issue-detail: {}".format(json.dumps(data)) )
