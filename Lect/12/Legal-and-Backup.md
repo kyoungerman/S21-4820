@@ -21,7 +21,7 @@ Fiduciary Responsibility is the responsibility that corporate officers have to i
 unless the RIA has a business continuity and transition plan (that is reviewed at least annually). In fact, the SEC has
 stated that it views having a business continuity plan as essential for an advisor to fulfill their fiduciary duty; or
 viewed another way, the firm that isn’t prepared for a business disruption isn’t prepared to fulfill its fiduciary
-duty to clients."
+duty to clients."  (Rule has been approved)
 
 From: https://www.kitces.com/blog/sec-rule-2064-4-requiring-ria-business-continuity-plan-bcp-and-transition-plan/
 
@@ -53,7 +53,7 @@ In each type of interruption, your plan should consist of:
 
 - Step by Step process - list of contacts - list of responsibilities for each person
 - Backup persons for each person
-- Procedures that anticipate different senarios
+- Procedures that anticipate different scenarios
 
 #### Short term / temporary interruption
 
@@ -106,7 +106,7 @@ not carying Errors & Omissions Insurance the liability can be transferred to you
 - Data Breach - the data is there but hackers have now.  Protection of proprietary business information is part of the picture.  Sensitive customer information, credit cards, passwords ... is a 2nd part.  Cyber Liability Insurance can
 help cover the financial fallout.
 - Employee malfeasance.  If any financial institutions are involved then a Fidelity Bond insurance should be purchased.
-- Physical Theft.  If servers get stolen then access to the systems has been compromised.  Both Business Ownwer's Policy and Liability Insurance are needed.
+- Physical Theft.  If servers get stolen then access to the systems has been compromised.  Both Business Owner's Policy and Liability Insurance are needed.
 
 
 #### Public Corporations
