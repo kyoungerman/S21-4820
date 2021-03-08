@@ -1,0 +1,1084 @@
+<style>
+@font-face {
+	font-family: octicons-link;
+	src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	line-height: 1.5;
+	color: #24292e;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 16px;
+	line-height: 1.5;
+	word-wrap: break-word;
+}
+
+.markdown-body .pl-c {
+	color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+	color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+	color: #6f42c1;
+}
+
+.markdown-body .pl-smi,
+.markdown-body .pl-s .pl-s1 {
+	color: #24292e;
+}
+
+.markdown-body .pl-ent {
+	color: #22863a;
+}
+
+.markdown-body .pl-k {
+	color: #d73a49;
+}
+
+.markdown-body .pl-s,
+.markdown-body .pl-pds,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sre,
+.markdown-body .pl-sr .pl-sra {
+	color: #032f62;
+}
+
+.markdown-body .pl-v,
+.markdown-body .pl-smw {
+	color: #e36209;
+}
+
+.markdown-body .pl-bu {
+	color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+	color: #fafbfc;
+	background-color: #b31d28;
+}
+
+.markdown-body .pl-c2 {
+	color: #fafbfc;
+	background-color: #d73a49;
+}
+
+.markdown-body .pl-c2::before {
+	content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+	font-weight: bold;
+	color: #22863a;
+}
+
+.markdown-body .pl-ml {
+	color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+	font-weight: bold;
+	color: #005cc5;
+}
+
+.markdown-body .pl-mi {
+	font-style: italic;
+	color: #24292e;
+}
+
+.markdown-body .pl-mb {
+	font-weight: bold;
+	color: #24292e;
+}
+
+.markdown-body .pl-md {
+	color: #b31d28;
+	background-color: #ffeef0;
+}
+
+.markdown-body .pl-mi1 {
+	color: #22863a;
+	background-color: #f0fff4;
+}
+
+.markdown-body .pl-mc {
+	color: #e36209;
+	background-color: #ffebda;
+}
+
+.markdown-body .pl-mi2 {
+	color: #f6f8fa;
+	background-color: #005cc5;
+}
+
+.markdown-body .pl-mdr {
+	font-weight: bold;
+	color: #6f42c1;
+}
+
+.markdown-body .pl-ba {
+	color: #586069;
+}
+
+.markdown-body .pl-sg {
+	color: #959da5;
+}
+
+.markdown-body .pl-corl {
+	text-decoration: underline;
+	color: #032f62;
+}
+
+.markdown-body .octicon {
+	display: inline-block;
+	vertical-align: text-top;
+	fill: currentColor;
+}
+
+.markdown-body a {
+	background-color: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+	outline-width: 0;
+}
+
+.markdown-body strong {
+	font-weight: inherit;
+}
+
+.markdown-body strong {
+	font-weight: bolder;
+}
+
+.markdown-body h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+
+.markdown-body img {
+	border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}
+
+.markdown-body hr {
+	box-sizing: content-box;
+	height: 0;
+	overflow: visible;
+}
+
+.markdown-body input {
+	font: inherit;
+	margin: 0;
+}
+
+.markdown-body input {
+	overflow: visible;
+}
+
+.markdown-body [type="checkbox"] {
+	box-sizing: border-box;
+	padding: 0;
+}
+
+.markdown-body * {
+	box-sizing: border-box;
+}
+
+.markdown-body input {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.markdown-body a {
+	color: #0366d6;
+	text-decoration: none;
+}
+
+.markdown-body a:hover {
+	text-decoration: underline;
+}
+
+.markdown-body strong {
+	font-weight: 600;
+}
+
+.markdown-body hr {
+	height: 0;
+	margin: 15px 0;
+	overflow: hidden;
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr::before {
+	display: table;
+	content: "";
+}
+
+.markdown-body hr::after {
+	display: table;
+	clear: both;
+	content: "";
+}
+
+.markdown-body table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+	padding: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body h1 {
+	font-size: 32px;
+	font-weight: 600;
+}
+
+.markdown-body h2 {
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.markdown-body h3 {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.markdown-body h4 {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.markdown-body h5 {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.markdown-body h6 {
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.markdown-body p {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+	margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+	x-list-style-type: lower-roman;
+	  list-style-type: decimal;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+	list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+	margin-left: 0;
+}
+
+.markdown-body code {
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	font-size: 12px;
+}
+
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	font-size: 12px;
+}
+
+.markdown-body .octicon {
+	vertical-align: text-bottom;
+}
+
+.markdown-body .pl-0 {
+	padding-left: 0 !important;
+}
+
+.markdown-body .pl-1 {
+	padding-left: 4px !important;
+}
+
+.markdown-body .pl-2 {
+	padding-left: 8px !important;
+}
+
+.markdown-body .pl-3 {
+	padding-left: 16px !important;
+}
+
+.markdown-body .pl-4 {
+	padding-left: 24px !important;
+}
+
+.markdown-body .pl-5 {
+	padding-left: 32px !important;
+}
+
+.markdown-body .pl-6 {
+	padding-left: 40px !important;
+}
+
+.markdown-body::before {
+	display: table;
+	content: "";
+}
+
+.markdown-body::after {
+	display: table;
+	clear: both;
+	content: "";
+}
+
+.markdown-body>*:first-child {
+	margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+	margin-bottom: 0 !important;
+}
+
+.markdown-body a:not([href]) {
+	color: inherit;
+	text-decoration: none;
+}
+
+.markdown-body .anchor {
+	float: left;
+	padding-right: 4px;
+	margin-left: -20px;
+	line-height: 1;
+}
+
+.markdown-body .anchor:focus {
+	outline: none;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 16px;
+}
+
+.markdown-body hr {
+	height: 0.25em;
+	padding: 0;
+	margin: 24px 0;
+	background-color: #e1e4e8;
+	border: 0;
+}
+
+.markdown-body blockquote {
+	padding: 0 1em;
+	color: #6a737d;
+	border-left: 0.25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+	margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+	margin-bottom: 0;
+}
+
+.markdown-body kbd {
+	display: inline-block;
+	padding: 3px 5px;
+	font-size: 11px;
+	line-height: 10px;
+	color: #444d56;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: solid 1px #c6cbd1;
+	border-bottom-color: #959da5;
+	border-radius: 3px;
+	box-shadow: inset 0 -1px 0 #959da5;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	margin-top: 24px;
+	margin-bottom: 16px;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+	color: #1b1f23;
+	vertical-align: middle;
+	visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+	text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+	visibility: visible;
+}
+
+.markdown-body h1 {
+	padding-bottom: 0.3em;
+	font-size: 2em;
+	border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+	padding-bottom: 0.3em;
+	font-size: 1.5em;
+	border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h3 {
+	font-size: 1.25em;
+}
+
+.markdown-body h4 {
+	font-size: 1em;
+}
+
+.markdown-body h5 {
+	font-size: 0.875em;
+}
+
+.markdown-body h6 {
+	font-size: 0.85em;
+	color: #6a737d;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body li {
+	word-wrap: break-all;
+}
+
+.markdown-body li>p {
+	margin-top: 16px;
+}
+
+.markdown-body li+li {
+	margin-top: 0.25em;
+}
+
+.markdown-body dl {
+	padding: 0;
+}
+
+.markdown-body dl dt {
+	padding: 0;
+	margin-top: 16px;
+	font-size: 1em;
+	font-style: italic;
+	font-weight: 600;
+}
+
+.markdown-body dl dd {
+	padding: 0 16px;
+	margin-bottom: 16px;
+}
+
+.markdown-body table {
+	display: block;
+	width: 100%;
+	overflow: auto;
+}
+
+.markdown-body table th {
+	font-weight: 600;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+	padding: 6px 13px;
+	border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+	background-color: #fff;
+	border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+	background-color: #f6f8fa;
+}
+
+.markdown-body img {
+	max-width: 100%;
+	box-sizing: content-box;
+	background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+	padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+	padding-right: 20px;
+}
+
+.markdown-body code {
+	padding: 0.2em 0.4em;
+	margin: 0;
+	font-size: 85%;
+	background-color: rgba(27,31,35,0.05);
+	border-radius: 3px;
+}
+
+.markdown-body pre {
+	word-wrap: normal;
+}
+
+.markdown-body pre>code {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	word-break: normal;
+	white-space: pre;
+	background: transparent;
+	border: 0;
+}
+
+.markdown-body .highlight {
+	margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+	margin-bottom: 0;
+	word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+	padding: 16px;
+	overflow: auto;
+	font-size: 85%;
+	line-height: 1.45;
+	background-color: #f6f8fa;
+	border-radius: 3px;
+}
+
+.markdown-body pre code {
+	display: inline;
+	max-width: auto;
+	padding: 0;
+	margin: 0;
+	overflow: visible;
+	line-height: inherit;
+	word-wrap: normal;
+	background-color: transparent;
+	border: 0;
+}
+
+.markdown-body .full-commit .btn-outline:not(:disabled):hover {
+	color: #005cc5;
+	border-color: #005cc5;
+}
+
+.markdown-body kbd {
+	display: inline-block;
+	padding: 3px 5px;
+	font: 11px "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	line-height: 10px;
+	color: #444d56;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: solid 1px #d1d5da;
+	border-bottom-color: #c6cbd1;
+	border-radius: 3px;
+	box-shadow: inset 0 -1px 0 #c6cbd1;
+}
+
+.markdown-body :checked+.radio-label {
+	position: relative;
+	z-index: 1;
+	border-color: #0366d6;
+}
+
+.markdown-body .task-list-item {
+	list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+	margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+	margin: 0 0.2em 0.25em -1.6em;
+	vertical-align: middle;
+}
+
+.markdown-body hr {
+	border-bottom-color: #eee;
+}
+
+</style>
+<style>
+ol {
+    display: block;
+    list-style-type: decimal;
+}
+.pagebreak { page-break-before: always; }
+.half { height: 200px; }
+</style>
+
+<div class="markdown-body">
+
+<style>
+.pagebreak { page-break-before: always; }
+.half { height: 200px; }
+</style>
+
+<h1>Legal and Backups</h1>
+
+<h2>Legal requirements for backups</h2>
+
+<p>According to the American Management Association:
+&ldquo;About 50% of businesses that suffer from a major disaster without
+a disaster recovery plan in place, never re-open for business.&rdquo;</p>
+
+<h3>Fiduciary Responsibility</h3>
+
+<p>Fiduciary Responsibility is the responsibility that corporate officers have to investors.</p>
+
+<p>&rdquo;&hellip; the SEC has proposed a new Rule 206(4)-4, which would make it unlawful to provide advisory services to clients
+unless the RIA has a business continuity and transition plan (that is reviewed at least annually). In fact, the SEC has
+stated that it views having a business continuity plan as essential for an advisor to fulfill their fiduciary duty; or
+viewed another way, the firm that isn’t prepared for a business disruption isn’t prepared to fulfill its fiduciary
+duty to clients.&rdquo;</p>
+
+<p>From: <a href="https://www.kitces.com/blog/sec-rule-2064-4-requiring-ria-business-continuity-plan-bcp-and-transition-plan/">https://www.kitces.com/blog/sec-rule-2064-4-requiring-ria-business-continuity-plan-bcp-and-transition-plan/</a></p>
+
+<p>Even though the rule has not been finalized the SEC expects companies to have robust business continuity plans
+in place as a part of fiduciary obligation.</p>
+
+<p>Disruption can be in may forms.  Floods, Fires, Earthquakes, Global Warming - or - just the death or disability
+of key personnel.</p>
+
+<h3>Legal responsibility due to contracts and SaaS</h3>
+
+<p>Two Parts</p>
+
+<ol>
+<li>Who are your vendors - and do they have business continuity plans in place.</li>
+<li>Who are your customers - do you have financial services companies, health companies, US or Foreign?</li>
+</ol>
+
+<h3>Backups fit into a &ldquo;business continuity&rdquo; Plan</h3>
+
+<ol>
+<li>Remember that business continuity includes -
+
+<ol>
+<li>Loss of key personnel (because they quit, or ghost you)</li>
+<li>Death of personnel</li>
+<li>Natural Disaster ( flood, earthquake, fire etc )</li>
+<li>Non-Natural disaster - loss of power, network interruption ( Back Hoe and Squirrels )</li>
+</ol></li>
+</ol>
+
+<p>What will a plan include:</p>
+
+<p>In each type of interruption, your plan should consist of:</p>
+
+<ul>
+<li>Step by Step process - list of contacts - list of responsibilities for each person</li>
+<li>Backup persons for each person</li>
+<li>Procedures that anticipate different senarios</li>
+</ul>
+
+<h4>Short term / temporary interruption</h4>
+
+<p>How do you get a temporary interruption - internet failure, power loss, phone loss</p>
+
+<p>Consider The Following:</p>
+
+<ul>
+<li>Backup and recovery of records</li>
+<li>Alternate means of communicating with customers - think backup website / backup email / SMS etc.</li>
+</ul>
+
+<p>What happens when what seems to be a temporal interruption becomes a longer term problem?</p>
+
+<h4>Extended Interruption</h4>
+
+<p>How about when you have to relocate, replace systems, replace a primary vendor - or when you have
+malicious destruction of data or systems?  Fire, Flood, Earthquake are also examples.</p>
+
+<p>An extended interruption occurs when a firm has to relocate or replace office property or records due to destruction. An
+extended interruption could occur in the event of a fire, floor, or other natural disaster. Your firm&rsquo;s BCP should
+address an extended interruption similar to a temporary interruption with a few additional considerations.</p>
+
+<p>Consider The Following:</p>
+
+<ul>
+<li>Replacement of equipment - like serves - or vendors that provide servers</li>
+<li>Move of &ldquo;owned&rdquo; or &ldquo;leased&rdquo; equipment with virtual services (even if they cost more)</li>
+<li>Do your employees have the ability to work from home or from a remote location?</li>
+<li>Do your vendors have a business continuity plan?</li>
+<li>Can you connect to databases and servers from outside of the &ldquo;office&rdquo;?</li>
+<li>Do you have a reachability plan for all staph?</li>
+</ul>
+
+<h4>Permanent Interruption</h4>
+
+<p>Lots of forms of permanent interruption - but do be aware that fires kill 82% of small businesses (less than 500
+employees) - Floods are just about as bad.   Criminal fraud.  Death or disability of key players in a business.
+Is a &ldquo;succession&rdquo; plan in place?</p>
+
+<p>Consider The Following:</p>
+
+<ul>
+<li>Who will take over - who will data / IP be transferred to?</li>
+<li>Who will handle dissolution of the company?</li>
+<li>Backups of financial data are still required for 7 to 8 years - IRS 206 rule.</li>
+<li>Will clients be moved to some other service?</li>
+</ul>
+
+<h2>Legal Responsibility</h2>
+
+<p>Database Administrators face the very real risk include:</p>
+
+<ul>
+<li>Data Lost or compromised.  This is probably the biggest item.  The data is under the care of the DBA and now it is gone / messed up etc.  If you combine this with SaaS the clients are in a position to sue.  If the business is
+not carying Errors &amp; Omissions Insurance the liability can be transferred to you.  This is especially true if you have failed in your professional duties.</li>
+<li>Data Breach - the data is there but hackers have now.  Protection of proprietary business information is part of the picture.  Sensitive customer information, credit cards, passwords &hellip; is a 2nd part.  Cyber Liability Insurance can
+help cover the financial fallout.</li>
+<li>Employee malfeasance.  If any financial institutions are involved then a Fidelity Bond insurance should be purchased.</li>
+<li>Physical Theft.  If servers get stolen then access to the systems has been compromised.  Both Business Ownwer&rsquo;s Policy and Liability Insurance are needed.</li>
+</ul>
+
+<h4>Public Corporations</h4>
+
+<p>In all industries</p>
+
+<table>
+<thead>
+<tr>
+<th>Regulation</th>
+<th>Impact</th>
+<th>Notes - Action Items</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Sarbanes-Oxley Act</td>
+<td>Corporate officers are liable for business continuity</td>
+<td>Liability is only at the &ldquo;officer&rdquo; level in the company.  Mandates business continuity and responsible planning includeing offside and accessible backups.</td>
+</tr>
+
+<tr>
+<td>IRS Procedure 86-19</td>
+<td>Requires off-site protection and documentation of computer records relating to tax</td>
+<td>Records must be available in the event that the primary facility is subjected to unplanned outage</td>
+</tr>
+
+<tr>
+<td>Consumer Credit Protection Act (CCPA) Section 2001 Title 1X</td>
+<td>Due diligence for availability of data in Electronic Funds Transfers including Point of Sale</td>
+<td>Requires offside access to data</td>
+</tr>
+
+<tr>
+<td>Foreign Corrupt Practices Act 1977</td>
+<td>Publicly held corporations must provide “reasonable protection” for IT systems</td>
+<td>Holds all &ldquo;management&rdquo; accountable including computer system administration.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Healthcare Specific</h3>
+
+<table>
+<thead>
+<tr>
+<th>Regulation</th>
+<th>Impact</th>
+<th>Notes - Action Items</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Health Insurance Portability &amp; Accountability Act (HIPAA 1996)</td>
+<td>Requires data back-up plan, disaster recovery emergency plan, and emergency mode operations plans</td>
+<td>DBA&rsquo;s , Developers, IT held personally responsible.    Liability includes prison terms.   Auditing required.</td>
+</tr>
+
+<tr>
+<td>Food and Drug Administration (FDA) Code of Federal Regulations (CFR), title XXI, 1999</td>
+<td>Requires Business Continuity measures to ensure availability of information Establishes the requirements for electronic records and electronic signatures</td>
+<td>Devs and IT personally responsible.   Remote access to databases/systems during emergencies is required.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Government</p>
+
+<table>
+<thead>
+<tr>
+<th>Regulation</th>
+<th>Impact</th>
+<th>Notes - Action Items</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Continuity of Operations (COOP) and continuity of Government (COG)</td>
+<td>Federal Preparedness</td>
+<td>Establishes requirements for Business Continuity plans and response readiness.  Includes any non-federal that receives funds from federal.</td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>&ldquo;Business Continuity plans must be able to sustain operations for 30 days</td>
+<td>This includes remote access to systems and remote systems.</td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>All Business Continuity plans must be maintained at a high level of</td>
+<td></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>readiness, must be capable of implementation without</td>
+<td></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>warning, must be operational within 12 hours&hellip;&rdquo;</td>
+<td></td>
+</tr>
+
+<tr>
+<td>FEMA FRPG 01-94</td>
+<td>All department and agency heads must formally plan for continuity of essential operations</td>
+<td>This includes yearly testing of recovery procedures (restore backups)</td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>Written documents for Business Continuity must be maintained and current</td>
+<td></td>
+</tr>
+
+<tr>
+<td>Federal Information Security Management Act (FISMA) 2002</td>
+<td>Requires electronic data to be available during a crisis Emphasis of FISMA is on data security</td>
+<td></td>
+</tr>
+
+<tr>
+<td>National Institute of Standards and Technology (NIST) SP800-34 2002</td>
+<td>Requires electronic data to be available during a crisis Emphasis of FISMA is on data security</td>
+<td></td>
+</tr>
+
+<tr>
+<td>National Institute of Standards and Technology (NIST) SP800-34 2002</td>
+<td>Requires Business Continuity/Disaster Recovery and COOP plans</td>
+<td></td>
+</tr>
+
+<tr>
+<td>NIST 800-53 2005</td>
+<td>Recommended security controls for Federal Information systems</td>
+<td>Mandatory security controls with specific requirements for continuity planning (remote access to , availability of computer systems )</td>
+</tr>
+
+<tr>
+<td>Governmental Accounting Standards Board (GASB) Statement No. 34 1999</td>
+<td>Requires a Business Continuity plan to ensure that agency’s mission continues in time of crisis</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p>Applies to all government entities that operate utilities Utilities North American</p>
+
+<table>
+<thead>
+<tr>
+<th>Regulation</th>
+<th>Impact</th>
+<th>Notes - Action Items</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Electric Reliability Council (NERC) P6T3</td>
+<td>Interim provisions required if it takes in excess of 1 hour to implement primary facilities Business Continuity/Disaster Recovery Plan</td>
+<td>Specific details on Business Continuity/Disaster Recovery plan that include communications, monitoring utilities, training and testing</td>
+</tr>
+
+<tr>
+<td>NERC Urgent Action Standard 1216</td>
+<td>Disaster Recovery Plans and procedures must be in place</td>
+<td>Business Continuity plans are only required for facilities and functions considered “critical.”</td>
+</tr>
+
+<tr>
+<td>Federal Energy Regulatory Commission (FERC) RM01-12-00 2003</td>
+<td>Mandatory Recovery Plans Does not apply to rural utilities service borrowers and limited distribution co-ops</td>
+<td></td>
+</tr>
+
+<tr>
+<td>NERC Security Guidelines for electricity sector 2001</td>
+<td>Includes Business Continuity/Disaster Recovery in information security standards for the</td>
+<td></td>
+</tr>
+
+<tr>
+<td>industry-government partnership</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>Guided by Critical Infrastructure Protection Committee (CIPC)</td>
+<td>Plan required for rural utilities</td>
+<td>Condition of continued borrowing for rural utilities services</td>
+</tr>
+
+<tr>
+<td>RUS 7 CFR Part 1730 Emergency Restoration</td>
+<td>Plan required for rural utilities</td>
+<td>Condition of continued borrowing for rural utilities services</td>
+</tr>
+
+<tr>
+<td>Presidential Decision Directive 63</td>
+<td>Encourage risk management strategies to protect</td>
+<td>Applies to interdependent and cyber-supported infrastructures vulnerabilities in both public and private</td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>against and mitigate effects of attacks against critical infrastructures and key resources</td>
+<td>sectors, to protect both domestic and international security.</td>
+</tr>
+
+<tr>
+<td>Presidential decision directive 13010</td>
+<td>Disaster Recovery plans required for all national infrastructures</td>
+<td></td>
+</tr>
+
+<tr>
+<td>FTC’s Federal Information Security Management Act 16-CFR-314 2003</td>
+<td>Addresses incident Management response and reporting and Business Continuity/Disaster Recovery planning</td>
+<td>Focus is on security issues, such as password management.</td>
+</tr>
+
+<tr>
+<td>TL9000 Section 7.1.C.3</td>
+<td>Requires established and maintained Business Continuity/Disaster Recovery plans “to ensure the organizations ability to recreate and service the product throughout its life cycle.”</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h2>Normal tests for Backup / Continuity</h2>
+
+<ul>
+<li>Annual tests of backup plan</li>
+<li>Test for different types of disruption</li>
+<li>Verify availability of backup equipment</li>
+<li>Have both electronic and written(printed) versions of action plan</li>
+<li>Very that critical employees have copies of the plan</li>
+</ul>
+
+</div>
+
