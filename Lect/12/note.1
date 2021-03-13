@@ -1,0 +1,23 @@
+https://phoenixnap.com/kb/generate-ssh-key-windows-10
+
+ssh-keygen -t ed25519
+
+https://www.ssh.com/ssh/keygen/
+
+https://linuxize.com/post/how-to-setup-passwordless-ssh-login/
+
+You should have a directory `.ssh` now in your home directory.
+This is where the keys are stored.   The key pair is in 2 files.
+The file we are interested in is the public key.  It will be
+in the file `pub_ed25519.key`.
+
+```
+$ scp pub_ed25519.key pschlump@192.168.0.47:/home/pschlump
+$ ssh  pschlump@192.168.0.47
+...
+...
+...
+$ cd .ssh
+$ cat ../key_ed25519.key >> authorized_hosts
+$ chmod 0600 authorized_hosts
+```

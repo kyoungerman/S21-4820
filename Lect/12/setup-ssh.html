@@ -713,63 +713,181 @@ ol {
 .half { height: 200px; }
 </style>
 
-<h1>Lecture  12: The Rise of NoSQL - MongoDB (MongoDB v.s. PostgreSQL JSONb data type)</h1>
+<h1>How to copy files from system to system</h1>
 
-<h2>Reading</h2>
+<p>I use a program called &lsquo;ssh&rsquo; for remote login and to copy files.
+It is, as far as I can tell, fairly universal with system
+administrators.</p>
 
-<p>Please go and read about a conversion from MongoDB to PostgreSQL:
-<a href="https://developer.olery.com/blog/goodbye-mongodb-hello-postgresql/">https://developer.olery.com/blog/goodbye-mongodb-hello-postgresql/</a></p>
+<p>To Install it on your virtual system:</p>
 
-<h2>Why talk about MomgoDB</h2>
+<pre><code>$ sudo apt update
+$ sudo apt install openssh-server
+</code></pre>
 
-<p>Growth of databases and (decline) is probably the biggest reason.  An article on LinkedIn reports, &ldquo;the most sought after database skills
-are PostgreSQL and MongoDB&rdquo;.</p>
+<p>This creates a process that listens on port 22 for incoming
+login requests.  Also this installs a number of tools that
+work with &lsquo;ssh&rsquo;.</p>
 
-<p>This is why:</p>
+<p>In your virtual box configuration change the network setup
+from Network Address Translated (NAT) to Bridged Networking.
+This is on the host by accessing the virtual box console.</p>
 
-<p><img src="pg-vs-mongo-vs-oracle.png" alt="pg-vs-mongo-vs-oracle.png" /></p>
+<p><img src="VirtualBox-01.png" alt="VirtualBox-01.png" /></p>
 
-<p>When you go looking at other databases, MySQL is decreasing slowly in usage, Microsoft SQL Server is falling fast - at it&rsquo;s current
-rate it will a minor player in 3 to 4 years.  There are a raft of other SQL databases, DB2 from IBM and the Unix version of it, DB2 Universal,
-Ingres, RBAse etc.  All minor players.</p>
+<p>and</p>
 
-<p>There are a slew of NO-SQL databases - but the only 2 that have significant usage are MongoDB and Redis.  Redis is an in-memory
-shared data structure - we will get back to it some later in the semester - it is very useful - as a compliment to a lot of
-systems.</p>
+<p><img src="VirtualBox-02.png" alt="VirtualBox-02.png" /></p>
 
-<p>So&hellip; PostgreSQL and MongoDB are the two that are growing.</p>
+<p>No back on your client system in Linux let&rsquo;s find out the
+IP address of your client.</p>
 
-<h2>What is good about MongoDB</h2>
+<pre><code>$ ip addr
+</code></pre>
 
-<p>Why are people using it - why is it growing.</p>
+<p>This is the new way to find out the IP address of your
+system.  The old way (requires install of net-tools)</p>
+
+<pre><code>$ sudo apt install net-tools
+$ ifconfig
+</code></pre>
+
+<p>Now on your host (desktop or laptop) you can connect
+to your client system with:</p>
+
+<pre><code>C:\&gt; ssh pschlump@192.168.0.47
+</code></pre>
+
+<p>or on Mac:</p>
+
+<pre><code>$ ssh pschlump@192.168.0.47
+</code></pre>
+
+<p>When you want to logout of Linux at the bash prompt
+you can enter a ^D (control-D) this is a Linux
+EOF and ends the login session.</p>
+
+<p>You get prompted for a password.</p>
+
+<p>SSH has the ability to copy files.  Let&rsquo;s copy a file from the
+host to the client.</p>
+
+<pre><code>$ ls &gt;test.1
+$ scp test.1 pschlump@192.168.0.47:/tmp
+</code></pre>
+
+<p>This copies the file up to the common /tmp directory.</p>
+
+<p>On the Linux system let&rsquo;s create a file and then copy
+it to the host.</p>
+
+<pre><code>$ cd
+$ pwd
+$ vi test.2
+</code></pre>
+
+<p>Now on the host (Windows/Mac)</p>
+
+<pre><code>$ scp pschlump@192.168.0.47:/home/pschlump/test.2 .
+$ cat test.2
+</code></pre>
+
+<h2>Passwordless Login</h2>
+
+<p>SSH can be setup to not use passwords.  This is the &ldquo;high security&rdquo;
+login method - instead it uses strong encryption and public/private
+keys.</p>
+
+<p>SSH is already a high-security login if you use a strong password.
+Lot&rsquo;s of systems (AWS, Azure etc) now just require this higher
+level of security that you get with a public/private key pair.
+They don&rsquo;t even allow you to use a password at all.</p>
+
+<p>The way this authentication works is</p>
 
 <ol>
-<li>It is JavaScript and JSON all the way down.  Front end devs are use to JavaScript.</li>
-<li>It has simple setup.  (this turns out to be a mixed blessing)</li>
-<li>You can learn it in 1 hr.</li>
-<li>Automatic indexing.</li>
-<li>It&rsquo;s the &ldquo;trendy&rdquo; thing.</li>
+<li>ssh or scp contacts the destination system.</li>
+<li>the destination system sends a random &ldquo;message&rdquo; to sign.</li>
+<li>your system creates a digital signature on the random message.  It signs with the private key.</li>
+<li>Your system sends back the signature and message.</li>
+<li>The remote system checks that the message is correct and validates that the signature is
+valid using your public key.</li>
+<li>You are logged in.</li>
 </ol>
 
-<h2>What is bad about MongoDB</h2>
+<p>This requires that the destination system has a copy of your public key.
+To make this system secure you have to keep your private key private.
+You don&rsquo;t share or copy your pirate key from your system. (You do make
+careful backups of your keys - if you loose them then you won&rsquo;t be
+able to login)</p>
 
-<p>Why to choose some other system.</p>
+<p>So &hellip; First we need to generate a key pair.   SSH comes with a
+tool &ldquo;ssh-keygen&rdquo; that will do this for us.  On the host.</p>
+
+<pre><code>C:\User\pschlump\&gt; ssh-keygen -t ed25519
+
+</code></pre>
+
+<pre><code>$ cd
+$ ls -ld .ssh
+</code></pre>
+
+<p>or on a Mac or Linux (if the directory is not already there)</p>
+
+<pre><code>$ cd 
+$ mkdir -p .ssh
+$ chomod 0755  .ssh
+$ cd .ssh
+$ ssh-keygen -t ed25519
+</code></pre>
+
+<p>If the directory is there then just</p>
+
+<pre><code>$ cd .ssh
+$ ssh-keygen -t ed25519
+</code></pre>
+
+<p>There are different types of keys - I tend to use <code>ed25519</code>.
+They are faster at login.  Most people use <code>rsa</code>.  So if you see
+in the some website  <code>-t rsa</code> that is why.</p>
+
+<p>To send the public key to the destination (Linux system)
+Fro your host.</p>
+
+<pre><code>$ ssh-copy-id pschlumnp@192.168.0.47
+</code></pre>
+
+<p>It will prompt your for a password based login.</p>
+
+<p>Lets try your ssh login again.
+You should not get prompted for a password.
+From the Windows/Mac system:</p>
+
+<pre><code>C:\user\pschlump\&gt; ssh pschlump@192.168.0.47
+</code></pre>
+
+<p>or</p>
+
+<pre><code>$ ssh pschlump@192.168.0.47
+</code></pre>
+
+<p><code>scp</code> should also work without requiring a password
+at this point.</p>
+
+<p>All of the stuff for Mac works the same on Linux.
+I also use a SSH client from my iPhone and iPad.   This turns an iPad pro into a
+very good remote terminal for accessing things like AWS.  If any of you have
+seen me send email or use stuff when I am remote then this is how I am usually
+doing it.</p>
+
+<h2>References</h2>
 
 <ol>
-<li>It has simple setup.  The setup ignores all security and network setup.  Lot&rsquo;s of folks
-in this class are now aware of just how complex that can be.</li>
-<li>Performance scales linearly with replicas is the claim.  It is mostly true.  The difference
-is that 3,000 to 4,000 documents per second doubling with a replica is still way less than
-PostgreSQL running at 50,000 per second for a single system and scaling to over 1,000,000
-per second (Amazon Aurora).</li>
-<li>A number of the &ldquo;features&rdquo; are really week.  MongoDB offers a Geographic Information System (GIS) package
-but the polygons lack the ability to have holes or be dis-continuous.   Lot&rsquo;s of real world GIS stuff
-need holes.  PostGIS -the GIS system on top of PostgreSQL has all of these hard to implement
-features. (We will get do do a little bit on PostGIS before the end of the semester)</li>
-<li>Automatic indexing. - What happens when you don&rsquo;t need the index any more.  You can get rid of
-it but MongoDB seems to only remove the index form it&rsquo;s catalog - but not reclaim the space.</li>
-<li>Horrible recovery and batch times.   I have recovers indexes that take hours and the entire
-database is locked.  I have done bulk loads that take hours and the entire system is locked.</li>
+<li><a href="https://phoenixnap.com/kb/generate-ssh-key-windows-10">SSH Keygen on Windows https://phoenixnap.com/kb/generate-ssh-key-windows-10</a></li>
+<li><a href="https://www.siteground.com/kb/how_to_generate_an_ssh_key_pair_in_mac_os/">SSH Keygen on Mac https://www.siteground.com/kb/how_to_generate_an_ssh_key_pair_in_mac_os/</a></li>
+<li><a href="https://www.techrepublic.com/article/how-to-generate-ssh-keys-on-macos-mojave/">Another mac keygen https://www.techrepublic.com/article/how-to-generate-ssh-keys-on-macos-mojave/</a></li>
+<li><a href="https://www.ssh.com/ssh/keygen/">Another Keygen Example https://www.ssh.com/ssh/keygen/</a></li>
+<li><a href="https://linuxize.com/post/how-to-setup-passwordless-ssh-login/">Setting up passwordless login https://linuxize.com/post/how-to-setup-passwordless-ssh-login/</a></li>
 </ol>
 
 </div>

@@ -4,8 +4,8 @@ PP=`pwd`
 PY=
 IMG=
 
-MD= Lect-12.md Legal-and-Backup.md
-HTML= Lect-12.html Legal-and-Backup.html
+MD= Lect-12.md Legal-and-Backup.md setup-ssh.md linux-usage.md
+HTML= Lect-12.html Legal-and-Backup.html setup-ssh.html linux-usage.html
 
 all: pre $(MD) $(HTML) 
 
