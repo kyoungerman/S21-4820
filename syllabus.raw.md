@@ -196,13 +196,13 @@ Linode and load the database and other tools on that and run them remotely.
 | Assignments    | Pts  | Description                                | Due Date   | Duration |
 |----------------|-----:|--------------------------------------------|------------|---------:|
 | 01 - Install   |   50 | Install PosgreSQL, Redis, Python, pgAdmin  | 2021-02-15 | 2 weeks  |
-| 02 - Insert    |  200 | Parse text / generate data                 | 2021-03-01 | 2 weeks  | !!!!do-it!!!
+| 02 - Insert    |  200 | Parse text / generate data                 | 2021-03-01 | 2 weeks  |
 | 03 - Keyword   |  200 | Key World Search                           | 2021-03-22 | 2 weeks  |
 | 04 - App       |  300 | Issue Tracking Application                 | 2021-03-29 | 3 weeks  |
 | 05 - Data dump |   50 | Use pgdump to dump data                    | 2021-04-05 | 1 weeks  |
 | 06 - Backup    |   50 | Use tar to backup entire database          | 2021-04-12 | 1 weeks  |
 | 07 - Remote    |   50 | Setup database security                    | 2021-04-26 | 1 weeks  |
-| 08 - Tune SQL  |  100 | Find and Tune SQL                          | 2021-05-07 | 1+ weeks  |
+| 08 - Tune SQL  |  100 | Find and Tune SQL                          | 2021-05-07 | 1+ weeks |
 |                |      |                                            |            |          |
 | Total          | 1000 |                                            |            | 11 weeks |
 
