@@ -1083,6 +1083,44 @@ pschlump=# \q
 
 </code></pre>
 
+<h2>Changing permissions on a file</h2>
+
+<p>Someimes you need to chagne permissions.  We will need this to run our
+server in Assignment 04.</p>
+
+<p>Let&rsquo;s create a tiny bash script file</p>
+
+<pre><code>$ cat &gt;tiny.sh
+#!/bin/bash
+echo Tiny
+^D
+$ ls -l tiny.sh
+</code></pre>
+
+<p>To make a file executable (a script file):</p>
+
+<pre><code>$ chmod +x tiny.sh
+</code></pre>
+
+<p>Then run it</p>
+
+<pre><code>$ ./tiny.sh
+</code></pre>
+
+<p>By ptting the path to python at the top we can create an excutable
+python script.</p>
+
+<pre><code>$ cat &gt;sample.py
+print ( &quot;Hi From Python&quot; )
+^D
+$ chmod +x sample.py
+</code></pre>
+
+<p>And run it</p>
+
+<pre><code>$ ./sample.py
+</code></pre>
+
 <h2>References</h2>
 
 <ol>
