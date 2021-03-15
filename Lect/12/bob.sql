@@ -1,3 +1,4 @@
 create table bob (
-  nnn int
+  nnn int,
+  yyy int
 );
