@@ -28,6 +28,9 @@ and
 
 ![VirtualBox-02.png](VirtualBox-02.png)
 
+Change the NAT to Bridged Network in the modal box.
+
+![VirtualBox-03.png](VirtualBox-03.png)
 
 No back on your client system in Linux let's find out the
 IP address of your client.
