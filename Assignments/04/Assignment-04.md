@@ -39,7 +39,7 @@ requests.
 The ERD is in `./assignment-04.erd.pdf`.   First take the ERD and build the tables, constraints and
 triggers for the model.
 
-The sample server is in `./a04-server.py`.  There will be a set of videos detaling adding an
+The sample server is in `./a04-server.py`.  There will be a set of videos detailing adding an
 endpoint to the server and how that works.
 
 First - the 1st line in the file `#!/usr/bin/python3` is for Mac and Linux.  You man need to change
