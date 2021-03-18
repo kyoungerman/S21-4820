@@ -365,9 +365,10 @@ def issue_list():
 #--------------------------------------------------------------------------------------------------------
 # /api/create-issue
 # @get('/api/v1/create-issue')
-@app.route('/api/v1/create-issue', method=['OPTIONS', 'GET', 'POST'])
+@app.route('/api/v1/create-issue', method=['POST', 'GET', 'OPTIONS'])
 def create_issue():
     return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
