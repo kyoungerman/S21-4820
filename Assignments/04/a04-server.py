@@ -259,6 +259,9 @@ def global_data():
 def status():
     response.content_type = "application/json"
     cur = None
+    dict = {}
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
     try:
         cur = db_conn.cursor()              
         cur.execute('SELECT \'Database-OK\' as "x"')
@@ -266,7 +269,14 @@ def status():
         # print ( "server status t={}".format(t) )
         cur.close()
         db_conn.commit()
-        return "{"+"\"status\":\"success\",\"server_status\":\"Server-OK\",\"database_status\":\"{}\"".format(t[0])+"}"
+        # return "{"+"\"status\":\"success\",\"server_status\":\"Server-OK\",\"database_status\":\"{}\"".format(t[0])+"}"
+        ss = json.dumps(
+          dict,
+          sort_keys=True,
+          indent=1,
+          default=default
+        )
+        return "{"+"\"status\":\"success\",\"server_status\":\"Server-OK\",\"database_status\":\"{}\",\"params\":{}".format(t[0],ss)+"}"
     except (Exception, psycopg2.DatabaseError) as error:
         return "{"+"\"status\":\"error\",\"msg\":\"{}\"".format(error)+"}"
     finally:
