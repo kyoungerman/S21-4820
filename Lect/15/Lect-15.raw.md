@@ -16,7 +16,7 @@ Some more code to go through in the front end for Assignment 04.
 
 ## Byzantine Generals Problem
 
-This was originally described by L. Lamport in 1982.  It is the underlying problem
+This was originally described by L. Lamport [4] in 1982.  It is the underlying problem
 and solution that is behind blockchain and cryptocurrency.
 
 Basically you have multiple independent systems sending messages.  Some of the
@@ -35,29 +35,29 @@ that are at different locations agree on a "world state" before taking
 some action.
 
 This is based on the Paper "Practical Byzantine Fault Tolerance"
-by Castro [5] 1999:
+by Castro [5] in 1999:
 
 1. Commander sends the value to every lieutenant
 1. Every lieutenant
-- if it receives a new value v, broadcast (prepare, v)
-- if it receives 2f+1 (prepare, v), broadcast (commit, v)
-- if it receives 2f+1 (commit, v), broadcast (committed, v)
-- if it receivers f+1 (committed, v), broadcast (committed, v)
+	- if it receives a new value v, broadcast (prepare, v)
+	- if it receives 2f+1 (prepare, v), broadcast (commit, v)
+	- if it receives 2f+1 (commit, v), broadcast (committed, v)
+	- if it receivers f+1 (committed, v), broadcast (committed, v)
 1. Ensure agreement
 1. Ensure liveness under an loyal commander
 
 ## Clock solution to Distributed Consensus
 
-This is L. Lamport's 2nd contribution.  A provable consensus system using
+This is L. Lamport's other contribution to distributed fault tollerance.  A provable consensus system using
 accurate clocks.  I think his paper on this was in 1978.
 
-The commercial version of F1 is "spanner" the worlds first global scale database.
+The commercial version of F1 [1] is "spanner" the worlds first global scale database.
 You can use it by using Google Compute Cloud database.  It is the database under
-gmail, google docs, and doubleclick - the advertising platform.  This means that
+gmail, Google docs, and doubleclick - the advertising platform.  This means that
 all of use it many times a day.  74% of the web has google analytics on it - feeding
 data - billions of rows a day into it.
 
-At the hart of this is the Google TrueTime API - you can use it also.
+At the hart of this is the Google TrueTime [2] API - you can use it also.
 True time is a microsecond accurate time clock in the API that is globally accurate.
 By globally I mean that the data center in Dublin Ireland will give you the
 same results as Portland Oregon.  To do this Google used atomic clocks in
