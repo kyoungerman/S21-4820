@@ -3,6 +3,17 @@ m4_include(../lect-setup.m4)
 
 # Lecture 15 - Google's F1 Database
 
+[Google F1 - https://youtu.be/94_mv19gHxs](https://youtu.be/94_mv19gHxs)<br>
+[Byzantine Generals - https://youtu.be/EioBX3K7Frw](https://youtu.be/EioBX3K7Frw)<br>
+[Google F1 pt2 - https://youtu.be/CCyyFJRDFrU](https://youtu.be/CCyyFJRDFrU)<br>
+[Walk through of Front End - https://youtu.be/CCyyFJRDFrU](https://youtu.be/CCyyFJRDFrU)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[Google F1](http://uw-s20-2015.s3.amazonaws.com/4820-L15-pt1-Google-F1.mp4)<br>
+[Byzantine Generals](http://uw-s20-2015.s3.amazonaws.com/4820-L15-pt2-Byzantine-Fault-Tollerance.mp4)<br>
+[Google F1 pt2](http://uw-s20-2015.s3.amazonaws.com/4820-L15-pt3-F1-database.mp4)<br>
+[Walk through of Front End](http://uw-s20-2015.s3.amazonaws.com/4820-L15-pt4-front-end-Assignment-04-code-overview.mp4)<br>
 
 
 
