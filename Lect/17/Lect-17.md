@@ -33,7 +33,11 @@ with multiple threads.
 
 Let's take a look at performance.
 
-xyzzy
+| Database/Rows | 10		| 100		| 1000		| 10000		|
+|--------------:|----------:|----------:|----------:|----------:|
+| SqLite3		| 8			| 47		| 391		| 3141		|
+| LevelDb		| 5			| 52		| 431		| 5210		|
+| PostgreSQL	| 19		| 61		| 532		| 4328		|
 
 Known "issue" or problems that I have encountered.
 
