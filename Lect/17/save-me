@@ -3,7 +3,7 @@ m4_include(../lect-setup.m4)
 
 # Lecture 17 - Hash Based Databases v.s. SqLite
 
-[SqLite3 v.s. Hash Store - https://youtu.be/0GG2s9uz8BY](https://youtu.be/0GG2s9uz8BY)<br>
+[SqLite3 v.s. Hash Store - https://youtu.be/q3kimDmgOLg](https://youtu.be/q3kimDmgOLg)<br>
 [get-issue-detail  walk through - https://youtu.be/lfCNVEJEOxQ](https://youtu.be/lfCNVEJEOxQ)<br>
 
 From Amazon S3 - for download (same as youtube videos)
@@ -37,11 +37,7 @@ with multiple threads.
 
 Let's take a look at performance.
 
-| Database/Rows | 10		| 100		| 1000		| 10000		|
-|--------------:|----------:|----------:|----------:|----------:|
-| SqLite3		| 8			| 47		| 391		| 3141		|
-| LevelDb		| 5			| 52		| 431		| 5210		|
-| PostgreSQL	| 19		| 61		| 532		| 4328		|
+xyzzy
 
 Known "issue" or problems that I have encountered.
 

@@ -7,6 +7,14 @@
 
 # Lecture 17 - Hash Based Databases v.s. SqLite
 
+[SqLite3 v.s. Hash Store - https://youtu.be/0GG2s9uz8BY](https://youtu.be/0GG2s9uz8BY)<br>
+[get-issue-detail  walk through - https://youtu.be/lfCNVEJEOxQ](https://youtu.be/lfCNVEJEOxQ)<br>
+
+From Amazon S3 - for download (same as youtube videos)
+
+[SqLite3 v.s. Hash Store](http://uw-s20-2015.s3.amazonaws.com/4820-L17-pt1-sqlite3-very-brief-overivew.mp4)<br>
+[get-issue-detail  walk through](http://uw-s20-2015.s3.amazonaws.com/4820-L17-pt2-get-issue-detail-walkthrough.mp4)<br>
+
 The stated reason for using a "hash" database like
 "bitcoin" uses is that you don't have an external
 database that requires setup and maintenance.  
