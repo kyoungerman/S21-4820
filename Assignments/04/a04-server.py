@@ -400,7 +400,41 @@ def update_issue():
 # @get('/api/v1/get-issue-detail')
 @app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET', 'POST'])
 def get_issue_detail():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+   
+    response.content_type = "application/json"
+    dict = parse_qs(request.query_string)
+    if not required_param(dict,["issue_id"]) :
+        return
+    issue_id = lower(dict["issue_id"][0])
+
+    issue_data = run_select_raw ( "select * from i_issue where id = %(issue_id)s", { "issue_id":issue_id } )
+
+    issue_result = issue_data["result"]
+
+    if issue_data["n_rows"] == 1 :
+        # might have notes
+        nr = 1
+        note_data = run_select_raw ( "select * from i_note where issue_id = %(issue_id)s order by seq", {"issue_id":issue_id } )
+        issue_result[0]["note"] = note_data["result"]
+        issue_result[0]["n_rows_note"] = note_data["n_rows"]
+    else :
+        # no note
+        nr = 0
+        issue_result[0]["note"] = []
+        issue_result[0]["n_rows_note"] = 0
+
+    ss = json.dumps(
+        issue_result,
+        sort_keys=True,
+        indent=1,
+        default=default 
+    )
+
+    return "{"+"\"status\":\"success\",\"n_rows\":{},\"data\":{}".format(nr,ss)+"}"
+
+        
+    
+    
     
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
