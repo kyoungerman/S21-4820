@@ -69,3 +69,7 @@ and add that to your data.   I kind of like
 The Uruguay and Finland.
 
 
+Turn in a .png/jpg screen capture of running the program and go into redis-cli
+and use the get command to get one of the countries capitals.
+
+
