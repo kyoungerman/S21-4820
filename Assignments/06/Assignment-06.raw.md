@@ -8,7 +8,7 @@ Due 18th.
 
 
 from: [https://realpython.com/python-redis/](https://realpython.com/python-redis/)
-About 2/3 the way down has redis in python examples - the first part is all
+About 2/3 the way down has Redis in python examples - the first part is all
 about how to install Redis.  On your virtual Linux system:
 
 Install Redis on your system.
@@ -20,9 +20,9 @@ $ sudo apt-get install redis
 If you are working on Windows - then you will need to Follow
 these instructions [https://redislabs.com/ebook/appendix-a/a-3-installing-on-windows/a-3-2-installing-redis-on-window/](https://redislabs.com/ebook/appendix-a/a-3-installing-on-windows/a-3-2-installing-redis-on-window/)
 
-On a MacOS system if you want redis I sugges using "brew" to do the install.
+On a MacOS system if you want Redis I suggest using "brew" to do the install.
 
-First install brew (if you do not alreay have it)  See the instructions at [https://brew.sh/](https://brew.sh/)
+First install brew (if you do not already have it)  See the instructions at [https://brew.sh/](https://brew.sh/)
 
 Then in a terminal:
 
@@ -40,6 +40,10 @@ Install the Redis package in python.
 $ python -m pip install redis
 ```
 
+Depending on your install of python you may need "python3 -m pip install redis" or "pip install redis".
+
+
+
 Write a simple program that takes a dictionary of capitals
 and saves that into Redis and queries it.
 
@@ -47,7 +51,7 @@ and saves that into Redis and queries it.
 ```
 #!/bin/python
 
-improt redis
+import redis
 r = redis.Redis()		# Connect to redis
 
 r.mset({

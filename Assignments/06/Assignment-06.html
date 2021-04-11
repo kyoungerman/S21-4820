@@ -719,7 +719,7 @@ ol {
 Due 18th.</p>
 
 <p>from: <a href="https://realpython.com/python-redis/">https://realpython.com/python-redis/</a>
-About <sup>2</sup>&frasl;<sub>3</sub> the way down has redis in python examples - the first part is all
+About <sup>2</sup>&frasl;<sub>3</sub> the way down has Redis in python examples - the first part is all
 about how to install Redis.  On your virtual Linux system:</p>
 
 <p>Install Redis on your system.</p>
@@ -730,9 +730,9 @@ about how to install Redis.  On your virtual Linux system:</p>
 <p>If you are working on Windows - then you will need to Follow
 these instructions <a href="https://redislabs.com/ebook/appendix-a/a-3-installing-on-windows/a-3-2-installing-redis-on-window/">https://redislabs.com/ebook/appendix-a/a-3-installing-on-windows/a-3-2-installing-redis-on-window/</a></p>
 
-<p>On a MacOS system if you want redis I sugges using &ldquo;brew&rdquo; to do the install.</p>
+<p>On a MacOS system if you want Redis I suggest using &ldquo;brew&rdquo; to do the install.</p>
 
-<p>First install brew (if you do not alreay have it)  See the instructions at <a href="https://brew.sh/">https://brew.sh/</a></p>
+<p>First install brew (if you do not already have it)  See the instructions at <a href="https://brew.sh/">https://brew.sh/</a></p>
 
 <p>Then in a terminal:</p>
 
@@ -746,12 +746,14 @@ $ brew services start redis
 <pre><code>$ python -m pip install redis
 </code></pre>
 
+<p>Depending on your install of python you may need &ldquo;python3 -m pip install redis&rdquo; or &ldquo;pip install redis&rdquo;.</p>
+
 <p>Write a simple program that takes a dictionary of capitals
 and saves that into Redis and queries it.</p>
 
 <pre><code>#!/bin/python
 
-improt redis
+import redis
 r = redis.Redis()		# Connect to redis
 
 r.mset({
