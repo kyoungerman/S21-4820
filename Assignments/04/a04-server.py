@@ -1,5 +1,5 @@
-#!/home/pschlump/anaconda3/bin/python
-#!/use/bin//python3
+#!/usr/bin/python3
+
 
 import bottle
 # from bottle import get, route, static_file, run, error, response, request, abort, put, delete, post, app
@@ -347,7 +347,8 @@ def get_config():
 # @get('/api/v1/issue-list')
 @app.route('/api/v1/issue-list', method=['OPTIONS', 'GET'])
 def issue_list():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    response.content_type = "application/json"
+    return run_select ( "SELECT * FROM i_issue_st_sv", {})
 
 
 #--------------------------------------------------------------------------------------------------------
@@ -367,7 +368,46 @@ def issue_list():
 # @get('/api/v1/create-issue')
 @app.route('/api/v1/create-issue', method=['POST', 'GET', 'OPTIONS'])
 def create_issue():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    global db_conn
+
+
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            #print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
+
+    #dict = parse_qs(request.query_string)
+    if not required_param(dict,["body", "title"]):
+        return
+    body = dict["body"][0]
+    title = dict["title"][0]
+    
+    if "severity_id" in dict:
+        severity_id = dict["severity_id"][0]
+    else:
+        severity_id = "1" #unknown
+
+    if "state_id" in dict:
+        state_id = dict["state_id"][0]
+    else:
+        state_id = "1" #Created
+
+    if "issue_id" in dict:
+        issue_id = dict["issue_id"][0]
+    else:
+        issue_id = gen_uuid()
+
+    ret = run_insert(
+    "INSERT INTO i_issue (id, title, body, severity_id, state_id) VALUES (%(id)s, %(title)s, %(body)s, %(severity_id)s, %(state_id)s)", 
+        {"title": title, "body":body, "id":issue_id, "severity_id":severity_id, "state_id":state_id})
+    db_conn.commit()    
+    
+    #print("issue_id={} body={} title={} severity_id={} state_id={}".format(issue_id, body, title, severity_id, state_id))
+
+    return ret
 
 
 #--------------------------------------------------------------------------------------------------------
@@ -379,7 +419,34 @@ def create_issue():
 # @get('/api/v1/delete-issue')
 @app.route('/api/v1/delete-issue', method=['OPTIONS', 'GET', 'POST'])
 def delete_issue():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    global db_conn
+
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+        #print("issue_id = " + dict["issue_id"][0])
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            #print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
+
+    if "issue_id" in dict:
+        issue_id = dict["issue_id"][0]
+    else:
+        return
+    ret = run_delete(
+        "DELETE FROM i_note WHERE issue_id = %(id)s",
+        {"id": issue_id}
+    )
+
+    ret = run_delete(
+        "DELETE FROM i_issue WHERE id = %(id)s",
+        {"id": issue_id}
+    )
+
+    db_conn.commit() 
+
+    return ret
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
@@ -389,7 +456,48 @@ def delete_issue():
 # @get('/api/v1/update-issue')
 @app.route('/api/v1/update-issue', method=['OPTIONS', 'GET', 'POST'])
 def update_issue():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    global db_conn
+
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+        #print("issue_id = " + dict["issue_id"][0])
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            #print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
+
+    if not required_param(dict, ["issue_id", "title"]) or not required_param(dict, ["issue_id", "body"]):
+        return
+    issue_id = dict["issue_id"][0]
+
+    if "title" in dict:
+        title = dict["title"][0]
+    
+    if "body" in dict:
+        body = dict["body"][0]
+
+    if "title" in dict and "body" in dict:
+        ret = run_update("UPDATE i_issue SET title = %(title)s, body = %(body)s WHERE id = %(id)s",
+        {"id": issue_id, "title": title, "body": body})
+
+        db_conn.commit()
+    elif "title" in dict and "body" not in dict:
+        ret = run_update("UPDATE i_issue SET title = %(title)s WHERE id = %(id)s",
+        {"id": issue_id, "title": title})
+
+        db_conn.commit()
+    elif "body" in dict and "title" not in dict:
+        ret = run_update("UPDATE i_issue SET body = %(body)s WHERE id = %(id)s",
+        {"id": issue_id, "body": body})
+
+        db_conn.commit()
+    else:
+        return '{"status":"success","n_rows":0}'
+
+    
+
+    return ret
 
 
 #--------------------------------------------------------------------------------------------------------
@@ -400,7 +508,20 @@ def update_issue():
 # @get('/api/v1/get-issue-detail')
 @app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET', 'POST'])
 def get_issue_detail():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            #print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
+    
+    if not required_param(dict,["issue_id"]):
+        return
+    issue_id = dict["issue_id"][0]
+    response.content_type = "application/json"
+    return run_select ( "SELECT * FROM i_issue_note WHERE id = %(id)s", 
+    {"id": issue_id, "issue_id": issue_id})
     
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
@@ -410,7 +531,51 @@ def get_issue_detail():
 # @get('/api/v1/add-note-to-issue')
 @app.route('/api/v1/add-note-to-issue', method=['OPTIONS', 'GET', 'POST'])
 def create_note():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    global db_conn
+
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            #print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
+
+    if not required_param(dict,["issue_id"]):
+        return
+    if "body" in dict:
+        body = dict["body"][0]
+
+    if "title" in dict:
+        title = dict["title"][0]
+    
+    issue_id = dict["issue_id"][0]
+    
+    if "note_id" in dict:
+        note_id = dict["note_id"][0]
+    else:
+        note_id = gen_uuid()
+
+    if "body" in dict and "title" in dict:
+        ret = run_insert(
+        "INSERT INTO i_note (id, title, body, issue_id) VALUES (%(id)s, %(title)s, %(body)s, %(issue_id)s)", 
+        {"title": title, "body":body, "id":note_id, "issue_id":issue_id})
+    elif "body" in dict and "title" not in dict:
+        ret = run_insert(
+        "INSERT INTO i_note (id, body, issue_id) VALUES (%(id)s, %(body)s, %(issue_id)s)", 
+        {"body":body, "id":note_id, "issue_id":issue_id})
+    elif "title" in dict and "body" not in dict:
+        ret = run_insert(
+        "INSERT INTO i_note (id, title, issue_id) VALUES (%(id)s, %(title)s, %(issue_id)s)", 
+        {"title": title, "id":note_id, "issue_id":issue_id})
+    else:
+        ret = run_insert(
+        "INSERT INTO i_note (id, issue_id) VALUES (%(id)s, %(issue_id)s)", 
+        {"id":note_id, "issue_id":issue_id})
+    db_conn.commit() 
+
+    #print("note_id={} title={} body={} issue_id={}".format(note_id, title, body, note_id))
+    return ret
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
@@ -420,7 +585,29 @@ def create_note():
 # @get('/api/v1/update-note')
 @app.route('/api/v1/delete-note', method=['OPTIONS', 'GET', 'POST'])
 def update_note():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    global db_conn
+
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+        #print("issue_id = " + dict["issue_id"][0])
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            #print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
+
+    if "note_id" in dict:
+        note_id = dict["note_id"][0]
+    else:
+        return
+    
+    ret = run_delete(
+        "DELETE FROM i_note WHERE id = %(id)s",
+        {"id": note_id}
+    )
+
+    db_conn.commit() 
+    return ret
 
 #--------------------------------------------------------------------------------------------------------
 # Assignment 04
@@ -430,7 +617,31 @@ def update_note():
 # @get('/api/v1/update-severity')
 @app.route('/api/v1/update-severity', method=['OPTIONS', 'GET', 'POST'])
 def upd_severity():
-    return "{"+"\"status\":\"TODO\",\"n_rows\":0,\"data\":[]"+"}"
+    global db_conn
+
+    if request.method == 'GET':
+        dict = parse_qs(request.query_string)
+        #print("issue_id = " + dict["issue_id"][0])
+    elif request.method == 'POST':
+        dict = {}
+        for key, value in request.forms.items():
+            #print("For name " + key + ", the value is " + value)
+            dict[key] = [value]
+
+    if not required_param(dict, ["issue_id", "severity_id"]):
+        return
+    
+    issue_id = dict["issue_id"][0]
+    severity_id = dict["severity_id"][0]
+
+    ret = run_update("UPDATE i_issue SET severity_id = %(severity_id)s WHERE id = %(id)s",
+    {"id": issue_id, "severity_id": severity_id})
+
+    db_conn.commit()
+
+
+    
+    return ret
 
 
 

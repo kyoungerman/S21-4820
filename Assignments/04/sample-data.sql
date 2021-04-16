@@ -16,7 +16,7 @@ INSERT INTO i_note (
 	title,
 	body 
 ) values	
-	( '819c288e-966e-4cfd-a079-c1c10ad23dfa', 'adcc6ae9-a1db-456a-aa49-427a7111c93e', 'Note 1 on Issue 1', 'Body of Note 1' )_,
+	( '819c288e-966e-4cfd-a079-c1c10ad23dfa', 'adcc6ae9-a1db-456a-aa49-427a7111c93e', 'Note 1 on Issue 1', 'Body of Note 1' ),
 	( 'fc9fb22c-d80e-433f-8510-65fb524d02d8', 'adcc6ae9-a1db-456a-aa49-427a7111c93e', 'Note 2 on Issue 1 John Smith is an Englisman', 'John Smith Speeks English' )
 ;
 

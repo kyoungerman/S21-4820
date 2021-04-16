@@ -1,5 +1,9 @@
-#!/home/pschlump/anaconda3/bin/python
-#!/use/bin//python3
+
+#!/usr/bin/python3
+
+################################################################################################
+# I had to change all tests to connect to "localhost:12138". Originally, the port was "12128". #
+################################################################################################
 
 # TODO 
 # 1. Read in a config file - for http://localhost:12128
@@ -55,13 +59,13 @@ n_err = 0
 
 
 #################################################################################
-# @app.route('/status', method=['OPTIONS', 'GET'])
-data = get1( "http://localhost:12128/api/v1/status", {} )
+#@app.route('/status', method=['OPTIONS', 'GET'])
+data = get1( "http://localhost:12138/api/v1/status", {} )
 
 
 #################################################################################
 #@app.route('/api/v1/issue-list', method=['OPTIONS', 'GET'])
-data = get1( "http://localhost:12128/api/v1/issue-list", {} )
+data = get1( "http://localhost:12138/api/v1/issue-list", {} )
 print ( "issue-list: {}".format(json.dumps(data)) )
 
 if data['n_rows'] == len(data['data']):
@@ -73,7 +77,7 @@ else:
 
 #################################################################################
 #@app.route('/api/v1/get-issue-detail', method=['OPTIONS', 'GET'])
-data = get1( "http://localhost:12128/api/v1/get-issue-detail?issue_id=adcc6ae9-a1db-456a-aa49-427a7111c93e", {} )
+data = get1( "http://localhost:12138/api/v1/get-issue-detail?issue_id=adcc6ae9-a1db-456a-aa49-427a7111c93e", {} )
 print ( "issue-detail: {}".format(json.dumps(data)) )
 
 if data['n_rows'] == len(data['data']):
@@ -115,6 +119,10 @@ else:
 #@app.route('/api/v1/delete-issue', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/update-issue', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/add-note-to-issue', method=['OPTIONS', 'GET']) # POST
+
+#data = post1( "http://localhost:12138/api/v1/add-note-to-issue?issue_id=adcc6ae9-a1db-456a-aa49-427a7111c93e&title=title&body=body", {} )
+#print ( "add-note-to-issue: {}".format(data) )
+
 #@app.route('/api/v1/delete-note', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/update-severity', method=['OPTIONS', 'GET']) # POST
 #@app.route('/api/v1/update-state', method=['OPTIONS', 'GET']) # POST

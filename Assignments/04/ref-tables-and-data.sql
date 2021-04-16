@@ -1,4 +1,3 @@
-
 CREATE table i_state (
 	id serial not null primary key,
 	state text not null
