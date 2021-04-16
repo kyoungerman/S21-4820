@@ -1,0 +1,10 @@
+--2021-04-07 20:47:27--  http://127.0.0.1:12138/api/v1/add-note-to-issue?issue_id=adcc6ae9-a1db-456a-aa49-427a7111c93e&title=title&body=body
+Connecting to 127.0.0.1:12138... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 64 [text/html]
+Saving to: ‘demo.out’
+
+     0K                                                       100% 17.9M=0s
+
+2021-04-07 20:47:27 (17.9 MB/s) - ‘demo.out’ saved [64/64]
+
