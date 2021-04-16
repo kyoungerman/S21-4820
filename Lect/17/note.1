@@ -1,0 +1,21 @@
+ sqlite3 ./example.db 
+SQLite version 3.32.3 2020-06-18 14:00:33
+Enter ".help" for usage hints.
+sqlite> create table bob ( n int );
+sqlite> insert into bob ( n ) values ( 1 );
+sqlite> insert into bob ( n ) values ( 2 );
+sqlite> .tables
+bob
+sqlite> .table bob
+bob
+sqlite> .header on
+sqlite> .mode column
+sqlite> .pragma table_info('bob')
+Error: unknown command or invalid arguments:  "pragma". Enter ".help" for help
+sqlite> pragma table_info('bob')
+   ...> ;
+cid         name        type        notnull     dflt_value  pk        
+----------  ----------  ----------  ----------  ----------  ----------
+0           n           int         0                       0         
+sqlite> 
+

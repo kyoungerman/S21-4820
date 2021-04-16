@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+
+drop table if exists i_state cascade;
+drop table if exists i_severity cascade;
+
+>>>>>>> 5bcc917bfc441247748c35ac958d9067eb0f328a
 CREATE table i_state (
 	id serial not null primary key,
 	state text not null
@@ -30,15 +37,15 @@ INSERT INTO i_state ( id, state ) values
 	( 6, 'Integration Test' ),
 	( 7, 'Tests Passed' ),
 	( 8, 'Documentation' ),
-	( 9, 'Deployed' )
-	( 10, 'Closed' )
+	( 9, 'Deployed' ),
+	( 10, 'Closed' ),
 	( 11, 'Deleted' )
 ;
 ALTER SEQUENCE i_state_id_seq RESTART WITH 12;
 
 INSERT INTO i_severity ( id, severity ) values
 	( 1, 'Unknown' ),
-	( 2, 'Ignore' )
+	( 2, 'Ignore' ),
 	( 3, 'Minor' ),
 	( 4, 'Documentation Error' ),
 	( 6, 'Code Chagne' ),
